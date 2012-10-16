@@ -18,9 +18,11 @@ public class Main {
      */
     private static void decirHola( Integer num_veces )
     {
+        String saludo = ".- Hola mama!";
+
         for ( Integer i = 0; i < num_veces; i++ )
         {
-            System.out.println( i + ".- Hola mama!" );
+            System.out.println( i + saludo );
         }
     }
 
