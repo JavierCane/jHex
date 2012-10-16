@@ -8,6 +8,7 @@ public class Main {
     public static void main( String[] args )
     {
         decirHola( 3 );
+        // Pues ahora llamo a decirCosas
         decirCosas( "Cosas", 2 );
     }
 
