@@ -20,7 +20,7 @@ public class Main {
     {
         for ( Integer i = 0; i < num_veces; i++ )
         {
-            System.out.println( i + ".- Hola mama!" );
+            System.out.println( i + ".- Hola mama, saluda!" );
         }
     }
 
