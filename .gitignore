@@ -1,5 +1,4 @@
 .idea
-jHEX.iml
-Hex.iml
+*.iml
 out/*
 *.class

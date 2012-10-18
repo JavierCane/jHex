@@ -28,7 +28,7 @@ public class Main {
     /**
      * Imprimir por pantalla lo que le indiquemos tantas veces como digamos
      *
-     * @param num_veces Número de veces a decir el texto del 2º parámetro
+     * @param num_veces Número de veces a decir el texto del 2º parámetro. No-Mola.
      * @param texto     Texto a imprimir por pantalla
      */
     private static void decirCosas( String texto, Integer num_veces )
