@@ -10,3 +10,4 @@ javac *.java
 * Nombres de métodos: camelCase
 * Nombres de atributos y variables: atributos_y_variables
 * Comentarios: Comentario de bloque a nivel de clase y métodos de tipo /** blablabla */. Comentarios inline de tipo // blablabla y /* blablabla */
+* Para todo lo demás (indetación, espacios, etc.): Hay un archivo con los ajustes para el programa IntelliJ IDEA mediante los cuales, con un simple Cmd+alt+l, formatea automáticamente el código a los estándares definidos.
