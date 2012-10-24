@@ -8,7 +8,7 @@ public class Partida
 	private Date fecha_hora;
 	private Jugador[] jugadores;
 	private String[] colores;
-	private Tablero tablero;
+	private Tauler tauler;
 	private Integer turno;
 	private Integer total_turnos;
 	private ModosInicio modo_inicio;
@@ -64,14 +64,14 @@ public class Partida
 		this.colores = colores;
 	}
 
-	public Tablero getTablero()
+	public Tauler getTauler()
 	{
-		return tablero;
+		return tauler;
 	}
 
-	public void setTablero( Tablero tablero )
+	public void setTauler( Tauler tauler )
 	{
-		this.tablero = tablero;
+		this.tauler = tauler;
 	}
 
 	public Integer getTurno()
@@ -108,7 +108,7 @@ public class Partida
 
 	public Jugador getJugadorCasilla( Integer fila, Integer columna )
 	{
-		Integer res = tablero.getNumJugadorCasilla( fila, columna );
+		Integer res = tauler.getNumJugadorCasilla( fila, columna );
 		return ( res != null ? jugadores[res] : null );
 	}
 
