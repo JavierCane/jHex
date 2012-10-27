@@ -11,7 +11,7 @@ import java.util.Vector;
  */
 public class IA {
 
-    private Casilla mejor_jugada;
+    private Casella mejor_jugada;
     private Integer max_profundidad;
     private Integer MaxPlayer;
 
@@ -20,13 +20,13 @@ public class IA {
     }
 
 
-    public Casilla minimax(Tablero p, Integer jugador, Integer profundidad) {
+    public Casella minimax(Tauler p, Integer jugador, Integer profundidad) {
 
         return mejor_jugada;
     }
 
-    private Double recursion(Tablero p, Integer jugador, Integer profundidad, Double alpha, Double beta) {
-        Vector<Casilla> moves_list = moves_available(p);
+    private Double recursion(Tauler p, Integer jugador, Integer profundidad, Double alpha, Double beta) {
+        Vector<Casella> moves_list = moves_available(p);
 
         if (profundidad == max_profundidad || moves_list.size() == 0) {    //end recursion if we reach the maximum depth or if we can't keep playing.
             return heuristic_value(p, jugador);
@@ -53,16 +53,16 @@ public class IA {
 
     }
 
-    private Double heuristic_value(Tablero p, Integer jugador) {
+    private Double heuristic_value(Tauler p, Integer jugador) {
         return 0.0;
     }
 
-    private Vector<Casilla> moves_available(Tablero p) {
-        Vector<Casilla> moves_list = new Vector<Casilla>();
+    private Vector<Casella> moves_available(Tauler p) {
+        Vector<Casella> moves_list = new Vector<Casella>();
 
         for (int i = 0; i < p.getTamano(); i++) {
             for (int j = 0; j < p.getTamano(); j++) {
-                if (p.getNumJugadorCasilla(i, j) == null) moves_list.add(new Casilla(i, j));
+                if (p.getNumJugadorCasilla(i, j) == null) moves_list.add(new Casella(i, j));
             }
         }
 

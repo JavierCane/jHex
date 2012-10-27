@@ -1,11 +1,10 @@
-import Dominio.Usuario;
+import Dominio.Usuari;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 
 public class Main
 {
@@ -26,13 +25,13 @@ public class Main
 
 	private static void testCrearUsuarios()
 	{
-		Usuario main_user = new Usuario( "nombre", "pass" );
+		Usuari main_user = new Usuari( "nombre", "pass" );
 
 		System.out.println( main_user.getUsername() );
 
 		try
 		{
-			Usuario guest_user = new Usuario( "Maquina_1", "passwd" );
+			Usuari guest_user = new Usuari( "Maquina_1", "passwd" );
 		}
 		catch ( IllegalArgumentException e )
 		{
@@ -54,7 +53,7 @@ public class Main
 			// Create a Book instance. This book object then will be stored in
 			// the file.
 			//
-			Usuario main_user = new Usuario( "nombre", "pass" );
+			Usuari main_user = new Usuari( "nombre", "pass" );
 
 			//
 			// By using writeObject() method of the ObjectOutputStream we can
@@ -90,7 +89,7 @@ public class Main
 			// This method return Object type data so we need to cast it back the its
 			// origin class, the Book class.
 			//
-			Usuario main_user = ( Usuario ) usuarios_ois.readObject();
+			Usuari main_user = ( Usuari ) usuarios_ois.readObject();
 
 			System.out.println( "Usuario cargado desde fichero usuarios.dat: " + main_user.toString() );
 

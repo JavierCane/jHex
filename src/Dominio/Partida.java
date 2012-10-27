@@ -2,134 +2,59 @@ package Dominio;
 
 import java.util.Date;
 
+// Hay que poner extends Partida y renombrar a PartidaHex
 public class Partida
 {
 
-	private Date fecha_hora;
-	private Jugador[] jugadores;
-	private String[] colores;
-	private Tablero tablero;
-	private Integer turno;
-	private Integer total_turnos;
-	private ModosInicio modo_inicio;
+
+	private String[] colors;
+	private ModesInici mode_inici;
 
 
-	/**
-	 * Constructor por defecto. Inicializa la fecha y la hora de la partida a las actuales.
-	 */
 	public Partida()
 	{
-		// Por defecto, las instancias de Date() tienen el valor del instante en que se crean.
-		fecha_hora = new Date();
-		total_turnos = new Integer( 0 );
+		// A hacer
 	}
 
-	public Date getFechaHora()
+	public String getColors( Integer c )
 	{
-		return fecha_hora;
+		return colors[c];
 	}
 
-	public Jugador[] getJugadores()
+	public void setColors( Integer c, String color )
 	{
-		return jugadores;
+		this.colors[c] = color;
 	}
 
-	public void setJugadores( Integer j, Jugador jugador )
+	public void setColors( String[] colors )
 	{
-		this.jugadores[j] = jugador;
+		this.colors = colors;
 	}
 
-	public void setJugadores( Jugador[] jugadores )
+	/* Cuando tengamos la clase ya lo haremos bien
+	public void incrementaTornsTotals()
 	{
-		this.jugadores = jugadores;
-	}
-
-	public String[] getColores()
-	{
-		return colores;
-	}
-
-	public String getColores( Integer c )
-	{
-		return colores[c];
-	}
-
-	public void setColores( Integer c, String color )
-	{
-		this.colores[c] = color;
-	}
-
-	public void setColores( String[] colores )
-	{
-		this.colores = colores;
-	}
-
-	public Tablero getTablero()
-	{
-		return tablero;
-	}
-
-	public void setTablero( Tablero tablero )
-	{
-		this.tablero = tablero;
-	}
-
-	public Integer getTurno()
-	{
-		return turno;
-	}
-
-	public void setTurno( Integer turno )
-	{
-		this.turno = turno;
-	}
-
-	public Integer getTotalTurnos()
-	{
-		return total_turnos;
-	}
-
-	public void incrementarTotalTurnos()
-	{
-		total_turnos++;
-	}
-
-	public void cambiarTurno()
-	{
-		if ( turno.intValue() == 0 )
-		{
-			turno = 1;
-		}
-		else
-		{
-			turno = 0;
-		}
+		torns_totals++;
 	}
 
 	public Jugador getJugadorCasilla( Integer fila, Integer columna )
 	{
 		Integer res = tablero.getNumJugadorCasilla( fila, columna );
 		return ( res != null ? jugadores[res] : null );
+	}*/
+
+	public void setModeInici( ModesInici mode_inici )
+	{
+		this.mode_inici = mode_inici;
 	}
 
-	public void setModoInicio( ModosInicio modo_inicio )
+	public ModesInici getModeInici()
 	{
-		this.modo_inicio = modo_inicio;
+		return mode_inici;
 	}
 
-	public ModosInicio getModoInicio()
+	public void intercambiaFitxes()
 	{
-		return modo_inicio;
-	}
-
-	public void intercambiarFichas()
-	{
-		Jugador j_aux = jugadores[0];
-		jugadores[0] = jugadores[1];
-		jugadores[1] =j_aux;
-
-		String c_aux = colores[0];
-		colores[0] = colores[1];
-		colores[1] = c_aux;
+		//A hacer
 	}
 }

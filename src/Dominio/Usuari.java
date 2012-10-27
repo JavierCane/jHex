@@ -6,22 +6,21 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Usuari implements Serializable
+//Añadiremos extends Usuari implements Serializable
+public class Usuari
 {
 
-	private String username;
-	private String password;
-	private ModesInici modo_inicio;
-	private String[] colores;
-	private Float tiempo_minimo;
-	private Integer fichas_minimas;
-	private Integer partidas_jugadas;
-	private Integer partidas_ganadas;
+	private ModesInici mode_inici;
+	private String[] colors;
+	private Float temps_minim;
+	private Integer fitxes_minimes;
+	private Integer partides_jugades;
+	private Integer partides_guanyades;
 
-	private static final Set<String> not_allowed_usernames = Collections.unmodifiableSet( new HashSet<String>( Arrays.asList( new String[] { "Maquina_1", "Maquina_2", "Usuario_1", "Usuario_2" } ) ) );
+	private static final Set<String> noms_no_permesos = Collections.unmodifiableSet( new HashSet<String>( Arrays.asList( new String[] { "Maquina_1", "Maquina_2", "Usuario_1", "Usuario_2" } ) ) );
 
 	/**
-	 * Constructor por defecto de Usuari
+	 * Constructor por defecto de Usuario
 	 *
 	 * @param username
 	 * @param password
@@ -29,119 +28,100 @@ public class Usuari implements Serializable
 	 */
 	public Usuari( String username, String password ) throws IllegalArgumentException
 	{
+		/* A cambiar una vez sepamos la herencia
 		if ( not_allowed_usernames.contains( username ) )
 		{
-			throw new IllegalArgumentException( "No se pueden registrar los nombres de usuarios siguientes: " + not_allowed_usernames.toString() );
+			throw new IllegalArgumentException( "No se pueden registrar los nombres de usuarios siguientes: " + noms_no_permesos.toString() );
 		}
 		else
 		{
 			this.username = username;
 			this.password = password;
 			// Estos valores por defecto se pueden cambiar
-			this.modo_inicio = ModesInici.ESTANDAR;
+			this.modo_inicio = ModosInicio.ESTANDAR;
 			colores = new String[2];
 			this.colores[0] = "azul";
 			this.colores[1] = "rojo";
 			this.tiempo_minimo = new Float( Float.POSITIVE_INFINITY );
-			this.fichas_minimas = new Integer( Integer.MAX_VALUE );
+			this.fitxes_minimas = new Integer( Integer.MAX_VALUE );
 			this.partidas_ganadas = new Integer( 0 );
 			this.partidas_jugadas = new Integer( 0 );
 		}
+		*/
 	}
 
-	public String getUsername()
+	public ModesInici getModeInici()
 	{
-		return username;
+		return mode_inici;
 	}
 
-	public void setUsername( final String username )
+	public void setModeInici( ModesInici m )
 	{
-		this.username = username;
+		this.mode_inici = m;
 	}
 
-	public String getPassword()
+	public String[] getColors()
 	{
-		return password;
+		return colors;
 	}
 
-	public void setPassword( final String password )
+	public String getColors( Integer i )
 	{
-		this.password = password;
+		return colors[i];
 	}
 
-
-	public ModesInici getModoInicio()
+	public void setColors( Integer i, String c )
 	{
-		return modo_inicio;
+		this.colors[i] = c;
 	}
 
-	public void setModoInicio( ModesInici m )
+	public void setColors( String[] colors )
 	{
-		this.modo_inicio = m;
+		this.colors = colors;
 	}
 
-	public String[] getColores()
+	public Float getTempsMinim()
 	{
-		return colores;
+		return temps_minim;
 	}
 
-	public String getColores( Integer i )
+	public void setTempsMinim( Float temps_minim )
 	{
-		return colores[i];
+		this.temps_minim = temps_minim;
 	}
 
-	public void setColores( Integer i, String c )
+	public Integer getFitxesMinimes()
 	{
-		this.colores[i] = c;
+		return fitxes_minimes;
 	}
 
-	public void setColores( String[] colores )
+	public void setFitxesMinimes( Integer fitxes_minimes )
 	{
-		this.colores = colores;
+		this.fitxes_minimes = fitxes_minimes;
 	}
 
-	public Float getTiempoMinimo()
+	public Integer getPartidesJugades()
 	{
-		return tiempo_minimo;
+		return partides_jugades;
 	}
 
-	public void setTiempoMinimo( Float tiempo_minimo )
+	public void setPartidesJugades( Integer partides_jugades )
 	{
-		this.tiempo_minimo = tiempo_minimo;
+		this.partides_jugades = partides_jugades;
 	}
 
-	public Integer getFichasMinimas()
+	public Integer getPartidesGuanyades()
 	{
-		return fichas_minimas;
+		return partides_guanyades;
 	}
 
-	public void setFichasMinimas( Integer fichas_minimas )
+	public void setPartidesGuanyades( Integer partides_guanyades )
 	{
-		this.fichas_minimas = fichas_minimas;
+		this.partides_guanyades = partides_guanyades;
 	}
 
-	public Integer getPartidasJugadas()
+	/*public String toString()
 	{
-		return partidas_jugadas;
-	}
-
-	public void setPartidasJugadas( Integer partidas_jugadas )
-	{
-		this.partidas_jugadas = partidas_jugadas;
-	}
-
-	public Integer getPartidasGanadas()
-	{
-		return partidas_ganadas;
-	}
-
-	public void setPartidasGanadas( Integer partidas_ganadas )
-	{
-		this.partidas_ganadas = partidas_ganadas;
-	}
-
-	public String toString()
-	{
-		return "[Username: " + username + ", password:" + password + ", modo de inicio:" + modo_inicio + ", color 1:" + colores[0] + ", color 2:" + colores[1] + ", tiempo minimo:" + tiempo_minimo + ", fichas minimas:" + fichas_minimas + ", partidas ganadas:" + partidas_ganadas + ", partidas jugadas:" + partidas_jugadas + "]";
-	}
+		// A redefinir
+	}*/
 }
