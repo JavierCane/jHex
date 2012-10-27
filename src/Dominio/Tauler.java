@@ -6,43 +6,43 @@ public class Tauler
 {
 
 	protected int mida;
-	protected EstatCasella[][] tauler;
-	protected int fitxes_a;
-	protected int fitxes_b;
+	protected EstatCasella[][] caselles;
+	protected int num_fitxes_a;
+	protected int num_fitxes_b;
 
 	/**
-	 * Constructor del tauler. Crea un tauler amb la mida desitjada amb totes les caselles buides (EstatCasella.BUIDA).
+	 * Constructor del tauler. Crea un tauler de la mida desitjada amb totes les caselles buides (EstatCasella.BUIDA).
 	 *
 	 * @param mida Les dimensions que tindrà el tauler
 	 */
 	public Tauler( int mida )
 	{
 		this.mida = mida;
-		fitxes_a = 0;
-		fitxes_b = 0;
+		num_fitxes_a = 0;
+		num_fitxes_b = 0;
 
-		tauler = new EstatCasella[mida][mida];
-		for ( EstatCasella[] fila : tauler )
+		caselles = new EstatCasella[mida][mida];
+		for ( EstatCasella[] fila : caselles )
 		{
 			Arrays.fill( fila, EstatCasella.BUIDA );
 		}
 	}
 
 	/**
-	 * Constructor que inicialitza el tauler a un estat diferent de l'original. No comprova que els paràmetres siguin
-	 * correctes en relació amb el tauler.
+	 * Constructor que inicialitza el tauler a un estat diferent del per defecte. No comprova que els paràmetres siguin
+	 * correctes.
 	 *
-	 * @param mida     Les dimensions del tauler
-	 * @param tauler   Un array bidimensional amb l'estat inicial
-	 * @param fitxes_a La quantitat de fitxes que té el jugador A al tauler
-	 * @param fitxes_b La quantitat de fitxes que té el jugador B al tauler
+	 * @param mida         Les dimensions del tauler
+	 * @param caselles     Un array bidimensional mida × mida amb l'estat inicial
+	 * @param num_fitxes_a La quantitat de fitxes que té el jugador A al tauler
+	 * @param num_fitxes_b La quantitat de fitxes que té el jugador B al tauler
 	 */
-	public Tauler( int mida, EstatCasella[][] tauler, int fitxes_a, int fitxes_b )
+	public Tauler( int mida, EstatCasella[][] caselles, int num_fitxes_a, int num_fitxes_b )
 	{
 		this.mida = mida;
-		this.fitxes_a = fitxes_a;
-		this.fitxes_b = fitxes_b;
-		this.tauler = tauler;
+		this.num_fitxes_a = num_fitxes_a;
+		this.num_fitxes_b = num_fitxes_b;
+		this.caselles = caselles;
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class Tauler
 	 */
 	public boolean esBuit()
 	{
-		return ( fitxes_a + fitxes_b == 0 );
+		return ( num_fitxes_a + num_fitxes_b == 0 );
 	}
 
 	/**
@@ -82,9 +82,9 @@ public class Tauler
 	 *
 	 * @return La quantitat de fitxes del jugador A.
 	 */
-	public int getFitxesA()
+	public int getNumFitxesA()
 	{
-		return fitxes_a;
+		return num_fitxes_a;
 	}
 
 	/**
@@ -92,9 +92,9 @@ public class Tauler
 	 *
 	 * @return La quantitat de fitxes del jugador A.
 	 */
-	public int getFitxesB()
+	public int getNumFitxesB()
 	{
-		return fitxes_b;
+		return num_fitxes_b;
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class Tauler
 	 */
 	public int getTotalFitxes()
 	{
-		return fitxes_a + fitxes_b;
+		return num_fitxes_a + num_fitxes_b;
 	}
 
 	/**
@@ -116,11 +116,11 @@ public class Tauler
 	 */
 	public EstatCasella getEstatCasella( int fila, int columna )
 	{
-		return tauler[fila][columna];
+		return caselles[fila][columna];
 	}
 
 	/**
-	 * Canvia l'estat de la casella
+	 * Canvia l'estat d'una casella i actualitza els comptadors.
 	 *
 	 * @param e       Estat nou de la casella
 	 * @param fila    Fila de la casella del tauler que canvia d'estat
@@ -134,13 +134,13 @@ public class Tauler
 			return false;
 		}
 
-		switch ( tauler[fila][columna] )
+		switch ( caselles[fila][columna] )
 		{
 			case JUGADOR_A:
-				fitxes_a--;
+				num_fitxes_a--;
 				break;
 			case JUGADOR_B:
-				fitxes_b--;
+				num_fitxes_b--;
 				break;
 			case BUIDA:
 				break;
@@ -149,44 +149,44 @@ public class Tauler
 		switch ( e )
 		{
 			case JUGADOR_A:
-				fitxes_a++;
+				num_fitxes_a++;
 				break;
 			case JUGADOR_B:
-				fitxes_b++;
+				num_fitxes_b++;
 				break;
 			case BUIDA:
 				break;
 		}
 
-		tauler[fila][columna] = e;
+		caselles[fila][columna] = e;
 
 		return true;
 	}
 
 	/**
-	 * Intercanvia la fitxa d'una casella amb la de l'altre jugador.
+	 * Intercanvia la fitxa d'una casella amb la de l'altre jugador i actualitza els comptadors.
 	 *
-	 * @param fila    Fila
-	 * @param columna
+	 * @param fila    Fila de la casella dins el tauler.
+	 * @param columna Columna de la casella dins el tauler.
 	 * @return Cert si s'ha intercanviat la fitxa. Fals altrament.
 	 */
 	public boolean intercanviaFitxa( int fila, int columna )
 	{
-		if ( !esCasellaValida( fila, columna ) || tauler[fila][columna] == EstatCasella.BUIDA )
+		if ( !esCasellaValida( fila, columna ) || caselles[fila][columna] == EstatCasella.BUIDA )
 		{
 			return false;
 		}
-		else if ( tauler[fila][columna] == EstatCasella.JUGADOR_A )
+		else if ( caselles[fila][columna] == EstatCasella.JUGADOR_A )
 		{
-			tauler[fila][columna] = EstatCasella.JUGADOR_B;
-			fitxes_a--;
-			fitxes_b++;
+			caselles[fila][columna] = EstatCasella.JUGADOR_B;
+			num_fitxes_a--;
+			num_fitxes_b++;
 		}
 		else
 		{
-			tauler[fila][columna] = EstatCasella.JUGADOR_A;
-			fitxes_b--;
-			fitxes_a++;
+			caselles[fila][columna] = EstatCasella.JUGADOR_A;
+			num_fitxes_b--;
+			num_fitxes_a++;
 		}
 
 		return true;
