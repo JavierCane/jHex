@@ -58,13 +58,53 @@ public class Tauler
 	/**
 	 * Comprova si una casella és vàlida dins el tauler
 	 *
-	 * @param fila Fila de la casella dins el tauler.
+	 * @param fila    Fila de la casella dins el tauler.
 	 * @param columna Columna de la casella dins el tauler.
 	 * @return Cert si la posició (fila, columna) és una casella vàlida. Fals altrament.
 	 */
 	public boolean esCasellaValida( int fila, int columna )
 	{
 		return ( fila >= 0 && fila < mida && columna >= 0 && columna < mida );
+	}
+
+	/**
+	 * Consulta si el tauler és buit
+	 *
+	 * @return Cert si el tauler no té cap fitxa. Fals altrament.
+	 */
+	public boolean esBuit()
+	{
+		return ( fitxes_a + fitxes_b == 0 );
+	}
+
+	/**
+	 * Consulta les fitxes del jugador A.
+	 *
+	 * @return La quantitat de fitxes del jugador A.
+	 */
+	public int getFitxesA()
+	{
+		return fitxes_a;
+	}
+
+	/**
+	 * Consulta les fitxes del jugador B.
+	 *
+	 * @return La quantitat de fitxes del jugador A.
+	 */
+	public int getFitxesB()
+	{
+		return fitxes_b;
+	}
+
+	/**
+	 * Consulta la quantitat de fitxes que hi ha al tauler.
+	 *
+	 * @return La quantitat total de fitxes que tenen els dos jugadors al tauler.
+	 */
+	public int getTotalFitxes()
+	{
+		return fitxes_a + fitxes_b;
 	}
 
 	/**
@@ -126,7 +166,7 @@ public class Tauler
 	/**
 	 * Intercanvia la fitxa d'una casella amb la de l'altre jugador.
 	 *
-	 * @param fila Fila
+	 * @param fila    Fila
 	 * @param columna
 	 * @return Cert si s'ha intercanviat la fitxa. Fals altrament.
 	 */
