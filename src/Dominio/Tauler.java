@@ -1,6 +1,6 @@
 package Dominio;
 
-public class Tablero
+public class Tauler
 {
 
 	private Integer[][] tablero;
@@ -11,7 +11,7 @@ public class Tablero
 	 *
 	 * @param tamano Las dimensiones que tendrá el tablero
 	 */
-	public Tablero( Integer tamano )
+	public Tauler( Integer tamano )
 	{
 		this.tamano = tamano;
 		tablero = new Integer[tamano][tamano];

@@ -1,6 +1,6 @@
 package Dominio;
 
-public enum ModosInicio
+public enum ModesInici
 {
 	ESTANDAR, PASTEL;
 }

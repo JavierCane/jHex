@@ -1,10 +1,11 @@
 package Dominio;
 
-public class Casilla {
+public class Casella
+{
     private Integer fila;
     private Integer columna;
 
-    public Casilla(Integer fila, Integer columna) {
+    public Casella( Integer fila, Integer columna ) {
         this.fila = fila;
         this.columna = columna;
     }

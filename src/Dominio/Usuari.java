@@ -6,12 +6,12 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Usuario implements Serializable
+public class Usuari implements Serializable
 {
 
 	private String username;
 	private String password;
-	private ModosInicio modo_inicio;
+	private ModesInici modo_inicio;
 	private String[] colores;
 	private Float tiempo_minimo;
 	private Integer fichas_minimas;
@@ -21,13 +21,13 @@ public class Usuario implements Serializable
 	private static final Set<String> not_allowed_usernames = Collections.unmodifiableSet( new HashSet<String>( Arrays.asList( new String[] { "Maquina_1", "Maquina_2", "Usuario_1", "Usuario_2" } ) ) );
 
 	/**
-	 * Constructor por defecto de Usuario
+	 * Constructor por defecto de Usuari
 	 *
 	 * @param username
 	 * @param password
 	 * @throws IllegalArgumentException
 	 */
-	public Usuario( String username, String password ) throws IllegalArgumentException
+	public Usuari( String username, String password ) throws IllegalArgumentException
 	{
 		if ( not_allowed_usernames.contains( username ) )
 		{
@@ -38,7 +38,7 @@ public class Usuario implements Serializable
 			this.username = username;
 			this.password = password;
 			// Estos valores por defecto se pueden cambiar
-			this.modo_inicio = ModosInicio.ESTANDAR;
+			this.modo_inicio = ModesInici.ESTANDAR;
 			colores = new String[2];
 			this.colores[0] = "azul";
 			this.colores[1] = "rojo";
@@ -70,12 +70,12 @@ public class Usuario implements Serializable
 	}
 
 
-	public ModosInicio getModoInicio()
+	public ModesInici getModoInicio()
 	{
 		return modo_inicio;
 	}
 
-	public void setModoInicio( ModosInicio m )
+	public void setModoInicio( ModesInici m )
 	{
 		this.modo_inicio = m;
 	}
