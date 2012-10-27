@@ -1,32 +1,54 @@
 package Dominio;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
+import java.util.Arrays;
 
 public class Tauler
 {
 
-	private EstatCasella[][] tauler;
-	private Integer mida;
-	private Integer fitxes_a;
-	private Integer fitxes_b;
+	protected Integer mida;
+	protected EstatCasella[][] tauler;
+	protected Integer fitxes_a;
+	protected Integer fitxes_b;
 
 	/**
-	 * Constructor del tauler
+	 * Constructor del tauler. Crea un tauler amb la mida desitjada amb totes les caselles buides (EstatCasella.BUIDA).
 	 *
 	 * @param mida Les dimensions que tindrà el tauler
 	 */
 	public Tauler( Integer mida )
 	{
 		this.mida = mida;
-		tauler = new EstatCasella[mida][mida];
 		fitxes_a = new Integer( 0 );
 		fitxes_b = new Integer( 0 );
+
+		tauler = new EstatCasella[mida][mida];
+		for ( EstatCasella[] fila : tauler )
+		{
+			Arrays.fill( fila, EstatCasella.BUIDA );
+		}
 	}
 
 	/**
-	 * Consulta el tamaño del tauler
+	 * Constructor que inicialitza el tauler a un estat diferent de l'original. No comprova que els paràmetres siguin
+	 * correctes en relació amb el tauler.
 	 *
-	 * @return El tamaño del tauler
+	 * @param mida     Les dimensions del tauler
+	 * @param tauler   Un array bidimensional amb l'estat inicial
+	 * @param fitxes_a La quantitat de fitxes que té el jugador A al tauler
+	 * @param fitxes_b La quantitat de fitxes que té el jugador B al tauler
+	 */
+	public Tauler( Integer mida, EstatCasella[][] tauler, Integer fitxes_a, Integer fitxes_b )
+	{
+		this.mida = mida;
+		this.fitxes_a = fitxes_a;
+		this.fitxes_b = fitxes_b;
+		this.tauler = tauler;
+	}
+
+	/**
+	 * Consulta la mida del tauler
+	 *
+	 * @return La mida del tauler
 	 */
 	public Integer getMida()
 	{
@@ -34,47 +56,99 @@ public class Tauler
 	}
 
 	/**
-	 * Coloca una ficha del jugador en la posición (fila, columna)
+	 * Comprova si una casella és vàlida dins el tauler
+	 *
+	 * @param fila Fila de la casella dins el tauler.
+	 * @param columna Columna de la casella dins el tauler.
+	 * @return Cert si la posició (fila, columna) és una casella vàlida. Fals altrament.
+	 */
+	public boolean esCasellaValida( Integer fila, Integer columna )
+	{
+		return ( fila >= 0 && fila < mida && columna >= 0 && columna < mida );
+	}
+
+	/**
+	 * Consulta l'estat d'una casella del tauler.
+	 *
+	 * @param fila    Fila de la casella del tauler que es vol consultar.
+	 * @param columna Columna de la casella del tauler que es vol consultar.
+	 * @return L'estat actual de la casella.
+	 */
+	public EstatCasella getEstatCasella( Integer fila, Integer columna )
+	{
+		return tauler[fila][columna];
+	}
+
+	/**
+	 * Canvia l'estat de la casella
 	 *
 	 * @param e       Estat nou de la casella
-	 * @param fila    Fila del tauler donde se coloca la ficha
-	 * @param columna Columna del tauler donde se coloca la ficha
+	 * @param fila    Fila de la casella del tauler que canvia d'estat
+	 * @param columna Columna de la casella del tauler que canvia d'estat
+	 * @return Cert si el canvi ha estat realitzat amb èxit. Fals altrament.
 	 */
-	public boolean canviaEstatCasella( EstatCasella e, Integer fila, Integer columna )
+	public boolean setEstatCasella( EstatCasella e, Integer fila, Integer columna )
 	{
-		if ( fila < 0 || fila >= mida || columna < 0 || columna >= mida )
+		if ( !esCasellaValida( fila, columna ) )
 		{
 			return false;
 		}
 
-		if ( )
-
+		switch ( tauler[fila][columna] )
 		{
-			tauler[fila][columna] = e;
+			case JUGADOR_A:
+				fitxes_a--;
+				break;
+			case JUGADOR_B:
+				fitxes_b--;
+				break;
+			case BUIDA:
+				break;
 		}
+
+		switch ( e )
+		{
+			case JUGADOR_A:
+				fitxes_a++;
+				break;
+			case JUGADOR_B:
+				fitxes_b++;
+				break;
+			case BUIDA:
+				break;
+		}
+
+		tauler[fila][columna] = e;
 
 		return true;
 	}
 
-	public boolean intercanviaFitxa(Integer fila, Integer columna)
+	/**
+	 * Intercanvia la fitxa d'una casella amb la de l'altre jugador.
+	 *
+	 * @param fila Fila
+	 * @param columna
+	 * @return Cert si s'ha intercanviat la fitxa. Fals altrament.
+	 */
+	public boolean intercanviaFitxa( Integer fila, Integer columna )
 	{
-		if ( fila < 0 || fila >= mida || columna < 0 || columna >= mida )
+		if ( !esCasellaValida( fila, columna ) || tauler[fila][columna] == EstatCasella.BUIDA )
 		{
 			return false;
 		}
+		else if ( tauler[fila][columna] == EstatCasella.JUGADOR_A )
+		{
+			tauler[fila][columna] = EstatCasella.JUGADOR_B;
+			fitxes_a--;
+			fitxes_b++;
+		}
+		else
+		{
+			tauler[fila][columna] = EstatCasella.JUGADOR_A;
+			fitxes_b--;
+			fitxes_a++;
+		}
 
-
-	}
-
-	/**
-	 * Consulta la el número del jugador que hay en la casilla (fila, columna)
-	 *
-	 * @param fila    Fila donde está la casilla que se quiere consultar
-	 * @param columna Columna donde está la casilla que se quiere consultar
-	 * @return El número del jugador que hay en la casilla, null si no hay.
-	 */
-	public EstatCasella getNumJugadorCasilla( Integer fila, Integer columna )
-	{
-		return tauler[fila][columna];
+		return true;
 	}
 }
