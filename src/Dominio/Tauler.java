@@ -5,21 +5,21 @@ import java.util.Arrays;
 public class Tauler
 {
 
-	protected Integer mida;
+	protected int mida;
 	protected EstatCasella[][] tauler;
-	protected Integer fitxes_a;
-	protected Integer fitxes_b;
+	protected int fitxes_a;
+	protected int fitxes_b;
 
 	/**
 	 * Constructor del tauler. Crea un tauler amb la mida desitjada amb totes les caselles buides (EstatCasella.BUIDA).
 	 *
 	 * @param mida Les dimensions que tindrà el tauler
 	 */
-	public Tauler( Integer mida )
+	public Tauler( int mida )
 	{
 		this.mida = mida;
-		fitxes_a = new Integer( 0 );
-		fitxes_b = new Integer( 0 );
+		fitxes_a = 0;
+		fitxes_b = 0;
 
 		tauler = new EstatCasella[mida][mida];
 		for ( EstatCasella[] fila : tauler )
@@ -37,7 +37,7 @@ public class Tauler
 	 * @param fitxes_a La quantitat de fitxes que té el jugador A al tauler
 	 * @param fitxes_b La quantitat de fitxes que té el jugador B al tauler
 	 */
-	public Tauler( Integer mida, EstatCasella[][] tauler, Integer fitxes_a, Integer fitxes_b )
+	public Tauler( int mida, EstatCasella[][] tauler, int fitxes_a, int fitxes_b )
 	{
 		this.mida = mida;
 		this.fitxes_a = fitxes_a;
@@ -50,7 +50,7 @@ public class Tauler
 	 *
 	 * @return La mida del tauler
 	 */
-	public Integer getMida()
+	public int getMida()
 	{
 		return mida;
 	}
@@ -62,7 +62,7 @@ public class Tauler
 	 * @param columna Columna de la casella dins el tauler.
 	 * @return Cert si la posició (fila, columna) és una casella vàlida. Fals altrament.
 	 */
-	public boolean esCasellaValida( Integer fila, Integer columna )
+	public boolean esCasellaValida( int fila, int columna )
 	{
 		return ( fila >= 0 && fila < mida && columna >= 0 && columna < mida );
 	}
@@ -74,7 +74,7 @@ public class Tauler
 	 * @param columna Columna de la casella del tauler que es vol consultar.
 	 * @return L'estat actual de la casella.
 	 */
-	public EstatCasella getEstatCasella( Integer fila, Integer columna )
+	public EstatCasella getEstatCasella( int fila, int columna )
 	{
 		return tauler[fila][columna];
 	}
@@ -87,7 +87,7 @@ public class Tauler
 	 * @param columna Columna de la casella del tauler que canvia d'estat
 	 * @return Cert si el canvi ha estat realitzat amb èxit. Fals altrament.
 	 */
-	public boolean setEstatCasella( EstatCasella e, Integer fila, Integer columna )
+	public boolean setEstatCasella( EstatCasella e, int fila, int columna )
 	{
 		if ( !esCasellaValida( fila, columna ) )
 		{
@@ -130,7 +130,7 @@ public class Tauler
 	 * @param columna
 	 * @return Cert si s'ha intercanviat la fitxa. Fals altrament.
 	 */
-	public boolean intercanviaFitxa( Integer fila, Integer columna )
+	public boolean intercanviaFitxa( int fila, int columna )
 	{
 		if ( !esCasellaValida( fila, columna ) || tauler[fila][columna] == EstatCasella.BUIDA )
 		{
