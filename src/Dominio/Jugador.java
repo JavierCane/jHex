@@ -3,35 +3,70 @@ package Dominio;
 public class Jugador
 {
 
-	private Integer pistes_usades;
-	private Float temps;
+	private int pistes_usades;
+	private float temps;
 
+	/**
+	 * Constructor del jugador. Crea un jugador inicialitzant les pistes utilitzades i el temps gastat a 0.
+	 */
 	public Jugador()
 	{
-		pistes_usades = new Integer( 0 );
-		temps = new Float( 0.0 );
+		pistes_usades = 0;
+		temps = 0;
 	}
 
-	public Integer getPistesUsades()
+	/**
+	 * Consulta el nombre de pistes usades pel jugador.
+	 *
+	 * @return El nombre de pistes usades pel jugador.
+	 */
+	public int getPistesUsades()
 	{
 		return pistes_usades;
 	}
 
-	public Float getTemps()
+	/**
+	 * Consulta el temps que ha estat jugant el jugador.
+	 *
+	 * @return El temps que ha estat jugant el jugador.
+	 */
+	public float getTemps()
 	{
 		return temps;
 	}
 
-	public void setPistesUsades( Integer p )
+	/**
+	 * Modifica el nombre de pistes usades pel jugador.
+	 *
+	 * @param num_pistes Nombre de pistes que es vol introduir.
+	 * @return Cert, si és un nombre de pistes vàlid. Fals altrament.
+	 */
+	public boolean setPistesUsades( int num_pistes )
 	{
-		this.pistes_usades = p;
+		if ( num_pistes < 0 )
+		{
+			return false;
+		}
+		this.pistes_usades = num_pistes;
+		return true;
 	}
 
-	public void setTemps( Float t )
+	/**
+	 * Modifica el temps que ha estat jugant el jugador.
+	 *
+	 * @param temps Temps de joc que es vol introduir.
+	 * @return Cert, si és un temps vàlid. Fals altrament.
+	 */
+	public boolean setTemps( float temps )
 	{
-		this.temps = t;
+		if (temps < 0) return false;
+		this.temps = temps;
+		return true;
 	}
 
+	/**
+	 * Incrementa en 1 el nombre de pistes utilitzades pel jugador.
+	 */
 	public void incrementaPistes()
 	{
 		pistes_usades++;
