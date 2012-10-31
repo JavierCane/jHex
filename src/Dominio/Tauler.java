@@ -2,7 +2,7 @@ package Dominio;
 
 import java.util.Arrays;
 
-public class Tauler
+public abstract class Tauler
 {
 
 	protected int mida;
@@ -43,6 +43,24 @@ public class Tauler
 		this.num_fitxes_a = num_fitxes_a;
 		this.num_fitxes_b = num_fitxes_b;
 		this.caselles = caselles;
+	}
+
+	/**
+	 * Constructor per còpia. Crea un nou tauler idèntic a original.
+	 *
+	 * @param original
+	 */
+	public Tauler( Tauler original )
+	{
+		this.mida = original.mida;
+		this.num_fitxes_a = original.num_fitxes_a;
+		this.num_fitxes_b = original.num_fitxes_b;
+		this.caselles = new EstatCasella[this.mida][this.mida];
+
+		for ( int i = 0; i < this.mida; ++i )
+		{
+			System.arraycopy( original.caselles[i], 0, this.caselles[i], 0, this.mida );
+		}
 	}
 
 	/**
@@ -114,8 +132,12 @@ public class Tauler
 	 * @param columna Columna de la casella del tauler que es vol consultar.
 	 * @return L'estat actual de la casella.
 	 */
-	public EstatCasella getEstatCasella( int fila, int columna )
+	public EstatCasella getEstatCasella( int fila, int columna ) throws IndexOutOfBoundsException
 	{
+		if ( !esCasellaValida( fila, columna ) )
+		{
+			throw new IndexOutOfBoundsException( "Casella fora del tauler" );
+		}
 		return caselles[fila][columna];
 	}
 
@@ -127,11 +149,11 @@ public class Tauler
 	 * @param columna Columna de la casella del tauler que canvia d'estat
 	 * @return Cert si el canvi ha estat realitzat amb èxit. Fals altrament.
 	 */
-	public boolean setEstatCasella( EstatCasella e, int fila, int columna )
+	protected boolean setEstatCasella( EstatCasella e, int fila, int columna ) throws IndexOutOfBoundsException
 	{
 		if ( !esCasellaValida( fila, columna ) )
 		{
-			return false;
+			throw new IndexOutOfBoundsException( "Casella fora del tauler" );
 		}
 
 		switch ( caselles[fila][columna] )
@@ -163,6 +185,40 @@ public class Tauler
 		return true;
 	}
 
+	public abstract boolean esMovimentValid( EstatCasella fitxa, int fila, int columna )
+			throws IndexOutOfBoundsException, IllegalArgumentException;
+
+	public boolean mouFitxa( EstatCasella fitxa, int fila, int columna )
+			throws IndexOutOfBoundsException, IllegalArgumentException
+	{
+		if ( !esMovimentValid( fitxa, fila, columna ) )
+		{
+			throw new IllegalArgumentException( "El moviment no segueix la normativa" );
+		}
+		else
+		{
+			setEstatCasella( fitxa, fila, columna );
+			return true;
+		}
+	}
+
+	public boolean treuFitxa( int fila, int columna )
+	{
+		if ( !esCasellaValida( fila, columna ) )
+		{
+			throw new IndexOutOfBoundsException( "Casella fora del tauler" );
+		}
+		else if ( caselles[fila][columna] == EstatCasella.BUIDA )
+		{
+			throw new IllegalArgumentException( "La casella ja és buida" );
+		}
+		else
+		{
+			setEstatCasella( EstatCasella.BUIDA, fila, columna );
+			return true;
+		}
+	}
+
 	/**
 	 * Intercanvia la fitxa d'una casella amb la de l'altre jugador i actualitza els comptadors.
 	 *
@@ -170,25 +226,30 @@ public class Tauler
 	 * @param columna Columna de la casella dins el tauler.
 	 * @return Cert si s'ha intercanviat la fitxa. Fals altrament.
 	 */
-	public boolean intercanviaFitxa( int fila, int columna )
+	public boolean intercanviaFitxa( int fila, int columna ) throws IndexOutOfBoundsException, IllegalArgumentException
 	{
-		if ( !esCasellaValida( fila, columna ) || caselles[fila][columna] == EstatCasella.BUIDA )
+		if ( !esCasellaValida( fila, columna ) )
 		{
-			return false;
+			throw new IndexOutOfBoundsException( "Casella fora del tauler" );
+		}
+		else if ( caselles[fila][columna] == EstatCasella.BUIDA )
+		{
+			throw new IllegalArgumentException( "Intercanvi de fitxes en casella buida" );
 		}
 		else if ( caselles[fila][columna] == EstatCasella.JUGADOR_A )
 		{
-			caselles[fila][columna] = EstatCasella.JUGADOR_B;
-			num_fitxes_a--;
-			num_fitxes_b++;
+			setEstatCasella( EstatCasella.JUGADOR_B, fila, columna );
 		}
 		else
 		{
-			caselles[fila][columna] = EstatCasella.JUGADOR_A;
-			num_fitxes_b--;
-			num_fitxes_a++;
+			setEstatCasella( EstatCasella.JUGADOR_B, fila, columna );
 		}
 
 		return true;
 	}
+
+	/**
+	 * @return
+	 */
+	public abstract Object clone();
 }
