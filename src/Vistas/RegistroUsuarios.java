@@ -1,6 +1,6 @@
 package Vistas;
 
-import Dominio.Usuario;
+import Dominio.Usuari;
 
 import javax.swing.*;
 
@@ -19,19 +19,19 @@ public class RegistroUsuarios
 	private JButton aceptarButton;
 	private JTextField usernameTextField;
 
-	public void setData( Usuario data )
+	public void setData( Usuari data )
 	{
 		usernameTextField.setText( data.getUsername() );
 		passwordTextField.setText( data.getPassword() );
 	}
 
-	public void getData( Usuario data )
+	public void getData( Usuari data )
 	{
 		data.setUsername( usernameTextField.getText() );
 		data.setPassword( passwordTextField.getText() );
 	}
 
-	public boolean isModified( Usuario data )
+	public boolean isModified( Usuari data )
 	{
 		if ( usernameTextField.getText() != null ? !usernameTextField.getText().equals( data.getUsername() ) : data.getUsername() != null )
 		{
