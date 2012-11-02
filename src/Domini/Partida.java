@@ -1,4 +1,4 @@
-package Dominio;
+package Domini;
 
 import java.util.Date;
 
@@ -106,11 +106,11 @@ public class Partida
 		}
 	}
 
-	public Jugador getJugadorCasilla( Integer fila, Integer columna )
-	{
-		Integer res = tauler.getNumJugadorCasilla( fila, columna );
-		return ( res != null ? jugadores[res] : null );
-	}
+//	public Jugador getJugadorCasilla( Integer fila, Integer columna )
+//	{
+//		Integer res = tauler.getNumJugadorCasilla( fila, columna );
+//		return ( res != null ? jugadores[res] : null );
+//	}
 
 	public void setModoInicio( ModosInicio modo_inicio )
 	{

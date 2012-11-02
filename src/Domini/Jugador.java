@@ -1,4 +1,4 @@
-package Dominio;
+package Domini;
 
 public class Jugador
 {

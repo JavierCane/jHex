@@ -1,44 +1,55 @@
-package Dominio;
+package Domini;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Usuario implements Serializable
+public abstract class Usuari
 {
 
-	private String username;
-	private String password;
-	private ModosInicio modo_inicio;
-	private String[] colores;
-	private Float tiempo_minimo;
-	private Integer fichas_minimas;
-	private Integer partidas_jugadas;
-	private Integer partidas_ganadas;
+	protected String username;
+	protected String password;
+	//	private ModosInicio modo_inicio;
+	protected String[] colores;
+	protected Float tiempo_minimo;
+	protected Integer fichas_minimas;
+	protected Integer partidas_jugadas;
+	protected Integer partidas_ganadas;
 
-	private static final Set<String> not_allowed_usernames = Collections.unmodifiableSet( new HashSet<String>( Arrays.asList( new String[] { "Maquina_1", "Maquina_2", "Usuario_1", "Usuario_2" } ) ) );
+	private static final Set<String> not_allowed_usernames =
+			Collections.unmodifiableSet( new HashSet<String>( Arrays.asList( new String[] {
+					"Maquina_1",
+					"Maquina_2",
+					"Usuario_1",
+					"Usuario_2"
+			} ) ) );
 
 	/**
-	 * Constructor por defecto de Usuario
+	 * Constructor por defecto de Usuari
 	 *
 	 * @param username
 	 * @param password
 	 * @throws IllegalArgumentException
 	 */
-	public Usuario( String username, String password ) throws IllegalArgumentException
+	protected Usuari()
+	{
+		//empty
+	}
+
+	public Usuari( String username, String password ) throws IllegalArgumentException
 	{
 		if ( not_allowed_usernames.contains( username ) )
 		{
-			throw new IllegalArgumentException( "No se pueden registrar los nombres de usuarios siguientes: " + not_allowed_usernames.toString() );
+			throw new IllegalArgumentException(
+					"No se pueden registrar los nombres de usuarios siguientes: " + not_allowed_usernames.toString() );
 		}
 		else
 		{
 			this.username = username;
 			this.password = password;
 			// Estos valores por defecto se pueden cambiar
-			this.modo_inicio = ModosInicio.ESTANDAR;
+//			this.modo_inicio = ModosInicio.ESTANDAR;
 			colores = new String[2];
 			this.colores[0] = "azul";
 			this.colores[1] = "rojo";
@@ -70,15 +81,15 @@ public class Usuario implements Serializable
 	}
 
 
-	public ModosInicio getModoInicio()
-	{
-		return modo_inicio;
-	}
-
-	public void setModoInicio( ModosInicio m )
-	{
-		this.modo_inicio = m;
-	}
+//	public ModosInicio getModoInicio()
+//	{
+//		return modo_inicio;
+//	}
+//
+//	public void setModoInicio( ModosInicio m )
+//	{
+//		this.modo_inicio = m;
+//	}
 
 	public String[] getColores()
 	{
@@ -142,6 +153,9 @@ public class Usuario implements Serializable
 
 	public String toString()
 	{
-		return "[Username: " + username + ", password:" + password + ", modo de inicio:" + modo_inicio + ", color 1:" + colores[0] + ", color 2:" + colores[1] + ", tiempo minimo:" + tiempo_minimo + ", fichas minimas:" + fichas_minimas + ", partidas ganadas:" + partidas_ganadas + ", partidas jugadas:" + partidas_jugadas + "]";
+//		return "[Username: " + username + ", password:" + password + ", modo de inicio:" + modo_inicio + ", color 1:" + colores[0] + ", color 2:" + colores[1] + ", tiempo minimo:" + tiempo_minimo + ", fichas minimas:" + fichas_minimas + ", partidas ganadas:" + partidas_ganadas + ", partidas jugadas:" + partidas_jugadas + "]";
+		return "[Username: " + username + ", password:" + password + ", color 1:" + colores[0] + ", color 2:" +
+		       colores[1] + ", tiempo minimo:" + tiempo_minimo + ", fichas minimas:" + fichas_minimas +
+		       ", partidas ganadas:" + partidas_ganadas + ", partidas jugadas:" + partidas_jugadas + "]";
 	}
 }
