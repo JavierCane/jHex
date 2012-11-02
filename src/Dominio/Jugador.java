@@ -3,54 +3,73 @@ package Dominio;
 public class Jugador
 {
 
-	private Integer fichas_puestas;
-	private Integer pistas_usadas;
-	private Float tiempo;
+	private int pistes_usades;
+	private float temps;
 
+	/**
+	 * Constructor del jugador. Crea un jugador inicialitzant les pistes utilitzades i el temps gastat a 0.
+	 */
 	public Jugador()
 	{
-		fichas_puestas = new Integer( 0 );
-		pistas_usadas = new Integer( 0 );
-		tiempo = new Float( 0.0 );
+		pistes_usades = 0;
+		temps = 0;
 	}
 
-	public Integer getFichasPuestas()
+	/**
+	 * Consulta el nombre de pistes usades pel jugador.
+	 *
+	 * @return El nombre de pistes usades pel jugador.
+	 */
+	public int getPistesUsades()
 	{
-		return fichas_puestas;
+		return pistes_usades;
 	}
 
-	public Integer getPistasUsadas()
+	/**
+	 * Consulta el temps que ha estat jugant el jugador.
+	 *
+	 * @return El temps que ha estat jugant el jugador.
+	 */
+	public float getTemps()
 	{
-		return pistas_usadas;
+		return temps;
 	}
 
-	public Float getTiempo()
+	/**
+	 * Modifica el nombre de pistes usades pel jugador.
+	 *
+	 * @param num_pistes Nombre de pistes que es vol introduir.
+	 * @return Cert, si és un nombre de pistes vàlid. Fals altrament.
+	 */
+	public boolean setPistesUsades( int num_pistes )
 	{
-		return tiempo;
+		if ( num_pistes < 0 )
+		{
+			return false;
+		}
+		this.pistes_usades = num_pistes;
+		return true;
 	}
 
-	public void setFichasPuestas( Integer f )
+	/**
+	 * Modifica el temps que ha estat jugant el jugador.
+	 *
+	 * @param temps Temps de joc que es vol introduir.
+	 * @return Cert, si és un temps vàlid. Fals altrament.
+	 */
+	public boolean setTemps( float temps )
 	{
-		this.fichas_puestas = f;
+		if (temps < 0) return false;
+		this.temps = temps;
+		return true;
 	}
 
-	public void setPistasUsadas( Integer p )
+	/**
+	 * Incrementa en 1 el nombre de pistes utilitzades pel jugador.
+	 */
+	public void incrementaPistes()
 	{
-		this.pistas_usadas = p;
+		pistes_usades++;
 	}
 
-	public void setTiempo( Float t )
-	{
-		this.tiempo = t;
-	}
-
-	public void incrementarPistas()
-	{
-		pistas_usadas++;
-	}
-
-	public void incrementarFichas()
-	{
-		fichas_puestas++;
-	}
 }
