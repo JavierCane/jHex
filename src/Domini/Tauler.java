@@ -1,6 +1,8 @@
-package Dominio;
+package Domini;
 
 import java.util.Arrays;
+import java.lang.IndexOutOfBoundsException;
+import java.lang.IllegalArgumentException;
 
 public abstract class Tauler
 {
@@ -185,9 +187,30 @@ public abstract class Tauler
 		return true;
 	}
 
+	/**
+	 * Comprova si un moviment és vàlid.
+	 *
+	 * @param fitxa   Fitxa que es vol comprovar
+	 * @param fila    Fila de la casella dins el tauler
+	 * @param columna Columna de la casella dins el tauler.
+	 * @return Cert si el moviment és vàlid. Fals altrament.
+	 * @throws IndexOutOfBoundsException si (fila, columna) no és una casella vàlida.
+	 * @throws IllegalArgumentException  si fitxa no és de cap jugador (és EstatCasella.BUIDA).
+	 */
 	public abstract boolean esMovimentValid( EstatCasella fitxa, int fila, int columna )
 			throws IndexOutOfBoundsException, IllegalArgumentException;
 
+	/**
+	 * Mou la fitxa a la casella indicada i actualitza els comptadors.
+	 *
+	 * @param fitxa   Fitxa que es vol col·locar.
+	 * @param fila    Fila de la casella dins el tauler.
+	 * @param columna Columna de la casella dins el tauler.
+	 * @return Cert si s’ha realitzat el moviment. Fals altrament.
+	 * @throws IndexOutOfBoundsException si (fila, columna) no és una casella vàlida.
+	 * @throws IllegalArgumentException  si fitxa no és de cap jugador (és EstatCasella.BUIDA)  o el moviment no és
+	 *                                   vàlid.
+	 */
 	public boolean mouFitxa( EstatCasella fitxa, int fila, int columna )
 			throws IndexOutOfBoundsException, IllegalArgumentException
 	{
@@ -202,7 +225,16 @@ public abstract class Tauler
 		}
 	}
 
-	public boolean treuFitxa( int fila, int columna )
+	/**
+	 * Treu la fitxa de la casella indicada i actualitza els comptadors.
+	 *
+	 * @param fila    Fila de la casella dins el tauler.
+	 * @param columna Columna de la casella dins el tauler.
+	 * @return Cert si s’ha realitzat el moviment. Fals altrament.
+	 * @throws IndexOutOfBoundsException si (fila, columna) no és una casella vàlida.
+	 * @throws IllegalArgumentException  si la casella és buida (és EstatCasella.BUIDA).
+	 */
+	public boolean treuFitxa( int fila, int columna ) throws IndexOutOfBoundsException, IllegalArgumentException
 	{
 		if ( !esCasellaValida( fila, columna ) )
 		{
@@ -225,6 +257,8 @@ public abstract class Tauler
 	 * @param fila    Fila de la casella dins el tauler.
 	 * @param columna Columna de la casella dins el tauler.
 	 * @return Cert si s'ha intercanviat la fitxa. Fals altrament.
+	 * @throws IndexOutOfBoundsException si (fila, columna) no és una casella vàlida.
+	 * @throws IllegalArgumentException  si la casella és buida (és EstatCasella.BUIDA).
 	 */
 	public boolean intercanviaFitxa( int fila, int columna ) throws IndexOutOfBoundsException, IllegalArgumentException
 	{
@@ -249,7 +283,9 @@ public abstract class Tauler
 	}
 
 	/**
-	 * @return
+	 * Crea una còpia de l’objecte. Per guardar-lo en un objecte Tauler cal fer un cast.
+	 *
+	 * @return Una còpia del paràmetre implícit. És equivalent a fer servir el constructor per còpia.
 	 */
 	public abstract Object clone();
 }

@@ -10,7 +10,7 @@ import java.io.Serializable;
 
 import javax.swing.JFrame;
 
-public class Main
+public class MainMarc
 {
 	/**
 	 * Método principal

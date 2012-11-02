@@ -2,13 +2,10 @@ import Dominio.Tablero;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 
 public class DrawTablero extends JComponent
 {
@@ -51,14 +48,14 @@ public class DrawTablero extends JComponent
 			{
 				g.translate( j * dx, 0 );
 
-				if ( Main.tabla.getNumJugadorCasilla( i, j ) != null )
+				if ( MainMarc.tabla.getNumJugadorCasilla( i, j ) != null )
 				{
-					if ( Main.tabla.getNumJugadorCasilla( i, j ) == 0 )
+					if ( MainMarc.tabla.getNumJugadorCasilla( i, j ) == 0 )
 					{
 						g.setColor( Color.blue );
 						g.fillPolygon( x, y, 6 );
 					}
-					else if ( Main.tabla.getNumJugadorCasilla( i, j ) == 1 )
+					else if ( MainMarc.tabla.getNumJugadorCasilla( i, j ) == 1 )
 					{
 						g.setColor( Color.red );
 						g.fillPolygon( x, y, 6 );
