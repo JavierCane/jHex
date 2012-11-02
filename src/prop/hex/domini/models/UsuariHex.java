@@ -1,4 +1,6 @@
-package Domini;
+package prop.hex.domini.models;
+
+import prop.cluster.domini.models.Usuari;
 
 import java.io.Serializable;
 import java.util.Arrays;

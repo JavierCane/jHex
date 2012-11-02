@@ -1,4 +1,9 @@
-package Domini;
+package prop.hex.domini.models;
+
+import prop.cluster.domini.models.Partida;
+import prop.cluster.domini.models.Tauler;
+import prop.cluster.domini.models.Usuari;
+import prop.cluster.domini.models.estats.EstatPartida;
 
 import java.io.Serializable;
 import java.util.Date;

@@ -1,5 +1,5 @@
-import Dades.UsuariModel;
-import Domini.UsuariHex;
+import prop.hex.gestors.UsuariModel;
+import prop.hex.domini.models.UsuariHex;
 
 import java.io.IOException;
 

@@ -1,4 +1,6 @@
-package Domini;
+package prop.cluster.domini.models;
+
+import prop.cluster.domini.models.estats.EstatCasella;
 
 import java.util.Arrays;
 import java.lang.IndexOutOfBoundsException;

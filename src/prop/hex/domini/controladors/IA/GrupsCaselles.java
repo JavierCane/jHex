@@ -1,4 +1,4 @@
-package Domini.IA;
+package prop.hex.domini.controladors.IA;
 
 /**
  * Created with IntelliJ IDEA.

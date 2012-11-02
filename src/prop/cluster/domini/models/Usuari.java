@@ -1,4 +1,4 @@
-package Domini;
+package prop.cluster.domini.models;
 
 import java.io.Serializable;
 

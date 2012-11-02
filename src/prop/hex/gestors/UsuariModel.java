@@ -1,6 +1,6 @@
-package Dades;
+package prop.hex.gestors;
 
-import Domini.UsuariHex;
+import prop.hex.domini.models.UsuariHex;
 
 /**
  * Created with IntelliJ IDEA.
@@ -9,7 +9,7 @@ import Domini.UsuariHex;
  * Time: 22:52
  * To change this template use File | Settings | File Templates.
  */
-public class UsuariModel extends modelBase<UsuariHex>
+public class UsuariModel extends BaseModel<UsuariHex>
 {
 
 	public UsuariModel()

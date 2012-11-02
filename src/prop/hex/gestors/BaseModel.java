@@ -1,4 +1,4 @@
-package Dades;
+package prop.hex.gestors;
 
 import java.io.*;
 
@@ -9,7 +9,7 @@ import java.io.*;
  * Time: 16:24
  * To change this template use File | Settings | File Templates.
  */
-public class modelBase<T>
+public class BaseModel<T>
 {
 
 	protected String subcarpeta_dades;

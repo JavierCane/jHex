@@ -1,4 +1,4 @@
-package Domini;
+package prop.cluster.domini.models.estats;
 
 public enum EstatPartida
 {
