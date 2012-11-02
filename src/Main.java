@@ -1,6 +1,4 @@
 import Dades.UsuariModel;
-import Dades.modelBase;
-import Domini.Usuari;
 import Domini.UsuariHex;
 
 import java.io.IOException;
@@ -26,7 +24,7 @@ public class Main
 	{
 		UsuariHex main_user = new UsuariHex( "nombre", "pass" );
 
-		System.out.println( main_user.getUsername() );
+		System.out.println( main_user.getNom() );
 
 		try
 		{
