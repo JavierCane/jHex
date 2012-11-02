@@ -1,8 +1,14 @@
-package Dominio;
+package prop.hex.domini.models;
 
+import prop.cluster.domini.models.Partida;
+import prop.cluster.domini.models.Tauler;
+import prop.cluster.domini.models.Usuari;
+import prop.cluster.domini.models.estats.EstatPartida;
+
+import java.io.Serializable;
 import java.util.Date;
 
-public class PartidaHex extends Partida
+public class PartidaHex extends Partida implements Serializable
 {
 
 	private String[] colors;
@@ -84,6 +90,7 @@ public class PartidaHex extends Partida
 	public EstatPartida comprovaEstatPartida( int fila, int columna ) throws IndexOutOfBoundsException
 	{
 
+		return null;
 	}
 }
 

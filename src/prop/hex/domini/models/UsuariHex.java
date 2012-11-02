@@ -1,13 +1,14 @@
-package Dominio;
+package prop.hex.domini.models;
 
+import prop.cluster.domini.models.Usuari;
+
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import java.lang.IndexOutOfBoundsException;
-import java.lang.IllegalArgumentException;
 
-public class UsuariHex extends Usuari
+public class UsuariHex extends Usuari implements Serializable
 {
 
 	private ModesInici mode_inici;
@@ -17,30 +18,18 @@ public class UsuariHex extends Usuari
 	private int partides_jugades;
 	private int partides_guanyades;
 
-	private static final Set<String> noms_no_permesos = Collections.unmodifiableSet( new HashSet<String>( Arrays.asList( new String[] { "Maquina_1", "Maquina_2", "Usuario_1", "Usuario_2" } ) ) );
+	private static final Set<String> noms_no_permesos = Collections.unmodifiableSet( new HashSet<String>( Arrays.asList(
+			new String[] {
+					"Maquina_1",
+					"Maquina_2",
+					"Usuario_1",
+					"Usuario_2"
+			} ) ) );
 
 	public UsuariHex( String nom, String contrasenya ) throws IllegalArgumentException
 	{
-		/* A cambiar una vez sepamos la herencia
-		if ( not_allowed_usernames.contains( username ) )
-		{
-			throw new IllegalArgumentException( "No se pueden registrar los nombres de usuarios siguientes: " + noms_no_permesos.toString() );
-		}
-		else
-		{
-			this.username = username;
-			this.password = password;
-			// Estos valores por defecto se pueden cambiar
-			this.modo_inicio = ModosInicio.ESTANDAR;
-			colores = new String[2];
-			this.colores[0] = "azul";
-			this.colores[1] = "rojo";
-			this.tiempo_minimo = new Float( Float.POSITIVE_INFINITY );
-			this.fitxes_minimas = new Integer( Integer.MAX_VALUE );
-			this.partidas_ganadas = new Integer( 0 );
-			this.partidas_jugadas = new Integer( 0 );
-		}
-		*/
+		super( nom, contrasenya );
+		this.fitxes_minimes = 2;
 	}
 
 	/**
@@ -108,7 +97,8 @@ public class UsuariHex extends Usuari
 		else if ( color != "blau" || color != "vermell" )
 		{
 			throw new IllegalArgumentException( "Nom de color no vàlid" );
-		} this.colors[numero] = color;
+		}
+		this.colors[numero] = color;
 		return true;
 	}
 

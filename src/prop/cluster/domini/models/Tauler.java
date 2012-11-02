@@ -1,4 +1,6 @@
-package Dominio;
+package prop.cluster.domini.models;
+
+import prop.cluster.domini.models.estats.EstatCasella;
 
 import java.util.Arrays;
 import java.lang.IndexOutOfBoundsException;
@@ -289,4 +291,3 @@ public abstract class Tauler
 	 */
 	public abstract Object clone();
 }
-

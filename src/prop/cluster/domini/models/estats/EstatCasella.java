@@ -1,4 +1,4 @@
-package Dominio;
+package prop.cluster.domini.models.estats;
 
 public enum EstatCasella
 {

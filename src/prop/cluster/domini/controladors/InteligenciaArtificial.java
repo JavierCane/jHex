@@ -1,4 +1,7 @@
-package Dominio;
+package prop.cluster.domini.controladors;
+
+import prop.cluster.domini.models.Tauler;
+import prop.hex.domini.models.Casella;
 
 import java.util.Vector;
 

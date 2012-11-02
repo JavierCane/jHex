@@ -1,4 +1,7 @@
-package Dominio;
+package prop.hex.domini.models;
+
+import prop.cluster.domini.models.Tauler;
+import prop.cluster.domini.models.estats.EstatCasella;
 
 public class TaulerHex extends Tauler
 {
