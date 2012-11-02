@@ -1,4 +1,4 @@
-package Dominio.IA;
+package Domini.IA;
 
 /**
  * Created with IntelliJ IDEA.
