@@ -3,31 +3,31 @@ package prop.hex.domini.models;
 public class Casella
 {
 
-	private Integer fila;
-	private Integer columna;
+	private int fila;
+	private int columna;
 
-	public Casella( Integer fila, Integer columna )
+	public Casella( int fila, int columna )
 	{
 		this.fila = fila;
 		this.columna = columna;
 	}
 
-	public Integer getFila()
+	public int getFila()
 	{
 		return fila;
 	}
 
-	public void setFila( Integer fila )
+	public void setFila( int fila )
 	{
 		this.fila = fila;
 	}
 
-	public Integer getColumna()
+	public int getColumna()
 	{
 		return columna;
 	}
 
-	public void setColumna( Integer columna )
+	public void setColumna( int columna )
 	{
 		this.columna = columna;
 	}
