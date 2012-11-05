@@ -4,6 +4,7 @@ import prop.cluster.domini.models.Partida;
 import prop.cluster.domini.models.Tauler;
 import prop.cluster.domini.models.Usuari;
 import prop.cluster.domini.models.estats.EstatPartida;
+import prop.hex.domini.models.enums.*;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -11,70 +12,23 @@ import java.util.Date;
 public class PartidaHex extends Partida implements Serializable
 {
 
-	private String[] colors;
 	private ModesInici mode_inici;
+	private CombinacionsColors combinacio_colors;
 
-
-	public PartidaHex(Usuari jugador_a, Usuari jugador_b, Tauler tauler, int torns_jugats, Date data_creacio, String nom, boolean finalitzada, String[] colors, ModesInici mode_inici)
+	public PartidaHex( Usuari jugador_a, Usuari jugador_b, Tauler tauler, Date data_creacio,
+	                   String nom, boolean finalitzada, String[] colors, ModesInici mode_inici )
 	{
-		this.colors = colors;
+		super( jugador_a, jugador_b, tauler, 0 );
+
+		this.combinacio_colors = combinacio_colors;
 		this.mode_inici = mode_inici;
+;
 	}
 
-	/**
-	 * Consulta el color demanat d'entre aquells que té assignats la partida.
-	 *
-	 * @param numero Índex del color que volem obtenir.
-	 * @return Un String amb el nom del color demanat.
-	 * @throws IndexOutOfBoundsException si el número de color és més gran que 1, ja que només hi ha dos colors.
-	 */
-	public String getColors( int numero ) throws IndexOutOfBoundsException
+	public String toString()
 	{
-		if ( numero > 1 )
-		{
-			throw new IndexOutOfBoundsException( "Índex de color massa gran" );
-		}
-		return colors[numero];
-	}
-
-	/**
-	 * Modifica un cert color dels que té assignats la partida.
-	 *
-	 * @param numero Índex del color que volem obtenir.
-	 * @param color  Un String amb el nom del color demanat.
-	 * @return Cert si el color es modifica. Fals altrament.
-	 * @throws IndexOutOfBoundsException si el número de color és més gran que 1, ja que només hi ha dos colors.
-	 * @throws IllegalArgumentException  si el nom del color no és vàlid.
-	 */
-	public boolean setColors( int numero, String color ) throws IndexOutOfBoundsException, IllegalArgumentException
-	{
-		if ( numero > 1 )
-		{
-			throw new IndexOutOfBoundsException( "Índex de color massa alt" );
-		}
-		// Ejemplo
-		else if ( color != "blau" || color != "vermell" )
-		{
-			throw new IllegalArgumentException( "Nom de color no vàlid" );
-		} this.colors[numero] = color;
-		return true;
-	}
-
-	/* Again, es necesario?
-	public boolean setColors( String[] colors )
-	{
-		this.colors = colors;
-	}
-	*/
-
-	/**
-	 * Modifica el mode d'inici que té assignat l'usuari.
-	 *
-	 * @param mode ModeInici que es vol assignar a l'usuari.
-	 */
-	public void setModeInici( ModesInici mode )
-	{
-		this.mode_inici = mode;
+		return super.toString() + " [Mode inici: " + mode_inici +
+		       ", combinacio colors:" + combinacio_colors + "]";
 	}
 
 	/**
@@ -85,6 +39,38 @@ public class PartidaHex extends Partida implements Serializable
 	public ModesInici getModeInici()
 	{
 		return mode_inici;
+	}
+
+	/**
+	 * Modifica el mode d'inici que té assignat l'usuari.
+	 *
+	 * @param mode_inici ModeInici que es vol assignar a l'usuari.
+	 */
+	public boolean setModeInici( ModesInici mode_inici )
+	{
+		this.mode_inici = mode_inici;
+		return true;
+	}
+
+	/**
+	 * Consulta els colors que té assignat l'usuari.
+	 *
+	 * @return Un array de dues posicions amb els dos colors de fitxes preferits per l'usuari.
+	 */
+	public CombinacionsColors getCombinacionsColors()
+	{
+		return combinacio_colors;
+	}
+
+	/**
+	 * Modifica un cert color dels que té assignats l'usuari.
+	 *
+	 * @return Cert si el color es modifica. Fals altrament.
+	 */
+	public boolean setCombinacionsColors( CombinacionsColors combinacio_colors )
+	{
+		this.combinacio_colors = combinacio_colors;
+		return true;
 	}
 
 	public EstatPartida comprovaEstatPartida( int fila, int columna ) throws IndexOutOfBoundsException
