@@ -290,4 +290,18 @@ public abstract class Tauler
 	 * @return Una còpia del paràmetre implícit. És equivalent a fer servir el constructor per còpia.
 	 */
 	public abstract Object clone();
+
+	public void colocarFicha( Integer jugador, Integer fila, Integer columna )
+	{
+	}
+
+	public int getTamano()
+	{
+		return 0;
+	}
+
+	public Object getNumJugadorCasilla( int i, int j )
+	{
+		return null;  //To change body of created methods use File | Settings | File Templates.
+	}
 }

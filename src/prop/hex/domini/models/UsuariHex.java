@@ -1,6 +1,7 @@
 package prop.hex.domini.models;
 
 import prop.cluster.domini.models.Usuari;
+import prop.hex.domini.models.enums.*;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -12,14 +13,14 @@ public class UsuariHex extends Usuari implements Serializable
 {
 
 	private ModesInici mode_inici;
-	private String[] colors;
+	private CombinacionsColors combinacio_colors;
 	private float temps_minim;
 	private int fitxes_minimes;
 	private int partides_jugades;
 	private int partides_guanyades;
 
-	private static final Set<String> noms_no_permesos = Collections.unmodifiableSet( new HashSet<String>( Arrays.asList(
-			new String[] {
+	private static final Set<String> noms_no_permesos =
+			Collections.unmodifiableSet( new HashSet<String>( Arrays.asList( new String[] {
 					"Maquina_1",
 					"Maquina_2",
 					"Usuario_1",
@@ -29,7 +30,53 @@ public class UsuariHex extends Usuari implements Serializable
 	public UsuariHex( String nom, String contrasenya ) throws IllegalArgumentException
 	{
 		super( nom, contrasenya );
-		this.fitxes_minimes = 2;
+
+		if ( noms_no_permesos.contains( nom ) )
+		{
+			throw new IllegalArgumentException(
+					"No se pueden registrar los nombres de usuarios siguientes: " + noms_no_permesos.toString() );
+		}
+		else
+		{
+			mode_inici = ModesInici.ESTANDARD;
+			combinacio_colors = CombinacionsColors.VERMELL_BLAU;
+			temps_minim = Float.POSITIVE_INFINITY;
+			fitxes_minimes = Integer.MAX_VALUE;
+			partides_guanyades = 0;
+			partides_jugades = 0;
+		}
+	}
+
+	public boolean setNom( String nom )
+	{
+		if ( noms_no_permesos.contains( nom ) )
+		{
+			throw new IllegalArgumentException(
+					"No se pueden registrar los nombres de usuarios siguientes: " + noms_no_permesos.toString() );
+		}
+		else
+		{
+			this.nom = nom;
+			return true;
+		}
+	}
+
+	/**
+	 * Retorna un identificador unic de l'usuari
+	 *
+	 * @return
+	 */
+	public String getIdentificadorUnic()
+	{
+		return this.getNom();
+	}
+
+	public String toString()
+	{
+		return super.toString() + " [Mode inici: " + mode_inici +
+		       ", combinacio colors: " + combinacio_colors + ", temps minim: " + temps_minim +
+		       ", fitxes minimes: " + fitxes_minimes + ", partides guanyades: " + partides_guanyades +
+		       ", partides jugades: " + partides_jugades + "]";
 	}
 
 	/**
@@ -45,11 +92,12 @@ public class UsuariHex extends Usuari implements Serializable
 	/**
 	 * Modifica el mode d'inici que té assignat l'usuari.
 	 *
-	 * @param mode ModeInici que es vol assignar a l'usuari.
+	 * @param mode_inici ModeInici que es vol assignar a l'usuari.
 	 */
-	public void setModeInici( ModesInici mode )
+	public boolean setModeInici( ModesInici mode_inici )
 	{
-		this.mode_inici = mode;
+		this.mode_inici = mode_inici;
+		return true;
 	}
 
 	/**
@@ -57,57 +105,21 @@ public class UsuariHex extends Usuari implements Serializable
 	 *
 	 * @return Un array de dues posicions amb els dos colors de fitxes preferits per l'usuari.
 	 */
-	public String[] getColors()
+	public CombinacionsColors getCombinacionsColors()
 	{
-		return colors;
-	}
-
-	/**
-	 * Consulta el color demanat d'entre aquells que té assignats l'usuari.
-	 *
-	 * @param numero Índex del color que volem obtenir.
-	 * @return Un String amb el nom del color demanat.
-	 * @throws IndexOutOfBoundsException si el número de color és més gran que 1, ja que només hi ha dos colors.
-	 */
-	public String getColors( int numero ) throws IndexOutOfBoundsException
-	{
-		if ( numero > 1 )
-		{
-			throw new IndexOutOfBoundsException( "Índex de color massa gran" );
-		}
-		return colors[numero];
+		return combinacio_colors;
 	}
 
 	/**
 	 * Modifica un cert color dels que té assignats l'usuari.
 	 *
-	 * @param numero Índex del color que volem obtenir.
-	 * @param color  Un String amb el nom del color demanat.
 	 * @return Cert si el color es modifica. Fals altrament.
-	 * @throws IndexOutOfBoundsException si el número de color és més gran que 1, ja que només hi ha dos colors.
-	 * @throws IllegalArgumentException  si el nom del color no és vàlid.
 	 */
-	public boolean setColors( int numero, String color ) throws IndexOutOfBoundsException, IllegalArgumentException
+	public boolean setCombinacionsColors( CombinacionsColors combinacio_colors )
 	{
-		if ( numero > 1 )
-		{
-			throw new IndexOutOfBoundsException( "Índex de color massa alt" );
-		}
-		// Ejemplo
-		else if ( color != "blau" || color != "vermell" )
-		{
-			throw new IllegalArgumentException( "Nom de color no vàlid" );
-		}
-		this.colors[numero] = color;
+		this.combinacio_colors = combinacio_colors;
 		return true;
 	}
-
-	/* Es necesario?
-	public boolean setColors( String[] colors )
-	{
-		this.colors = colors;
-		return true;
-	}*/
 
 	/**
 	 * Consulta el temps mínim en guanyar una partida de l'usuari.
@@ -127,7 +139,7 @@ public class UsuariHex extends Usuari implements Serializable
 	 */
 	public boolean setTempsMinim( float temps_minim )
 	{
-		if ( temps_minim <= 0 )
+		if ( temps_minim <= 0 || fitxes_minimes > Float.POSITIVE_INFINITY )
 		{
 			return false;
 		}
@@ -153,7 +165,7 @@ public class UsuariHex extends Usuari implements Serializable
 	 */
 	public boolean setFitxesMinimes( int fitxes_minimes )
 	{
-		if ( fitxes_minimes <= 0 )
+		if ( fitxes_minimes <= 0 || fitxes_minimes > Integer.MAX_VALUE )
 		{
 			return false;
 		}
@@ -179,7 +191,7 @@ public class UsuariHex extends Usuari implements Serializable
 	 */
 	public boolean setPartidesJugades( int partides_jugades )
 	{
-		if ( partides_jugades < 0 )
+		if ( partides_jugades < 0 || partides_jugades > Integer.MAX_VALUE )
 		{
 			return false;
 		}
@@ -205,7 +217,7 @@ public class UsuariHex extends Usuari implements Serializable
 	 */
 	public boolean setPartidesGuanyades( int partides_guanyades )
 	{
-		if ( partides_jugades < 0 )
+		if ( partides_jugades < 0 || partides_guanyades > Integer.MAX_VALUE )
 		{
 			return false;
 		}

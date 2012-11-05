@@ -1,4 +1,4 @@
-package prop.hex.domini.models;
+package prop.hex.domini.models.enums;
 
 public enum ModesInici
 {
