@@ -1,12 +1,12 @@
-package prop.hex.domini.controladors.tests;
+package prop.hex.domini.controladors.drivers;
 
 import prop.hex.domini.models.UsuariHex;
-import prop.hex.gestors.UsuariModel;
+import prop.hex.gestors.UsuariGstr;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class MainJavi
+public class UsuariGstrDrvr
 {
 
 	/**
@@ -23,7 +23,7 @@ public class MainJavi
 
 	private static void testGuardarUsuario()
 	{
-		UsuariModel model_usuari = new UsuariModel();
+		UsuariGstr model_usuari = new UsuariGstr();
 
 		String nom_usuari = "nom1";
 
@@ -51,7 +51,7 @@ public class MainJavi
 
 	private static void testCargarUsuarios()
 	{
-		UsuariModel model_usuari = new UsuariModel();
+		UsuariGstr model_usuari = new UsuariGstr();
 
 		String nom_usuari = "nom2";
 

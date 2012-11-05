@@ -9,10 +9,10 @@ import prop.hex.domini.models.UsuariHex;
  * Time: 22:52
  * To change this template use File | Settings | File Templates.
  */
-public class UsuariModel extends BaseModel<UsuariHex>
+public class UsuariGstr extends BaseGstr<UsuariHex>
 {
 
-	public UsuariModel()
+	public UsuariGstr()
 	{
 		this.subcarpeta_dades = "usuaris";
 	}

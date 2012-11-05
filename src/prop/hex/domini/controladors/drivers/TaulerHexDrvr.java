@@ -1,4 +1,4 @@
-package prop.hex.domini.controladors.tests;
+package prop.hex.domini.controladors.drivers;
 
 import prop.cluster.domini.models.estats.EstatCasella;
 import prop.hex.domini.models.TaulerHex;
@@ -6,7 +6,7 @@ import prop.hex.domini.models.TaulerHex;
 import java.io.*;
 import java.util.ArrayList;
 
-public class TaulerHexTest
+public class TaulerHexDrvr
 {
 
 	private static ArrayList<TaulerHex> taulers = new ArrayList<TaulerHex>();

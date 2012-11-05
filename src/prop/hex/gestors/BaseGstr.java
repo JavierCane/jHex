@@ -10,7 +10,7 @@ import java.io.*;
  * Time: 16:24
  * To change this template use File | Settings | File Templates.
  */
-public abstract class BaseModel<T>
+public abstract class BaseGstr<T>
 {
 
 	protected String subcarpeta_dades;
