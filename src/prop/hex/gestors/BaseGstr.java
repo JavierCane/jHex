@@ -76,14 +76,16 @@ public abstract class BaseGstr<T>
 
 		if ( !existeixElement( nom_element ) )
 		{
-			throw new NullPointerException( "Fitxer " + nom_element + '.' + this.extensio_fitxers + " no trobat al " +
-			                                "path: " + this.carpeta_dades + '/' + this.subcarpeta_dades + '/' );
+			throw new FileNotFoundException(
+					"Fitxer no trobat a la ruta: " + this.carpeta_dades + '/' + this.subcarpeta_dades + '/' +
+					nom_element + '.' + this.extensio_fitxers );
 		}
 		else
 		{
 			// Instanciem els streams necessaris per accedir als fitxers
-			FileInputStream fis = new FileInputStream(
-					this.carpeta_dades + '/' + this.subcarpeta_dades + '/' + nom_element + '.' + this.extensio_fitxers );
+			FileInputStream fis =
+					new FileInputStream( this.carpeta_dades + '/' + this.subcarpeta_dades + '/' + nom_element + '.' +
+					                     this.extensio_fitxers );
 			ObjectInputStream ois = new ObjectInputStream( fis );
 
 			// Llegim de disc l'objecte de tipus T mitjancant l'stream de dades obert

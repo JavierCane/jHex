@@ -109,30 +109,29 @@ public class UsuariGstrDrvr
 	{
 		UsuariGstr model_usuari = new UsuariGstr();
 
-		String nom_usuari = "nom2";
+		String nom_usuari = llegeixParaula( "Escriu el nom de l'usuari a carregar de disc:" );
 
 		try
 		{
 			UsuariHex main_user = model_usuari.carregaElement( nom_usuari );
 
-			System.out.println( "[OK] S'ha guardat correctament el fitxer de l'usuari " + nom_usuari + ", " +
+			System.out.println( "[OK]\tS'ha carregat correctament el fitxer de l'usuari " + nom_usuari + ", " +
 			                    "les seves dades son: \n\t" + main_user.toString() );
 		}
 		catch ( FileNotFoundException excepcio )
 		{
-			System.out.println( "[KO] L'usuari que s'intenta carregar (" + nom_usuari + "), no existeix al sistema." );
+			System.out.println( "[KO]\tL'usuari que s'intenta carregar (" + nom_usuari + "), " +
+			                    "no existeix al sistema: " + excepcio.getMessage() );
 		}
 		catch ( IOException excepcio )
 		{
-			System.out.println( "[KO] S'ha produit un error intentant accedir al fitxer de l'usuari " + nom_usuari );
-			excepcio.printStackTrace();
+			System.out.println( "[KO]\tS'ha produit un error intentant accedir al fitxer de l'usuari " + nom_usuari );
 		}
 		catch ( ClassNotFoundException excepcio )
 		{
 			System.out.println(
-					"[KO] Error no esperat de tipus ClassNotFoundException intentant accedir al fitxer de l'usuari " +
+					"[KO]\tError no esperat de tipus ClassNotFoundException intentant accedir al fitxer de l'usuari " +
 					nom_usuari );
-			excepcio.printStackTrace();
 		}
 	}
 }
