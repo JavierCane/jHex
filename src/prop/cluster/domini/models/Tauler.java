@@ -1,19 +1,36 @@
 package prop.cluster.domini.models;
 
 import prop.cluster.domini.models.estats.EstatCasella;
-import prop.hex.domini.models.Casella;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.lang.IndexOutOfBoundsException;
 import java.lang.IllegalArgumentException;
-import java.util.List;
 
-public abstract class Tauler
+/**
+ * Representa un tauler d’un joc. Les caselles vàlides són les que tenen la fila i la columna en l’interval 0..mida-1.
+ * <p/>
+ * Té un control de les fitxes que té cada jugador al tauler i revisa que les fitxes s’afegeixen d’acord amb la
+ * normativa del joc mitjançant un mètode redefinible.
+ */
+public abstract class Tauler implements Serializable
 {
 
+	/**
+	 * La mida del tauler
+	 */
 	protected int mida;
+	/**
+	 * Array bidimensional mida × mida amb l’estat actual de les caselles.
+	 */
 	protected EstatCasella[][] caselles;
+	/**
+	 * Quantitat de fitxes que té el jugador A
+	 */
 	protected int num_fitxes_a;
+	/**
+	 * Quantitat de fitxes que té el jugador B
+	 */
 	protected int num_fitxes_b;
 
 	/**
@@ -144,6 +161,7 @@ public abstract class Tauler
 		{
 			throw new IndexOutOfBoundsException( "Casella fora del tauler" );
 		}
+
 		return caselles[fila][columna];
 	}
 
@@ -157,12 +175,7 @@ public abstract class Tauler
 	 */
 	protected boolean setEstatCasella( EstatCasella e, int fila, int columna ) throws IndexOutOfBoundsException
 	{
-		if ( !esCasellaValida( fila, columna ) )
-		{
-			throw new IndexOutOfBoundsException( "Casella fora del tauler" );
-		}
-
-		switch ( caselles[fila][columna] )
+		switch ( getEstatCasella( fila, columna ) )
 		{
 			case JUGADOR_A:
 				num_fitxes_a--;
@@ -222,11 +235,9 @@ public abstract class Tauler
 		{
 			throw new IllegalArgumentException( "El moviment no segueix la normativa" );
 		}
-		else
-		{
-			setEstatCasella( fitxa, fila, columna );
-			return true;
-		}
+
+		setEstatCasella( fitxa, fila, columna );
+		return true;
 	}
 
 	/**
@@ -240,19 +251,13 @@ public abstract class Tauler
 	 */
 	public boolean treuFitxa( int fila, int columna ) throws IndexOutOfBoundsException, IllegalArgumentException
 	{
-		if ( !esCasellaValida( fila, columna ) )
-		{
-			throw new IndexOutOfBoundsException( "Casella fora del tauler" );
-		}
-		else if ( caselles[fila][columna] == EstatCasella.BUIDA )
+		if ( getEstatCasella( fila, columna ) == EstatCasella.BUIDA )
 		{
 			throw new IllegalArgumentException( "La casella ja és buida" );
 		}
-		else
-		{
-			setEstatCasella( EstatCasella.BUIDA, fila, columna );
-			return true;
-		}
+
+		setEstatCasella( EstatCasella.BUIDA, fila, columna );
+		return true;
 	}
 
 	/**
@@ -266,21 +271,16 @@ public abstract class Tauler
 	 */
 	public boolean intercanviaFitxa( int fila, int columna ) throws IndexOutOfBoundsException, IllegalArgumentException
 	{
-		if ( !esCasellaValida( fila, columna ) )
+		switch ( getEstatCasella( fila, columna ) )
 		{
-			throw new IndexOutOfBoundsException( "Casella fora del tauler" );
-		}
-		else if ( caselles[fila][columna] == EstatCasella.BUIDA )
-		{
-			throw new IllegalArgumentException( "Intercanvi de fitxes en casella buida" );
-		}
-		else if ( caselles[fila][columna] == EstatCasella.JUGADOR_A )
-		{
-			setEstatCasella( EstatCasella.JUGADOR_B, fila, columna );
-		}
-		else
-		{
-			setEstatCasella( EstatCasella.JUGADOR_B, fila, columna );
+			case JUGADOR_A:
+				setEstatCasella( EstatCasella.JUGADOR_B, fila, columna );
+				break;
+			case JUGADOR_B:
+				setEstatCasella( EstatCasella.JUGADOR_A, fila, columna );
+				break;
+			case BUIDA:
+				throw new IllegalArgumentException( "Intercanvi de fitxes en casella buida" );
 		}
 
 		return true;
@@ -292,19 +292,4 @@ public abstract class Tauler
 	 * @return Una còpia del paràmetre implícit. És equivalent a fer servir el constructor per còpia.
 	 */
 	public abstract Object clone();
-
-	public void colocarFicha( Integer jugador, Integer fila, Integer columna )
-	{
-	}
-
-	public int getTamano()
-	{
-		return 0;
-	}
-
-	public Object getNumJugadorCasilla( int i, int j )
-	{
-		return null;  //To change body of created methods use File | Settings | File Templates.
-	}
-
 }
