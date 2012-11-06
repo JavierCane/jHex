@@ -16,10 +16,10 @@ public class PartidaHex extends Partida implements Serializable
 	private ModesInici mode_inici;
 	private CombinacionsColors combinacio_colors;
 
-	public PartidaHex( Usuari jugador_a, Usuari jugador_b, TaulerHex tauler, Date data_creacio, String nom,
-	                   boolean finalitzada, String[] colors, ModesInici mode_inici )
+	public PartidaHex( Usuari jugador_a, Usuari jugador_b, TaulerHex tauler, String nom,
+	                   CombinacionsColors combinacio_colors, ModesInici mode_inici )
 	{
-		super( jugador_a, jugador_b, tauler, 0 );
+		super( jugador_a, jugador_b, tauler, nom );
 
 		this.combinacio_colors = combinacio_colors;
 		this.mode_inici = mode_inici;

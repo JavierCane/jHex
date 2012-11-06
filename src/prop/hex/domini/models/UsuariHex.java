@@ -14,6 +14,8 @@ import java.util.Set;
 public class UsuariHex extends Usuari implements Serializable
 {
 
+	private static final long serialVersionUID = 42L;
+
 	private ModesInici mode_inici;
 	private CombinacionsColors combinacio_colors;
 	private float temps_minim;
