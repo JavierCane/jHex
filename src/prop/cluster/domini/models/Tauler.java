@@ -307,12 +307,4 @@ public abstract class Tauler
 		return null;  //To change body of created methods use File | Settings | File Templates.
 	}
 
-	/**
-	 * Consulta els veïns d'una casella.
-	 *
-	 * @param fila    Fila de la casella dins el tauler.
-	 * @param columna Fila de la casella dins el tauler.
-	 * @return Un array bidimensional amb les dues coordenades de les caselles veïnes.
-	 */
-	public abstract List<Casella> getVeins( int fila, int columna ) throws IndexOutOfBoundsException;
 }

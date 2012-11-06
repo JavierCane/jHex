@@ -13,6 +13,7 @@ import java.util.*;
 public class PartidaHex extends Partida implements Serializable
 {
 
+	private TaulerHex tauler;
 	private ModesInici mode_inici;
 	private CombinacionsColors combinacio_colors;
 
@@ -23,7 +24,6 @@ public class PartidaHex extends Partida implements Serializable
 
 		this.combinacio_colors = combinacio_colors;
 		this.mode_inici = mode_inici;
-		;
 	}
 
 	public String toString()
