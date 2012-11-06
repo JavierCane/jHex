@@ -1,14 +1,13 @@
 package prop.hex.gestors;
 
-
 import java.io.*;
 
 /**
- * Created with IntelliJ IDEA.
- * User: javierferrer
+ * Classe abstracta i parametritzada pel tractament de fitxers.
+ * Conte els metodes generics com guardar i carregar objectes del tipus insanciat desde la subcarpeta de dades
+ * que especifiqui la classe que hereti d'aqui
+ *
  * Date: 29/10/12
- * Time: 16:24
- * To change this template use File | Settings | File Templates.
  */
 public abstract class BaseGstr<T>
 {
@@ -17,29 +16,37 @@ public abstract class BaseGstr<T>
 	private String carpeta_dades = "dat";
 	private String extensio_fitxers = "dat";
 
+	/**
+	 * Guarda un element_a_guardar de tipus T a la carpeta path_del_programa/carpeta_dades/subcarpeta_dades/ amb nom
+	 * nom_element.extensio_fitxers
+	 *
+	 * @param element_a_guardar
+	 * @param nom_element
+	 * @return boolean true si s'ha pogut guardar correctament y el fitxer resultant es contempla com correcte,
+	 *         false altrament
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
 	public boolean guardaElement( T element_a_guardar, String nom_element ) throws FileNotFoundException, IOException
 	{
 		File carpeta_a_accedir = new File( this.carpeta_dades + '/' + this.subcarpeta_dades );
 		File arxiu_a_accedir = new File( this.carpeta_dades + '/' + this.subcarpeta_dades + '/' + nom_element + '.' +
 		                                 this.extensio_fitxers );
 
-		// Elimino la versio previa i creo la nova del fitxer de l'objecte per evitar concatenar objectes als fitxers
+		// Elimino la versio previa i genero la nova del fitxer de l'objecte per evitar concatenar objectes als fitxers
 		if ( arxiu_a_accedir.exists() )
 		{
 			arxiu_a_accedir.delete();
 		}
 
 		carpeta_a_accedir.mkdirs(); // Creo les carpetes necessaries fins al path final del fitxer (per si de cas)
-		arxiu_a_accedir.createNewFile(); // Ignoro el retorn perque ja se que previament no estava creat
+		arxiu_a_accedir.createNewFile(); // Ignoro el retorn del metode perque ja se que previament no estava creat
 
-		// Instanciamos los streams necesarios para escribir en el fichero
+		// Instanciem els streams necessaris per escriure en el fitxer
 		FileOutputStream fos = new FileOutputStream( arxiu_a_accedir );
 		ObjectOutputStream oos = new ObjectOutputStream( fos );
 
-		// Escribimos en disco mediante el stream de datos abierto
 		oos.writeObject( element_a_guardar );
-
-		// Hacemos flush y cerramos el stream de datos
 		oos.flush();
 		oos.close();
 
@@ -54,19 +61,60 @@ public abstract class BaseGstr<T>
 		}
 	}
 
-	public T carregaElement( String nom_element ) throws IOException, ClassNotFoundException
+	/**
+	 * Carrega un element de tipus T amb nom nom_element.extensio_fitxers de la carpeta
+	 * path_del_programa/carpeta_dades/subcarpeta_dades/
+	 *
+	 * @param nom_element
+	 * @return l'objecte de l'element carregat
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
+	public T carregaElement( String nom_element ) throws IOException, ClassNotFoundException, NullPointerException
 	{
-		// Instanciamos los streams necesarios para leer del fichero
-		FileInputStream fis = new FileInputStream(
-				this.carpeta_dades + '/' + this.subcarpeta_dades + '/' + nom_element + '.' + this.extensio_fitxers );
-		ObjectInputStream ois = new ObjectInputStream( fis );
+		T element_carregat = null;
 
-		// Leemos de disco mediante el stream de datos abierto
-		T element_carregat = ( T ) ois.readObject();
+		if ( !existeixElement( nom_element ) )
+		{
+			throw new NullPointerException( "Fitxer " + nom_element + '.' + this.extensio_fitxers + " no trobat al " +
+			                                "path: " + this.carpeta_dades + '/' + this.subcarpeta_dades + '/' );
+		}
+		else
+		{
+			// Instanciem els streams necessaris per accedir als fitxers
+			FileInputStream fis = new FileInputStream(
+					this.carpeta_dades + '/' + this.subcarpeta_dades + '/' + nom_element + '.' + this.extensio_fitxers );
+			ObjectInputStream ois = new ObjectInputStream( fis );
 
-		// Cerramos el stream de datos
-		ois.close();
+			// Llegim de disc l'objecte de tipus T mitjancant l'stream de dades obert
+			element_carregat = ( T ) ois.readObject();
+
+			ois.close();
+		}
 
 		return element_carregat;
+	}
+
+
+	/**
+	 * Comprova si un determinat element existeix
+	 *
+	 * @param nom_element
+	 * @return
+	 */
+	public boolean existeixElement( String nom_element )
+	{
+		File carpeta_a_accedir = new File( this.carpeta_dades + '/' + this.subcarpeta_dades );
+		File arxiu_a_accedir = new File( this.carpeta_dades + '/' + this.subcarpeta_dades + '/' + nom_element + '.' +
+		                                 this.extensio_fitxers );
+
+		if ( arxiu_a_accedir.exists() )
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 }

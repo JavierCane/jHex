@@ -1,7 +1,9 @@
 package prop.hex.domini.models;
 
 import prop.cluster.domini.models.Usuari;
-import prop.hex.domini.models.enums.*;
+import prop.hex.domini.models.enums.CombinacionsColors;
+import prop.hex.domini.models.enums.Dificultats;
+import prop.hex.domini.models.enums.ModesInici;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -34,30 +36,20 @@ public class UsuariHex extends Usuari implements Serializable
 		if ( noms_no_permesos.contains( nom ) )
 		{
 			throw new IllegalArgumentException(
-					"No se pueden registrar los nombres de usuarios siguientes: " + noms_no_permesos.toString() );
+					"No es poden enregistrar els següents noms d'usuari: " + noms_no_permesos.toString() );
 		}
 		else
 		{
+			num_derrotes = new int[Dificultats.num_dificultats];
+			num_empats = new int[Dificultats.num_dificultats];
+			num_victories = new int[Dificultats.num_dificultats];
+
 			mode_inici = ModesInici.ESTANDARD;
 			combinacio_colors = CombinacionsColors.VERMELL_BLAU;
 			temps_minim = Float.POSITIVE_INFINITY;
 			fitxes_minimes = Integer.MAX_VALUE;
 			partides_guanyades = 0;
 			partides_jugades = 0;
-		}
-	}
-
-	public boolean setNom( String nom )
-	{
-		if ( noms_no_permesos.contains( nom ) )
-		{
-			throw new IllegalArgumentException(
-					"No se pueden registrar los nombres de usuarios siguientes: " + noms_no_permesos.toString() );
-		}
-		else
-		{
-			this.nom = nom;
-			return true;
 		}
 	}
 
@@ -77,6 +69,25 @@ public class UsuariHex extends Usuari implements Serializable
 		       ", combinacio colors: " + combinacio_colors + ", temps minim: " + temps_minim +
 		       ", fitxes minimes: " + fitxes_minimes + ", partides guanyades: " + partides_guanyades +
 		       ", partides jugades: " + partides_jugades + "]";
+	}
+
+	public static Set<String> getNomsNoPermesos()
+	{
+		return noms_no_permesos;
+	}
+
+	public boolean setNom( String nom )
+	{
+		if ( noms_no_permesos.contains( nom ) )
+		{
+			throw new IllegalArgumentException(
+					"No se pueden registrar los nombres de usuarios siguientes: " + noms_no_permesos.toString() );
+		}
+		else
+		{
+			this.nom = nom;
+			return true;
+		}
 	}
 
 	/**

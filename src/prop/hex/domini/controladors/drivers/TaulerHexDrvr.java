@@ -3,8 +3,11 @@ package prop.hex.domini.controladors.drivers;
 import prop.cluster.domini.models.estats.EstatCasella;
 import prop.hex.domini.models.TaulerHex;
 
-import java.io.*;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import static prop.hex.domini.controladors.drivers.UtilsDrvr.llegeixEnter;
+import static prop.hex.domini.controladors.drivers.UtilsDrvr.llegeixParaula;
 
 public class TaulerHexDrvr
 {
@@ -21,7 +24,7 @@ public class TaulerHexDrvr
 			while ( opcio != 9 && taulers.size() == 0 )
 			{
 				System.out.println();
-				System.out.println("------------------------------------------------------");
+				System.out.println( "------------------------------------------------------" );
 				System.out.println( "Proves de la clase TaulerHex" );
 				System.out.println( "Escull una opció:" );
 				System.out.println( "1 - Nou tauler" );
@@ -50,7 +53,7 @@ public class TaulerHexDrvr
 			while ( opcio != 9 )
 			{
 				System.out.println();
-				System.out.println("------------------------------------------------------");
+				System.out.println( "------------------------------------------------------" );
 				System.out.println( "Proves de la clase TaulerHex" );
 				System.out.println( "Tauler actual: " + actual );
 				System.out.println( "Escull una opció:" );
@@ -117,7 +120,6 @@ public class TaulerHexDrvr
 			excepcio.printStackTrace();
 			System.exit( 2 );
 		}
-
 	}
 
 	private static void creaNouTauler() throws IOException, NumberFormatException
@@ -265,7 +267,7 @@ public class TaulerHexDrvr
 		while ( opcio != 9 )
 		{
 			System.out.println();
-			System.out.println("------------------------------------------------------");
+			System.out.println( "------------------------------------------------------" );
 			System.out.println( "Propietats del tauler " + actual );
 			System.out.println( "Escull una opció:" );
 			System.out.println();
@@ -375,17 +377,5 @@ public class TaulerHexDrvr
 		{
 			System.out.println( "El tauler actual no és buit" );
 		}
-	}
-
-	private static int llegeixEnter() throws NumberFormatException, IOException
-	{
-		BufferedReader entrada = new BufferedReader( new InputStreamReader( System.in ) );
-		return Integer.parseInt( entrada.readLine() );
-	}
-
-	private static String llegeixParaula() throws IOException
-	{
-		BufferedReader entrada = new BufferedReader( new InputStreamReader( System.in ) );
-		return entrada.readLine();
 	}
 }
