@@ -18,7 +18,7 @@ import static prop.hex.domini.controladors.drivers.UtilsDrvr.llegeixEnter;
  * <p/>
  * Date: 06/11/12
  */
-public final class BaseDrvr
+public final class PrincipalDrvr
 {
 
 	private static final String carpeta_drivers = "./src/prop/hex/domini/controladors/drivers/";
