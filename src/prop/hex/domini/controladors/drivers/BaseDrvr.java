@@ -1,5 +1,7 @@
 package prop.hex.domini.controladors.drivers;
 
+import java.io.File;
+import java.io.FilenameFilter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -30,46 +32,46 @@ public class BaseDrvr
 
 	private static void seleccionaDriverAProvar()
 	{
+		File[] llistat_drivers = obteLlistatFitxers();
+		int iterador_dopcio = 1;
+
 		System.out.println();
 		System.out.println( "------------------------------------------------------" );
 		System.out.println( "Escull un driver a executar: " );
-		System.out.println( "1.- TaulerHexDrvr" );
-		System.out.println( "2.- UsuariGstrDrvr" );
+
+		for ( File driver : llistat_drivers )
+		{
+			System.out.println( iterador_dopcio + ".- " + driver.getName().substring( 0, driver.getName().length() - 5 ) );
+
+			iterador_dopcio++;
+		}
 		System.out.println( "\n9.- Sortir del programa" );
 
-		int opcio = llegeixEnter();
+		int num_driver_a_provar = llegeixEnter();
 
-		switch ( opcio )
+		if ( num_driver_a_provar != 9 )
 		{
-			case 1:
-				try
-				{
-					driver_a_provar = Class.forName( "prop.hex.domini.controladors.drivers.TaulerHexDrvr" );
-					ha_seleccionat_driver = true;
-				}
-				catch ( ClassNotFoundException excepcio )
-				{
-					System.out.println(
-							"[KO]\tNo s'ha trobat la classe prop.hex.domini.controladors.drivers.TaulerHexDrvr" );
-				}
-				break;
-			case 2:
-				try
-				{
-					driver_a_provar = Class.forName( "prop.hex.domini.controladors.drivers.UsuariGstrDrvr" );
-					ha_seleccionat_driver = true;
-				}
-				catch ( ClassNotFoundException excepcio )
-				{
-					System.out.println(
-							"[KO]\tNo s'ha trobat la classe prop.hex.domini.controladors.drivers.UsuariGstrDrvr" );
-				}
-				break;
-			case 9:
-				break;
-			default:
-				System.out.println( "L'opcio " + opcio + " no és una opció vàlida.\n" );
+			String nom_driver_a_provar = llistat_drivers[num_driver_a_provar-1].getName();
+			String path_driver_a_provar = "prop.hex.domini.controladors.drivers." + nom_driver_a_provar.substring(
+					0, nom_driver_a_provar.length()-5 );
+
+			try
+			{
+				driver_a_provar = Class.forName( path_driver_a_provar );
+				ha_seleccionat_driver = true;
+			}
+			catch ( ClassNotFoundException excepcio )
+			{
+				System.out.println( "[KO]\tNo s'ha trobat la classe " + path_driver_a_provar );
+			}
 		}
+	}
+
+	private static File[] obteLlistatFitxers()
+	{
+		File directori_actual = new File( "./src/prop/hex/domini/controladors/drivers/" );
+
+		return directori_actual.listFiles( new FiltratDrivers() );
 	}
 
 	private static void seleccionaMetodesAProvar()
