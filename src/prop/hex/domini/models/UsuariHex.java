@@ -11,18 +11,51 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class UsuariHex extends Usuari implements Serializable
+/**
+ * Classe UsuariHex. S'esté d'Usuari i simplement conté alguns mètodes per el tractament de atributs especifics d'un
+ * Usuari del joc Hex.
+ */
+public final class UsuariHex extends Usuari implements Serializable
 {
 
+	/**
+	 * ID de serialització
+	 */
 	private static final long serialVersionUID = 42L;
 
+	/**
+	 * Mode d'inici de les partides seleccionat per l'usuari com a preferent
+	 */
 	private ModesInici mode_inici;
+
+	/**
+	 * Combinació de colors de les fitxes de les partides seleccionada per l'usuari com a preferent
+	 */
 	private CombinacionsColors combinacio_colors;
+
+	/**
+	 * Temps mínim en guanyar una partida
+	 */
 	private float temps_minim;
+
+	/**
+	 * Fitxes mínimes utilitzades per guanyar una partida
+	 */
 	private int fitxes_minimes;
+
+	/**
+	 * Nombre de partides disputades
+	 */
 	private int partides_jugades;
+
+	/**
+	 * Nombre de partides guanyades
+	 */
 	private int partides_guanyades;
 
+	/**
+	 * Llista de noms d'usuari no permesos.
+	 */
 	private static final Set<String> noms_no_permesos =
 			Collections.unmodifiableSet( new HashSet<String>( Arrays.asList( new String[] {
 					"Maquina_1",
@@ -31,6 +64,14 @@ public class UsuariHex extends Usuari implements Serializable
 					"Usuario_2"
 			} ) ) );
 
+	/**
+	 * Constructora per defecte, tot i que utilitzem la constructora de la classe pare,
+	 * es sobreescriu amb la finalitat de poder comprovar que el nom d'usuari no es tracta d'un nom no permès.
+	 *
+	 * @param nom
+	 * @param contrasenya
+	 * @throws IllegalArgumentException
+	 */
 	public UsuariHex( String nom, String contrasenya ) throws IllegalArgumentException
 	{
 		super( nom, contrasenya );
@@ -56,7 +97,7 @@ public class UsuariHex extends Usuari implements Serializable
 	}
 
 	/**
-	 * Retorna un identificador unic de l'usuari
+	 * Retorna un identificador unic de l'usuari. Utilitzada per guardar a disc el fitxer corresponent de l'usuari.
 	 *
 	 * @return
 	 */
@@ -65,6 +106,12 @@ public class UsuariHex extends Usuari implements Serializable
 		return this.getNom();
 	}
 
+	/**
+	 * Mètode amb la finalitat de poder depurar el programa amb més facilitat. Simplement retorna tots els atributs
+	 * de la classe y els seus corresponents valors.
+	 *
+	 * @return
+	 */
 	public String toString()
 	{
 		return super.toString() + " [Mode inici: " + mode_inici +
@@ -73,11 +120,22 @@ public class UsuariHex extends Usuari implements Serializable
 		       ", partides jugades: " + partides_jugades + "]";
 	}
 
+	/**
+	 * Retorna el llistat de noms d'usuari no permesos
+	 *
+	 * @return
+	 */
 	public static Set<String> getNomsNoPermesos()
 	{
 		return noms_no_permesos;
 	}
 
+	/**
+	 * Estableix el nom d'usuari comprovant que no hi sigui un nom d'usuari no permès.
+	 *
+	 * @param nom
+	 * @return
+	 */
 	public boolean setNom( String nom )
 	{
 		if ( noms_no_permesos.contains( nom ) )
