@@ -285,4 +285,40 @@ public abstract class Tauler implements Serializable
 
 		return true;
 	}
+
+	/**
+	 * Crea un String amb tota la informació del tauler.
+	 *
+	 * @return El String amb la informació completa del tauler.
+	 */
+	public String toString()
+	{
+		String informacio = "[Mida: " + mida + ", num. fitxes jugador A: " + num_fitxes_a + ", " +
+		                    "num. fitxes jugador B: " + num_fitxes_b + ", estat de les caselles:\n";
+
+		for ( EstatCasella[] fila : caselles )
+		{
+			informacio = informacio + "\t";
+			for ( EstatCasella actual : fila )
+			{
+				switch ( actual )
+				{
+					case JUGADOR_A:
+						informacio = informacio + "A";
+						break;
+					case JUGADOR_B:
+						informacio = informacio + "B";
+						break;
+					case BUIDA:
+						informacio = informacio + "·";
+						break;
+				}
+			}
+			informacio = informacio + "\n";
+		}
+
+		informacio = informacio + "]";
+
+		return informacio;
+	}
 }
