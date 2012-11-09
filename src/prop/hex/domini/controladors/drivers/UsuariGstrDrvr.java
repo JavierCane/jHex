@@ -6,55 +6,21 @@ import prop.hex.gestors.UsuariGstr;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import static prop.hex.domini.controladors.drivers.UtilsDrvr.llegeixEnter;
 import static prop.hex.domini.controladors.drivers.UtilsDrvr.llegeixParaula;
 
-public class UsuariGstrDrvr
+/**
+ * Proves dels mètodes de la classe UsuariGstr. No obstant, també s'estaria provant el correcte funcionament de les
+ * classes BaseGstr, UsuariHex i Usuari de forma implícita
+ */
+public final class UsuariGstrDrvr
 {
 
 	/**
-	 * Método principal
+	 * Fa una instancia nova d'UsuariHex amb el nom i contrasenya que se li especifiqui.
 	 *
-	 * @param args
+	 * @return UsuariHex l'Usuari instanciat
 	 */
-	public static void main( String[] args )
-	{
-		int opcio = 0;
-
-		while ( opcio != 9 )
-		{
-			System.out.println();
-			System.out.println( "------------------------------------------------------" );
-			System.out.println( "Proves de la clase UsuariGstr i per tant d'UsuariHex" );
-			System.out.println( "Escull una opció:" );
-			System.out.println( "1 - Instanciació nou UsuariHex" );
-			System.out.println( "2 - Guarda un UsuariHex a disc" );
-			System.out.println( "3 - Carrega un UsuariHex de disc" );
-			System.out.println();
-			System.out.println( "9 - Surt del programa" );
-
-			opcio = llegeixEnter();
-
-			switch ( opcio )
-			{
-				case 1:
-					testInstanciaUsuariHex();
-					break;
-				case 2:
-					testGuardaUsuariHex();
-					break;
-				case 3:
-					testCarregaUsuariHex();
-					break;
-				case 9:
-					break;
-				default:
-					System.out.println( "No és una opció vàlida.\n" );
-			}
-		}
-	}
-
-	private static UsuariHex testInstanciaUsuariHex()
+	public static UsuariHex testInstanciaUsuariHex()
 	{
 		String nom = llegeixParaula( "Escriu el nom de l'usuari a instanciar:\nPer provar casos extrems, " +
 		                             "recorda que els noms no permesos son: \n\t" +
@@ -76,7 +42,10 @@ public class UsuariGstrDrvr
 		}
 	}
 
-	private static void testGuardaUsuariHex()
+	/**
+	 * Primerament crida a testInstanciaUsuariHex per després intentar guardar aquest UsuariHex a disc.
+	 */
+	public static void testGuardaUsuariHex()
 	{
 		UsuariGstr model_usuari = new UsuariGstr();
 
@@ -105,7 +74,10 @@ public class UsuariGstrDrvr
 		}
 	}
 
-	private static void testCarregaUsuariHex()
+	/**
+	 * Carrega un UsuariHex desde disc. Tracta totes les possibles excepcions.
+	 */
+	public static void testCarregaUsuariHex()
 	{
 		UsuariGstr model_usuari = new UsuariGstr();
 
@@ -120,7 +92,7 @@ public class UsuariGstrDrvr
 		}
 		catch ( FileNotFoundException excepcio )
 		{
-			System.out.println( "[KO]\tL'usuari que s'intenta carregar (" + nom_usuari + "), " +
+			System.out.println( "[OK]\tL'usuari que s'intenta carregar (" + nom_usuari + "), " +
 			                    "no existeix al sistema: " + excepcio.getMessage() );
 		}
 		catch ( IOException excepcio )

@@ -5,11 +5,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * Created with IntelliJ IDEA.
- * User: javierferrer
+ * Classe d'utilitats varies usades desde els drivers. Classe completament estàtica.
+ * <p/>
  * Date: 06/11/12
- * Time: 17:00
- * To change this template use File | Settings | File Templates.
  */
 public final class UtilsDrvr
 {
@@ -56,7 +54,7 @@ public final class UtilsDrvr
 		}
 		catch ( IOException excepcio )
 		{
-			System.err.println( "No s'ha pogut llegir la paraula per el buffer d'entrada.");
+			System.err.println( "No s'ha pogut llegir la paraula per el buffer d'entrada." );
 			return "";
 		}
 	}
