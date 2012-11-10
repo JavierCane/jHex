@@ -13,26 +13,46 @@ import java.util.*;
 public class PartidaHex extends Partida implements Serializable
 {
 
-	private static final long serialVersionUID = 2232229330252834467L;
-	private TaulerHex tauler;
-	private ModesInici mode_inici;
-	private CombinacionsColors combinacio_colors;
+	/**
+	 * ID de serialització
+	 */
+	private static final long serialVersionUID = 8177259281250428385L;
 
-	public PartidaHex( Usuari jugador_a, Usuari jugador_b, TaulerHex tauler, String nom,
-	                   CombinacionsColors combinacio_colors, ModesInici mode_inici )
-	{
-		super( jugador_a, jugador_b, tauler, nom );
-		this.tauler = tauler;
-		this.combinacio_colors = combinacio_colors;
-		this.mode_inici = mode_inici;
-	}
-
+	/**
+	 * Màxim de pistes permeses per jugador.
+	 */
 	private final static int max_num_pistes = 3;
 
+	/**
+	 * Diccionari que relaciona els identificadors del usuaris amb la quantitat de pistes usades.
+	 */
 	private HashMap<String, Integer> pistes_usades;
 
+	/**
+	 * Diccionari que relaciona els identificadors dels usuaris amb el seu temps jugat.
+	 */
 	private HashMap<String, Integer> temps_de_joc;
 
+	/**
+	 * Constructora alternativa per partides que no han estat jugades
+	 *
+	 * @param jugador_a   Usuari que farà de jugador A
+	 * @param jugador_b   Usuari que farà de jugador B
+	 * @param mida_tauler Mida del tauler on es desenvoluparà la partida
+	 * @param nom         Nom de la partida
+	 */
+	public PartidaHex( UsuariHex jugador_a, UsuariHex jugador_b, int mida_tauler, String nom )
+	{
+		super( jugador_a, jugador_b, new TaulerHex( mida_tauler ), nom );
+
+		pistes_usades = new HashMap<String, Integer>();
+		pistes_usades.put(jugador_a.getIdentificadorUnic(), 0);
+		pistes_usades.put(jugador_b.getIdentificadorUnic(), 0);
+
+		temps_de_joc = new HashMap<String, Integer>();
+		temps_de_joc.put(jugador_a.getIdentificadorUnic(), 0);
+		temps_de_joc.put(jugador_b.getIdentificadorUnic(), 0);
+	}
 
 	public EstatPartida comprovaEstatPartida( int fila, int columna ) throws IndexOutOfBoundsException
 	{
@@ -145,7 +165,7 @@ public class PartidaHex extends Partida implements Serializable
 	 * @param id_jugador Identificador únic del jugador.
 	 * @return El nombre de pistes utilitzades pel jugador.
 	 * @throws IllegalArgumentException Si el jugador amb l'identificador únic passat com a paràmetre no juga la
-	 * partida.
+	 *                                  partida.
 	 */
 	public int getPistesUsades( String id_jugador ) throws IllegalArgumentException
 	{
@@ -165,7 +185,7 @@ public class PartidaHex extends Partida implements Serializable
 	 * @param id_jugador Identificador únic del jugador.
 	 * @return El temps de joc que el jugador ha utilitzat a la partida.
 	 * @throws IllegalArgumentException Si el jugador amb l'identificador únic passat com a paràmetre no juga la
-	 * partida.
+	 *                                  partida.
 	 */
 	public int getTempsDeJoc( String id_jugador ) throws IllegalArgumentException
 	{
