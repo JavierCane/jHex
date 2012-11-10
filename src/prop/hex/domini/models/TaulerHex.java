@@ -222,13 +222,13 @@ public class TaulerHex extends Tauler
 				switch ( actual )
 				{
 					case JUGADOR_A:
-						informacio = informacio + "A";
+						informacio = informacio + "A ";
 						break;
 					case JUGADOR_B:
-						informacio = informacio + "B";
+						informacio = informacio + "B ";
 						break;
 					case BUIDA:
-						informacio = informacio + "·";
+						informacio = informacio + "· ";
 						break;
 				}
 			}
