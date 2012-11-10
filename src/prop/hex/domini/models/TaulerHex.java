@@ -73,7 +73,7 @@ public class TaulerHex extends Tauler
 		}
 		else if ( caselles[fila][columna] != EstatCasella.BUIDA )
 		{
-			throw new IllegalArgumentException( "El moviment no és vàlid" );
+			return false;
 		}
 		else if ( fitxa == EstatCasella.BUIDA )
 		{
