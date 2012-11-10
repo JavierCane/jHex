@@ -13,74 +13,38 @@ import java.util.*;
 public class PartidaHex extends Partida implements Serializable
 {
 
+	/**
+	 * Tauler de la partida
+	 */
 	private TaulerHex tauler;
-	private ModesInici mode_inici;
-	private CombinacionsColors combinacio_colors;
 
-	public PartidaHex( Usuari jugador_a, Usuari jugador_b, TaulerHex tauler, String nom,
-	                   CombinacionsColors combinacio_colors, ModesInici mode_inici )
+	/**
+	 * Constructora alternativa per partides que no han estat jugades
+	 *
+	 * @param jugador_a Usuari que fa de jugador A
+	 * @param jugador_b Usuari que fa de jugador B
+	 * @param tauler    Tauler on es desenvolupa la partida
+	 * @param nom       Nom de la partida
+	 */
+	public PartidaHex( Usuari jugador_a, Usuari jugador_b, TaulerHex tauler, String nom )
 	{
 		super( jugador_a, jugador_b, tauler, nom );
 		this.tauler = tauler;
-		this.combinacio_colors = combinacio_colors;
-		this.mode_inici = mode_inici;
-	}
-
-	public String toString()
-	{
-		return super.toString() + " [Mode inici: " + mode_inici +
-		       ", combinacio colors:" + combinacio_colors + "]";
 	}
 
 	/**
-	 * Consulta el mode d'inici de la partida que té assignat l'usuari.
+	 * Mètode consultor de l’estat de la partida. Els paràmetres permeten aportar informació a sobre de l’últim moviment
+	 * d’interès realitzat (normalment l’últim realitzat correctament).
 	 *
-	 * @return Un ModeInici corresponent al mode d'inici preferit per l'usuari.
+	 * @param fila    Fila del moviment d'interès
+	 * @param columna Columna del moviment d'interès
+	 * @return L'estat de la partida
+	 * @throws IndexOutOfBoundsException si (fila, columna) no és una coordenada dins dels límits del tauler on es
+	 *                                   desenvolupa la partida
 	 */
-	public ModesInici getModeInici()
-	{
-		return mode_inici;
-	}
-
-	/**
-	 * Modifica el mode d'inici que té assignat l'usuari.
-	 *
-	 * @param mode_inici ModeInici que es vol assignar a l'usuari.
-	 */
-	public boolean setModeInici( ModesInici mode_inici )
-	{
-		this.mode_inici = mode_inici;
-		return true;
-	}
-
-	/**
-	 * Consulta els colors que té assignat l'usuari.
-	 *
-	 * @return Un array de dues posicions amb els dos colors de fitxes preferits per l'usuari.
-	 */
-	public CombinacionsColors getCombinacionsColors()
-	{
-		return combinacio_colors;
-	}
-
-	/**
-	 * Modifica un cert color dels que té assignats l'usuari.
-	 *
-	 * @return Cert si el color es modifica. Fals altrament.
-	 */
-	public boolean setCombinacionsColors( CombinacionsColors combinacio_colors )
-	{
-		this.combinacio_colors = combinacio_colors;
-		return true;
-	}
-
 	public EstatPartida comprovaEstatPartida( int fila, int columna ) throws IndexOutOfBoundsException
 	{
-		if ( !tauler.esCasellaValida( fila, columna ) )
-		{
-			throw new IndexOutOfBoundsException( "Casella fora del tauler" );
-		}
-		else if ( tauler.getEstatCasella( fila, columna ) == EstatCasella.BUIDA )
+		if ( tauler.getEstatCasella( fila, columna ) == EstatCasella.BUIDA )
 		{
 			return EstatPartida.NO_FINALITZADA;
 		}
