@@ -3,11 +3,17 @@ package prop.hex.domini.models;
 import prop.cluster.domini.models.Tauler;
 import prop.cluster.domini.models.estats.EstatCasella;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.LinkedList;
 
-public class TaulerHex extends Tauler
+public class TaulerHex extends Tauler implements Serializable
 {
+
+	/**
+	 * ID de serialització
+	 */
+	private static final long serialVersionUID = 1451699733261138732L;
 
 	/**
 	 * Constructor del tauler. Crea un tauler de la mida desitjada amb totes les caselles buides (EstatCasella.BUIDA).
