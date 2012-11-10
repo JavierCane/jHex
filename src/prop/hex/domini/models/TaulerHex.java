@@ -198,4 +198,46 @@ public class TaulerHex extends Tauler
 	{
 		return getVeins( casella.getFila(), casella.getColumna() );
 	}
+
+	/**
+	 * Crea un String amb tota la informació del tauler.
+	 *
+	 * @return El String amb la informació completa del tauler.
+	 */
+	public String toString()
+	{
+		String informacio = "[Mida: " + mida + ", num. fitxes jugador A: " + num_fitxes_a + ", " +
+		                    "num. fitxes jugador B: " + num_fitxes_b + ", estat de les caselles:\n";
+
+		int espais = 0;
+		for ( EstatCasella[] fila : caselles )
+		{
+			informacio = informacio + "\t";
+			for ( int i = 0; i < espais; i++ )
+			{
+				informacio += " ";
+			}
+			for ( EstatCasella actual : fila )
+			{
+				switch ( actual )
+				{
+					case JUGADOR_A:
+						informacio = informacio + "A";
+						break;
+					case JUGADOR_B:
+						informacio = informacio + "B";
+						break;
+					case BUIDA:
+						informacio = informacio + "·";
+						break;
+				}
+			}
+			informacio = informacio + "\n";
+			espais++;
+		}
+
+		informacio = informacio + "]";
+
+		return informacio;
+	}
 }
