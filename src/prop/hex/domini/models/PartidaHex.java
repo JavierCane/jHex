@@ -16,7 +16,7 @@ public class PartidaHex extends Partida implements Serializable
 	/**
 	 * ID de serialització
 	 */
-	private static final long serialVersionUID = 8177259281250428385L;
+	private static final long serialVersionUID = -3193881780232604048L;
 
 	/**
 	 * Màxim de pistes permeses per jugador.
@@ -167,7 +167,7 @@ public class PartidaHex extends Partida implements Serializable
 	/**
 	 * Consulta el nombre màxim de pistes que es poden utilitzar per jugador i partida.
 	 *
-	 * @return
+	 * @return El nombre màxim de pistes a utilitzar per jugador i partida.
 	 */
 	public static int getMaxNumPistes()
 	{
@@ -221,7 +221,7 @@ public class PartidaHex extends Partida implements Serializable
 	 * @param num_pistes Número de pistes usades pel jugador.
 	 * @return Cert si es modifiquen les pistes. Fals altrament.
 	 * @throws IllegalArgumentException Si el jugador amb l'identificador únic passat com a paràmetre no juga la
-	 *                                  partida, o si el nonbre de pistes és negatiu.
+	 *                                  partida, o si el nombre de pistes és negatiu.
 	 */
 	public boolean setPistesUsades( String id_jugador, int num_pistes ) throws IllegalArgumentException
 	{
@@ -266,7 +266,7 @@ public class PartidaHex extends Partida implements Serializable
 	 * @param temps      Número de pistes usades pel jugador.
 	 * @return Cert si es modifiquen les pistes. Fals altrament.
 	 * @throws IllegalArgumentException Si el jugador amb l'identificador únic passat com a paràmetre no juga la
-	 *                                  partida, o si el temps de joc és negatiu..
+	 *                                  partida, o si el temps de joc és negatiu.
 	 */
 	public boolean setTempsDeJoc( String id_jugador, int temps ) throws IllegalArgumentException
 	{
