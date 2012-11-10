@@ -21,7 +21,7 @@ public class PartidaHex extends Partida implements Serializable
 	                   CombinacionsColors combinacio_colors, ModesInici mode_inici )
 	{
 		super( jugador_a, jugador_b, tauler, nom );
-
+		this.tauler = tauler;
 		this.combinacio_colors = combinacio_colors;
 		this.mode_inici = mode_inici;
 	}
