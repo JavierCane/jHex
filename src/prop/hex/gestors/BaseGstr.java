@@ -6,15 +6,27 @@ import java.io.*;
  * Classe abstracta i parametritzada pel tractament de fitxers.
  * Conte els metodes generics com guardar i carregar objectes del tipus insanciat desde la subcarpeta de dades
  * que especifiqui la classe que hereti d'aqui
- *
+ * <p/>
  * Date: 29/10/12
  */
 public abstract class BaseGstr<T>
 {
 
-	protected String subcarpeta_dades;
+	/**
+	 * Carpeta del sistema de fitxers on es guardaran totes les dades del joc
+	 */
 	private String carpeta_dades = "dat";
+
+	/**
+	 * Extensió dels fitxers de dades
+	 */
 	private String extensio_fitxers = "dat";
+
+	/**
+	 * Subcarpeta del sistema de fitxers, dins de carpeta_dades, per guardar els arxius. Especificada a les
+	 * extensions de BaseGstr
+	 */
+	protected String subcarpeta_dades;
 
 	/**
 	 * Guarda un element_a_guardar de tipus T a la carpeta path_del_programa/carpeta_dades/subcarpeta_dades/ amb nom
@@ -102,7 +114,7 @@ public abstract class BaseGstr<T>
 	 * Comprova si un determinat element existeix
 	 *
 	 * @param nom_element
-	 * @return
+	 * @return boolean Dependenent de si existeix o no l'element buscat tornarà true o false.
 	 */
 	public boolean existeixElement( String nom_element )
 	{

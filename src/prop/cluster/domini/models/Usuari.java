@@ -13,8 +13,22 @@ public abstract class Usuari implements Serializable
 
 	public String toString()
 	{
-		return "[Nom: " + nom + ", contrasenya: " + contrasenya + ", num victories: " + num_victories.toString() +
-		       ", num empats: " + num_empats.toString() + ", num derrotes: " + num_derrotes.toString() + "]";
+		return "[Nom: " + nom + ", contrasenya: " + contrasenya +
+		       ", num victories: " + obteStringDeVector( num_victories ) +
+		       ", num empats: " + obteStringDeVector( num_empats ) +
+		       ", num derrotes: " + obteStringDeVector( num_derrotes ) + "]";
+	}
+
+	private String obteStringDeVector( int[] vector_origen )
+	{
+		String string_resultant = new String();
+
+		for ( int iterador : vector_origen )
+		{
+			string_resultant += vector_origen[iterador] + ", ";
+		}
+
+		return string_resultant.substring( 0, string_resultant.length() - 2 );
 	}
 
 	public Usuari( String nom, String contrasenya ) throws IllegalArgumentException

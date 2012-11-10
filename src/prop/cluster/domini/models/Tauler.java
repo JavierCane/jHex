@@ -71,18 +71,18 @@ public abstract class Tauler implements Serializable
 	/**
 	 * Constructor per còpia. Crea un nou tauler idèntic a original.
 	 *
-	 * @param original
+	 * @param original Tauler que es vol copiar
 	 */
 	public Tauler( Tauler original )
 	{
-		this.mida = original.mida;
-		this.num_fitxes_a = original.num_fitxes_a;
-		this.num_fitxes_b = original.num_fitxes_b;
-		this.caselles = new EstatCasella[this.mida][this.mida];
+		mida = original.mida;
+		num_fitxes_a = original.num_fitxes_a;
+		num_fitxes_b = original.num_fitxes_b;
+		caselles = new EstatCasella[mida][mida];
 
-		for ( int i = 0; i < this.mida; ++i )
+		for ( int i = 0; i < mida; ++i )
 		{
-			System.arraycopy( original.caselles[i], 0, this.caselles[i], 0, this.mida );
+			System.arraycopy( original.caselles[i], 0, caselles[i], 0, mida );
 		}
 	}
 
@@ -287,9 +287,38 @@ public abstract class Tauler implements Serializable
 	}
 
 	/**
-	 * Crea una còpia de l’objecte. Per guardar-lo en un objecte Tauler cal fer un cast.
+	 * Crea un String amb tota la informació del tauler.
 	 *
-	 * @return Una còpia del paràmetre implícit. És equivalent a fer servir el constructor per còpia.
+	 * @return El String amb la informació completa del tauler.
 	 */
-	public abstract Object clone();
+	public String toString()
+	{
+		String informacio = "[Mida: " + mida + ", num. fitxes jugador A: " + num_fitxes_a + ", " +
+		                    "num. fitxes jugador B: " + num_fitxes_b + ", estat de les caselles:\n";
+
+		for ( EstatCasella[] fila : caselles )
+		{
+			informacio = informacio + "\t";
+			for ( EstatCasella actual : fila )
+			{
+				switch ( actual )
+				{
+					case JUGADOR_A:
+						informacio = informacio + "A";
+						break;
+					case JUGADOR_B:
+						informacio = informacio + "B";
+						break;
+					case BUIDA:
+						informacio = informacio + "·";
+						break;
+				}
+			}
+			informacio = informacio + "\n";
+		}
+
+		informacio = informacio + "]";
+
+		return informacio;
+	}
 }

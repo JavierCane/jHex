@@ -3,15 +3,17 @@ package prop.hex.gestors;
 import prop.hex.domini.models.UsuariHex;
 
 /**
- * Created with IntelliJ IDEA.
- * User: javierferrer
+ * Classe per la gestió de la persistència d'UsuariHexs en disc, com s'estén de BaseGstr,
+ * unicament fa falta especificar la subcarpeta on guardar les dades dels usuaris.
+ * <p/>
  * Date: 22/10/12
- * Time: 22:52
- * To change this template use File | Settings | File Templates.
  */
-public class UsuariGstr extends BaseGstr<UsuariHex>
+public final class UsuariGstr extends BaseGstr<UsuariHex>
 {
 
+	/**
+	 * Constructora, simplement especifica la subcarpeta a on guardar els elements de tipus Usuari
+	 */
 	public UsuariGstr()
 	{
 		this.subcarpeta_dades = "usuaris";

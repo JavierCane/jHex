@@ -10,7 +10,7 @@ import java.io.FileFilter;
  * Time: 22:45
  * To change this template use File | Settings | File Templates.
  */
-public class FiltratDrivers implements FileFilter
+public final class FiltratLlistatDrivers implements FileFilter
 {
 
 	@Override
@@ -18,7 +18,7 @@ public class FiltratDrivers implements FileFilter
 	{
 		String nom_fitxer = fitxer.getName();
 
-		return !nom_fitxer.equals( "BaseDrvr.java" ) && !nom_fitxer.equals( "FiltratDrivers.java" ) &&
+		return !nom_fitxer.equals( "PrincipalDrvr.java" ) && !nom_fitxer.equals( "FiltratLlistatDrivers.java" ) &&
 				!nom_fitxer.equals( "UtilsDrvr.java" ) && nom_fitxer.endsWith( ".java" );
 	}
 }
