@@ -72,8 +72,8 @@ public class TaulerHex extends Tauler
 			for ( int i = veins.size() - 1; i >= 0; i-- )
 			{
 				Casella casella = veins.get( i );
-				if ( casella.getFila() < 0 || casella.getFila() > getMida() || casella.getColumna() < 0 ||
-						casella.getColumna() > getMida() )
+				if ( casella.getFila() < 0 || casella.getFila() >= getMida() || casella.getColumna() < 0 ||
+						casella.getColumna() >= getMida() )
 				{
 					veins.remove( i );
 				}

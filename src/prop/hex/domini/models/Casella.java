@@ -38,10 +38,12 @@ public class Casella
 		{
 			return false;
 		}
+
 		if ( o == this )
 		{
 			return true;
 		}
+
 		if ( !( o instanceof Casella ) )
 		{
 			return false;
