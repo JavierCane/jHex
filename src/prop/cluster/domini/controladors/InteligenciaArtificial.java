@@ -8,9 +8,9 @@ import prop.cluster.domini.models.estats.EstatPartida;
 
 /**
  * 
- * La classe <code>InteligenciaArtificial</code> proporciona una implementació estàndard de l'algorisme MiniMax amb
- * l'optimització de poda alfa-beta. Per a més informació sobre el funcionament de l'algorisme poden consultar aquest 
- * <a href=http://www.lsi.upc.edu/~bejar/heuristica/docmin.html>enllaç</a>
+ * La classe <code>InteligenciaArtificial</code> proporciona una implementaciÃ³ estÃ ndard de l'algorisme MiniMax amb
+ * l'optimitzaciÃ³ de poda alfa-beta. Per a mÃ©s informaciÃ³ sobre el funcionament de l'algorisme poden consultar aquest 
+ * <a href=http://www.lsi.upc.edu/~bejar/heuristica/docmin.html>enllaÃ§</a>
  * 
  */
 public abstract class InteligenciaArtificial
@@ -31,32 +31,32 @@ public abstract class InteligenciaArtificial
 	}
 
 	/**
-	 * Avalua un objecte de la classe <code>Tauler</code> seguint l'heurísitca que s'implementi
+	 * Avalua un objecte de la classe <code>Tauler</code> seguint l'heurÃ­sitca que s'implementi
 	 * 
 	 * @param tauler Objecte de la classe <code>Tauler</code> sobre el qual es disputa una partida.
-	 * @param estat_moviment Descriu en quin estat ha quedat <em>tauler</em> en funció de l'últim moviment efectuat
+	 * @param estat_moviment Descriu en quin estat ha quedat <em>tauler</em> en funciÃ³ de l'Ãºltim moviment efectuat
 	 *        sobre aquest.
-	 * @param profunditat És la profunditat a la que s'ha arribat durant l'exploració de les diferents possibilitats de
+	 * @param profunditat Ã‰s la profunditat a la que s'ha arribat durant l'exploraciÃ³ de les diferents possibilitats de
 	 *        moviment. Cada unitat de <em>profunditat</em> representa un torn jugat de la partida.
 	 * @param fitxa_jugador Indica el jugador de la partida a partir del qual avaluar <em>tauler</em>.
-	 * @return Un enter indicant l'avaulació de <em>tauler</em>.
+	 * @return Un enter indicant l'avaulaciÃ³ de <em>tauler</em>.
 	 */
 	public abstract int funcioAvaluacio( Tauler tauler, EstatPartida estat_moviment, int profunditat,
 			EstatCasella fitxa_jugador );
 
 	/**
-	 * Donada una partida amb una certa situació i la fitxa del jugador que ha de moure durant el torn actual, calcula
-	 * quina és la millor posició del tauler on realitzar el següent moviment, seguint l'algorisme MiniMax. Com que per
-	 * aconseguir aquest càlcul és necessari generar una estructura arbòria on cada nivell representa el pròxim torn i,
-	 * dins d'un mateix nivell, es generen tots els possibles moviments vàlids a realtzar, també cal donar un límit que
+	 * Donada una partida amb una certa situaciÃ³ i la fitxa del jugador que ha de moure durant el torn actual, calcula
+	 * quina Ã©s la millor posiciÃ³ del tauler on realitzar el segÃ¼ent moviment, seguint l'algorisme MiniMax. Com que per
+	 * aconseguir aquest cÃ lcul Ã©s necessari generar una estructura arbÃ²ria on cada nivell representa el prÃ²xim torn i,
+	 * dins d'un mateix nivell, es generen tots els possibles moviments vÃ lids a realtzar, tambÃ© cal donar un lÃ­mit que
 	 * trunqui la cerca, per evitar que el cost temporal de l'algorisme MiniMax augmenti exponencialment.
 	 * 
 	 * @param partida Objecte de la classe <code>Partida</code> que representa la partida actual en joc.
 	 * @param estat_casella Representa la fitxa del jugador que ha de disputar el torn actual de la partida.
-	 * @param profunditat_maxima Representa el nivell límit en la cerca arbòria del moviment òptim.
-	 * @return La posició òptima on el jugador amb fitxes <em>fitxa_jugador</em> ha de fer el seu moviment el seu torn
-	 *         a <em>partida</em>. La posició ve representada per les seves dues coordenades (número de fila i número
-	 *         col·lumna).
+	 * @param profunditat_maxima Representa el nivell lÃ­mit en la cerca arbÃ²ria del moviment Ã²ptim.
+	 * @return La posiciÃ³ Ã²ptima on el jugador amb fitxes <em>fitxa_jugador</em> ha de fer el seu moviment el seu torn
+	 *         a <em>partida</em>. La posiciÃ³ ve representada per les seves dues coordenades (nÃºmero de fila i nÃºmero
+	 *         colÂ·lumna).
 	 */
 
 	public int[] minimax( Partida partida, EstatCasella estat_casella, int profunditat_maxima )
@@ -99,21 +99,21 @@ public abstract class InteligenciaArtificial
 	}
 
 	/**
-	 * Mètode privat i recursiu que genera tots els possibles moviments d'un torn en una certa partida. De tots els
-	 * moviments, se selecciona el més favorable als interessos del jugador controlat per l'algorisme MiniMax, que a la
-	 * vegada és el més desfavorable als interessos del seu oponent.
+	 * MÃ¨tode privat i recursiu que genera tots els possibles moviments d'un torn en una certa partida. De tots els
+	 * moviments, se selecciona el mÃ©s favorable als interessos del jugador controlat per l'algorisme MiniMax, que a la
+	 * vegada Ã©s el mÃ©s desfavorable als interessos del seu oponent.
 	 * 
 	 * @param partida Objecte de la classe <code>Partida</code> que representa la partida actual en joc.
 	 * @param estat_partida Indica en quin estat es troba actualment <em>partida</em>
-	 * @param alfa Valor de la millor opció (el més alt) que s'ha trobat fins al moment durant la cerca de l'arbre pel
+	 * @param alfa Valor de la millor opciÃ³ (el mÃ©s alt) que s'ha trobat fins al moment durant la cerca de l'arbre pel
 	 *        jugador controlat per l'algorisme MiniMax.
-	 * @param beta Valor de la millor opció (el més baix) que s'ha trobat fins al moment durant la cerca de l'arbre per
+	 * @param beta Valor de la millor opciÃ³ (el mÃ©s baix) que s'ha trobat fins al moment durant la cerca de l'arbre per
 	 *        l'oponent del jugador controlat per l'algorisme MiniMax.
 	 * @param estat_casella Representa la fitxa del jugador que ha de disputar el torn actual de la partida.
-	 * @param profunditat Representa el nivell actual d'exploració en l'àrbre de moviments generat.
-	 * @param profunditat_maxima Representa el nivell límit en la cerca arbòria del moviment òptim.
+	 * @param profunditat Representa el nivell actual d'exploraciÃ³ en l'Ã rbre de moviments generat.
+	 * @param profunditat_maxima Representa el nivell lÃ­mit en la cerca arbÃ²ria del moviment Ã²ptim.
 	 * @param fitxa_jugador Indica el jugador de la partida controlat per l'algorisme MiniMax.
-	 * @return Valor de la millor opció (el més alt) un cop generat tots els possibles moviments pel torn on es troba
+	 * @return Valor de la millor opciÃ³ (el mÃ©s alt) un cop generat tots els possibles moviments pel torn on es troba
 	 *         <em>partida</em>.
 	 */
 	private int valorMax( Partida partida, EstatPartida estat_partida, int alfa, int beta,
@@ -153,21 +153,21 @@ public abstract class InteligenciaArtificial
 	}
 
 	/**
-	 * Mètode privat i recursiu que genera tots els possibles moviments d'un torn en una certa partida. De tots els
-	 * moviments, se selecciona el més favorable als interessos de l'oponent, que a la vegada és el més desfavorable
+	 * MÃ¨tode privat i recursiu que genera tots els possibles moviments d'un torn en una certa partida. De tots els
+	 * moviments, se selecciona el mÃ©s favorable als interessos de l'oponent, que a la vegada Ã©s el mÃ©s desfavorable
 	 * pel jugador controlat per l'algorisme MiniMax.
 	 *
 	 * @param partida Objecte de la classe <code>Partida</code> que representa la partida actual en joc.
 	 * @param estat_partida Indica en quin estat es troba actualment <em>partida</em>
-	 * @param alfa Valor de la millor opció (el més alt) que s'ha trobat fins al moment durant la cerca de l'arbre pel
+	 * @param alfa Valor de la millor opciÃ³ (el mÃ©s alt) que s'ha trobat fins al moment durant la cerca de l'arbre pel
 	 *        jugador controlat per l'algorisme MiniMax.
-	 * @param beta Valor de la millor opció (el més baix) que s'ha trobat fins al moment durant la cerca de l'arbre per
+	 * @param beta Valor de la millor opciÃ³ (el mÃ©s baix) que s'ha trobat fins al moment durant la cerca de l'arbre per
 	 *        l'oponent del jugador controlat per l'algorisme MiniMax.
 	 * @param estat_casella Representa la fitxa del jugador que ha de disputar el torn actual de la partida.
-	 * @param profunditat Representa el nivell actual d'exploració en l'àrbre de moviments generat.
-	 * @param profunditat_maxima Representa el nivell límit en la cerca arbòria del moviment òptim.
+	 * @param profunditat Representa el nivell actual d'exploraciÃ³ en l'Ã rbre de moviments generat.
+	 * @param profunditat_maxima Representa el nivell lÃ­mit en la cerca arbÃ²ria del moviment Ã²ptim.
 	 * @param fitxa_jugador Indica el jugador de la partida controlat per l'algorisme MiniMax.
-	 * @return Valor de la millor opció (el més baix) un cop generat tots els possibles moviments pel torn on es troba
+	 * @return Valor de la millor opciÃ³ (el mÃ©s baix) un cop generat tots els possibles moviments pel torn on es troba
 	 *         <em>partida</em>.
 	 */
 	private int valorMin( Partida partida, EstatPartida estat_partida, int alfa, int beta, 
