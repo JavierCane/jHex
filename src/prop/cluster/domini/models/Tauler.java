@@ -17,6 +17,10 @@ public abstract class Tauler implements Serializable
 {
 
 	/**
+	 * ID de serialització
+	 */
+	protected static final long serialVersionUID = -5164043591978437849L;
+	/**
 	 * La mida del tauler
 	 */
 	protected int mida;
