@@ -13,6 +13,7 @@ import java.util.*;
 public class PartidaHex extends Partida implements Serializable
 {
 
+	private static final long serialVersionUID = 2232229330252834467L;
 	private TaulerHex tauler;
 	private ModesInici mode_inici;
 	private CombinacionsColors combinacio_colors;
@@ -26,53 +27,12 @@ public class PartidaHex extends Partida implements Serializable
 		this.mode_inici = mode_inici;
 	}
 
-	public String toString()
-	{
-		return super.toString() + " [Mode inici: " + mode_inici +
-		       ", combinacio colors:" + combinacio_colors + "]";
-	}
+	private final static int max_num_pistes = 3;
 
-	/**
-	 * Consulta el mode d'inici de la partida que té assignat l'usuari.
-	 *
-	 * @return Un ModeInici corresponent al mode d'inici preferit per l'usuari.
-	 */
-	public ModesInici getModeInici()
-	{
-		return mode_inici;
-	}
+	private HashMap<String, Integer> pistes_usades;
 
-	/**
-	 * Modifica el mode d'inici que té assignat l'usuari.
-	 *
-	 * @param mode_inici ModeInici que es vol assignar a l'usuari.
-	 */
-	public boolean setModeInici( ModesInici mode_inici )
-	{
-		this.mode_inici = mode_inici;
-		return true;
-	}
+	private HashMap<String, Integer> temps_de_joc;
 
-	/**
-	 * Consulta els colors que té assignat l'usuari.
-	 *
-	 * @return Un array de dues posicions amb els dos colors de fitxes preferits per l'usuari.
-	 */
-	public CombinacionsColors getCombinacionsColors()
-	{
-		return combinacio_colors;
-	}
-
-	/**
-	 * Modifica un cert color dels que té assignats l'usuari.
-	 *
-	 * @return Cert si el color es modifica. Fals altrament.
-	 */
-	public boolean setCombinacionsColors( CombinacionsColors combinacio_colors )
-	{
-		this.combinacio_colors = combinacio_colors;
-		return true;
-	}
 
 	public EstatPartida comprovaEstatPartida( int fila, int columna ) throws IndexOutOfBoundsException
 	{
@@ -104,7 +64,7 @@ public class PartidaHex extends Partida implements Serializable
 			while ( cua_bfs.peek() != null )
 			{
 				Casella actual = cua_bfs.remove();
-				List<Casella> veins = tauler.getVeins( actual.getFila(), actual.getColumna() );
+				List<Casella> veins = ( ( TaulerHex ) tauler ).getVeins( actual.getFila(), actual.getColumna() );
 
 				for ( int i = 0; i < veins.size(); i++ )
 				{
@@ -173,5 +133,70 @@ public class PartidaHex extends Partida implements Serializable
 			}
 		}
 	}
-}
 
+	public static int getMaxNumPistes()
+	{
+		return max_num_pistes;
+	}
+
+	/**
+	 * Consulta el nombre de pistes usades d'un jugador
+	 *
+	 * @param id_jugador Identificador únic del jugador.
+	 * @return El nombre de pistes utilitzades pel jugador.
+	 * @throws IllegalArgumentException Si el jugador amb l'identificador únic passat com a paràmetre no juga la
+	 * partida.
+	 */
+	public int getPistesUsades( String id_jugador ) throws IllegalArgumentException
+	{
+		if ( !pistes_usades.containsKey( id_jugador ) )
+		{
+			throw new IllegalArgumentException( "El jugador no juga la partida." );
+		}
+		else
+		{
+			return pistes_usades.get( id_jugador );
+		}
+	}
+
+	/**
+	 * Consulta el temps de joc d'un jugador.
+	 *
+	 * @param id_jugador Identificador únic del jugador.
+	 * @return El temps de joc que el jugador ha utilitzat a la partida.
+	 * @throws IllegalArgumentException Si el jugador amb l'identificador únic passat com a paràmetre no juga la
+	 * partida.
+	 */
+	public int getTempsDeJoc( String id_jugador ) throws IllegalArgumentException
+	{
+		if ( !temps_de_joc.containsKey( id_jugador ) )
+		{
+			throw new IllegalArgumentException( "El jugador no juga la partida." );
+		}
+		else
+		{
+			return temps_de_joc.get( id_jugador );
+		}
+	}
+
+	/**
+	 * Modifica les pistes usades per l'usuari amb id_jugador
+	 *
+	 * @param id_jugador Identificador únic del jugador
+	 * @param num_pistes Número de pistes usades pel jugador
+	 * @return Cert si es modifiquen les pistes. Fals altrament.
+	 * @throws IllegalArgumentException
+	 */
+	public boolean setPistesUsades( String id_jugador, int num_pistes ) throws IllegalArgumentException
+	{
+		if ( !pistes_usades.containsKey( id_jugador ) )
+		{
+			throw new IllegalArgumentException( "El jugador no juga la partida." );
+		}
+		else
+		{
+			pistes_usades.put( id_jugador, num_pistes );
+			return true;
+		}
+	}
+}
