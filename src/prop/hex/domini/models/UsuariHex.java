@@ -21,7 +21,7 @@ public final class UsuariHex extends Usuari implements Serializable
 	/**
 	 * ID de serialització
 	 */
-	private static final long serialVersionUID = 42L;
+	private static final long serialVersionUID = -2893672483693919721L;
 
 	/**
 	 * Mode d'inici de les partides seleccionat per l'usuari com a preferent
