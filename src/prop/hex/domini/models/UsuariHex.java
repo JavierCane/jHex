@@ -21,7 +21,7 @@ public final class UsuariHex extends Usuari implements Serializable
 	/**
 	 * ID de serialització
 	 */
-	private static final long serialVersionUID = 42L;
+	private static final long serialVersionUID = -2893672483693919721L;
 
 	/**
 	 * Mode d'inici de les partides seleccionat per l'usuari com a preferent
@@ -74,7 +74,7 @@ public final class UsuariHex extends Usuari implements Serializable
 	 */
 	public UsuariHex( String nom, String contrasenya ) throws IllegalArgumentException
 	{
-		super( nom, contrasenya, 1 );
+		super( nom, contrasenya, Dificultats.num_dificultats );
 
 		if ( noms_no_permesos.contains( nom ) )
 		{
@@ -83,16 +83,12 @@ public final class UsuariHex extends Usuari implements Serializable
 		}
 		else
 		{
-			num_derrotes = new int[Dificultats.num_dificultats];
-			num_empats = new int[Dificultats.num_dificultats];
-			num_victories = new int[Dificultats.num_dificultats];
-
 			mode_inici = ModesInici.ESTANDARD;
 			combinacio_colors = CombinacionsColors.VERMELL_BLAU;
 			temps_minim = Float.POSITIVE_INFINITY;
 			fitxes_minimes = Integer.MAX_VALUE;
-			partides_guanyades = 0;
 			partides_jugades = 0;
+			partides_guanyades = 0;
 		}
 	}
 

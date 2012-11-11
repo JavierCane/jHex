@@ -3,11 +3,17 @@ package prop.hex.domini.models;
 import prop.cluster.domini.models.Tauler;
 import prop.cluster.domini.models.estats.EstatCasella;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.LinkedList;
 
-public class TaulerHex extends Tauler
+public class TaulerHex extends Tauler implements Serializable
 {
+
+	/**
+	 * ID de serialització
+	 */
+	private static final long serialVersionUID = 1451699733261138732L;
 
 	/**
 	 * Constructor del tauler. Crea un tauler de la mida desitjada amb totes les caselles buides (EstatCasella.BUIDA).
@@ -197,5 +203,47 @@ public class TaulerHex extends Tauler
 	public List<Casella> getVeins( Casella casella ) throws IndexOutOfBoundsException
 	{
 		return getVeins( casella.getFila(), casella.getColumna() );
+	}
+
+	/**
+	 * Crea un String amb tota la informació del tauler.
+	 *
+	 * @return El String amb la informació completa del tauler.
+	 */
+	public String toString()
+	{
+		String informacio = "[Mida: " + mida + ", num. fitxes jugador A: " + num_fitxes_a + ", " +
+		                    "num. fitxes jugador B: " + num_fitxes_b + ", estat de les caselles:\n";
+
+		int espais = 0;
+		for ( EstatCasella[] fila : caselles )
+		{
+			informacio = informacio + "\t";
+			for ( int i = 0; i < espais; i++ )
+			{
+				informacio += " ";
+			}
+			for ( EstatCasella actual : fila )
+			{
+				switch ( actual )
+				{
+					case JUGADOR_A:
+						informacio = informacio + "A ";
+						break;
+					case JUGADOR_B:
+						informacio = informacio + "B ";
+						break;
+					case BUIDA:
+						informacio = informacio + "· ";
+						break;
+				}
+			}
+			informacio = informacio + "\n";
+			espais++;
+		}
+
+		informacio = informacio + "]";
+
+		return informacio;
 	}
 }
