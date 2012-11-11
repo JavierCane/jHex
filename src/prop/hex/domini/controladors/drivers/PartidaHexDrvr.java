@@ -1,8 +1,10 @@
 package prop.hex.domini.controladors.drivers;
 
+import prop.cluster.domini.models.estats.EstatCasella;
 import prop.cluster.domini.models.estats.EstatPartida;
 import prop.hex.domini.models.Jugador;
 import prop.hex.domini.models.PartidaHex;
+import prop.hex.domini.models.TaulerHex;
 import prop.hex.domini.models.UsuariHex;
 
 import java.util.ArrayList;
@@ -55,8 +57,8 @@ public final class PartidaHexDrvr
 
 			if ( num < 0 || num >= partides.size() )
 			{
-				System.out.println( "[KO]\tLa partida seleccionat no existeix. No es canvia de partida.\n\tLa " +
-						"partidar actual és: " + actual );
+				System.out.println( "[KO]\tLa partida seleccionada no existeix. No es canvia de partida.\n\tLa " +
+						"partida actual és: " + actual );
 			}
 			else
 			{
@@ -71,6 +73,102 @@ public final class PartidaHexDrvr
 			System.out.println( "[KO]\tNo existeix cap partida!" );
 		}
 
+	}
+
+	/**
+	 * Seleciona un tauler per a la partida d'entre tres taulers predefinits.
+	 */
+	public static void seleccionaTauler()
+	{
+		if ( partides.size() > 0 )
+		{
+			System.out.println( "Escriu el número de tauler que vols (entre 0 i 2):" );
+
+			int num = llegeixEnter();
+
+			if ( num < 0 || num > 2 )
+			{
+				System.out.println( "[KO]\tEl tauler seleccionat no existeix. No es modifica el tauler de la " +
+						"partida." );
+			}
+			else
+			{
+				switch ( num )
+				{
+					case 0:
+						int mida = partides.get( actual ).getTauler().getMida();
+						for ( int columna = 0; columna < mida; columna++ )
+						{
+							for ( int fila = 0; fila < mida; fila++ )
+							{
+								if ( partides.get( actual ).getTauler().getEstatCasella( fila,
+										columna ) != EstatCasella.BUIDA )
+								{
+									partides.get( actual ).getTauler().treuFitxa( fila, columna );
+								}
+							}
+						}
+						break;
+					case 1:
+						mida = partides.get( actual ).getTauler().getMida();
+						for ( int columna = 0; columna < mida; columna++ )
+						{
+							for ( int fila = 0; fila < mida; fila++ )
+							{
+								if ( partides.get( actual ).getTauler().getEstatCasella( fila,
+										columna ) != EstatCasella.BUIDA )
+								{
+									partides.get( actual ).getTauler().treuFitxa( fila, columna );
+								}
+							}
+						}
+						for ( int columna = 0; columna < mida; columna++ )
+						{
+							for ( int fila = 0; fila < mida; fila++ )
+							{
+								if ( fila == 0 )
+								{
+									partides.get( actual ).getTauler().mouFitxa( EstatCasella.JUGADOR_B, fila,
+											columna );
+								}
+							}
+						}
+						break;
+					case 2:
+						mida = partides.get( actual ).getTauler().getMida();
+						for ( int columna = 0; columna < mida; columna++ )
+						{
+							for ( int fila = 0; fila < mida; fila++ )
+							{
+								if ( partides.get( actual ).getTauler().getEstatCasella( fila,
+										columna ) != EstatCasella.BUIDA )
+								{
+									partides.get( actual ).getTauler().treuFitxa( fila, columna );
+								}
+							}
+						}
+						for ( int columna = 0; columna < mida; columna++ )
+						{
+							for ( int fila = 0; fila < mida; fila++ )
+							{
+								if ( columna == 0 )
+								{
+									partides.get( actual ).getTauler().mouFitxa( EstatCasella.JUGADOR_A, fila,
+											columna );
+								}
+							}
+						}
+						break;
+				}
+				System.out.println( "[OK]\tS'ha modificat correctament el tauler de la partida. El tauler actual " +
+						"és:\n" + ( ( TaulerHex ) ( partides.get( actual ).getTauler() ) ).toString() );
+			}
+			;
+		}
+		else
+		{
+			System.out.println( "[KO]\tNo existeix cap partida!" );
+		}
 	}
 
 	/**

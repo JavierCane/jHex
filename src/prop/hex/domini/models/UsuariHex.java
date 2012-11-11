@@ -74,7 +74,7 @@ public final class UsuariHex extends Usuari implements Serializable
 	 */
 	public UsuariHex( String nom, String contrasenya ) throws IllegalArgumentException
 	{
-		super( nom, contrasenya );
+		super( nom, contrasenya, 1 );
 
 		if ( noms_no_permesos.contains( nom ) )
 		{

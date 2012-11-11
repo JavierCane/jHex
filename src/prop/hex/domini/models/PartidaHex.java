@@ -111,6 +111,7 @@ public class PartidaHex extends Partida implements Serializable
 			boolean costat1 = false;
 			boolean costat2 = false;
 
+
 			if ( estat == EstatCasella.JUGADOR_A )
 			{
 				for ( int i = 0; i < tauler.getMida(); i++ )
@@ -142,7 +143,7 @@ public class PartidaHex extends Partida implements Serializable
 				}
 			}
 
-			if ( !costat1 && !costat2 )
+			if ( costat1 && costat2 )
 			{
 				if ( estat == EstatCasella.JUGADOR_A )
 				{
