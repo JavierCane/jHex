@@ -86,13 +86,13 @@ public final class UsuariHex extends Usuari implements Serializable
 			throw new IllegalArgumentException(
 					"No es poden enregistrar els següents noms d'usuari: " + noms_no_permesos.toString() );
 		}
+		else if ( !nom.matches( caracters_permesos ) )
+		{
+			throw new IllegalArgumentException(
+					"El nom de l'usuari només pot contenir caràcters alfanumèrics i guions baixos." );
+		}
 		else
 		{
-			if ( !nom.matches( caracters_permesos ) )
-			{
-				throw new IllegalArgumentException(
-						"El nom de l'usuari només pot contenir caràcters alfanumèrics i guions baixos." );
-			}
 
 			mode_inici = ModesInici.ESTANDARD;
 			combinacio_colors = CombinacionsColors.VERMELL_BLAU;
@@ -108,6 +108,7 @@ public final class UsuariHex extends Usuari implements Serializable
 	 *
 	 * @return
 	 */
+
 	public String getIdentificadorUnic()
 	{
 		return this.getNom();
