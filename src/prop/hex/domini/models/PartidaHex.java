@@ -33,22 +33,22 @@ public class PartidaHex extends Partida implements Serializable
 	/**
 	 * Constructora alternativa per partides que no han estat jugades
 	 *
-	 * @param jugador_a   Usuari que farà de jugador A
-	 * @param jugador_b   Usuari que farà de jugador B
-	 * @param mida_tauler Mida del tauler on es desenvoluparà la partida
-	 * @param nom         Nom de la partida
+	 * @param jugador_a Usuari que farà de jugador A
+	 * @param jugador_b Usuari que farà de jugador B
+	 * @param tauler    Tauler on es desenvoluparà la partida
+	 * @param nom       Nom de la partida
 	 */
-	public PartidaHex( UsuariHex jugador_a, UsuariHex jugador_b, int mida_tauler, String nom )
+	public PartidaHex( UsuariHex jugador_a, UsuariHex jugador_b, TaulerHex tauler, String nom )
 	{
-		super( jugador_a, jugador_b, new TaulerHex( mida_tauler ), nom );
+		super( jugador_a, jugador_b, tauler, nom );
 
 		pistes_usades = new HashMap<String, Integer>();
-		pistes_usades.put(jugador_a.getIdentificadorUnic(), 0);
-		pistes_usades.put(jugador_b.getIdentificadorUnic(), 0);
+		pistes_usades.put( jugador_a.getIdentificadorUnic(), 0 );
+		pistes_usades.put( jugador_b.getIdentificadorUnic(), 0 );
 
 		temps_de_joc = new HashMap<String, Integer>();
-		temps_de_joc.put(jugador_a.getIdentificadorUnic(), 0);
-		temps_de_joc.put(jugador_b.getIdentificadorUnic(), 0);
+		temps_de_joc.put( jugador_a.getIdentificadorUnic(), 0 );
+		temps_de_joc.put( jugador_b.getIdentificadorUnic(), 0 );
 	}
 
 	/**

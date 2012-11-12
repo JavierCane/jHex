@@ -2,13 +2,11 @@ package prop.hex.domini.controladors.drivers;
 
 import prop.cluster.domini.models.estats.EstatCasella;
 import prop.cluster.domini.models.estats.EstatPartida;
-import prop.hex.domini.models.Jugador;
 import prop.hex.domini.models.PartidaHex;
 import prop.hex.domini.models.TaulerHex;
 import prop.hex.domini.models.UsuariHex;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static prop.hex.domini.controladors.drivers.UtilsDrvr.llegeixEnter;
 import static prop.hex.domini.controladors.drivers.UtilsDrvr.llegeixParaula;
@@ -37,10 +35,10 @@ public final class PartidaHexDrvr
 		int mida = llegeixEnter( "Introdueix la mida del tauler a utilitzar en la partida:" );
 		String nom = llegeixParaula( "Introdueix el nom de la partida:" );
 		partides.add( new PartidaHex( new UsuariHex( "Jugador 1", "111" ), new UsuariHex( "Jugador 2", "222" ),
-				mida, nom ) );
+				new TaulerHex( mida ), nom ) );
 		actual = partides.size() - 1;
 		System.out.println( "[OK]\tS'ha instanciat la partida amb èxit.\n\tLa partida actual és: " + actual + "" +
-				".\n\tLes seves característiques són:\n" + partides.get( actual ).toString() );
+		                    ".\n\tLes seves característiques són:\n" + partides.get( actual ).toString() );
 	}
 
 	/**
@@ -50,22 +48,23 @@ public final class PartidaHexDrvr
 	{
 		if ( partides.size() > 0 )
 		{
-			System.out.println( "Escriu el número de la partida que vols (entre 0 i " + Integer.toString( partides
-					.size() - 1 ) + ")" +
+			System.out.println(
+					"Escriu el número de la partida que vols (entre 0 i " + Integer.toString( partides.size() - 1 ) +
+					")" +
 					":" );
 			int num = llegeixEnter();
 
 			if ( num < 0 || num >= partides.size() )
 			{
 				System.out.println( "[KO]\tLa partida seleccionada no existeix. No es canvia de partida.\n\tLa " +
-						"partida actual és: " + actual );
+				                    "partida actual és: " + actual );
 			}
 			else
 			{
 				actual = num;
 				System.out.println( "[OK]\tS'ha canviat de partida amb èxit.\n\tLa partida actual és: " + actual +
-						".\n\t" +
-						"Les seves característiques són:\n" + partides.get( actual ).toString() );
+				                    ".\n\t" +
+				                    "Les seves característiques són:\n" + partides.get( actual ).toString() );
 			}
 		}
 		else
@@ -88,8 +87,8 @@ public final class PartidaHexDrvr
 
 			if ( num < 0 || num > 2 )
 			{
-				System.out.println( "[KO]\tEl tauler seleccionat no existeix. No es modifica el tauler de la " +
-						"partida." );
+				System.out.println(
+						"[KO]\tEl tauler seleccionat no existeix. No es modifica el tauler de la " + "partida." );
 			}
 			else
 			{
@@ -101,8 +100,8 @@ public final class PartidaHexDrvr
 						{
 							for ( int fila = 0; fila < mida; fila++ )
 							{
-								if ( partides.get( actual ).getTauler().getEstatCasella( fila,
-										columna ) != EstatCasella.BUIDA )
+								if ( partides.get( actual ).getTauler().getEstatCasella( fila, columna ) !=
+								     EstatCasella.BUIDA )
 								{
 									partides.get( actual ).getTauler().treuFitxa( fila, columna );
 								}
@@ -115,8 +114,8 @@ public final class PartidaHexDrvr
 						{
 							for ( int fila = 0; fila < mida; fila++ )
 							{
-								if ( partides.get( actual ).getTauler().getEstatCasella( fila,
-										columna ) != EstatCasella.BUIDA )
+								if ( partides.get( actual ).getTauler().getEstatCasella( fila, columna ) !=
+								     EstatCasella.BUIDA )
 								{
 									partides.get( actual ).getTauler().treuFitxa( fila, columna );
 								}
@@ -128,8 +127,8 @@ public final class PartidaHexDrvr
 							{
 								if ( fila == 0 )
 								{
-									partides.get( actual ).getTauler().mouFitxa( EstatCasella.JUGADOR_B, fila,
-											columna );
+									partides.get( actual ).getTauler()
+											.mouFitxa( EstatCasella.JUGADOR_B, fila, columna );
 								}
 							}
 						}
@@ -140,8 +139,8 @@ public final class PartidaHexDrvr
 						{
 							for ( int fila = 0; fila < mida; fila++ )
 							{
-								if ( partides.get( actual ).getTauler().getEstatCasella( fila,
-										columna ) != EstatCasella.BUIDA )
+								if ( partides.get( actual ).getTauler().getEstatCasella( fila, columna ) !=
+								     EstatCasella.BUIDA )
 								{
 									partides.get( actual ).getTauler().treuFitxa( fila, columna );
 								}
@@ -153,15 +152,15 @@ public final class PartidaHexDrvr
 							{
 								if ( columna == 0 )
 								{
-									partides.get( actual ).getTauler().mouFitxa( EstatCasella.JUGADOR_A, fila,
-											columna );
+									partides.get( actual ).getTauler()
+											.mouFitxa( EstatCasella.JUGADOR_A, fila, columna );
 								}
 							}
 						}
 						break;
 				}
 				System.out.println( "[OK]\tS'ha modificat correctament el tauler de la partida. El tauler actual " +
-						"és:\n" + ( ( TaulerHex ) ( partides.get( actual ).getTauler() ) ).toString() );
+				                    "és:\n" + ( ( TaulerHex ) ( partides.get( actual ).getTauler() ) ).toString() );
 			}
 			;
 		}
@@ -186,7 +185,7 @@ public final class PartidaHexDrvr
 			{
 				EstatPartida estat_partida = partides.get( actual ).comprovaEstatPartida( fila, columna );
 				System.out.println( "[OK]\tS'ha calculat correctament l'estat de la partida, " +
-						"que és: " + estat_partida + "." );
+				                    "que és: " + estat_partida + "." );
 			}
 			catch ( IndexOutOfBoundsException excepcio )
 			{
@@ -206,23 +205,23 @@ public final class PartidaHexDrvr
 	{
 		if ( partides.size() > 0 )
 		{
-			String jugador = llegeixParaula( "Escriu l'identificador únic del jugador al que vols incrementar les "
-					+ "pistes:" );
+			String jugador = llegeixParaula(
+					"Escriu l'identificador únic del jugador al que vols incrementar les " + "pistes:" );
 
 			try
 			{
 				partides.get( actual ).incrementaPistesUsades( jugador );
 				System.out.println( "[OK]\tS'han incrementat correctament les pistes usades del jugador amb " +
-						"identificador únic " + jugador + "." );
+				                    "identificador únic " + jugador + "." );
 			}
 			catch ( IllegalArgumentException excepcio )
 			{
 				System.out.println( "[KO]\tNo s'han pogut incrementar correctament les pistes del jugador amb " +
-						"identificador únic " + jugador + ": " + excepcio.getMessage() );
+				                    "identificador únic " + jugador + ": " + excepcio.getMessage() );
 			}
 
 			System.out.println( "\tEl nombre de pistes actuals del jugador amb identificador únic " + jugador + " " +
-					"és: " + partides.get( actual ).getPistesUsades( jugador ) );
+			                    "és: " + partides.get( actual ).getPistesUsades( jugador ) );
 		}
 		else
 		{
