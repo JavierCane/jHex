@@ -104,10 +104,11 @@ public final class UsuariHex extends Usuari implements Serializable
 			{
 				if ( nom.contains( cadena ) )
 				{
-					throw new IllegalArgumentException(
-							"Els noms d'usuari no poden contenir els caràcters" + caracters_no_permesos.toString() );
+					throw new IllegalArgumentException( "Els noms d'usuari no poden contenir els conjunts de " +
+					                                    "caràcters següents:" + caracters_no_permesos.toString() );
 				}
 			}
+
 			mode_inici = ModesInici.ESTANDARD;
 			combinacio_colors = CombinacionsColors.VERMELL_BLAU;
 			temps_minim = Float.POSITIVE_INFINITY;

@@ -31,6 +31,23 @@ public class PartidaHex extends Partida implements Serializable
 	private HashMap<String, Integer> temps_de_joc;
 
 	/**
+	 * Llista de cadenes de caràcters no permeses en els noms.
+	 */
+	private static final Set<String> caracters_no_permesos =
+			Collections.unmodifiableSet( new HashSet<String>( Arrays.asList( new String[] {
+					"_-_",
+					"!",
+					"@",
+					"$",
+					"/",
+					"=",
+					":",
+					",",
+					"?",
+					"\\"
+			} ) ) );
+
+	/**
 	 * Constructora alternativa per partides que no han estat jugades
 	 *
 	 * @param jugador_a Usuari que farà de jugador A
@@ -41,6 +58,15 @@ public class PartidaHex extends Partida implements Serializable
 	public PartidaHex( UsuariHex jugador_a, UsuariHex jugador_b, TaulerHex tauler, String nom )
 	{
 		super( jugador_a, jugador_b, tauler, nom );
+
+		for ( String cadena : caracters_no_permesos )
+		{
+			if ( nom.contains( cadena ) )
+			{
+				throw new IllegalArgumentException( "Els noms de partida no poden contenir els conjunts de caràcters " +
+				                                    "següents:" + caracters_no_permesos.toString() );
+			}
+		}
 
 		pistes_usades = new HashMap<String, Integer>();
 		pistes_usades.put( jugador_a.getIdentificadorUnic(), 0 );
