@@ -34,7 +34,7 @@ public final class PartidaHexDrvr
 	{
 		int mida = llegeixEnter( "Introdueix la mida del tauler a utilitzar en la partida:" );
 		String nom = llegeixParaula( "Introdueix el nom de la partida:" );
-		partides.add( new PartidaHex( new UsuariHex( "Jugador 1", "111" ), new UsuariHex( "Jugador 2", "222" ),
+		partides.add( new PartidaHex( new UsuariHex( "Jugador_1", "111" ), new UsuariHex( "Jugador_2", "222" ),
 				new TaulerHex( mida ), nom ) );
 		actual = partides.size() - 1;
 		System.out.println( "[OK]\tS'ha instanciat la partida amb èxit.\n\tLa partida actual és: " + actual + "" +
