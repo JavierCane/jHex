@@ -1,4 +1,4 @@
-﻿package prop.cluster.domini.controladors;
+package prop.cluster.domini.controladors;
 
 import prop.cluster.domini.models.Partida;
 import prop.cluster.domini.models.Tauler;
