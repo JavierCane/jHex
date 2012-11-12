@@ -37,7 +37,7 @@ public final class UsuariGstrDrvr
 		}
 		catch ( IllegalArgumentException e )
 		{
-			System.err.println( "[KO]\t" + e.getMessage() );
+			System.out.println( "[KO]\t" + e.getMessage() );
 			return null;
 		}
 	}
