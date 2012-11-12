@@ -6,6 +6,7 @@ import prop.cluster.domini.models.estats.EstatPartida;
 
 import java.io.Serializable;
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class PartidaHex extends Partida implements Serializable
 {
@@ -31,21 +32,9 @@ public class PartidaHex extends Partida implements Serializable
 	private HashMap<String, Integer> temps_de_joc;
 
 	/**
-	 * Llista de cadenes de caràcters no permeses en els noms.
+	 * Expressió regular amb els caràcters permesos.
 	 */
-	private static final Set<String> caracters_no_permesos =
-			Collections.unmodifiableSet( new HashSet<String>( Arrays.asList( new String[] {
-					"_-_",
-					"!",
-					"@",
-					"$",
-					"/",
-					"=",
-					":",
-					",",
-					"?",
-					"\\"
-			} ) ) );
+	private static final String caracters_permesos = "^[A-Za-z0-9_]+$";
 
 	/**
 	 * Constructora alternativa per partides que no han estat jugades
@@ -56,16 +45,14 @@ public class PartidaHex extends Partida implements Serializable
 	 * @param nom       Nom de la partida
 	 */
 	public PartidaHex( UsuariHex jugador_a, UsuariHex jugador_b, TaulerHex tauler, String nom )
+			throws IllegalArgumentException
 	{
 		super( jugador_a, jugador_b, tauler, nom );
 
-		for ( String cadena : caracters_no_permesos )
+		if ( !nom.matches( caracters_permesos ) )
 		{
-			if ( nom.contains( cadena ) )
-			{
-				throw new IllegalArgumentException( "Els noms de partida no poden contenir els conjunts de caràcters " +
-				                                    "següents:" + caracters_no_permesos.toString() );
-			}
+			throw new IllegalArgumentException(
+					"El nom de la partida només pot contenir caràcters alfanumèrics i guions baixos." );
 		}
 
 		pistes_usades = new HashMap<String, Integer>();
@@ -133,7 +120,6 @@ public class PartidaHex extends Partida implements Serializable
 
 			boolean costat1 = false;
 			boolean costat2 = false;
-
 
 			if ( estat == EstatCasella.JUGADOR_B )
 			{
@@ -265,7 +251,7 @@ public class PartidaHex extends Partida implements Serializable
 	 * Incrementa les pistes usades per l'usuari amb id_jugador.
 	 *
 	 * @param id_jugador Identificador únic del jugador.
-	 * @param quantitat Quantitat en la que incrementar el nombre actual de pistes usades.
+	 * @param quantitat  Quantitat en la que incrementar el nombre actual de pistes usades.
 	 * @return Cert si es modifiquen les pistes. Fals altrament.
 	 * @throws IllegalArgumentException Si el jugador amb l'identificador únic passat com a paràmetre no juga la
 	 *                                  partida.

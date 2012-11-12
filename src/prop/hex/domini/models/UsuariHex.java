@@ -65,21 +65,9 @@ public final class UsuariHex extends Usuari implements Serializable
 			} ) ) );
 
 	/**
-	 * Llista de cadenes de caràcters no permeses en els noms.
+	 * Expressió regular amb els caràcters permesos.
 	 */
-	private static final Set<String> caracters_no_permesos =
-			Collections.unmodifiableSet( new HashSet<String>( Arrays.asList( new String[] {
-					"_-_",
-					"!",
-					"@",
-					"$",
-					"/",
-					"=",
-					":",
-					",",
-					"?",
-					"\\"
-			} ) ) );
+	private static final String caracters_permesos = "^[A-Za-z0-9_]+$";
 
 	/**
 	 * Constructora per defecte, tot i que utilitzem la constructora de la classe pare,
@@ -100,13 +88,10 @@ public final class UsuariHex extends Usuari implements Serializable
 		}
 		else
 		{
-			for ( String cadena : caracters_no_permesos )
+			if ( !nom.matches( caracters_permesos ) )
 			{
-				if ( nom.contains( cadena ) )
-				{
-					throw new IllegalArgumentException( "Els noms d'usuari no poden contenir els conjunts de " +
-					                                    "caràcters següents:" + caracters_no_permesos.toString() );
-				}
+				throw new IllegalArgumentException(
+						"El nom de l'usuari només pot contenir caràcters alfanumèrics i guions baixos." );
 			}
 
 			mode_inici = ModesInici.ESTANDARD;
@@ -317,5 +302,4 @@ public final class UsuariHex extends Usuari implements Serializable
 		this.partides_guanyades = partides_guanyades;
 		return true;
 	}
-
 }
