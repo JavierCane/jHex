@@ -239,11 +239,12 @@ public class PartidaHex extends Partida implements Serializable
 	 * Incrementa les pistes usades per l'usuari amb id_jugador.
 	 *
 	 * @param id_jugador Identificador únic del jugador.
+	 * @param quantitat Quantitat en la que incrementar el nombre actual de pistes usades.
 	 * @return Cert si es modifiquen les pistes. Fals altrament.
 	 * @throws IllegalArgumentException Si el jugador amb l'identificador únic passat com a paràmetre no juga la
 	 *                                  partida.
 	 */
-	public boolean incrementaPistesUsades( String id_jugador ) throws IllegalArgumentException
+	public boolean incrementaPistesUsades( String id_jugador, int quantitat ) throws IllegalArgumentException
 	{
 		if ( !pistes_usades.containsKey( id_jugador ) )
 		{
@@ -251,7 +252,7 @@ public class PartidaHex extends Partida implements Serializable
 		}
 		else
 		{
-			int nou_num_pistes = pistes_usades.get( id_jugador ) + 1;
+			int nou_num_pistes = pistes_usades.get( id_jugador ) + quantitat;
 			pistes_usades.put( id_jugador, nou_num_pistes );
 			return true;
 		}

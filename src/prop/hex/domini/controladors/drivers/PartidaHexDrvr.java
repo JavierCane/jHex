@@ -128,7 +128,7 @@ public final class PartidaHexDrvr
 								if ( fila == 0 )
 								{
 									partides.get( actual ).getTauler()
-											.mouFitxa( EstatCasella.JUGADOR_B, fila, columna );
+											.mouFitxa( EstatCasella.JUGADOR_A, fila, columna );
 								}
 							}
 						}
@@ -153,7 +153,7 @@ public final class PartidaHexDrvr
 								if ( columna == 0 )
 								{
 									partides.get( actual ).getTauler()
-											.mouFitxa( EstatCasella.JUGADOR_A, fila, columna );
+											.mouFitxa( EstatCasella.JUGADOR_B, fila, columna );
 								}
 							}
 						}
@@ -207,12 +207,12 @@ public final class PartidaHexDrvr
 		{
 			String jugador = llegeixParaula(
 					"Escriu l'identificador únic del jugador al que vols incrementar les " + "pistes:" );
-
+			int quantitat = llegeixEnter("Escriu la quantitat de pistes que vols afegir:");
 			try
 			{
-				partides.get( actual ).incrementaPistesUsades( jugador );
+				partides.get( actual ).incrementaPistesUsades( jugador, quantitat );
 				System.out.println( "[OK]\tS'han incrementat correctament les pistes usades del jugador amb " +
-				                    "identificador únic " + jugador + "." );
+				                    "identificador únic " + jugador + ", afegint " + quantitat + " pistes." );
 			}
 			catch ( IllegalArgumentException excepcio )
 			{
