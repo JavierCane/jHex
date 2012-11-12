@@ -32,12 +32,12 @@ public final class UsuariGstrDrvr
 		{
 			UsuariHex usuari_hex = new UsuariHex( nom, contrasenya );
 			System.out.println(
-					"[OK]\tS'ha instanciat correctament l'usuari. Les seves dades son:\n\t" + usuari_hex.toString() );
+					"[OK]\tS'ha instanciat correctament l'usuari. Les seves dades son:\n\t\t" + usuari_hex.toString() );
 			return usuari_hex;
 		}
 		catch ( IllegalArgumentException e )
 		{
-			System.err.println( "[KO]\t" + e.getMessage() );
+			System.out.println( "[KO]\t" + e.getMessage() );
 			return null;
 		}
 	}
@@ -88,7 +88,7 @@ public final class UsuariGstrDrvr
 			UsuariHex main_user = model_usuari.carregaElement( nom_usuari );
 
 			System.out.println( "[OK]\tS'ha carregat correctament el fitxer de l'usuari " + nom_usuari + ", " +
-			                    "les seves dades son: \n\t" + main_user.toString() );
+			                    "les seves dades son: \n\t\t" + main_user.toString() );
 		}
 		catch ( FileNotFoundException excepcio )
 		{

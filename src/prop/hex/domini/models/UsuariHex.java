@@ -60,8 +60,25 @@ public final class UsuariHex extends Usuari implements Serializable
 			Collections.unmodifiableSet( new HashSet<String>( Arrays.asList( new String[] {
 					"Maquina_1",
 					"Maquina_2",
-					"Usuario_1",
-					"Usuario_2"
+					"Usuari_1",
+					"Usuari_2"
+			} ) ) );
+
+	/**
+	 * Llista de cadenes de caràcters no permeses en els noms.
+	 */
+	private static final Set<String> caracters_no_permesos =
+			Collections.unmodifiableSet( new HashSet<String>( Arrays.asList( new String[] {
+					"_-_",
+					"!",
+					"@",
+					"$",
+					"/",
+					"=",
+					":",
+					",",
+					"?",
+					"\\"
 			} ) ) );
 
 	/**
@@ -83,6 +100,15 @@ public final class UsuariHex extends Usuari implements Serializable
 		}
 		else
 		{
+			for ( String cadena : caracters_no_permesos )
+			{
+				if ( nom.contains( cadena ) )
+				{
+					throw new IllegalArgumentException( "Els noms d'usuari no poden contenir els conjunts de " +
+					                                    "caràcters següents:" + caracters_no_permesos.toString() );
+				}
+			}
+
 			mode_inici = ModesInici.ESTANDARD;
 			combinacio_colors = CombinacionsColors.VERMELL_BLAU;
 			temps_minim = Float.POSITIVE_INFINITY;
