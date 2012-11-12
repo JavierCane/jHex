@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Date: 31/10/12
+ * El JugadorA va d'est a oest, el JugadorB de nord a sud.
  */
 public class GrupCaselles
 {
@@ -98,7 +98,6 @@ public class GrupCaselles
 		}
 		return false;
 	}
-
 
 	/**
 	 * Afegeix la casella "afegir" al grup.

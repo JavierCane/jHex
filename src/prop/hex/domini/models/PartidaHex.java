@@ -1,11 +1,8 @@
 package prop.hex.domini.models;
 
 import prop.cluster.domini.models.Partida;
-import prop.cluster.domini.models.Usuari;
 import prop.cluster.domini.models.estats.EstatCasella;
 import prop.cluster.domini.models.estats.EstatPartida;
-import prop.hex.domini.models.enums.CombinacionsColors;
-import prop.hex.domini.models.enums.ModesInici;
 
 import java.io.Serializable;
 import java.util.*;
@@ -112,7 +109,7 @@ public class PartidaHex extends Partida implements Serializable
 			boolean costat2 = false;
 
 
-			if ( estat == EstatCasella.JUGADOR_A )
+			if ( estat == EstatCasella.JUGADOR_B )
 			{
 				for ( int i = 0; i < tauler.getMida(); i++ )
 				{
@@ -127,7 +124,7 @@ public class PartidaHex extends Partida implements Serializable
 					}
 				}
 			}
-			else if ( estat == EstatCasella.JUGADOR_B )
+			else if ( estat == EstatCasella.JUGADOR_A )
 			{
 				for ( int i = 0; i < tauler.getMida(); i++ )
 				{
