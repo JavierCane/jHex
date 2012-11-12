@@ -63,14 +63,7 @@ public abstract class BaseGstr<T>
 		oos.close();
 
 		// Si el fitxer existeix, es de tipus arxiu y te contingut, retorno true
-		if ( arxiu_a_accedir.isFile() && arxiu_a_accedir.length() > 1 )
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return arxiu_a_accedir.isFile() && arxiu_a_accedir.length() > 1;
 	}
 
 	/**
@@ -84,7 +77,7 @@ public abstract class BaseGstr<T>
 	 */
 	public T carregaElement( String nom_element ) throws IOException, ClassNotFoundException, NullPointerException
 	{
-		T element_carregat = null;
+		T element_carregat;
 
 		if ( !existeixElement( nom_element ) )
 		{
@@ -118,17 +111,9 @@ public abstract class BaseGstr<T>
 	 */
 	public boolean existeixElement( String nom_element )
 	{
-		File carpeta_a_accedir = new File( this.carpeta_dades + '/' + this.subcarpeta_dades );
 		File arxiu_a_accedir = new File( this.carpeta_dades + '/' + this.subcarpeta_dades + '/' + nom_element + '.' +
 		                                 this.extensio_fitxers );
 
-		if ( arxiu_a_accedir.exists() )
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return arxiu_a_accedir.exists();
 	}
 }
