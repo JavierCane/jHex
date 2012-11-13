@@ -67,7 +67,7 @@ public final class UsuariHex extends Usuari implements Serializable
 	/**
 	 * Expressió regular amb els caràcters permesos.
 	 */
-	private static final String caracters_permesos = "^[A-Za-z0-9_]+$";
+	private static final String caracters_permesos = "^[A-Za-z0-9_ ]+$";
 
 	/**
 	 * Constructora per defecte, tot i que utilitzem la constructora de la classe pare,
@@ -96,7 +96,7 @@ public final class UsuariHex extends Usuari implements Serializable
 	 */
 	public String getIdentificadorUnic()
 	{
-		return this.getNom();
+		return getNom().replace( ' ', '-' );
 	}
 
 	/**

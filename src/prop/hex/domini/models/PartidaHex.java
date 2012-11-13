@@ -34,7 +34,7 @@ public class PartidaHex extends Partida implements Serializable
 	/**
 	 * Expressió regular amb els caràcters permesos.
 	 */
-	private static final String caracters_permesos = "^[A-Za-z0-9_]+$";
+	private static final String caracters_permesos = "^[A-Za-z0-9_ ]+$";
 
 	/**
 	 * Constructora alternativa per partides que no han estat jugades
@@ -56,6 +56,18 @@ public class PartidaHex extends Partida implements Serializable
 		temps_de_joc = new HashMap<String, Integer>();
 		temps_de_joc.put( jugador_a.getIdentificadorUnic(), 0 );
 		temps_de_joc.put( jugador_b.getIdentificadorUnic(), 0 );
+	}
+
+	/**
+	 * Consulta l'identificador unic de la partida. Utilitzada per guardar a disc el fitxer corresponent.
+	 *
+	 * @return L'identificador únic de la partida.
+	 */
+	public String getIdentificadorUnic()
+	{
+		return Long.toString( data_creacio.getTime() / 1000L ) + "@" + nom.replace( " ", "-" ) + "@" +
+		       ( ( UsuariHex ) jugador_a ).getIdentificadorUnic() + "@" +
+		       ( ( UsuariHex ) jugador_b ).getIdentificadorUnic();
 	}
 
 	/**
