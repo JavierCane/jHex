@@ -106,4 +106,23 @@ public final class UsuariGstrDrvr
 					nom_usuari );
 		}
 	}
+
+	/**
+	 * Elimina un UsuariHex desde disc.
+	 */
+	public static void testEliminaUsuariHex()
+	{
+		UsuariGstr model_usuari = new UsuariGstr();
+
+		String nom_usuari = llegeixParaula( "Escriu el nom de l'usuari a eliminar de disc:" );
+
+		if ( model_usuari.eliminaElement( nom_usuari ) )
+		{
+			System.out.println( "[OK]\tS'ha eliminat correctament el fitxer de l'usuari " + nom_usuari + "." );
+		}
+		else
+		{
+			System.out.println( "[KO]\tNo s'ha pogut eliminar el fitxer de l'usuari " + nom_usuari + "." );
+		}
+	}
 }

@@ -102,6 +102,27 @@ public abstract class BaseGstr<T>
 		return element_carregat;
 	}
 
+	/**
+	 * Elimina un element de la carpeta path_del_programa/carpeta_dades/subcarpeta_dades/ amb nom
+	 * nom_element.extensio_fitxers
+	 *
+	 * @param nom_element
+	 * @return boolean true si s'ha pogut eliminar correctament o el fixer no hi existia false altrament
+	 */
+	public boolean eliminaElement( String nom_element )
+	{
+		File arxiu_a_accedir = new File( this.carpeta_dades + '/' + this.subcarpeta_dades + '/' + nom_element + '.' +
+		                                 this.extensio_fitxers );
+
+		if ( arxiu_a_accedir.exists() )
+		{
+			return arxiu_a_accedir.delete();
+		}
+		else
+		{
+			return true;
+		}
+	}
 
 	/**
 	 * Comprova si un determinat element existeix
