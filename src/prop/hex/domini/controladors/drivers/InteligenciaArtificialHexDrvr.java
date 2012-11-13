@@ -154,8 +154,9 @@ class Finestra extends JPanel
 
 	private void clickHexagon( int i, int j )
 	{
+		// Es torn del primer jugador (A) i la partida no ha finalitzat.
 		if ( partida.getTornsJugats() % 2 == 0 && !partida.estaFinalitzada() )
-		{ //Es torn del primer jugador (A) i la partida no ha finalitzat.
+		{
 			if ( tauler.esMovimentValid( EstatCasella.JUGADOR_A, i, j ) )
 			{
 				System.out.println( "Torn: " + partida.getTornsJugats() );
@@ -205,10 +206,11 @@ class Finestra extends JPanel
 		super.paintComponent( g );
 
 		// draw entire component white
-		g.setColor( jugador_a.getCombinacionsColors().obteColorCasella( EstatCasella.BUIDA ) );
+		g.setColor( jugador_a.getCombinacionsColors().getColorFonsFinestra() );
 		g.fillRect( 0, 0, getWidth(), getHeight() );
 
 		g.translate( iniciX, iniciY );
+
 		for ( int i = 0; i < tauler.getMida(); i++ )
 		{
 			g.translate( i * dx / 2, i * dy );
@@ -216,18 +218,10 @@ class Finestra extends JPanel
 			{
 				g.translate( j * dx, 0 );
 
-				if ( tauler.getEstatCasella( i, j ) == EstatCasella.JUGADOR_A )
-				{
-					g.setColor( jugador_a.getCombinacionsColors().obteColorCasella( EstatCasella.JUGADOR_A ) );
-					g.fillPolygon( hexagon );
-				}
-				else if ( tauler.getEstatCasella( i, j ) == EstatCasella.JUGADOR_B )
-				{
-					g.setColor( jugador_a.getCombinacionsColors().obteColorCasella( EstatCasella.JUGADOR_B ) );
-					g.fillPolygon( hexagon );
-				}
+				g.setColor( jugador_a.getCombinacionsColors().getColorCasella( tauler.getEstatCasella( i, j ) ) );
+				g.fillPolygon( hexagon );
 
-				g.setColor( Color.black );
+				g.setColor( jugador_a.getCombinacionsColors().getColorVoraCaselles() );
 				g.drawPolygon( hexagon );
 
 				g.translate( -j * dx, 0 );
