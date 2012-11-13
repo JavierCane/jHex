@@ -39,25 +39,17 @@ import static prop.hex.domini.controladors.drivers.UtilsDrvr.llegeixEnter;
 
 }*/
 
-
-import prop.cluster.domini.models.Partida;
 import prop.cluster.domini.models.estats.EstatCasella;
 import prop.cluster.domini.models.estats.EstatPartida;
 import prop.hex.domini.controladors.InteligenciaArtificialHex;
 import prop.hex.domini.models.PartidaHex;
 import prop.hex.domini.models.TaulerHex;
-import prop.hex.domini.models.enums.CombinacionsColors;
+import prop.hex.domini.models.UsuariHex;
 
-import javax.swing.SwingUtilities;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.BorderFactory;
+import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseAdapter;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseEvent;
 
 public final class InteligenciaArtificialHexDrvr
 {
@@ -87,38 +79,48 @@ public final class InteligenciaArtificialHexDrvr
 
 class Finestra extends JPanel
 {
+
+	String nom_partida;
 	TaulerHex tauler;
+	UsuariHex jugador_a;
+	UsuariHex jugador_b;
 	PartidaHex partida;
+	InteligenciaArtificialHex IA;
+
 	Polygon hexagon;
 	int dx, dy;
 	double radi = 40.0;
 	int iniciX = 60;
 	int iniciY = 60;
-	InteligenciaArtificialHex IA;
 
 	public Finestra()
 	{
+		nom_partida = "Nom_partida";
 		tauler = new TaulerHex( 7 );
-		partida = new PartidaHex( null, null, tauler, "Partida de prova" );
+		jugador_a = new UsuariHex( "Nom_jugador_a", "Contrasenya_jugador_a" );
+		jugador_b = new UsuariHex( "Nom_jugador_b", "Contrasenya_jugador_b" );
+		partida = new PartidaHex( jugador_a, jugador_b, tauler, nom_partida );
 		IA = new InteligenciaArtificialHex();
 
-		System.out.println("Iniciant partida Huma vs. IA");
+		System.out.println( "Iniciant partida Huma vs. IA" );
 
 		//Make the hexagon.
 		int x[] = new int[6];
 		int y[] = new int[6];
+
 		for ( int i = 0; i < 6; i++ )
 		{
 			x[i] = ( int ) ( radi * Math.sin( ( double ) i * Math.PI / 3.0 ) );
 			y[i] = ( int ) ( radi * Math.cos( ( double ) i * Math.PI / 3.0 ) );
 		}
+
 		hexagon = new Polygon( x, y, 6 );
 		dx = ( int ) ( 2 * radi * Math.sin( Math.PI / 3.0 ) );
 		dy = ( int ) ( 1.5 * radi );
 
-
 		addMouseListener( new MouseAdapter()
 		{
+
 			@Override
 			public void mouseClicked( MouseEvent mouseEvent )
 			{
@@ -156,36 +158,40 @@ class Finestra extends JPanel
 		{ //Es torn del primer jugador (A) i la partida no ha finalitzat.
 			if ( tauler.esMovimentValid( EstatCasella.JUGADOR_A, i, j ) )
 			{
-				System.out.println("Torn: " + partida.getTornsJugats() );
+				System.out.println( "Torn: " + partida.getTornsJugats() );
+
 				tauler.mouFitxa( EstatCasella.JUGADOR_A, i, j );
-				partida.incrementaTornsJugats(1);
-				System.out.println("Jugador A mou a " + i + "," + j);
-				System.out.println(tauler.toString());
+				partida.incrementaTornsJugats( 1 );
+
+				System.out.println( "Jugador A mou a " + i + "," + j );
+				System.out.println( tauler.toString() );
+
 				if ( partida.comprovaEstatPartida( i, j ) != EstatPartida.NO_FINALITZADA )
 				{
-					partida.setFinalitzada(true);
+					partida.setFinalitzada( true );
 					System.out.println( "Partida Finalitzada!" );
-					System.out.println( "Guanya el Jugador A");
+					System.out.println( "Guanya el Jugador A" );
 				}
 
-				System.out.println("Torn: " + partida.getTornsJugats() );
+				System.out.println( "Torn: " + partida.getTornsJugats() );
+
 				int[] d = IA.minimax( partida, EstatCasella.JUGADOR_B, 2 );
 				tauler.mouFitxa( EstatCasella.JUGADOR_B, d[0], d[1] );
-				partida.incrementaTornsJugats(1);
-				System.out.println("Jugador B mou a " + d[0] + "," + j);
-				System.out.println(tauler.toString());
+				partida.incrementaTornsJugats( 1 );
+
+				System.out.println( "Jugador B mou a " + d[0] + "," + j );
+				System.out.println( tauler.toString() );
+
 				if ( partida.comprovaEstatPartida( d[0], d[1] ) != EstatPartida.NO_FINALITZADA )
 				{
-					partida.setFinalitzada(true);
+					partida.setFinalitzada( true );
+
 					System.out.println( "Partida Finalitzada!" );
-					System.out.println( "Guanya B");
+					System.out.println( "Guanya B" );
 				}
 
 				repaint();
-
 			}
-
-
 		}
 	}
 
@@ -199,7 +205,7 @@ class Finestra extends JPanel
 		super.paintComponent( g );
 
 		// draw entire component white
-		g.setColor( Color.white );
+		g.setColor( jugador_a.getCombinacionsColors().obteColorCasella( EstatCasella.BUIDA ) );
 		g.fillRect( 0, 0, getWidth(), getHeight() );
 
 		g.translate( iniciX, iniciY );
@@ -212,14 +218,15 @@ class Finestra extends JPanel
 
 				if ( tauler.getEstatCasella( i, j ) == EstatCasella.JUGADOR_A )
 				{
-					g.setColor( Color.blue );
+					g.setColor( jugador_a.getCombinacionsColors().obteColorCasella( EstatCasella.JUGADOR_A ) );
 					g.fillPolygon( hexagon );
 				}
 				else if ( tauler.getEstatCasella( i, j ) == EstatCasella.JUGADOR_B )
 				{
-					g.setColor( Color.red );
+					g.setColor( jugador_a.getCombinacionsColors().obteColorCasella( EstatCasella.JUGADOR_B ) );
 					g.fillPolygon( hexagon );
 				}
+
 				g.setColor( Color.black );
 				g.drawPolygon( hexagon );
 
@@ -227,6 +234,5 @@ class Finestra extends JPanel
 			}
 			g.translate( -i * dx / 2, -i * dy );
 		}
-
 	}
 }
