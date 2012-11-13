@@ -81,34 +81,19 @@ public final class UsuariHex extends Usuari implements Serializable
 	{
 		super( nom, contrasenya, Dificultats.num_dificultats );
 
-		if ( noms_no_permesos.contains( nom ) )
-		{
-			throw new IllegalArgumentException(
-					"No es poden enregistrar els següents noms d'usuari: " + noms_no_permesos.toString() );
-		}
-		else if ( !nom.matches( caracters_permesos ) )
-		{
-			throw new IllegalArgumentException(
-					"El nom de l'usuari només pot contenir caràcters alfanumèrics i guions baixos." );
-		}
-		else
-		{
-
-			mode_inici = ModesInici.ESTANDARD;
-			combinacio_colors = CombinacionsColors.VERMELL_BLAU;
-			temps_minim = Float.POSITIVE_INFINITY;
-			fitxes_minimes = Integer.MAX_VALUE;
-			partides_jugades = 0;
-			partides_guanyades = 0;
-		}
+		mode_inici = ModesInici.ESTANDARD;
+		combinacio_colors = CombinacionsColors.VERMELL_BLAU;
+		temps_minim = Float.POSITIVE_INFINITY;
+		fitxes_minimes = Integer.MAX_VALUE;
+		partides_jugades = 0;
+		partides_guanyades = 0;
 	}
 
 	/**
-	 * Retorna un identificador unic de l'usuari. Utilitzada per guardar a disc el fitxer corresponent de l'usuari.
+	 * Consulta l'identificador unic de l'usuari. Utilitzada per guardar a disc el fitxer corresponent de l'usuari.
 	 *
-	 * @return
+	 * @return L'identificador únic de l'usuari.
 	 */
-
 	public String getIdentificadorUnic()
 	{
 		return this.getNom();
@@ -129,9 +114,9 @@ public final class UsuariHex extends Usuari implements Serializable
 	}
 
 	/**
-	 * Retorna el llistat de noms d'usuari no permesos
+	 * Consulta el llistat de noms d'usuari no permesos
 	 *
-	 * @return
+	 * @return El llistat de noms d'usuari no permesos.
 	 */
 	public static Set<String> getNomsNoPermesos()
 	{
@@ -139,23 +124,13 @@ public final class UsuariHex extends Usuari implements Serializable
 	}
 
 	/**
-	 * Estableix el nom d'usuari comprovant que no hi sigui un nom d'usuari no permès.
+	 * Consulta l'expressió regular de noms permesos.
 	 *
-	 * @param nom
-	 * @return
+	 * @return L'expressió regular de noms permesos.
 	 */
-	public boolean setNom( String nom )
+	public static String getCaractersPermesos()
 	{
-		if ( noms_no_permesos.contains( nom ) )
-		{
-			throw new IllegalArgumentException(
-					"No se pueden registrar los nombres de usuarios siguientes: " + noms_no_permesos.toString() );
-		}
-		else
-		{
-			this.nom = nom;
-			return true;
-		}
+		return caracters_permesos;
 	}
 
 	/**

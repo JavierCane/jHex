@@ -49,12 +49,6 @@ public class PartidaHex extends Partida implements Serializable
 	{
 		super( jugador_a, jugador_b, tauler, nom );
 
-		if ( !nom.matches( caracters_permesos ) )
-		{
-			throw new IllegalArgumentException(
-					"El nom de la partida només pot contenir caràcters alfanumèrics i guions baixos." );
-		}
-
 		pistes_usades = new HashMap<String, Integer>();
 		pistes_usades.put( jugador_a.getIdentificadorUnic(), 0 );
 		pistes_usades.put( jugador_b.getIdentificadorUnic(), 0 );
@@ -62,6 +56,16 @@ public class PartidaHex extends Partida implements Serializable
 		temps_de_joc = new HashMap<String, Integer>();
 		temps_de_joc.put( jugador_a.getIdentificadorUnic(), 0 );
 		temps_de_joc.put( jugador_b.getIdentificadorUnic(), 0 );
+	}
+
+	/**
+	 * Consulta l'expressió regular de noms permesos.
+	 *
+	 * @return L'expressió regular de noms permesos.
+	 */
+	public static String getCaractersPermesos()
+	{
+		return caracters_permesos;
 	}
 
 	/**
