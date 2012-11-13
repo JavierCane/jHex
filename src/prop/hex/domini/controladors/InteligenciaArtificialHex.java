@@ -4,7 +4,6 @@ import prop.cluster.domini.controladors.InteligenciaArtificial;
 import prop.cluster.domini.models.Tauler;
 import prop.cluster.domini.models.estats.EstatCasella;
 import prop.cluster.domini.models.estats.EstatPartida;
-import prop.hex.domini.controladors.IA.GrupCaselles;
 import prop.hex.domini.controladors.IA.ConnexionsVirtuals;
 import prop.hex.domini.models.TaulerHex;
 
@@ -17,11 +16,12 @@ import prop.hex.domini.models.TaulerHex;
  */
 public class InteligenciaArtificialHex extends InteligenciaArtificial
 {
+
 	public int funcioAvaluacio( Tauler tauler, EstatPartida estat_moviment, int profunditat,
-	                            EstatCasella fitxa_jugador ) {
-		ConnexionsVirtuals cv = new ConnexionsVirtuals((TaulerHex) tauler, fitxa_jugador);
+	                            EstatCasella fitxa_jugador )
+	{
+		ConnexionsVirtuals cv = new ConnexionsVirtuals( ( TaulerHex ) tauler, fitxa_jugador );
 
-		return cv.getConnexions_virtuals()*4+cv.getConnexions_semivirtuals();
+		return cv.getConnexions_virtuals() * 4 + cv.getConnexions_semivirtuals();
 	}
-
 }

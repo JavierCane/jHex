@@ -47,13 +47,13 @@ public final class UsuariGstrDrvr
 	 */
 	public static void testGuardaUsuariHex()
 	{
-		UsuariGstr model_usuari = new UsuariGstr();
+		UsuariGstr gestor_usuari = new UsuariGstr();
 
 		UsuariHex usuari_hex = testInstanciaUsuariHex();
 
 		try
 		{
-			if ( model_usuari.guardaElement( usuari_hex, usuari_hex.getIdentificadorUnic() ) )
+			if ( gestor_usuari.guardaElement( usuari_hex, usuari_hex.getIdentificadorUnic() ) )
 			{
 				System.out.println( "[OK]\tS'ha guardat correctament el fitxer de l'usuari amb identificador: " +
 				                    usuari_hex.getIdentificadorUnic() );

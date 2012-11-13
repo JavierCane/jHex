@@ -16,6 +16,6 @@ public final class UsuariGstr extends BaseGstr<UsuariHex>
 	 */
 	public UsuariGstr()
 	{
-		this.subcarpeta_dades = "usuaris";
+		subcarpeta_dades = "usuaris";
 	}
 }
