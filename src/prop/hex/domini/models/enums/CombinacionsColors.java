@@ -6,9 +6,9 @@ import java.awt.*;
 
 /**
  * Enum de possibles combinacions de colors.
- * La gràcia d'aquest enum es que es dinàmic i els codis de colors numés figuren a aquest enum,
+ * La gràcia d'aquest enum es que es dinàmic i els codis de colors numés figuren aquí,
  * fent així que el fet de modificar aquestos (afegint o cambiant la tonalitat) numés impliqui editar aquest fitxer.
- *
+ * <p/>
  * L'ordre dels valors de l'array de colors de cada uns dels valors de l'enum es important y ha de ser el seguent:
  * Color de les caselles del jugador_a,
  * Color de les caselles del jugador_b,
@@ -108,7 +108,7 @@ public enum CombinacionsColors
 	 *
 	 * @return
 	 */
-	public Color getColorFonsFinestra( )
+	public Color getColorFonsFinestra()
 	{
 		return color_fons_finestra;
 	}
@@ -118,8 +118,8 @@ public enum CombinacionsColors
 	 *
 	 * @return
 	 */
-	public Color getColorVoraCaselles( )
+	public Color getColorVoraCaselles()
 	{
-		return color_vora_caselles ;
+		return color_vora_caselles;
 	}
 }

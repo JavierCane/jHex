@@ -36,22 +36,27 @@ public final class UsuariHex extends Usuari implements Serializable
 	/**
 	 * Temps mínim en guanyar una partida
 	 */
-	private float temps_minim;
+	private Long temps_minim;
 
 	/**
 	 * Fitxes mínimes utilitzades per guanyar una partida
 	 */
-	private int fitxes_minimes;
+	private Integer fitxes_minimes;
 
 	/**
 	 * Nombre de partides disputades
 	 */
-	private int partides_jugades;
+	private Integer partides_jugades;
 
 	/**
 	 * Nombre de partides guanyades
 	 */
-	private int partides_guanyades;
+	private Integer partides_guanyades;
+
+	/**
+	 * Puntuació global de l'usuari
+	 */
+	private Integer puntuacio_global;
 
 	/**
 	 * Llista de noms d'usuari no permesos.
@@ -79,14 +84,15 @@ public final class UsuariHex extends Usuari implements Serializable
 	 */
 	public UsuariHex( String nom, String contrasenya ) throws IllegalArgumentException
 	{
-		super( nom, contrasenya, Dificultats.num_dificultats );
+		super( nom, contrasenya, Dificultats.getNumDificultats() );
 
 		mode_inici = ModesInici.ESTANDARD;
 		combinacio_colors = CombinacionsColors.VERMELL_BLAU;
-		temps_minim = Float.POSITIVE_INFINITY;
+		temps_minim = Long.MAX_VALUE;
 		fitxes_minimes = Integer.MAX_VALUE;
 		partides_jugades = 0;
 		partides_guanyades = 0;
+		puntuacio_global = 0;
 	}
 
 	/**
@@ -110,7 +116,7 @@ public final class UsuariHex extends Usuari implements Serializable
 		return super.toString() + " [Mode inici: " + mode_inici +
 		       ", combinacio colors: " + combinacio_colors + ", temps minim: " + temps_minim +
 		       ", fitxes minimes: " + fitxes_minimes + ", partides guanyades: " + partides_guanyades +
-		       ", partides jugades: " + partides_jugades + "]";
+		       ", partides jugades: " + partides_jugades + ", puntuacio global: " + puntuacio_global + "]";
 	}
 
 	/**
@@ -180,7 +186,7 @@ public final class UsuariHex extends Usuari implements Serializable
 	 *
 	 * @return El temps mínim en guanyar una partida de l'usuari.
 	 */
-	public float getTempsMinim()
+	public Long getTempsMinim()
 	{
 		return temps_minim;
 	}
@@ -191,14 +197,17 @@ public final class UsuariHex extends Usuari implements Serializable
 	 * @param temps_minim Valor de temps que es vol introduir.
 	 * @return Cert, si es tracta d'un temps vàlid. Fals altrament.
 	 */
-	public boolean setTempsMinim( float temps_minim )
+	public boolean setTempsMinim( Long temps_minim )
 	{
 		if ( temps_minim <= 0 || fitxes_minimes > Float.POSITIVE_INFINITY )
 		{
 			return false;
 		}
-		this.temps_minim = temps_minim;
-		return true;
+		else
+		{
+			this.temps_minim = temps_minim;
+			return true;
+		}
 	}
 
 	/**
@@ -206,7 +215,7 @@ public final class UsuariHex extends Usuari implements Serializable
 	 *
 	 * @return El nombre de fitxes mínim amb què l'usuari ha guanyat una partida
 	 */
-	public int getFitxesMinimes()
+	public Integer getFitxesMinimes()
 	{
 		return fitxes_minimes;
 	}
@@ -217,14 +226,17 @@ public final class UsuariHex extends Usuari implements Serializable
 	 * @param fitxes_minimes Nombre de fitxes que es vol introduir.
 	 * @return Cert, si es tracta d'un nombre de fitxes vàlid. Fals altrament.
 	 */
-	public boolean setFitxesMinimes( int fitxes_minimes )
+	public boolean setFitxesMinimes( Integer fitxes_minimes )
 	{
 		if ( fitxes_minimes <= 0 || fitxes_minimes > Integer.MAX_VALUE )
 		{
 			return false;
 		}
-		this.fitxes_minimes = fitxes_minimes;
-		return true;
+		else
+		{
+			this.fitxes_minimes = fitxes_minimes;
+			return true;
+		}
 	}
 
 	/**
@@ -232,7 +244,7 @@ public final class UsuariHex extends Usuari implements Serializable
 	 *
 	 * @return El nombre de partides jugades per l'usuari.
 	 */
-	public int getPartidesJugades()
+	public Integer getPartidesJugades()
 	{
 		return partides_jugades;
 	}
@@ -243,14 +255,17 @@ public final class UsuariHex extends Usuari implements Serializable
 	 * @param partides_jugades Nombre de partides jugades que es vol introduir.
 	 * @return Cert, si es tracta d'un nombre de partides vàlid. Fals altrament.
 	 */
-	public boolean setPartidesJugades( int partides_jugades )
+	public boolean setPartidesJugades( Integer partides_jugades )
 	{
 		if ( partides_jugades < 0 || partides_jugades > Integer.MAX_VALUE )
 		{
 			return false;
 		}
-		this.partides_jugades = partides_jugades;
-		return true;
+		else
+		{
+			this.partides_jugades = partides_jugades;
+			return true;
+		}
 	}
 
 	/**
@@ -258,7 +273,7 @@ public final class UsuariHex extends Usuari implements Serializable
 	 *
 	 * @return El nombre de partides guanyades per l'usuari.
 	 */
-	public int getPartidesGuanyades()
+	public Integer getPartidesGuanyades()
 	{
 		return partides_guanyades;
 	}
@@ -269,13 +284,55 @@ public final class UsuariHex extends Usuari implements Serializable
 	 * @param partides_guanyades Nombre de partides guanyades que es vol introduir.
 	 * @return Cert, si es tracta d'un nombre de partides vàlid. Fals altrament.
 	 */
-	public boolean setPartidesGuanyades( int partides_guanyades )
+	public boolean setPartidesGuanyades( Integer partides_guanyades )
 	{
 		if ( partides_jugades < 0 || partides_guanyades > Integer.MAX_VALUE )
 		{
 			return false;
 		}
-		this.partides_guanyades = partides_guanyades;
-		return true;
+		else
+		{
+			this.partides_guanyades = partides_guanyades;
+			return true;
+		}
+	}
+
+	/**
+	 * Consulta la puntuació global de l'usuari.
+	 *
+	 * @return
+	 */
+	public Integer getPuntuacioGlobal()
+	{
+		return puntuacio_global;
+	}
+
+	/**
+	 * Recalcula la puntuació global d'un jugador tenint en compte el nombre de victories i derrotes en funció de la
+	 * dificultat de l'usuari/IA contrari y els punts que orotga/resta aquest tipus de resultat.
+	 */
+	public void recalculaPuntuacioGlobal()
+	{
+		Integer sum_victories = 0;
+		Integer sum_derrotes = 0;
+
+		for ( Dificultats dificultat : Dificultats.values() )
+		{
+			sum_victories += num_victories[dificultat.getPosicioDificultat()] * dificultat.getPuntsPerGuanyar();
+			sum_derrotes += num_derrotes[dificultat.getPosicioDificultat()] * dificultat.getPuntsPerPerdre();
+		}
+
+		if ( sum_victories - sum_derrotes < Integer.MIN_VALUE )
+		{
+			puntuacio_global = Integer.MIN_VALUE;
+		}
+		else if ( sum_victories - sum_derrotes > Integer.MAX_VALUE )
+		{
+			puntuacio_global = Integer.MAX_VALUE;
+		}
+		else
+		{
+			puntuacio_global = sum_victories - sum_derrotes;
+		}
 	}
 }
