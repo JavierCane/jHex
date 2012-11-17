@@ -3,11 +3,10 @@ package prop.hex.domini.controladors.drivers;
 import prop.cluster.domini.models.estats.EstatCasella;
 import prop.cluster.domini.models.estats.EstatPartida;
 import prop.hex.domini.controladors.IA.ResistenciaTauler;
-import prop.hex.domini.controladors.InteligenciaArtificialHex;
+import prop.hex.domini.controladors.InteligenciaArtificialHexFacil;
 import prop.hex.domini.models.PartidaHex;
 import prop.hex.domini.models.TaulerHex;
 import prop.hex.domini.models.UsuariHex;
-import prop.hex.domini.models.enums.CombinacionsColors;
 
 import javax.swing.*;
 import java.awt.*;
@@ -49,7 +48,7 @@ class Finestra extends JPanel
 	UsuariHex jugador_a;
 	UsuariHex jugador_b;
 	PartidaHex partida;
-	InteligenciaArtificialHex IA;
+	InteligenciaArtificialHexFacil IA;
 
 	Polygon hexagon;
 	int dx, dy;
@@ -66,7 +65,7 @@ class Finestra extends JPanel
 		jugador_a = new UsuariHex( "Nom_jugador_a", "Contrasenya_jugador_a" );
 		jugador_b = new UsuariHex( "Nom_jugador_b", "Contrasenya_jugador_b" );
 		partida = new PartidaHex( jugador_a, jugador_b, tauler, nom_partida );
-		IA = new InteligenciaArtificialHex();
+		IA = new InteligenciaArtificialHexFacil();
 
 		System.out.println( "Iniciant partida Huma vs. IA" );
 
