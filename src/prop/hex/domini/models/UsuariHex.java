@@ -212,25 +212,6 @@ public final class UsuariHex extends Usuari implements Serializable
 	}
 
 	/**
-	 * Modifica el temps mínim en guanyar una partida de l'usuari.
-	 *
-	 * @param temps_minim Valor de temps que es vol introduir.
-	 * @return Cert, si es tracta d'un temps vàlid. Fals altrament.
-	 */
-	public boolean setTempsMinim( Long temps_minim )
-	{
-		if ( temps_minim <= 0 || fitxes_minimes > Float.POSITIVE_INFINITY )
-		{
-			return false;
-		}
-		else
-		{
-			this.temps_minim = temps_minim;
-			return true;
-		}
-	}
-
-	/**
 	 * Consulta el nombre de fitxes mínim amb què l'usuari ha guanyat una partida.
 	 *
 	 * @return El nombre de fitxes mínim amb què l'usuari ha guanyat una partida
@@ -238,25 +219,6 @@ public final class UsuariHex extends Usuari implements Serializable
 	public Integer getFitxesMinimes()
 	{
 		return fitxes_minimes;
-	}
-
-	/**
-	 * Modifica el nombre de fitxes mínim amb què l'usuari ha guanyat una partida.
-	 *
-	 * @param fitxes_minimes Nombre de fitxes que es vol introduir.
-	 * @return Cert, si es tracta d'un nombre de fitxes vàlid. Fals altrament.
-	 */
-	public boolean setFitxesMinimes( Integer fitxes_minimes )
-	{
-		if ( fitxes_minimes <= 0 || fitxes_minimes > Integer.MAX_VALUE )
-		{
-			return false;
-		}
-		else
-		{
-			this.fitxes_minimes = fitxes_minimes;
-			return true;
-		}
 	}
 
 	/**
@@ -270,25 +232,6 @@ public final class UsuariHex extends Usuari implements Serializable
 	}
 
 	/**
-	 * Modifica el nombre de partides jugades per l'usuari.
-	 *
-	 * @param partides_jugades Nombre de partides jugades que es vol introduir.
-	 * @return Cert, si es tracta d'un nombre de partides vàlid. Fals altrament.
-	 */
-	public boolean setPartidesJugades( Integer partides_jugades )
-	{
-		if ( partides_jugades < 0 || partides_jugades > Integer.MAX_VALUE )
-		{
-			return false;
-		}
-		else
-		{
-			this.partides_jugades = partides_jugades;
-			return true;
-		}
-	}
-
-	/**
 	 * Consulta el nombre de partides guanyades per l'usuari.
 	 *
 	 * @return El nombre de partides guanyades per l'usuari.
@@ -296,25 +239,6 @@ public final class UsuariHex extends Usuari implements Serializable
 	public Integer getPartidesGuanyades()
 	{
 		return partides_guanyades;
-	}
-
-	/**
-	 * Modifica el nombre de partides guanyades per l'usuari.
-	 *
-	 * @param partides_guanyades Nombre de partides guanyades que es vol introduir.
-	 * @return Cert, si es tracta d'un nombre de partides vàlid. Fals altrament.
-	 */
-	public boolean setPartidesGuanyades( Integer partides_guanyades )
-	{
-		if ( partides_jugades < 0 || partides_guanyades > Integer.MAX_VALUE )
-		{
-			return false;
-		}
-		else
-		{
-			this.partides_guanyades = partides_guanyades;
-			return true;
-		}
 	}
 
 	/**
@@ -328,10 +252,54 @@ public final class UsuariHex extends Usuari implements Serializable
 	}
 
 	/**
+	 * Recalcula les dades de l'usuari en base a una partida finalitzada
+	 */
+	public void recalculaDadesUsuariPartidaFinalitzada( boolean ha_guanyat, Dificultats jugador_contrari,
+	                                                    Long temps_emprat, Integer fitxes_usades )
+	{
+		if ( ha_guanyat )
+		{
+			if ( temps_emprat < temps_minim )
+			{
+				temps_minim = temps_emprat;
+			}
+
+			if ( fitxes_usades < fitxes_minimes )
+			{
+				fitxes_minimes = fitxes_usades;
+			}
+
+			if ( num_victories[jugador_contrari.getPosicioDificultat()] < Integer.MAX_VALUE )
+			{
+				num_victories[jugador_contrari.getPosicioDificultat()]++;
+			}
+
+			if ( partides_guanyades < Integer.MAX_VALUE )
+			{
+				partides_guanyades++;
+			}
+		}
+		else
+		{
+			if ( num_derrotes[jugador_contrari.getPosicioDificultat()] < Integer.MAX_VALUE )
+			{
+				num_derrotes[jugador_contrari.getPosicioDificultat()]++;
+			}
+		}
+
+		if ( partides_jugades < Integer.MAX_VALUE )
+		{
+			partides_jugades++;
+		}
+
+		recalculaPuntuacioGlobal();
+	}
+
+	/**
 	 * Recalcula la puntuació global d'un jugador tenint en compte el nombre de victories i derrotes en funció de la
 	 * dificultat de l'usuari/IA contrari y els punts que orotga/resta aquest tipus de resultat.
 	 */
-	public void recalculaPuntuacioGlobal()
+	private void recalculaPuntuacioGlobal()
 	{
 		Integer sum_victories = 0;
 		Integer sum_derrotes = 0;
