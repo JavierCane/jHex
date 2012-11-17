@@ -7,11 +7,8 @@ import prop.hex.domini.models.TaulerHex;
 import java.util.ArrayList;
 
 /**
- * Created with IntelliJ IDEA.
- * User: marc
- * Date: 10/11/12
- * Time: 13:59
- * To change this template use File | Settings | File Templates.
+ *
+ *
  */
 public class ConnexionsVirtuals
 {
