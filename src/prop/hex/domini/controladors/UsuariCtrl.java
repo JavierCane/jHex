@@ -1,11 +1,12 @@
 package prop.hex.domini.controladors;
 
-import java.io.*;
-
 import prop.hex.domini.models.UsuariHex;
-import prop.hex.gestors.UsuariGstr;
 import prop.hex.domini.models.enums.CombinacionsColors;
 import prop.hex.domini.models.enums.ModesInici;
+import prop.hex.gestors.UsuariGstr;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class UsuariCtrl
 {
@@ -70,13 +71,13 @@ public class UsuariCtrl
 	 * @param contrasenya Contrasenya de l'usuari que es vol carregar.
 	 * @return L'usuari corresponent al nom i la contrasenya donats.
 	 * @throws IllegalArgumentException Si l'usuari identificat pel nom no existeix o si la contrasenya no
-	 * coincideix amb l'usuari.
+	 *                                  coincideix amb l'usuari.
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 * @throws ClassNotFoundException
 	 */
-	public UsuariHex carregaUsuari( String nom, String contrasenya ) throws IllegalArgumentException,
-			FileNotFoundException, IOException, ClassNotFoundException
+	public UsuariHex carregaUsuari( String nom, String contrasenya )
+			throws IllegalArgumentException, FileNotFoundException, IOException, ClassNotFoundException
 	{
 		UsuariGstr gestor_usuari = new UsuariGstr();
 
@@ -116,7 +117,7 @@ public class UsuariCtrl
 	 * @param contrasenya Contrasenya antiga de l'usuari que es vol modificar.
 	 * @return Cert, si s'ha modificat la contrasenya. Fals, altrament.
 	 * @throws IllegalArgumentException Si la contrasenya passada com a paràmetre no coincideix amb la contrasenya
-	 * de l'usuari.
+	 *                                  de l'usuari.
 	 */
 	public boolean modificaContrasenya( UsuariHex usuari, String contrasenya ) throws IllegalArgumentException
 	{
@@ -136,8 +137,7 @@ public class UsuariCtrl
 	 * @param combinacio_colors Combinació de colors que es vol donar a l'usuari.
 	 * @return Cert, si les preferències s'han modificat correctament. Fals, altrament.
 	 */
-	public boolean modificaPreferencies( UsuariHex usuari, ModesInici mode_inici,
-	                                     CombinacionsColors combinacio_colors )
+	public boolean modificaPreferencies( UsuariHex usuari, ModesInici mode_inici, CombinacionsColors combinacio_colors )
 	{
 		return ( usuari.setModeInici( mode_inici ) && usuari.setCombinacionsColors( combinacio_colors ) );
 	}
