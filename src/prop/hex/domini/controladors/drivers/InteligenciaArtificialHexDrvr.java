@@ -1,56 +1,20 @@
 package prop.hex.domini.controladors.drivers;
-/*
-import prop.cluster.domini.models.Partida;
-import prop.cluster.domini.models.estats.EstatCasella;
-import prop.hex.domini.models.PartidaHex;
-import prop.hex.domini.models.TaulerHex;
-
-import prop.hex.domini.controladors.InteligenciaArtificialHex;
-import static prop.hex.domini.controladors.drivers.UtilsDrvr.llegeixEnter;
-
-
-/**
- * Created with IntelliJ IDEA.
- * User: marc
- * Date: 10/11/12
- * Time: 17:29
- * To change this template use File | Settings | File Templates.
- */
-/*public class InteligenciaArtificialHexDrvr
-{
-
-	public static void main( String[] args )
-	{
-		TaulerHex tauler = new TaulerHex( 7 );
-		PartidaHex partida = new PartidaHex( null, null, tauler, "Nompartida", null, null );
-
-		InteligenciaArtificialHex IA = new InteligenciaArtificialHex();
-
-		while(true) {
-			int[] d = IA.minimax( partida, EstatCasella.JUGADOR_A, 4 );
-			tauler.mouFitxa( EstatCasella.JUGADOR_A, d[0], d[1] );
-			int[] c = IA.minimax( partida, EstatCasella.JUGADOR_A, 4 );
-			tauler.mouFitxa( EstatCasella.JUGADOR_B, c[0], c[1] );
-			System.out.println( tauler.toString() );
-			System.out.println("Presiona per continuar: ");
-			int f = llegeixEnter();
-		}
-	}
-
-}*/
 
 import prop.cluster.domini.models.estats.EstatCasella;
 import prop.cluster.domini.models.estats.EstatPartida;
+import prop.hex.domini.controladors.IA.ResistenciaTauler;
 import prop.hex.domini.controladors.InteligenciaArtificialHex;
 import prop.hex.domini.models.PartidaHex;
 import prop.hex.domini.models.TaulerHex;
 import prop.hex.domini.models.UsuariHex;
+import prop.hex.domini.models.enums.CombinacionsColors;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+//http://stackoverflow.com/questions/258099/how-to-close-a-java-swing-application-from-the-code
 public final class InteligenciaArtificialHexDrvr
 {
 
@@ -92,6 +56,8 @@ class Finestra extends JPanel
 	double radi = 40.0;
 	int iniciX = 60;
 	int iniciY = 60;
+	double valor_resistencia_A, valor_resistencia_B;
+	int eval_A, eval_B;
 
 	public Finestra()
 	{
@@ -176,9 +142,26 @@ class Finestra extends JPanel
 
 				System.out.println( "Torn: " + partida.getTornsJugats() );
 
-				int[] d = IA.minimax( partida, EstatCasella.JUGADOR_B, 2 );
+				int[] d = IA.minimax( partida, EstatCasella.JUGADOR_B, 3 );
 				tauler.mouFitxa( EstatCasella.JUGADOR_B, d[0], d[1] );
 				partida.incrementaTornsJugats( 1 );
+
+
+				double eval;
+				ResistenciaTauler resistencia_A = new ResistenciaTauler( ( TaulerHex ) tauler, EstatCasella.JUGADOR_A );
+				ResistenciaTauler resistencia_B = new ResistenciaTauler( ( TaulerHex ) tauler, EstatCasella.JUGADOR_B );
+
+				eval_A = IA.funcioAvaluacio(tauler, EstatPartida.NO_FINALITZADA, 0, EstatCasella.JUGADOR_A);
+				eval_B = IA.funcioAvaluacio(tauler, EstatPartida.NO_FINALITZADA, 0, EstatCasella.JUGADOR_B);
+
+
+				valor_resistencia_A = resistencia_A.evalua();
+				valor_resistencia_B = resistencia_B.evalua();
+
+				System.out.print("--------------------------------------------------------------\nTauler A:");
+				resistencia_A.mostraTauler();
+				System.out.print("--------------------------------------------------------------\nTauler B:");
+				resistencia_B.mostraTauler();
 
 				System.out.println( "Jugador B mou a " + d[0] + "," + j );
 				System.out.println( tauler.toString() );
@@ -228,5 +211,12 @@ class Finestra extends JPanel
 			}
 			g.translate( -i * dx / 2, -i * dy );
 		}
+
+		g.setColor(Color.black);
+		g.drawString("Ra: " + valor_resistencia_A, 10, 400);
+		g.drawString("Rb: " + valor_resistencia_B, 10, 420);
+
+		g.drawString("Eval A: " + eval_A, 10, 440);
+		g.drawString("Eval b: " + eval_B, 10, 460);
 	}
 }
