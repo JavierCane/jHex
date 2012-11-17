@@ -2,8 +2,8 @@ package prop.hex.domini.models;
 
 import prop.cluster.domini.models.Usuari;
 import prop.hex.domini.models.enums.CombinacionsColors;
-import prop.hex.domini.models.enums.Dificultats;
 import prop.hex.domini.models.enums.ModesInici;
+import prop.hex.domini.models.enums.TipusJugadors;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -15,13 +15,18 @@ import java.util.Set;
  * Classe UsuariHex. S'esté d'Usuari i simplement conté alguns mètodes per el tractament de atributs especifics d'un
  * Usuari del joc Hex.
  */
-public final class UsuariHex extends Usuari implements Serializable
+public class UsuariHex extends Usuari implements Serializable
 {
 
 	/**
 	 * ID de serialització
 	 */
 	private static final long serialVersionUID = -2893672483693919721L;
+
+	/**
+	 * Tipus de jugador
+	 */
+	protected TipusJugadors tipus_jugador;
 
 	/**
 	 * Mode d'inici de les partides seleccionat per l'usuari com a preferent
@@ -61,12 +66,11 @@ public final class UsuariHex extends Usuari implements Serializable
 	/**
 	 * Llista de noms d'usuari no permesos.
 	 */
-	private static final Set<String> noms_no_permesos =
+	private static final Set<String> noms_reservats =
 			Collections.unmodifiableSet( new HashSet<String>( Arrays.asList( new String[] {
-					"Maquina_1",
-					"Maquina_2",
-					"Usuari_1",
-					"Usuari_2"
+					"Maquina facil",
+					"Maquina dificil",
+					"Convidat",
 			} ) ) );
 
 	/**
@@ -80,12 +84,12 @@ public final class UsuariHex extends Usuari implements Serializable
 	 *
 	 * @param nom
 	 * @param contrasenya
-	 * @throws IllegalArgumentException
 	 */
-	public UsuariHex( String nom, String contrasenya ) throws IllegalArgumentException
+	public UsuariHex( String nom, String contrasenya )
 	{
-		super( nom, contrasenya, Dificultats.getNumDificultats() );
+		super( nom, contrasenya, TipusJugadors.getNumDificultats() );
 
+		tipus_jugador = TipusJugadors.JUGADOR;
 		mode_inici = ModesInici.ESTANDARD;
 		combinacio_colors = CombinacionsColors.VERMELL_BLAU;
 		temps_minim = Long.MAX_VALUE;
@@ -126,9 +130,9 @@ public final class UsuariHex extends Usuari implements Serializable
 	 */
 	public static Set<String> getNomsNoPermesos()
 	{
-		return noms_no_permesos;
+		return noms_reservats;
 	}
-	
+
 	/**
 	 * Consulta si l'usuari és un usuari registrat o és un usuari del sistema.
 	 *
@@ -136,7 +140,7 @@ public final class UsuariHex extends Usuari implements Serializable
 	 */
 	public boolean esUsuariRegistrat()
 	{
-		return ( !noms_no_permesos.contains( nom ) );
+		return ( !noms_reservats.contains( nom ) );
 	}
 
 	/**
@@ -252,47 +256,52 @@ public final class UsuariHex extends Usuari implements Serializable
 	}
 
 	/**
-	 * Recalcula les dades de l'usuari en base a una partida finalitzada
+	 * Recalcula les dades de l'usuari en base a una partida finalitzada.
+	 * Unicament actualitza les dades d'estadístiques si es tracta d'un usuari de tipus humà o si es tracta d'usuaris
+	 * de tipus IA amb nivells de dificultats diferents.
 	 */
-	public void recalculaDadesUsuariPartidaFinalitzada( boolean ha_guanyat, Dificultats jugador_contrari,
+	public void recalculaDadesUsuariPartidaFinalitzada( boolean ha_guanyat, TipusJugadors tipus_jugador_contrari,
 	                                                    Long temps_emprat, Integer fitxes_usades )
 	{
-		if ( ha_guanyat )
+		if ( tipus_jugador == TipusJugadors.JUGADOR || tipus_jugador != tipus_jugador_contrari )
 		{
-			if ( temps_emprat < temps_minim )
+			if ( ha_guanyat )
 			{
-				temps_minim = temps_emprat;
+				if ( temps_emprat < temps_minim )
+				{
+					temps_minim = temps_emprat;
+				}
+
+				if ( fitxes_usades < fitxes_minimes )
+				{
+					fitxes_minimes = fitxes_usades;
+				}
+
+				if ( num_victories[tipus_jugador_contrari.getPosicioDificultat()] < Integer.MAX_VALUE )
+				{
+					num_victories[tipus_jugador_contrari.getPosicioDificultat()]++;
+				}
+
+				if ( partides_guanyades < Integer.MAX_VALUE )
+				{
+					partides_guanyades++;
+				}
+			}
+			else
+			{
+				if ( num_derrotes[tipus_jugador_contrari.getPosicioDificultat()] < Integer.MAX_VALUE )
+				{
+					num_derrotes[tipus_jugador_contrari.getPosicioDificultat()]++;
+				}
 			}
 
-			if ( fitxes_usades < fitxes_minimes )
+			if ( partides_jugades < Integer.MAX_VALUE )
 			{
-				fitxes_minimes = fitxes_usades;
+				partides_jugades++;
 			}
 
-			if ( num_victories[jugador_contrari.getPosicioDificultat()] < Integer.MAX_VALUE )
-			{
-				num_victories[jugador_contrari.getPosicioDificultat()]++;
-			}
-
-			if ( partides_guanyades < Integer.MAX_VALUE )
-			{
-				partides_guanyades++;
-			}
+			recalculaPuntuacioGlobal();
 		}
-		else
-		{
-			if ( num_derrotes[jugador_contrari.getPosicioDificultat()] < Integer.MAX_VALUE )
-			{
-				num_derrotes[jugador_contrari.getPosicioDificultat()]++;
-			}
-		}
-
-		if ( partides_jugades < Integer.MAX_VALUE )
-		{
-			partides_jugades++;
-		}
-
-		recalculaPuntuacioGlobal();
 	}
 
 	/**
@@ -304,7 +313,7 @@ public final class UsuariHex extends Usuari implements Serializable
 		Integer sum_victories = 0;
 		Integer sum_derrotes = 0;
 
-		for ( Dificultats dificultat : Dificultats.values() )
+		for ( TipusJugadors dificultat : TipusJugadors.values() )
 		{
 			sum_victories += num_victories[dificultat.getPosicioDificultat()] * dificultat.getPuntsPerGuanyar();
 			sum_derrotes += num_derrotes[dificultat.getPosicioDificultat()] * dificultat.getPuntsPerPerdre();
