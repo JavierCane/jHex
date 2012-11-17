@@ -10,7 +10,8 @@ package prop.hex.domini.models.enums;
  * ser el seguent:
  * Posició de la dificultat a l'array de nombres de victories/derrotes d'un Usuari,
  * Punts que otorga el guanyar una partida contra aquest tipus d'usuari/dificultat d'IA,
- * Punts que resta el perdre una partida contra aquest tipus d'usuari/dificultat d'IA
+ * Punts que resta el perdre una partida contra aquest tipus d'usuari/dificultat d'IA,
+ * Nom de la classe corresponent a la dificultat, utilitzada per carregar una funció de moviment o una altra.
  */
 public enum Dificultats
 {
@@ -18,17 +19,17 @@ public enum Dificultats
 			0,
 			5,
 			3
-	} ),
+	}, null ),
 	IA_FACIL( new int[] {
 			1,
 			10,
 			2
-	} ),
+	}, "InteligenciaArtificialHexFacil" ),
 	IA_DIFICIL( new int[] {
 			2,
 			15,
 			1
-	} );
+	}, "InteligenciaArtificialHexDificil" );
 
 	/**
 	 * Nombre total de dificultats del joc
@@ -51,16 +52,23 @@ public enum Dificultats
 	private int punts_per_perdre;
 
 	/**
+	 * Nom de la classe corresponent a la dificultat, utilitzada per carregar una funció de moviment o una altra.
+	 */
+	private String classe_corresponent;
+
+	/**
 	 * Constructora de l'enum, simplement estableix el valor de cada un dels atributs privats per després poder-los
 	 * obtenir en base al valor de l'enum seleccionat
 	 *
 	 * @param parametres
 	 */
-	Dificultats( int[] parametres )
+	Dificultats( int[] parametres, String classe_corresponent )
 	{
 		posicio_dificultat = parametres[0];
 		punts_per_guanyar = parametres[1];
 		punts_per_perdre = parametres[2];
+
+		this.classe_corresponent = classe_corresponent;
 	}
 
 	/**
@@ -103,5 +111,16 @@ public enum Dificultats
 	public int getPuntsPerPerdre()
 	{
 		return punts_per_perdre;
+	}
+
+	/**
+	 * Mètode públic per poder obtenir el nom de la classe d'inteligencia artificial corresponent al nivell de
+	 * dificultat del valor de l'enum
+	 *
+	 * @return
+	 */
+	public String getClasseCorresponent()
+	{
+		return classe_corresponent;
 	}
 }
