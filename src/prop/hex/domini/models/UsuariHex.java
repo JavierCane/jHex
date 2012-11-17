@@ -128,6 +128,26 @@ public final class UsuariHex extends Usuari implements Serializable
 	{
 		return noms_no_permesos;
 	}
+	
+	/**
+	 * Consulta si l'usuari és un usuari registrat o és un usuari del sistema.
+	 *
+	 * @return Cert, si es tracta d'un usuari registrat. Fals, si és un usuari del sistema.
+	 */
+	public boolean esUsuariRegistrat()
+	{
+		return ( !noms_no_permesos.contains( nom ) );
+	}
+
+	/**
+	 * Consulta si l'usuari és un usuari humà o si és un usuari de la IA.
+	 *
+	 * @return Cert, si és un usuari humà. Fals, si és un usuari de la IA.
+	 */
+	public boolean esUsuariHuma()
+	{
+		return ( nom != "Maquina_1" && nom != "Maquina_2" );
+	}
 
 	/**
 	 * Consulta l'expressió regular de noms permesos.
