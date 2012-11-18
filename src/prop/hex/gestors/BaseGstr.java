@@ -35,12 +35,12 @@ public abstract class BaseGstr<T>
 	 * Guarda un element_a_guardar de tipus T a la carpeta path_del_programa/carpeta_dades/subcarpeta_dades/ amb nom
 	 * nom_element.extensio_fitxers
 	 *
-	 * @param element_a_guardar
-	 * @param nom_element
-	 * @return boolean true si s'ha pogut guardar correctament y el fitxer resultant es contempla com correcte,
+	 * @param element_a_guardar Element que es vol materialitzar
+	 * @param nom_element       Nom de l'element
+	 * @return boolean true si s'ha pogut guardar correctament i el fitxer resultant es contempla com correcte,
 	 *         false altrament
-	 * @throws FileNotFoundException
-	 * @throws IOException
+	 * @throws FileNotFoundException Si el fitxer no s'ha generat i no s'hi poden escriure les dades.
+	 * @throws IOException           Si ha ocorregut un error d'entrada/sortida inesperat.
 	 */
 	public boolean guardaElement( T element_a_guardar, String nom_element ) throws FileNotFoundException, IOException
 	{
@@ -73,7 +73,7 @@ public abstract class BaseGstr<T>
 	 * Carrega un element de tipus T amb nom nom_element.extensio_fitxers de la carpeta
 	 * path_del_programa/carpeta_dades/subcarpeta_dades/
 	 *
-	 * @param nom_element
+	 * @param nom_element Nom de l'element que es vol carregar
 	 * @return l'objecte de l'element carregat
 	 * @throws IOException
 	 * @throws ClassNotFoundException
@@ -110,7 +110,7 @@ public abstract class BaseGstr<T>
 	 * Elimina un element de la carpeta path_del_programa/carpeta_dades/subcarpeta_dades/ amb nom
 	 * nom_element.extensio_fitxers
 	 *
-	 * @param nom_element
+	 * @param nom_element Nom de l'element que es vol eliminar.
 	 * @return boolean true si s'ha pogut eliminar correctament o el fixer no hi existia false altrament
 	 */
 	public boolean eliminaElement( String nom_element )
@@ -131,7 +131,7 @@ public abstract class BaseGstr<T>
 	/**
 	 * Comprova si un determinat element existeix
 	 *
-	 * @param nom_element
+	 * @param nom_element Nom de l'element que es vol comprovar si existeix.
 	 * @return boolean Dependenent de si existeix o no l'element buscat tornarà true o false.
 	 */
 	public boolean existeixElement( String nom_element )

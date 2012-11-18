@@ -80,8 +80,8 @@ public enum CombinacionsColors
 	/**
 	 * Mètode públic per poder obtenir el color d'un tipus de casella en base a un valor de l'enum de possibles estats
 	 *
-	 * @param estat_casella
-	 * @return
+	 * @param estat_casella Estat de la casella de la qual es vol saber el color
+	 * @return El color relacionat amb l'estat.
 	 */
 	public Color getColorCasella( EstatCasella estat_casella )
 	{
@@ -106,7 +106,7 @@ public enum CombinacionsColors
 	/**
 	 * Mètode públic per poder obtenir el color del fons de la finestra del joc
 	 *
-	 * @return
+	 * @return El color de fons de la finestra del joc.
 	 */
 	public Color getColorFonsFinestra()
 	{
@@ -116,7 +116,7 @@ public enum CombinacionsColors
 	/**
 	 * Mètode públic per poder obtenir el color del fons de la vora de les caselles
 	 *
-	 * @return
+	 * @return El color de la vora de les caselles.
 	 */
 	public Color getColorVoraCaselles()
 	{

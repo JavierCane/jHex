@@ -41,12 +41,13 @@ public enum TipusJugadors
 	private int punts_per_perdre;
 
 	/**
-	 * Nom de la classe corresponent a la dificultat, utilitzada per carregar una funció de moviment o una altra.
+	 * Nom de la classe corresponent a la dificultat, utilitzada per carregar una funció de moviment o una altra. Si
+	 * és un usuari humà, conté el nom de la classe d'intel·ligència artificial usada per donar les pistes.
 	 */
 	private String classe_corresponent;
 
 	/**
-	 * Nom de l'usuari a crear amb aquesta dificultat.
+	 * Nom de l'usuari a crear amb aquesta dificultat. És un String buit si és un usuari humà (JUGADOR).
 	 */
 	private String nom_usuari;
 
@@ -90,7 +91,7 @@ public enum TipusJugadors
 	/**
 	 * Mètode públic per poder obtenir el nombre de dificultats del joc
 	 *
-	 * @return
+	 * @return El total nombre de dificultats que té el joc.
 	 */
 	public static int getNumDificultats()
 	{
@@ -98,9 +99,10 @@ public enum TipusJugadors
 	}
 
 	/**
-	 * Mètode públic per poder obtenir la posició de la dificultat a l'array de nombres de victories/derrotes d'un Usuari
+	 * Mètode públic per poder obtenir la posició de la dificultat a l'array de nombres de victories/derrotes d'un
+	 * Usuari
 	 *
-	 * @return
+	 * @return La posició en l'array de victories/derrotes de la dificultat.
 	 */
 	public int getPosicioDificultat()
 	{
@@ -108,10 +110,10 @@ public enum TipusJugadors
 	}
 
 	/**
-	 * Mètode públic per poder obtenir el nombre de punts que otorga el guanyar una partida contra aquest tipus
+	 * Mètode públic per poder obtenir el nombre de punts que s'atorga quan es una partida contra aquest tipus
 	 * d'usuari/dificultat d'IA
 	 *
-	 * @return
+	 * @return El nombre de punts que s'atorga quan es guanya contra aquest tipus d'usuari.
 	 */
 	public int getPuntsPerGuanyar()
 	{
@@ -119,10 +121,10 @@ public enum TipusJugadors
 	}
 
 	/**
-	 * Mètode públic per poder obtenir el nombre de punts que resta el perdre una partida contra aquest tipus
-	 * d'usuari/dificultat d'IA
+	 * Mètode públic per poder obtenir el nombre de punts que es penalitzen quan es perd una partida contra aquest
+	 * tipus d'usuari/dificultat d'IA
 	 *
-	 * @return
+	 * @return El nombre de punts que es penalitzen quan es perd contra aquest tipus d'usuari.
 	 */
 	public int getPuntsPerPerdre()
 	{
@@ -133,7 +135,7 @@ public enum TipusJugadors
 	 * Mètode públic per poder obtenir el nom de la classe d'inteligencia artificial corresponent al nivell de
 	 * dificultat del valor de l'enum
 	 *
-	 * @return
+	 * @return El nom de la classe
 	 */
 	public String getClasseCorresponent()
 	{
@@ -143,7 +145,7 @@ public enum TipusJugadors
 	/**
 	 * Mètode públic per poder obtenir el nom de l'usuari a crear amb aquesta dificultat.
 	 *
-	 * @return
+	 * @return El nom per defecte de l'usuari
 	 */
 	public String getNomUsuari()
 	{

@@ -93,7 +93,7 @@ public final class Ranquing implements Serializable
 	 * Si encara no s'ha inicialitzat l'objecte, crida a la constructora, si ja s'ha instanciat previament,
 	 * simplement retorna l'instancia ja creada.
 	 *
-	 * @return
+	 * @return L'objecte singleton amb el rànquing.
 	 */
 	public static Ranquing getInstancia()
 	{
@@ -106,9 +106,9 @@ public final class Ranquing implements Serializable
 	}
 
 	/**
-	 * Retorna la llista d'usuaris amb puntuacions globals més altes
+	 * Consulta la llista d'usuaris amb puntuacions globals més altes
 	 *
-	 * @return
+	 * @return La llista d'usuaris amb puntuacions globals més altes.
 	 */
 	public List<UsuariHex> getRanquing()
 	{

@@ -82,8 +82,8 @@ public class UsuariHex extends Usuari implements Serializable, Comparable<Usuari
 	 * Constructora per defecte, tot i que utilitzem la constructora de la classe pare,
 	 * es sobreescriu amb la finalitat de poder comprovar que el nom d'usuari no es tracta d'un nom no permès.
 	 *
-	 * @param nom
-	 * @param contrasenya
+	 * @param nom         Nom de l'usuari
+	 * @param contrasenya Contrasenya de l'usuari
 	 */
 	public UsuariHex( String nom, String contrasenya )
 	{
@@ -113,7 +113,7 @@ public class UsuariHex extends Usuari implements Serializable, Comparable<Usuari
 	 * Mètode amb la finalitat de poder depurar el programa amb més facilitat. Simplement retorna tots els atributs
 	 * de la classe y els seus corresponents valors.
 	 *
-	 * @return
+	 * @return Un String amb tots els atribus de l'usuari.
 	 */
 	public String toString()
 	{
@@ -248,7 +248,7 @@ public class UsuariHex extends Usuari implements Serializable, Comparable<Usuari
 	/**
 	 * Consulta la puntuació global de l'usuari.
 	 *
-	 * @return
+	 * @return La posició global de l'usuari.
 	 */
 	public Integer getPuntuacioGlobal()
 	{
@@ -306,7 +306,7 @@ public class UsuariHex extends Usuari implements Serializable, Comparable<Usuari
 
 	/**
 	 * Recalcula la puntuació global d'un jugador tenint en compte el nombre de victories i derrotes en funció de la
-	 * dificultat de l'usuari/IA contrari y els punts que orotga/resta aquest tipus de resultat.
+	 * dificultat de l'usuari/IA contrari i els punts que orotga/resta aquest tipus de resultat.
 	 */
 	private void recalculaPuntuacioGlobal()
 	{
@@ -338,8 +338,8 @@ public class UsuariHex extends Usuari implements Serializable, Comparable<Usuari
 	 * Utilitzada implícitament per el mètode Collections.sort de la funció actualitzaUsuari de la classe Ranquing
 	 * per ordenar el ràquing en funció de les millors puntuacions globals.
 	 *
-	 * @param contrincant
-	 * @return
+	 * @param contrincant UsuariHex amb qui es vol comparar
+	 * @return > 0 si el paràmetre té més punts, 0 si estan empatats, < 0 si el contrincant té més punts.
 	 */
 	@Override
 	public int compareTo( UsuariHex contrincant )
