@@ -1,5 +1,6 @@
 package prop.hex.domini.controladors;
 
+import prop.hex.domini.models.Ranquing;
 import prop.hex.domini.models.UsuariHex;
 import prop.hex.domini.models.UsuariIAHex;
 import prop.hex.domini.models.enums.CombinacionsColors;
@@ -36,8 +37,8 @@ public class UsuariCtrl
 	 * @throws IllegalArgumentException Si el nom d'usuari ja existeix al sistema,
 	 *                                  si conté caràcters il·legals o si es tracta d'un nom no permès.
 	 */
-	public static UsuariHex creaUsuari( String nom, String contrasenya, TipusJugadors tipus_jugador, boolean registrat )
-			throws IllegalArgumentException
+	public static UsuariHex creaUsuari( String nom, String contrasenya, TipusJugadors tipus_jugador,
+	                                    boolean registrat ) throws IllegalArgumentException
 	{
 		if ( tipus_jugador == TipusJugadors.JUGADOR )
 		{
@@ -48,12 +49,14 @@ public class UsuariCtrl
 
 			if ( !nom.matches( UsuariHex.getCaractersPermesos() ) )
 			{
-				throw new IllegalArgumentException( "[KO]\tEl nom d'usuari conté caràcters il·legals." );
+				throw new IllegalArgumentException( "[KO]\tEl nom d'usuari conté caràcters il·legals. Només " +
+						"s'accepten caràcters alfanumèris (sense accents), espais i guions baixos." );
 			}
 
 			if ( registrat && UsuariHex.getNomsNoPermesos().contains( nom ) )
 			{
-				throw new IllegalArgumentException( "[KO]\tNo es permet utilitzar aquest nom d'usuari." );
+				throw new IllegalArgumentException( "[KO]\tNo es permet utilitzar aquest nom d'usuari. Els noms no " +
+						"permesos són " + UsuariHex.getNomsNoPermesos().toString() );
 			}
 			else
 			{
@@ -70,18 +73,22 @@ public class UsuariCtrl
 	/**
 	 * Elimina un usuari existent al sistema.
 	 *
-	 * @param nom Nom de l'usuari que es vol eliminar.
+	 * @param usuari Usuari que es vol eliminar.
 	 * @return Cert, si s'ha pogut eliminar l'usuari del sistema. Fals, altrament.
-	 * @throws IllegalArgumentException
+	 * @throws IllegalArgumentException Si l'usuari que passem con a paràmetre no existeix al sistema.
 	 */
-	public static boolean eliminaUsuari( String nom ) throws IllegalArgumentException
+	public static boolean eliminaUsuari( UsuariHex usuari ) throws IllegalArgumentException
 	{
-		if ( !gestor_usuari.existeixElement( nom ) )
+		if ( !gestor_usuari.existeixElement( usuari.getNom() ) )
 		{
 			throw new IllegalArgumentException( "[KO]\tL'usuari no existeix." );
 		}
-
-		return gestor_usuari.eliminaElement( nom );
+		boolean es_eliminat = gestor_usuari.eliminaElement( usuari.getNom() );
+		if ( es_eliminat )
+		{
+			Ranquing.getInstancia().eliminaUsuari( usuari );
+		}
+		return es_eliminat;
 	}
 
 	/**
@@ -98,8 +105,8 @@ public class UsuariCtrl
 	 * @throws IOException
 	 * @throws ClassNotFoundException
 	 */
-	public static UsuariHex carregaUsuari( String nom, String contrasenya, TipusJugadors tipus_jugador )
-			throws IllegalArgumentException, FileNotFoundException, IOException, ClassNotFoundException
+	public static UsuariHex carregaUsuari( String nom, String contrasenya, TipusJugadors tipus_jugador ) throws
+			IllegalArgumentException, FileNotFoundException, IOException, ClassNotFoundException
 	{
 		if ( !gestor_usuari.existeixElement( nom ) )
 		{
@@ -146,13 +153,13 @@ public class UsuariCtrl
 	 * @throws IllegalArgumentException Si la contrasenya antiga passada com a paràmetre no coincideix amb la
 	 *                                  contrasenya de l'usuari.
 	 */
-	public static boolean modificaContrasenya( UsuariHex usuari, String contrasenya_antiga, String contrasenya_nova )
-			throws IllegalArgumentException
+	public static boolean modificaContrasenya( UsuariHex usuari, String contrasenya_antiga,
+	                                           String contrasenya_nova ) throws IllegalArgumentException
 	{
 		if ( usuari.getContrasenya() != contrasenya_antiga )
 		{
-			throw new IllegalArgumentException(
-					"[KO]\tLa contrasenya actual introduïda no correspon a l'actual de l'usuari." );
+			throw new IllegalArgumentException( "[KO]\tLa contrasenya actual introduïda no correspon a l'actual de " +
+					"l'usuari." );
 		}
 		else
 		{
@@ -183,8 +190,9 @@ public class UsuariCtrl
 	 * @param temps_emprat     Temps de joc de l'usuari a la partida.
 	 * @param fitxes_usades    Fitxes utilitzades per l'usuari a la partida.
 	 */
-	public static void actualitzaEstadistiques( UsuariHex usuari, boolean ha_guanyat, TipusJugadors jugador_contrari,
-	                                            Long temps_emprat, Integer fitxes_usades )
+	public static void actualitzaEstadistiques( UsuariHex usuari, boolean ha_guanyat,
+	                                            TipusJugadors jugador_contrari, Long temps_emprat,
+	                                            Integer fitxes_usades )
 	{
 		usuari.recalculaDadesUsuariPartidaFinalitzada( ha_guanyat, jugador_contrari, temps_emprat, fitxes_usades );
 	}
@@ -198,6 +206,7 @@ public class UsuariCtrl
 	public static boolean reiniciaEstadistiques( UsuariHex usuari )
 	{
 		usuari.reiniciaEstadistiques();
+		Ranquing.getInstancia().actualitzaUsuari( usuari );
 		return true;
 	}
 }

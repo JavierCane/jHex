@@ -163,6 +163,11 @@ public class UsuariHex extends Usuari implements Serializable, Comparable<Usuari
 		return mode_inici;
 	}
 
+	/**
+	 * Consulta el tipus de jugador que és l'usuari.
+	 *
+	 * @return Un TipusJugador amb el tipus de jugador corresponent a l'usuari.
+	 */
 	public TipusJugadors getTipusJugador()
 	{
 		return tipus_jugador;
