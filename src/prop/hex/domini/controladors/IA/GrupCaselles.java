@@ -168,11 +168,14 @@ public class GrupCaselles
 		ArrayList<Casella> CasellesB = grupB.getGrup();
 		for ( int i = 0; i < grup.size(); i++ )
 		{
-			for ( int j = 0; j < CasellesB.size(); j++ )
+			if ( tauler.getEstatCasella( grup.get( i ) ) == EstatCasella.BUIDA )
 			{
-				if ( grup.get( i ).equals( CasellesB.get( j ) ) )
+				for ( int j = 0; j < CasellesB.size(); j++ )
 				{
-					contador++;
+					if ( grup.get( i ).equals( CasellesB.get( j ) ) )
+					{
+						contador++;
+					}
 				}
 			}
 		}

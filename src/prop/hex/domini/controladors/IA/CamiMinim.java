@@ -95,18 +95,21 @@ public class CamiMinim
 		{
 			for ( int fila = 0; fila < tauler.getMida(); fila++ )
 			{
-			//	if (  )
-				System.out.print(resistencies_parcials[fila][tauler.getMida()-1]);
+				if ( resistencies_parcials[fila][tauler.getMida()-1] < min )
+				{
+					min = resistencies_parcials[fila][tauler.getMida()-1];
+				}
 			}
-			System.out.print("\n");
 		}
 		else
 		{
 			for ( int columna = 0; columna < tauler.getMida(); columna++ )
 			{
-				System.out.print(resistencies_parcials[tauler.getMida()-1][columna]);
+				if ( resistencies_parcials[tauler.getMida()-1][columna] < min)
+				{
+					min = resistencies_parcials[tauler.getMida()-1][columna];
+				}
 			}
-			System.out.print("\n");
 		}
 
 		return min;

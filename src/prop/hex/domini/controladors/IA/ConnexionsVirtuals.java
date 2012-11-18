@@ -34,7 +34,7 @@ public class ConnexionsVirtuals
 	{
 		for ( int i = 0; i < grups.size(); i++ )
 		{
-			for ( int j = 0; j < grups.size(); j++ )
+			for ( int j = i+1; j < grups.size(); j++ )
 			{
 				int interseccio = grups.get( i ).getVeins().interseca( grups.get( j ).getVeins() );
 				if ( interseccio >= 2 )
