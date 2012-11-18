@@ -49,19 +49,9 @@ public class PartidaCtrl
 	};
 
 	/**
-	 * Conté si els jugadors de la partida actual són humans
+	 * Conté els usuaris de la partida actual.
 	 */
-	private static boolean[] jugadors_humans;
-
-	/**
-	 * Conté els identificadors únics dels usuaris de la partida actual.
-	 */
-	private static String[] id_usuaris;
-
-	/**
-	 * Instància d'intel·ligència artificial usada per donar les pistes.
-	 */
-	private static MouFitxaIA ia_pistes = new IAHexFacilCtrl();
+	private static UsuariHex[] usuaris_partida;
 
 	/**
 	 * Instant de temps en què es va efectuar el darrer moviment.
@@ -72,6 +62,13 @@ public class PartidaCtrl
 	 * Instància de casella que conté la posició de la darrera fitxa.
 	 */
 	private static Casella darrera_fitxa;
+
+	/**
+	 * Constructor per defecte. Declarat privat perquè la classe no sigui instanciable.
+	 */
+	private PartidaCtrl()
+	{
+	}
 
 	/**
 	 * Inicialitza una partida nova.
@@ -128,24 +125,22 @@ public class PartidaCtrl
 		// Aquí es comprova que els jugadors passats com a paràmetre són realment els de la partida.
 		if ( jugador_a_partida.equals( jugador_a ) && jugador_b_partida.equals( jugador_b ) )
 		{
-			jugador_a_partida = jugador_a;
-			jugador_b_partida = jugador_b;
+			inicialitzaEstructuresControl( jugador_a, jugador_b );
 		}
 		else if ( jugador_a_partida.equals( jugador_b ) && jugador_b_partida.equals( jugador_a ) )
 		{
-			jugador_a_partida = jugador_b;
-			jugador_b_partida = jugador_a;
+			inicialitzaEstructuresControl( jugador_b, jugador_a );
 		}
 		else
 		{
 			throw new IllegalAccessException( "Algun jugador no és d'aquesta partida" );
 		}
 
-		inicialitzaEstructuresControl( jugador_a_partida, jugador_b_partida );
-		partida_actual.setJugadorA( jugador_a_partida );
-		partida_actual.setJugadorB( jugador_b_partida );
+		// Aquí ens assegurem que les instàncies dels usuaris de la partida siguin les més recents.
+		partida_actual.setJugadorA( usuaris_partida[0] );
+		partida_actual.setJugadorB( usuaris_partida[1] );
 
-		return ( partida_actual != null );
+		return true;
 	}
 
 	/**
@@ -161,26 +156,17 @@ public class PartidaCtrl
 	private static void inicialitzaEstructuresControl( UsuariHex jugador_a, UsuariHex jugador_b )
 			throws ClassNotFoundException, IllegalAccessException, InstantiationException
 	{
-		jugadors_humans = new boolean[2];
-		jugadors_humans[0] = ( jugador_a.getTipusJugador() == TipusJugadors.JUGADOR );
-		jugadors_humans[1] = ( jugador_b.getTipusJugador() == TipusJugadors.JUGADOR );
-
-		id_usuaris = new String[2];
-		id_usuaris[0] = jugador_a.getIdentificadorUnic();
-		id_usuaris[1] = jugador_b.getIdentificadorUnic();
+		usuaris_partida = new UsuariHex[2];
+		usuaris_partida[0] = jugador_a;
+		usuaris_partida[1] = jugador_b;
 
 		jugadors_ia = new MouFitxaIA[2];
 		for ( int i = 0; i < 2; ++i )
 		{
-			if ( !jugadors_humans[i] )
-			{
-				jugadors_ia[i] = ( MouFitxaIA ) Class.forName( jugador_a.getTipusJugador().getClasseCorresponent() )
-						.newInstance();
-				jugadors_ia[i].setPartida( partida_actual );
-			}
+			jugadors_ia[i] =
+					( MouFitxaIA ) Class.forName( jugador_a.getTipusJugador().getClasseCorresponent() ).newInstance();
+			jugadors_ia[i].setPartida( partida_actual );
 		}
-
-		ia_pistes.setPartida( partida_actual );
 
 		darrera_fitxa = new Casella( 0, 0 );
 		instant_darrer_moviment = new Date().getTime() / 1000L;
@@ -220,8 +206,8 @@ public class PartidaCtrl
 
 		darrera_fitxa = null;
 		partida_actual = null;
-		jugadors_humans = null;
-		id_usuaris = null;
+		usuaris_partida = null;
+		jugadors_ia = null;
 
 		return true;
 	}
@@ -244,7 +230,7 @@ public class PartidaCtrl
 	 */
 	public static Casella obtePista()
 	{
-		return ia_pistes.mouFitxa( fitxes_jugadors[partida_actual.getTornsJugats() % 2] );
+		return movimentIA();
 	}
 
 	/**
@@ -281,8 +267,9 @@ public class PartidaCtrl
 				.mouFitxa( fitxes_jugadors[partida_actual.getTornsJugats() % 2], fila, columna ) )
 		{
 			darrera_fitxa = new Casella( fila, columna );
-			partida_actual.incrementaTempsDeJoc( id_usuaris[partida_actual.getTornsJugats() % 2],
-					instant_darrer_moviment - instant_actual );
+			partida_actual
+					.incrementaTempsDeJoc( usuaris_partida[partida_actual.getTornsJugats() % 2].getIdentificadorUnic(),
+							instant_darrer_moviment - instant_actual );
 			partida_actual.incrementaTornsJugats( 1 );
 
 			// Per actualitzar l'estat de la partida en el controlador.
@@ -306,7 +293,7 @@ public class PartidaCtrl
 	 */
 	public static boolean esTornHuma()
 	{
-		return jugadors_humans[partida_actual.getTornsJugats() % 2];
+		return ( usuaris_partida[partida_actual.getTornsJugats() % 2].getTipusJugador() == TipusJugadors.JUGADOR );
 	}
 
 	/**

@@ -9,6 +9,18 @@ import prop.hex.domini.models.PartidaHex;
  */
 public interface MouFitxaIA
 {
-	public boolean setPartida(PartidaHex partida);
-	public Casella mouFitxa(EstatCasella fitxa);
+
+	/**
+	 * Configura la instància de partida per a la intel·ligència artificial.
+	 *
+	 * @param partida Partida on es vol jugar amb la intel·ligència artificial.
+	 * @return Cert si s'ha canviat de partida. Fals altrament.
+	 */
+	public boolean setPartida( PartidaHex partida );
+
+	/**
+	 * @param fitxa Fitxa que vol col·locar-se al tauler de la partida del paràmetre implícit.
+	 * @return La casella on es mouria la fitxa.
+	 */
+	public Casella mouFitxa( EstatCasella fitxa );
 }

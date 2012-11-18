@@ -1,5 +1,6 @@
 package prop.hex.domini.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -9,13 +10,20 @@ import java.util.List;
  * Com es pot veure a través de la gestió de l'atribut instancia, s'ha implementant aplicant el patró Singleton per
  * asegurar-nos de que no es creen dues instàncies distintes d'aquesta classe.
  */
-public final class Ranquing
+public final class Ranquing implements Serializable
 {
+	/**
+	 * ID de serialització
+	 */
+	private static final long serialVersionUID = -4501688224648658253L;
 
+	/**
+	 * Atribut per mantenir l'instancia Singleton de la classe
+	 */
 	private static Ranquing instancia = null;
 
 	/**
-	 * Llista dels primers 100 usuaris ordenada per les seves puntuacions globals
+	 * Llista d'usuaris ordenada per les seves puntuacions globals
 	 */
 	private List<UsuariHex> ranquing;
 
@@ -129,6 +137,16 @@ public final class Ranquing
 
 		Collections.sort( ranquing ); // Actualitzo l'ordre del rànquing
 		comprovaRecords( usuari ); // Comprovo si els rècords son millors que els de l'usuari que estic actualitzant
+	}
+
+	/**
+	 * Elimina les dades d'un usuari del rànquing. Automàticament actualitza el llistat.
+	 *
+	 * @param usuari
+	 */
+	public void eliminaUsuari( UsuariHex usuari )
+	{
+		ranquing.remove( usuari );
 	}
 
 	/**
