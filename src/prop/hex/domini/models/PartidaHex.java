@@ -3,10 +3,11 @@ package prop.hex.domini.models;
 import prop.cluster.domini.models.Partida;
 import prop.cluster.domini.models.estats.EstatCasella;
 import prop.cluster.domini.models.estats.EstatPartida;
+import prop.hex.domini.models.enums.CombinacionsColors;
+import prop.hex.domini.models.enums.ModesInici;
 
 import java.io.Serializable;
 import java.util.*;
-import java.util.regex.Pattern;
 
 public class PartidaHex extends Partida implements Serializable
 {
@@ -29,12 +30,22 @@ public class PartidaHex extends Partida implements Serializable
 	/**
 	 * Diccionari que relaciona els identificadors dels usuaris amb el seu temps jugat.
 	 */
-	private HashMap<String, Integer> temps_de_joc;
+	private HashMap<String, Long> temps_de_joc;
 
 	/**
 	 * Expressió regular amb els caràcters permesos.
 	 */
 	private static final String caracters_permesos = "^[A-Za-z0-9_ ]+$";
+
+	/**
+	 * Mode d'inici de la partida
+	 */
+	private ModesInici mode_inici;
+
+	/**
+	 * Combinació de colors de la partida.
+	 */
+	private CombinacionsColors combinacio_colors;
 
 	/**
 	 * Constructora alternativa per partides que no han estat jugades
@@ -53,9 +64,12 @@ public class PartidaHex extends Partida implements Serializable
 		pistes_usades.put( jugador_a.getIdentificadorUnic(), 0 );
 		pistes_usades.put( jugador_b.getIdentificadorUnic(), 0 );
 
-		temps_de_joc = new HashMap<String, Integer>();
-		temps_de_joc.put( jugador_a.getIdentificadorUnic(), 0 );
-		temps_de_joc.put( jugador_b.getIdentificadorUnic(), 0 );
+		temps_de_joc = new HashMap<String, Long>();
+		temps_de_joc.put( jugador_a.getIdentificadorUnic(), 0L );
+		temps_de_joc.put( jugador_b.getIdentificadorUnic(), 0L );
+
+		mode_inici = jugador_a.getModeInici();
+		combinacio_colors = jugador_a.getCombinacionsColors();
 	}
 
 	/**
@@ -228,7 +242,7 @@ public class PartidaHex extends Partida implements Serializable
 	 * @throws IllegalArgumentException Si el jugador amb l'identificador únic passat com a paràmetre no juga la
 	 *                                  partida.
 	 */
-	public int getTempsDeJoc( String id_jugador ) throws IllegalArgumentException
+	public long getTempsDeJoc( String id_jugador ) throws IllegalArgumentException
 	{
 		if ( !temps_de_joc.containsKey( id_jugador ) )
 		{
@@ -295,7 +309,7 @@ public class PartidaHex extends Partida implements Serializable
 	 * @throws IllegalArgumentException Si el jugador amb l'identificador únic passat com a paràmetre no juga la
 	 *                                  partida, o si el temps de joc és negatiu.
 	 */
-	public boolean setTempsDeJoc( String id_jugador, int temps ) throws IllegalArgumentException
+	public boolean setTempsDeJoc( String id_jugador, long temps ) throws IllegalArgumentException
 	{
 		if ( !temps_de_joc.containsKey( id_jugador ) )
 		{
@@ -307,5 +321,30 @@ public class PartidaHex extends Partida implements Serializable
 		}
 		temps_de_joc.put( id_jugador, temps );
 		return true;
+	}
+
+	public boolean incrementaTempsDeJoc( String id_jugador, long temps ) throws IllegalArgumentException
+	{
+		return setTempsDeJoc( id_jugador, getTempsDeJoc( id_jugador ) + temps );
+	}
+
+	/**
+	 * Consulta la combinació de colors de la partida.
+	 *
+	 * @return La combinació de colors de la partida.
+	 */
+	public CombinacionsColors getCombinacioColors()
+	{
+		return combinacio_colors;
+	}
+
+	/**
+	 * Consulta el mode d'inici de la partida.
+	 *
+	 * @return El mode d'inici de la partida.
+	 */
+	public ModesInici getModeInici()
+	{
+		return mode_inici;
 	}
 }
