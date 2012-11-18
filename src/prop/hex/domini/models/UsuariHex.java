@@ -144,16 +144,6 @@ public class UsuariHex extends Usuari implements Serializable, Comparable<Usuari
 	}
 
 	/**
-	 * Consulta si l'usuari és un usuari humà o si és un usuari de la IA.
-	 *
-	 * @return Cert, si és un usuari humà. Fals, si és un usuari de la IA.
-	 */
-	public boolean esUsuariHuma()
-	{
-		return ( nom != "Maquina_1" && nom != "Maquina_2" );
-	}
-
-	/**
 	 * Consulta l'expressió regular de noms permesos.
 	 *
 	 * @return L'expressió regular de noms permesos.
@@ -171,6 +161,11 @@ public class UsuariHex extends Usuari implements Serializable, Comparable<Usuari
 	public ModesInici getModeInici()
 	{
 		return mode_inici;
+	}
+
+	public TipusJugadors getTipusJugador()
+	{
+		return tipus_jugador;
 	}
 
 	/**
