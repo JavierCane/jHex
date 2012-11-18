@@ -30,10 +30,12 @@ public class UsuariCtrl
 		{
 			throw new IllegalArgumentException( "[KO]\tEl nom d'usuari ja existeix." );
 		}
+
 		if ( !nom.matches( UsuariHex.getCaractersPermesos() ) )
 		{
 			throw new IllegalArgumentException( "[KO]\tEl nom d'usuari conté caràcters il·legals." );
 		}
+
 		if ( registrat && UsuariHex.getNomsNoPermesos().contains( nom ) )
 		{
 			throw new IllegalArgumentException( "[KO]\tNo es permet utilitzar aquest nom d'usuari." );
@@ -88,11 +90,15 @@ public class UsuariCtrl
 		else
 		{
 			UsuariHex usuari = gestor_usuari.carregaElement( nom );
+
 			if ( usuari.getContrasenya() != contrasenya )
 			{
 				throw new IllegalArgumentException( "[KO]\tLa contrasenya no és correcta." );
 			}
-			return usuari;
+			else
+			{
+				return usuari;
+			}
 		}
 	}
 
