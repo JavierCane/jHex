@@ -1,13 +1,14 @@
 package prop.hex.domini.controladors;
 
-import java.io.*;
-
 import prop.hex.domini.models.UsuariHex;
 import prop.hex.domini.models.UsuariIAHex;
-import prop.hex.domini.models.enums.TipusJugadors;
-import prop.hex.gestors.UsuariGstr;
 import prop.hex.domini.models.enums.CombinacionsColors;
 import prop.hex.domini.models.enums.ModesInici;
+import prop.hex.domini.models.enums.TipusJugadors;
+import prop.hex.gestors.UsuariGstr;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * Controlador d'usuaris per al joc Hex.
@@ -35,8 +36,8 @@ public class UsuariCtrl
 	 * @throws IllegalArgumentException Si el nom d'usuari ja existeix al sistema,
 	 *                                  si conté caràcters il·legals o si es tracta d'un nom no permès.
 	 */
-	public static UsuariHex creaUsuari( String nom, String contrasenya, TipusJugadors tipus_jugador,
-	                                    boolean registrat ) throws IllegalArgumentException
+	public static UsuariHex creaUsuari( String nom, String contrasenya, TipusJugadors tipus_jugador, boolean registrat )
+			throws IllegalArgumentException
 	{
 		if ( tipus_jugador == TipusJugadors.JUGADOR )
 		{
@@ -44,10 +45,12 @@ public class UsuariCtrl
 			{
 				throw new IllegalArgumentException( "[KO]\tEl nom d'usuari ja existeix." );
 			}
+
 			if ( !nom.matches( UsuariHex.getCaractersPermesos() ) )
 			{
 				throw new IllegalArgumentException( "[KO]\tEl nom d'usuari conté caràcters il·legals." );
 			}
+
 			if ( registrat && UsuariHex.getNomsNoPermesos().contains( nom ) )
 			{
 				throw new IllegalArgumentException( "[KO]\tNo es permet utilitzar aquest nom d'usuari." );
@@ -95,8 +98,8 @@ public class UsuariCtrl
 	 * @throws IOException
 	 * @throws ClassNotFoundException
 	 */
-	public static UsuariHex carregaUsuari( String nom, String contrasenya, TipusJugadors tipus_jugador ) throws
-			IllegalArgumentException, FileNotFoundException, IOException, ClassNotFoundException
+	public static UsuariHex carregaUsuari( String nom, String contrasenya, TipusJugadors tipus_jugador )
+			throws IllegalArgumentException, FileNotFoundException, IOException, ClassNotFoundException
 	{
 		if ( !gestor_usuari.existeixElement( nom ) )
 		{
@@ -105,7 +108,7 @@ public class UsuariCtrl
 		else
 		{
 			UsuariHex usuari = gestor_usuari.carregaElement( nom );
-			if (tipus_jugador == TipusJugadors.JUGADOR)
+			if ( tipus_jugador == TipusJugadors.JUGADOR )
 			{
 				if ( UsuariHex.getNomsNoPermesos().contains( nom ) )
 				{
@@ -143,13 +146,13 @@ public class UsuariCtrl
 	 * @throws IllegalArgumentException Si la contrasenya antiga passada com a paràmetre no coincideix amb la
 	 *                                  contrasenya de l'usuari.
 	 */
-	public static boolean modificaContrasenya( UsuariHex usuari, String contrasenya_antiga,
-	                                           String contrasenya_nova ) throws IllegalArgumentException
+	public static boolean modificaContrasenya( UsuariHex usuari, String contrasenya_antiga, String contrasenya_nova )
+			throws IllegalArgumentException
 	{
 		if ( usuari.getContrasenya() != contrasenya_antiga )
 		{
 			throw new IllegalArgumentException( "[KO]\tLa contrasenya actual introduïda no correspon a l'actual de " +
-					"" + "l'usuari." );
+			                                    "" + "l'usuari." );
 		}
 
 		return usuari.setContrasenya( contrasenya_nova );
@@ -178,9 +181,8 @@ public class UsuariCtrl
 	 * @param temps_emprat     Temps de joc de l'usuari a la partida.
 	 * @param fitxes_usades    Fitxes utilitzades per l'usuari a la partida.
 	 */
-	public static void actualitzaEstadistiques( UsuariHex usuari, boolean ha_guanyat,
-	                                            TipusJugadors jugador_contrari, Long temps_emprat,
-	                                            Integer fitxes_usades )
+	public static void actualitzaEstadistiques( UsuariHex usuari, boolean ha_guanyat, TipusJugadors jugador_contrari,
+	                                            Long temps_emprat, Integer fitxes_usades )
 	{
 		usuari.recalculaDadesUsuariPartidaFinalitzada( ha_guanyat, jugador_contrari, temps_emprat, fitxes_usades );
 	}
@@ -196,5 +198,4 @@ public class UsuariCtrl
 		usuari.reiniciaEstadistiques();
 		return true;
 	}
-
 }
