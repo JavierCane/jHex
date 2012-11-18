@@ -11,43 +11,32 @@ package prop.hex.domini.models.enums;
  * Posició de la dificultat a l'array de nombres de victories/derrotes d'un Usuari,
  * Punts que otorga el guanyar una partida contra aquest tipus d'usuari/dificultat d'IA,
  * Punts que resta el perdre una partida contra aquest tipus d'usuari/dificultat d'IA,
- * Nom de la classe corresponent a la dificultat, utilitzada per carregar una funció de moviment o una altra.
+ * Nom de la classe controladora corresponent a la dificultat, utilitzada per saber quina funció de moviment ,
+ * Nom de l'usuari a crear amb aquesta dificultat.
  */
-public enum Dificultats
+public enum TipusJugadors
 {
-	JUGADOR( new int[] {
-			0,
-			5,
-			3
-	}, null ),
-	IA_FACIL( new int[] {
-			1,
-			10,
-			2
-	}, "InteligenciaArtificialHexFacil" ),
-	IA_DIFICIL( new int[] {
-			2,
-			15,
-			1
-	}, "InteligenciaArtificialHexDificil" );
+	JUGADOR( 0, 5, 3 ),
+	IA_FACIL( 1, 10, 2, "IAHexFacilCtrl", "Maquina facil" ),
+	IA_DIFICIL( 2, 15, 1, "IAHexDificilCtrl", "Maquina dificil" );
 
 	/**
-	 * Nombre total de dificultats del joc
+	 * Nombre total de dificultats del joc.
 	 */
-	private static final int num_dificultats = Dificultats.values().length;
+	private static final int num_dificultats = TipusJugadors.values().length;
 
 	/**
-	 * Posició de la dificultat a l'array de nombres de victories/derrotes d'un Usuari
+	 * Posició de la dificultat a l'array de nombres de victories/derrotes d'un Usuari.
 	 */
 	private int posicio_dificultat;
 
 	/**
-	 * Punts que otorga el guanyar una partida contra aquest tipus d'usuari/dificultat d'IA
+	 * Punts que otorga el guanyar una partida contra aquest tipus d'usuari/dificultat d'IA.
 	 */
 	private int punts_per_guanyar;
 
 	/**
-	 * Punts que resta el perdre una partida contra aquest tipus d'usuari/dificultat d'IA
+	 * Punts que resta el perdre una partida contra aquest tipus d'usuari/dificultat d'IA.
 	 */
 	private int punts_per_perdre;
 
@@ -57,18 +46,46 @@ public enum Dificultats
 	private String classe_corresponent;
 
 	/**
+	 * Nom de l'usuari a crear amb aquesta dificultat.
+	 */
+	private String nom_usuari;
+
+
+	/**
 	 * Constructora de l'enum, simplement estableix el valor de cada un dels atributs privats per després poder-los
 	 * obtenir en base al valor de l'enum seleccionat
 	 *
-	 * @param parametres
+	 * @param posicio_dificultat
+	 * @param punts_per_guanyar
+	 * @param punts_per_perdre
 	 */
-	Dificultats( int[] parametres, String classe_corresponent )
+	TipusJugadors( int posicio_dificultat, int punts_per_guanyar, int punts_per_perdre )
 	{
-		posicio_dificultat = parametres[0];
-		punts_per_guanyar = parametres[1];
-		punts_per_perdre = parametres[2];
+		this.posicio_dificultat = posicio_dificultat;
+		this.punts_per_guanyar = punts_per_guanyar;
+		this.punts_per_perdre = punts_per_perdre;
+		this.classe_corresponent = null;
+		this.nom_usuari = null;
+	}
 
+	/**
+	 * Constructora de l'enum, simplement estableix el valor de cada un dels atributs privats per després poder-los
+	 * obtenir en base al valor de l'enum seleccionat
+	 *
+	 * @param posicio_dificultat
+	 * @param punts_per_guanyar
+	 * @param punts_per_perdre
+	 * @param classe_corresponent
+	 * @param nom_usuari
+	 */
+	TipusJugadors( int posicio_dificultat, int punts_per_guanyar, int punts_per_perdre, String classe_corresponent,
+	               String nom_usuari )
+	{
+		this.posicio_dificultat = posicio_dificultat;
+		this.punts_per_guanyar = punts_per_guanyar;
+		this.punts_per_perdre = punts_per_perdre;
 		this.classe_corresponent = classe_corresponent;
+		this.nom_usuari = nom_usuari;
 	}
 
 	/**
@@ -122,5 +139,15 @@ public enum Dificultats
 	public String getClasseCorresponent()
 	{
 		return classe_corresponent;
+	}
+
+	/**
+	 * Mètode públic per poder obtenir el nom de l'usuari a crear amb aquesta dificultat.
+	 *
+	 * @return
+	 */
+	public String getNomUsuari()
+	{
+		return nom_usuari;
 	}
 }

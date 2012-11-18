@@ -2,8 +2,9 @@ package prop.hex.domini.controladors.drivers;
 
 import prop.cluster.domini.models.estats.EstatCasella;
 import prop.cluster.domini.models.estats.EstatPartida;
+import prop.hex.domini.controladors.IA.CamiMinim;
 import prop.hex.domini.controladors.IA.ResistenciaTauler;
-import prop.hex.domini.controladors.InteligenciaArtificialHexFacil;
+import prop.hex.domini.controladors.IAHexFacilCtrl;
 import prop.hex.domini.models.PartidaHex;
 import prop.hex.domini.models.TaulerHex;
 import prop.hex.domini.models.UsuariHex;
@@ -48,7 +49,7 @@ class Finestra extends JPanel
 	UsuariHex jugador_a;
 	UsuariHex jugador_b;
 	PartidaHex partida;
-	InteligenciaArtificialHexFacil IA;
+	IAHexFacilCtrl IA;
 
 	Polygon hexagon;
 	int dx, dy;
@@ -65,7 +66,7 @@ class Finestra extends JPanel
 		jugador_a = new UsuariHex( "Nom_jugador_a", "Contrasenya_jugador_a" );
 		jugador_b = new UsuariHex( "Nom_jugador_b", "Contrasenya_jugador_b" );
 		partida = new PartidaHex( jugador_a, jugador_b, tauler, nom_partida );
-		IA = new InteligenciaArtificialHexFacil();
+		IA = new IAHexFacilCtrl();
 
 		System.out.println( "Iniciant partida Huma vs. IA" );
 
@@ -144,6 +145,12 @@ class Finestra extends JPanel
 				int[] d = IA.minimax( partida, EstatCasella.JUGADOR_B, 3 );
 				tauler.mouFitxa( EstatCasella.JUGADOR_B, d[0], d[1] );
 				partida.incrementaTornsJugats( 1 );
+
+				CamiMinim c_A = new CamiMinim(tauler, EstatCasella.JUGADOR_A);
+				CamiMinim c_B = new CamiMinim(tauler, EstatCasella.JUGADOR_B);
+
+				c_A.evalua();
+				c_B.evalua();
 
 
 				double eval;

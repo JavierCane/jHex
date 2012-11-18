@@ -11,7 +11,7 @@ import sun.jvm.hotspot.debugger.posix.elf.ELFSectionHeader;
 
 /**
  */
-public class InteligenciaArtificialHexFacil extends InteligenciaArtificial
+public class IAHexFacilCtrl extends InteligenciaArtificial
 {
 
 	public int funcioAvaluacio( Tauler tauler, EstatPartida estat_moviment, int profunditat, EstatCasella fitxa_jugador )

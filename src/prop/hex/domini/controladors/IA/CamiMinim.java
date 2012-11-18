@@ -74,15 +74,42 @@ public class CamiMinim
 			}
 		}
 
-		while(!cua_caselles.isEmpty()) {
+		while ( !cua_caselles.isEmpty() )
+		{
 			ResistenciaCasella actual = cua_caselles.poll();
-			List<Casella> veins = tauler.getVeins(actual.getCasella());
-			for(Casella vei : veins)
-			{
 
+			List<Casella> veins = tauler.getVeins( actual.getCasella() );
+			for ( Casella vei : veins )
+			{
+				if ( resistencies_parcials[vei.getFila()][vei.getColumna()] > actual.getResistencia() + resistenciaCasella( vei ) )
+				{
+					resistencies_parcials[vei.getFila()][vei.getColumna()] = actual.getResistencia() + resistenciaCasella( vei );
+					cua_caselles.add( new ResistenciaCasella( vei, resistencies_parcials[vei.getFila()][vei.getColumna()] ) );
+				}
 			}
 		}
-		return 0;
+
+		int min = 100000;
+
+		if ( jugador == EstatCasella.JUGADOR_A )
+		{
+			for ( int fila = 0; fila < tauler.getMida(); fila++ )
+			{
+			//	if (  )
+				System.out.print(resistencies_parcials[fila][tauler.getMida()-1]);
+			}
+			System.out.print("\n");
+		}
+		else
+		{
+			for ( int columna = 0; columna < tauler.getMida(); columna++ )
+			{
+				System.out.print(resistencies_parcials[tauler.getMida()-1][columna]);
+			}
+			System.out.print("\n");
+		}
+
+		return min;
 	}
 
 
@@ -99,7 +126,7 @@ public class CamiMinim
 		}
 		else
 		{
-			return Integer.MAX_VALUE;
+			return 100000;
 		}
 	}
 

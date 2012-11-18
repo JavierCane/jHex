@@ -1,11 +1,12 @@
 package prop.hex.domini.controladors;
 
-import java.io.*;
-
 import prop.hex.domini.models.UsuariHex;
-import prop.hex.gestors.UsuariGstr;
 import prop.hex.domini.models.enums.CombinacionsColors;
 import prop.hex.domini.models.enums.ModesInici;
+import prop.hex.gestors.UsuariGstr;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class UsuariCtrl
 {
@@ -29,10 +30,12 @@ public class UsuariCtrl
 		{
 			throw new IllegalArgumentException( "[KO]\tEl nom d'usuari ja existeix." );
 		}
+
 		if ( !nom.matches( UsuariHex.getCaractersPermesos() ) )
 		{
 			throw new IllegalArgumentException( "[KO]\tEl nom d'usuari conté caràcters il·legals." );
 		}
+
 		if ( registrat && UsuariHex.getNomsNoPermesos().contains( nom ) )
 		{
 			throw new IllegalArgumentException( "[KO]\tNo es permet utilitzar aquest nom d'usuari." );
@@ -70,13 +73,13 @@ public class UsuariCtrl
 	 * @param contrasenya Contrasenya de l'usuari que es vol carregar.
 	 * @return L'usuari corresponent al nom i la contrasenya donats.
 	 * @throws IllegalArgumentException Si l'usuari identificat pel nom no existeix o si la contrasenya no
-	 * coincideix amb l'usuari.
+	 *                                  coincideix amb l'usuari.
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 * @throws ClassNotFoundException
 	 */
-	public UsuariHex carregaUsuari( String nom, String contrasenya ) throws IllegalArgumentException,
-			FileNotFoundException, IOException, ClassNotFoundException
+	public UsuariHex carregaUsuari( String nom, String contrasenya )
+			throws IllegalArgumentException, FileNotFoundException, IOException, ClassNotFoundException
 	{
 		UsuariGstr gestor_usuari = new UsuariGstr();
 
@@ -87,11 +90,15 @@ public class UsuariCtrl
 		else
 		{
 			UsuariHex usuari = gestor_usuari.carregaElement( nom );
+
 			if ( usuari.getContrasenya() != contrasenya )
 			{
 				throw new IllegalArgumentException( "[KO]\tLa contrasenya no és correcta." );
 			}
-			return usuari;
+			else
+			{
+				return usuari;
+			}
 		}
 	}
 
@@ -116,7 +123,7 @@ public class UsuariCtrl
 	 * @param contrasenya Contrasenya antiga de l'usuari que es vol modificar.
 	 * @return Cert, si s'ha modificat la contrasenya. Fals, altrament.
 	 * @throws IllegalArgumentException Si la contrasenya passada com a paràmetre no coincideix amb la contrasenya
-	 * de l'usuari.
+	 *                                  de l'usuari.
 	 */
 	public boolean modificaContrasenya( UsuariHex usuari, String contrasenya ) throws IllegalArgumentException
 	{
@@ -136,57 +143,8 @@ public class UsuariCtrl
 	 * @param combinacio_colors Combinació de colors que es vol donar a l'usuari.
 	 * @return Cert, si les preferències s'han modificat correctament. Fals, altrament.
 	 */
-	public boolean modificaPreferencies( UsuariHex usuari, ModesInici mode_inici,
-	                                     CombinacionsColors combinacio_colors )
+	public boolean modificaPreferencies( UsuariHex usuari, ModesInici mode_inici, CombinacionsColors combinacio_colors )
 	{
 		return ( usuari.setModeInici( mode_inici ) && usuari.setCombinacionsColors( combinacio_colors ) );
-	}
-
-	/**
-	 * Modifica el temps mínim en una partida d'un usuari.
-	 *
-	 * @param usuari      Usuari al que es vol modificar el temps mínim.
-	 * @param temps_minim Temps mínim d'una partida que es vol donar a l'usuari.
-	 * @return Cert, si el temps mínim s'ha actualitzat. Fals, altrament.
-	 */
-	public boolean modificaTempsMinim( UsuariHex usuari, long temps_minim )
-	{
-		return usuari.setTempsMinim( temps_minim );
-	}
-
-	/**
-	 * Modifica el nombre mínim de fitxes en una partida d'un usuari.
-	 *
-	 * @param usuari         Usuari al que es vol modificar nombre mínim de fitxes.
-	 * @param fitxes_minimes Nombre mínim de fitxes en una partida que es vol donar a l'usuari.
-	 * @return Cert, si el nombre mínim de fitxes s'ha actualitzat. Fals, altrament.
-	 */
-	public boolean modificaFitxesMinimes( UsuariHex usuari, int fitxes_minimes )
-	{
-		return usuari.setFitxesMinimes( fitxes_minimes );
-	}
-
-	/**
-	 * Modifica el nombre de partides jugades d'un usuari.
-	 *
-	 * @param usuari           Usuari al que es vol modificar el temps mínim.
-	 * @param partides_jugades Nombre de partides jugades que es vol donar a l'usuari.
-	 * @return Cert, si el nombre de partides jugades s'ha actualitzat. Fals, altrament.
-	 */
-	public boolean modificaPartidesJugades( UsuariHex usuari, int partides_jugades )
-	{
-		return usuari.setPartidesJugades( partides_jugades );
-	}
-
-	/**
-	 * Modifica el nombre de partides guanyades d'un usuari.
-	 *
-	 * @param usuari             Usuari al que es vol modificar el temps mínim.
-	 * @param partides_guanyades Nombre de partides guanyades que es vol donar a l'usuari.
-	 * @return Cert, si el nombre de partides guanyades s'ha actualitzat. Fals, altrament.
-	 */
-	public boolean modificaPartidesGuanyades( UsuariHex usuari, int partides_guanyades )
-	{
-		return usuari.setPartidesGuanyades( partides_guanyades );
 	}
 }
