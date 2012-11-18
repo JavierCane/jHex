@@ -16,7 +16,7 @@ package prop.hex.domini.models.enums;
  */
 public enum TipusJugadors
 {
-	JUGADOR( 0, 5, 3 ),
+	JUGADOR( 0, 5, 3, "IAHexFacilCtrl" ),
 	IA_FACIL( 1, 10, 2, "IAHexFacilCtrl", "Maquina facil" ),
 	IA_DIFICIL( 2, 15, 1, "IAHexDificilCtrl", "Maquina dificil" );
 
@@ -50,7 +50,6 @@ public enum TipusJugadors
 	 */
 	private String nom_usuari;
 
-
 	/**
 	 * Constructora de l'enum, simplement estableix el valor de cada un dels atributs privats per després poder-los
 	 * obtenir en base al valor de l'enum seleccionat
@@ -59,13 +58,13 @@ public enum TipusJugadors
 	 * @param punts_per_guanyar
 	 * @param punts_per_perdre
 	 */
-	TipusJugadors( int posicio_dificultat, int punts_per_guanyar, int punts_per_perdre )
+	TipusJugadors( int posicio_dificultat, int punts_per_guanyar, int punts_per_perdre, String classe_corresponent )
 	{
 		this.posicio_dificultat = posicio_dificultat;
 		this.punts_per_guanyar = punts_per_guanyar;
 		this.punts_per_perdre = punts_per_perdre;
-		this.classe_corresponent = null;
-		this.nom_usuari = null;
+		this.classe_corresponent = classe_corresponent;
+		nom_usuari = null;
 	}
 
 	/**
