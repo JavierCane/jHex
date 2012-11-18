@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * Classe encarregada de gestionar el rànquing d'usuaris.
- * Com es pot veure a travñes de la gestió de l'atribut instancia, s'ha implementant aplicant el patró Singleton per
+ * Com es pot veure a través de la gestió de l'atribut instancia, s'ha implementant aplicant el patró Singleton per
  * asegurar-nos de que no es creen dues instàncies distintes d'aquesta classe.
  */
 public final class Ranquing
