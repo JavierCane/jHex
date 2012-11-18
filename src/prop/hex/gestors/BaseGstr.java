@@ -1,6 +1,8 @@
 package prop.hex.gestors;
 
 import java.io.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Classe abstracta i parametritzada pel tractament de fitxers.
@@ -9,7 +11,7 @@ import java.io.*;
  * <p/>
  * Date: 29/10/12
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings( "unchecked" )
 public abstract class BaseGstr<T>
 {
 
@@ -138,5 +140,28 @@ public abstract class BaseGstr<T>
 		                                 this.extensio_fitxers );
 
 		return arxiu_a_accedir.exists();
+	}
+
+	/**
+	 * Llista els noms dels elements de la subcarpeta de dades.
+	 *
+	 * @return El conjunt dels noms dels elements de la subcarpeta de dades.
+	 */
+	public Set<String> llistaElements()
+	{
+		File carpeta = new File( this.carpeta_dades + '/' + this.subcarpeta_dades + '/' );
+		File[] llista_arxius = carpeta.listFiles();
+
+		Set<String> noms_elements = new HashSet<String>();
+		for ( File arxiu : llista_arxius )
+		{
+			String nom = arxiu.getName();
+			if ( nom.endsWith( this.extensio_fitxers ) )
+			{
+				noms_elements.add( nom.replaceAll( "[A-Za-z_@\\-]+\\." + this.extensio_fitxers + "$", "" ) );
+			}
+		}
+
+		return noms_elements;
 	}
 }
