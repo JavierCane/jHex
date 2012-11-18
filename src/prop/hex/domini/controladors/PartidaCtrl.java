@@ -211,10 +211,18 @@ public class PartidaCtrl
 	 */
 	public static boolean tancaPartida()
 	{
+		EstatPartida estat_actual = consultaEstatPartida();
+		if ( estat_actual != EstatPartida.NO_FINALITZADA )
+		{
+			// Aquí se actualizan las estadísticas del Usuario mediante UsuariCtrl. La llamada a esa función debería
+			// encargarse de actualizar el objeto de tipo Ranquing.
+		}
+
 		darrera_fitxa = null;
 		partida_actual = null;
 		jugadors_humans = null;
 		id_usuaris = null;
+
 		return true;
 	}
 
