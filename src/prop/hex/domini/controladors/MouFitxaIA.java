@@ -9,6 +9,8 @@ import prop.hex.domini.models.PartidaHex;
  */
 public interface MouFitxaIA
 {
-	public boolean setPartida(PartidaHex partida);
-	public Casella mouFitxa(EstatCasella fitxa);
+
+	public boolean setPartida( PartidaHex partida );
+
+	public Casella mouFitxa( EstatCasella fitxa );
 }
