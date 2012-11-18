@@ -4,7 +4,6 @@ import prop.cluster.domini.models.estats.EstatCasella;
 import prop.cluster.domini.models.estats.EstatPartida;
 import prop.hex.domini.controladors.IA.CamiMinim;
 import prop.hex.domini.controladors.IA.ConnexionsVirtuals;
-import prop.hex.domini.controladors.IA.Resistencia;
 import prop.hex.domini.controladors.IA.ResistenciaTauler;
 import prop.hex.domini.controladors.IAHexFacilCtrl;
 import prop.hex.domini.models.Casella;
@@ -59,8 +58,6 @@ class Finestra extends JPanel
 	double radi = 40.0;
 	int iniciX = 60;
 	int iniciY = 60;
-	double valor_resistencia_A, valor_resistencia_B;
-	int eval_A, eval_B, cami_minim_A, cami_minim_B, n_cv_A, n_cv_B;
 
 	public Finestra()
 	{
@@ -150,41 +147,6 @@ class Finestra extends JPanel
 				tauler.mouFitxa( EstatCasella.JUGADOR_B, nou_moviment );
 				partida.incrementaTornsJugats( 1 );
 
-				IA.funcioAvaluacio(tauler, EstatPartida.NO_FINALITZADA, 0, EstatCasella.JUGADOR_B);
-
-				ConnexionsVirtuals cv_A = new ConnexionsVirtuals(tauler, EstatCasella.JUGADOR_A);
-				n_cv_A = cv_A.getConnexions_virtuals();
-				ConnexionsVirtuals cv_B = new ConnexionsVirtuals(tauler, EstatCasella.JUGADOR_B);
-				n_cv_B = cv_B.getConnexions_virtuals();
-
-				CamiMinim c_A = new CamiMinim( tauler, EstatCasella.JUGADOR_A );
-				CamiMinim c_B = new CamiMinim( tauler, EstatCasella.JUGADOR_B );
-
-				c_A.evalua();
-				c_B.evalua();
-
-
-				double eval;
-				ResistenciaTauler resistencia_A = new ResistenciaTauler( ( TaulerHex ) tauler, EstatCasella.JUGADOR_A );
-				ResistenciaTauler resistencia_B = new ResistenciaTauler( ( TaulerHex ) tauler, EstatCasella.JUGADOR_B );
-
-				CamiMinim cm_A = new CamiMinim( tauler, EstatCasella.JUGADOR_A );
-				CamiMinim cm_B = new CamiMinim( tauler, EstatCasella.JUGADOR_B );
-
-				eval_A = IA.funcioAvaluacio( tauler, EstatPartida.NO_FINALITZADA, 0, EstatCasella.JUGADOR_A );
-				eval_B = IA.funcioAvaluacio( tauler, EstatPartida.NO_FINALITZADA, 0, EstatCasella.JUGADOR_B );
-
-				valor_resistencia_A = resistencia_A.evalua();
-				valor_resistencia_B = resistencia_B.evalua();
-
-				cami_minim_A = cm_A.evalua();
-				cami_minim_B = cm_B.evalua();
-
-				System.out.print( "--------------------------------------------------------------\nTauler A:" );
-				resistencia_A.mostraTauler();
-				System.out.print( "--------------------------------------------------------------\nTauler B:" );
-				resistencia_B.mostraTauler();
-
 //				System.out.println( "Jugador B mou a " + d[0] + "," + j );
 				System.out.println( tauler.toString() );
 
@@ -234,22 +196,7 @@ class Finestra extends JPanel
 			g.translate( -i * dx / 2, -i * dy );
 		}
 
-		g.setColor( Color.black );
-		g.drawString( "Ra: " + valor_resistencia_A, 10, 400 );
-		g.drawString( "Rb: " + valor_resistencia_B, 10, 420 );
-
-		g.drawString( "Eval A: " + eval_A, 10, 440 );
-		g.drawString( "Eval B: " + eval_B, 10, 460 );
-
-		g.drawString( "Camí mínim A: " + cami_minim_A, 10, 480 );
-		g.drawString( "Camí mínim B: " + cami_minim_B, 10, 500 );
-
-		IA.funcioAvaluacio( tauler, EstatPartida.NO_FINALITZADA, 0, EstatCasella.JUGADOR_A );
-		g.drawString( "A1: " + n_cv_A, 300, 520 );
-
-		Resistencia RH = new Resistencia(tauler, EstatCasella.JUGADOR_B);
-
-		IA.funcioAvaluacio( tauler, EstatPartida.NO_FINALITZADA, 0, EstatCasella.JUGADOR_B );
-		g.drawString( "B1: " + RH.evalua(), 500, 520 );
+//		g.setColor( Color.black );
+//		g.drawString( "Camí mínim B: " + cami_minim_B, 10, 500 );
 	}
 }

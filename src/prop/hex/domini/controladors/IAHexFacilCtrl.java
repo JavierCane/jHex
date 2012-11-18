@@ -24,94 +24,25 @@ public class IAHexFacilCtrl extends InteligenciaArtificial implements MouFitxaIA
 	/**
 	 * Profunditat màxima per al minimax.
 	 */
-	private static int profunditat_maxima = 2;
+	private int profunditat_maxima = 2;
+
+	/**
+	 * Si l'enemic esta a punt de guanyar, prioritzem perjudicar-lo en lloc de obtenir nosaltres millor posició.
+	 */
+	private boolean tactica_agresiva;
+
+	/**
+	 * @param tauler         Objecte de la classe <code>Tauler</code> sobre el qual es disputa una partida.
+	 * @param estat_moviment Descriu en quin estat ha quedat <em>tauler</em> en funció de l'últim moviment efectuat
+	 *                       sobre aquest.
+	 * @param profunditat    És la profunditat a la que s'ha arribat durant l'exploració de les diferents possibilitats de
+	 *                       moviment. Cada unitat de <em>profunditat</em> representa un torn jugat de la partida.
+	 * @param fitxa_jugador  Indica el jugador de la partida a partir del qual avaluar <em>tauler</em>.
+	 * @return
+	 */
 
 	public int funcioAvaluacio( Tauler tauler, EstatPartida estat_moviment, int profunditat, EstatCasella fitxa_jugador )
 	{
-/*
-		if ( estat_moviment == EstatPartida.GUANYA_JUGADOR_A )
-		{
-			if ( fitxa_jugador == EstatCasella.JUGADOR_A )
-			{
-				return 1000000;
-			}
-			else
-			{
-				return -1000000;
-			}
-		}
-		else if ( estat_moviment == EstatPartida.GUANYA_JUGADOR_B )
-		{
-			if ( fitxa_jugador == EstatCasella.JUGADOR_B )
-			{
-				return 1000000;
-			}
-			else
-			{
-				return -1000000;
-			}
-		}
-		else
-		{
-			ConnexionsVirtuals cv = new ConnexionsVirtuals( ( TaulerHex ) tauler, fitxa_jugador );
-			CamiMinim cami_minim_A = new CamiMinim( ( TaulerHex ) tauler, EstatCasella.JUGADOR_A );
-			CamiMinim cami_minim_B = new CamiMinim( ( TaulerHex ) tauler, EstatCasella.JUGADOR_B );
-
-			if ( fitxa_jugador == EstatCasella.JUGADOR_A )
-			{
-				d1 = (int) (1000.0*30.0 * ( double ) cami_minim_B.evalua() / ( double ) cami_minim_A.evalua());
-				d2 = 1000*cv.getConnexions_virtuals() * 2;
-				d3 = ( int ) ( 1000.0 * ( 30.0 * ( double ) cami_minim_B.evalua() / ( double ) cami_minim_A.evalua() + cv.getConnexions_virtuals() * 2 ) );
-
-				return ( int ) ( 1000.0 * ( 30.0 * ( double ) cami_minim_B.evalua() / ( double ) cami_minim_A.evalua() + cv.getConnexions_virtuals() * 2 ) );
-			}
-			else
-			{
-				d1 = (int) (1000.0 * 30.0 * ( double ) cami_minim_A.evalua() / ( double ) cami_minim_B.evalua());
-				d2 = 1000*cv.getConnexions_virtuals() * 2;
-				d3 = ( int ) ( 1000.0 * ( 30.0 * ( double ) cami_minim_A.evalua() / ( double ) cami_minim_B.evalua() + cv.getConnexions_virtuals() * 2 ) );
-				return ( int ) ( 1000.0 * ( 30.0 * ( double ) cami_minim_A.evalua() / ( double ) cami_minim_B.evalua() + cv.getConnexions_virtuals() * 2 ) );
-			}
-		}
-*/
-
-//		ConnexionsVirtuals cv = new ConnexionsVirtuals( ( TaulerHex ) tauler, fitxa_jugador );
-
-//		E = log(RB/RW).
-/*		double eval;
-		ResistenciaTauler resistencia_A = new ResistenciaTauler( ( TaulerHex ) tauler, EstatCasella.JUGADOR_A );
-		ResistenciaTauler resistencia_B = new ResistenciaTauler( ( TaulerHex ) tauler, EstatCasella.JUGADOR_B );
-
-		double valor_resistencia_A = resistencia_A.evalua();
-		double valor_resistencia_B = resistencia_B.evalua();
-
-		if ( fitxa_jugador == EstatCasella.JUGADOR_B )
-		{
-			if ( valor_resistencia_B == Double.MAX_VALUE )
-			{
-				return Integer.MIN_VALUE;
-			}
-			else if ( valor_resistencia_B == 0.0 )
-			{
-				return Integer.MAX_VALUE;
-			}
-			eval = Math.log( valor_resistencia_A / valor_resistencia_B );
-		}
-		else
-		{
-			if ( valor_resistencia_A == Double.MAX_VALUE )
-			{
-				return Integer.MIN_VALUE;
-			}
-			else if ( valor_resistencia_A == 0.0 )
-			{
-				return Integer.MAX_VALUE;
-			}
-			eval = Math.log( valor_resistencia_B / valor_resistencia_A );
-		}
-
-		return (int)(eval*10000.0) + cv.getConnexions_virtuals()*3000 + cv.getConnexions_semivirtuals()*300;
-*/
 		if ( estat_moviment == EstatPartida.GUANYA_JUGADOR_A )
 		{
 			if ( fitxa_jugador == EstatCasella.JUGADOR_A )
@@ -135,6 +66,19 @@ public class IAHexFacilCtrl extends InteligenciaArtificial implements MouFitxaIA
 			}
 		}
 
+		if(tactica_agresiva)
+		{
+			return agressiu(tauler, fitxa_jugador);
+		}
+		else
+		{
+			return passiu(tauler, fitxa_jugador);
+		}
+
+	}
+
+	private int passiu( Tauler tauler, EstatCasella fitxa_jugador)
+	{
 		int eval;
 
 		ConnexionsVirtuals cv_A = new ConnexionsVirtuals( ( TaulerHex ) tauler, EstatCasella.JUGADOR_A );
@@ -159,21 +103,21 @@ public class IAHexFacilCtrl extends InteligenciaArtificial implements MouFitxaIA
 		{
 			eval = ( -long_cami_A + long_cami_B ) * pes_long_cami;
 			eval += ( nombre_cv_A - nombre_cv_B ) * pes_nombre_cv;
-		//	eval += ( nombre_cv_A ) * pes_nombre_cv;
+			//	eval += ( nombre_cv_A ) * pes_nombre_cv;
 			//		eval += ( cv_A.getConnexions_semivirtuals() - cv_B.getConnexions_semivirtuals() ) * ( 10 - partida.getTornsJugats() / 4 );
 			eval += ( int ) ( Math.log( valor_resistencia_B / valor_resistencia_A + 1.0 ) * pes_resistencia );
 
-		//	eval = (30*long_cami_B)/long_cami_A + nombre_cv_A;
+			//	eval = (30*long_cami_B)/long_cami_A + nombre_cv_A;
 		}
 		else
 		{
 			eval = ( long_cami_A - long_cami_B ) * pes_long_cami;
 			eval += ( -nombre_cv_A + nombre_cv_B ) * pes_nombre_cv;
-		//	eval += ( nombre_cv_B ) * pes_nombre_cv;
+			//	eval += ( nombre_cv_B ) * pes_nombre_cv;
 			//		eval += ( -cv_A.getConnexions_semivirtuals() + cv_B.getConnexions_semivirtuals() ) * ( 10 - partida.getTornsJugats() / 4 );
 			eval += ( int ) ( Math.log( valor_resistencia_A / valor_resistencia_B + 1.0 ) * pes_resistencia );
 
-		//	eval = (30*long_cami_A)/long_cami_B + nombre_cv_B;
+			//	eval = (30*long_cami_A)/long_cami_B + nombre_cv_B;
 		}
 
 //		eval = 30*long_cami_B +
@@ -184,6 +128,33 @@ public class IAHexFacilCtrl extends InteligenciaArtificial implements MouFitxaIA
 //		return cv.getConnexions_virtuals() * 4 + cv.getConnexions_semivirtuals();
 	}
 
+
+	private int agressiu( Tauler tauler, EstatCasella fitxa_jugador)
+	{
+		if ( fitxa_jugador == EstatCasella.JUGADOR_A )
+		{
+			CamiMinim cami_minim_B = new CamiMinim( ( TaulerHex ) tauler, EstatCasella.JUGADOR_B );
+			ConnexionsVirtuals cv_B = new ConnexionsVirtuals( ( TaulerHex ) tauler, EstatCasella.JUGADOR_B );
+			ResistenciaTauler resistencia_B = new ResistenciaTauler( ( TaulerHex ) tauler, EstatCasella.JUGADOR_B );
+
+			return cami_minim_B.evalua()*100 - cv_B.getConnexions_virtuals()*30 + (int)(1000.0*resistencia_B.evalua());
+		}
+		else
+		{
+			CamiMinim cami_minim_A = new CamiMinim( ( TaulerHex ) tauler, EstatCasella.JUGADOR_A );
+			ConnexionsVirtuals cv_A = new ConnexionsVirtuals( ( TaulerHex ) tauler, EstatCasella.JUGADOR_A );
+			ResistenciaTauler resistencia_A = new ResistenciaTauler( ( TaulerHex ) tauler, EstatCasella.JUGADOR_A );
+
+			return cami_minim_A.evalua()*100 - cv_A.getConnexions_virtuals()*30 + (int)(1000.0*resistencia_A.evalua());
+		}
+	}
+
+
+	/**
+	 * Obté la casella més central possible.
+	 *
+	 * @return
+	 */
 	private Casella posicioCentral()
 	{
 		TaulerHex tauler = ( TaulerHex ) partida.getTauler();
@@ -232,9 +203,30 @@ public class IAHexFacilCtrl extends InteligenciaArtificial implements MouFitxaIA
 	 */
 	public Casella mouFitxa( EstatCasella fitxa )
 	{
+		// En la primera jugada no es fa minimax, en lloc d'això, és mira la casella més central possible.
 		if ( partida.getTornsJugats() <= 1 )
 		{
 			return posicioCentral();
+		}
+
+		int distancia_enemic;
+		if ( fitxa == EstatCasella.JUGADOR_A )
+		{
+			CamiMinim cami_minim_B = new CamiMinim( ( TaulerHex ) partida.getTauler(), EstatCasella.JUGADOR_B );
+			distancia_enemic = cami_minim_B.evalua();
+		}
+		else
+		{
+			CamiMinim cami_minim_A = new CamiMinim( ( TaulerHex ) partida.getTauler(), EstatCasella.JUGADOR_A );
+			distancia_enemic = cami_minim_A.evalua();
+		}
+		if ( distancia_enemic <= 3 )
+		{
+			tactica_agresiva = true;
+		}
+		else
+		{
+			tactica_agresiva = false;
 		}
 
 		int[] casella = super.minimax( partida, fitxa, profunditat_maxima );
