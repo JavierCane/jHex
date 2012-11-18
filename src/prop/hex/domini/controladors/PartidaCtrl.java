@@ -2,10 +2,7 @@ package prop.hex.domini.controladors;
 
 import prop.cluster.domini.models.estats.EstatCasella;
 import prop.cluster.domini.models.estats.EstatPartida;
-import prop.hex.domini.models.Casella;
-import prop.hex.domini.models.PartidaHex;
-import prop.hex.domini.models.TaulerHex;
-import prop.hex.domini.models.UsuariHex;
+import prop.hex.domini.models.*;
 import prop.hex.domini.models.enums.ModesInici;
 import prop.hex.domini.models.enums.TipusJugadors;
 import prop.hex.gestors.PartidaHexGstr;
@@ -191,7 +188,8 @@ public class PartidaCtrl
 	}
 
 	/**
-	 * Tanca la partida actual.
+	 * Tanca la partida actual. Actualitza les estadístiques i esborra el fitxer de partida si la partida ja ha
+	 * finalitzat.
 	 *
 	 * @return Cert si s'ha tancat correctament. Fals altrament.
 	 */
@@ -200,8 +198,22 @@ public class PartidaCtrl
 		EstatPartida estat_actual = consultaEstatPartida();
 		if ( estat_actual != EstatPartida.NO_FINALITZADA )
 		{
-			// Aquí se actualizan las estadísticas del Usuario mediante UsuariCtrl. La llamada a esa función debería
-			// encargarse de actualizar el objeto de tipo Ranquing.
+			UsuariCtrl.actualitzaEstadistiques( usuaris_partida[0], estat_actual == EstatPartida.GUANYA_JUGADOR_A,
+					usuaris_partida[1].getTipusJugador(),
+					partida_actual.getTempsDeJoc( usuaris_partida[0].getIdentificadorUnic() ),
+					partida_actual.getTauler().getNumFitxesA() );
+			UsuariCtrl.actualitzaEstadistiques( usuaris_partida[1], estat_actual == EstatPartida.GUANYA_JUGADOR_B,
+					usuaris_partida[0].getTipusJugador(),
+					partida_actual.getTempsDeJoc( usuaris_partida[1].getIdentificadorUnic() ),
+					partida_actual.getTauler().getNumFitxesA() );
+
+			Ranquing ranquing = Ranquing.getInstancia();
+			for ( UsuariHex usuari : usuaris_partida )
+			{
+				ranquing.actualitzaUsuari( usuari );
+			}
+
+			gestor_partida.eliminaElement( partida_actual.getIdentificadorUnic() );
 		}
 
 		darrera_fitxa = null;
@@ -210,6 +222,17 @@ public class PartidaCtrl
 		jugadors_ia = null;
 
 		return true;
+	}
+
+	/**
+	 * Tanca la partida actual i l'esborra del disc. Actualitza les estadístiques si la partida ja ha finalitzat.
+	 *
+	 * @return Cert si s'ha tancat correctament. Fals altrament.
+	 */
+	public static boolean tancaIEliminaPartida()
+	{
+		gestor_partida.eliminaElement( partida_actual.getIdentificadorUnic() );
+		return tancaPartida();
 	}
 
 	/**
