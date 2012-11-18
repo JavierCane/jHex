@@ -1,49 +1,66 @@
 package prop.hex.domini.controladors;
 
+import java.io.*;
+
 import prop.hex.domini.models.UsuariHex;
+import prop.hex.domini.models.UsuariIAHex;
+import prop.hex.domini.models.enums.TipusJugadors;
+import prop.hex.gestors.UsuariGstr;
 import prop.hex.domini.models.enums.CombinacionsColors;
 import prop.hex.domini.models.enums.ModesInici;
-import prop.hex.gestors.UsuariGstr;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
+/**
+ * Controlador d'usuaris per al joc Hex.
+ * Gestiona totes les operacions relacionades amb la creació i modificació, a més de la càrrega i l'emmagatzemament a
+ * memòria secundària.
+ */
 public class UsuariCtrl
 {
 
 	/**
-	 * Crea una instància d'UsuariHex amb el nom d'usuari i la contrasenya donats, sempre i quan no existeixi ja un
-	 * usuari amb el mateix identificador al sistema,
+	 * Instància del gestor d'usuaris en disc.
+	 */
+	private static UsuariGstr gestor_usuari = new UsuariGstr();
+
+	/**
+	 * Crea una instància d'UsuariHex associada a un jugador amb el nom d'usuari i la contrasenya donats o un
+	 * usuari de la IA,
+	 * sempre i quan no existeixi ja un usuari amb el mateix identificador al sistema.
 	 *
-	 * @param nom         Nom de l'usuari nou que es vol instanciar.
-	 * @param contrasenya Contrasenya de l'usuari nou que es vol instanciar.
-	 * @param registrat   Indica si es vol instanciar un usuari registrat o un intern del sistema.
-	 * @return Un nou UsuariHex amb el nom i la contrasenya donats.
+	 * @param nom           Nom de l'usuari nou que es vol instanciar.
+	 * @param contrasenya   Contrasenya de l'usuari nou que es vol instanciar.
+	 * @param tipus_jugador Tipus de l'usuari que es vol instanciar.
+	 * @param registrat     Indica si es vol instanciar un usuari registrat o un usuari convidat.
+	 * @return Un nou UsuariHex, i si es tracta d'un jugador, amb el nom i la contrasenya donats.
 	 * @throws IllegalArgumentException Si el nom d'usuari ja existeix al sistema,
 	 *                                  si conté caràcters il·legals o si es tracta d'un nom no permès.
 	 */
-	public UsuariHex creaUsuari( String nom, String contrasenya, boolean registrat ) throws IllegalArgumentException
+	public static UsuariHex creaUsuari( String nom, String contrasenya, TipusJugadors tipus_jugador,
+	                                    boolean registrat ) throws IllegalArgumentException
 	{
-		UsuariGstr gestor_usuari = new UsuariGstr();
-
-		if ( gestor_usuari.existeixElement( nom ) )
+		if ( tipus_jugador == TipusJugadors.JUGADOR )
 		{
-			throw new IllegalArgumentException( "[KO]\tEl nom d'usuari ja existeix." );
-		}
-
-		if ( !nom.matches( UsuariHex.getCaractersPermesos() ) )
-		{
-			throw new IllegalArgumentException( "[KO]\tEl nom d'usuari conté caràcters il·legals." );
-		}
-
-		if ( registrat && UsuariHex.getNomsNoPermesos().contains( nom ) )
-		{
-			throw new IllegalArgumentException( "[KO]\tNo es permet utilitzar aquest nom d'usuari." );
+			if ( gestor_usuari.existeixElement( nom ) )
+			{
+				throw new IllegalArgumentException( "[KO]\tEl nom d'usuari ja existeix." );
+			}
+			if ( !nom.matches( UsuariHex.getCaractersPermesos() ) )
+			{
+				throw new IllegalArgumentException( "[KO]\tEl nom d'usuari conté caràcters il·legals." );
+			}
+			if ( registrat && UsuariHex.getNomsNoPermesos().contains( nom ) )
+			{
+				throw new IllegalArgumentException( "[KO]\tNo es permet utilitzar aquest nom d'usuari." );
+			}
+			else
+			{
+				UsuariHex usuari_hex = new UsuariHex( nom, contrasenya );
+				return usuari_hex;
+			}
 		}
 		else
 		{
-			UsuariHex usuari_hex = new UsuariHex( nom, contrasenya );
-			return usuari_hex;
+			return new UsuariIAHex( tipus_jugador );
 		}
 	}
 
@@ -54,10 +71,8 @@ public class UsuariCtrl
 	 * @return Cert, si s'ha pogut eliminar l'usuari del sistema. Fals, altrament.
 	 * @throws IllegalArgumentException
 	 */
-	public boolean eliminaUsuari( String nom ) throws IllegalArgumentException
+	public static boolean eliminaUsuari( String nom ) throws IllegalArgumentException
 	{
-		UsuariGstr gestor_usuari = new UsuariGstr();
-
 		if ( !gestor_usuari.existeixElement( nom ) )
 		{
 			throw new IllegalArgumentException( "[KO]\tL'usuari no existeix." );
@@ -69,20 +84,20 @@ public class UsuariCtrl
 	/**
 	 * Carrega un usuari existent al sistema.
 	 *
-	 * @param nom         Nom de l'usuari que es vol carregar.
-	 * @param contrasenya Contrasenya de l'usuari que es vol carregar.
+	 * @param nom           Nom de l'usuari que es vol carregar.
+	 * @param contrasenya   Contrasenya de l'usuari que es vol carregar.
+	 * @param tipus_jugador Tipus del jugador que es vol carregar.
 	 * @return L'usuari corresponent al nom i la contrasenya donats.
-	 * @throws IllegalArgumentException Si l'usuari identificat pel nom no existeix o si la contrasenya no
-	 *                                  coincideix amb l'usuari.
+	 * @throws IllegalArgumentException Si l'usuari identificat pel nom no existeix
+	 *                                  i, si es vol carregar un jugador, si la contrasenya no coincideix amb
+	 *                                  l'usuari.
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 * @throws ClassNotFoundException
 	 */
-	public UsuariHex carregaUsuari( String nom, String contrasenya )
-			throws IllegalArgumentException, FileNotFoundException, IOException, ClassNotFoundException
+	public static UsuariHex carregaUsuari( String nom, String contrasenya, TipusJugadors tipus_jugador ) throws
+			IllegalArgumentException, FileNotFoundException, IOException, ClassNotFoundException
 	{
-		UsuariGstr gestor_usuari = new UsuariGstr();
-
 		if ( !gestor_usuari.existeixElement( nom ) )
 		{
 			throw new IllegalArgumentException( "[KO]\tL'usuari no existeix." );
@@ -90,15 +105,18 @@ public class UsuariCtrl
 		else
 		{
 			UsuariHex usuari = gestor_usuari.carregaElement( nom );
-
-			if ( usuari.getContrasenya() != contrasenya )
+			if (tipus_jugador == TipusJugadors.JUGADOR)
 			{
-				throw new IllegalArgumentException( "[KO]\tLa contrasenya no és correcta." );
+				if ( UsuariHex.getNomsNoPermesos().contains( nom ) )
+				{
+					throw new IllegalArgumentException( "[KO]\tL'usuari demanat és intern del sistema." );
+				}
+				if ( usuari.getContrasenya() != contrasenya )
+				{
+					throw new IllegalArgumentException( "[KO]\tLa contrasenya no és correcta." );
+				}
 			}
-			else
-			{
-				return usuari;
-			}
+			return usuari;
 		}
 	}
 
@@ -109,30 +127,32 @@ public class UsuariCtrl
 	 * @return Cert, si l'usuari s'han pogut guardar correctament. Fals, altrament.
 	 * @throws IOException
 	 */
-	public boolean guardaUsuari( UsuariHex usuari ) throws IOException
+	public static boolean guardaUsuari( UsuariHex usuari ) throws IOException
 	{
-		UsuariGstr model_usuari = new UsuariGstr();
 
-		return model_usuari.guardaElement( usuari, usuari.getIdentificadorUnic() );
+		return gestor_usuari.guardaElement( usuari, usuari.getIdentificadorUnic() );
 	}
 
 	/**
 	 * Modifica la contrasenya d'un usuari.
 	 *
-	 * @param usuari      Usuari al que es vol modificar la contrasenya,
-	 * @param contrasenya Contrasenya antiga de l'usuari que es vol modificar.
+	 * @param usuari             Usuari al que es vol modificar la contrasenya,
+	 * @param contrasenya_antiga Contrasenya antiga de l'usuari que es vol modificar.
+	 * @param contrasenya_nova   Contrasenya nova de l'usuari que es vol modificar.
 	 * @return Cert, si s'ha modificat la contrasenya. Fals, altrament.
-	 * @throws IllegalArgumentException Si la contrasenya passada com a paràmetre no coincideix amb la contrasenya
-	 *                                  de l'usuari.
+	 * @throws IllegalArgumentException Si la contrasenya antiga passada com a paràmetre no coincideix amb la
+	 *                                  contrasenya de l'usuari.
 	 */
-	public boolean modificaContrasenya( UsuariHex usuari, String contrasenya ) throws IllegalArgumentException
+	public static boolean modificaContrasenya( UsuariHex usuari, String contrasenya_antiga,
+	                                           String contrasenya_nova ) throws IllegalArgumentException
 	{
-		if ( usuari.getContrasenya() != contrasenya )
+		if ( usuari.getContrasenya() != contrasenya_antiga )
 		{
-			throw new IllegalArgumentException( "[KO]\tLa contrasenya introduïda no correspon a l'actual." );
+			throw new IllegalArgumentException( "[KO]\tLa contrasenya actual introduïda no correspon a l'actual de " +
+					"" + "l'usuari." );
 		}
 
-		return usuari.setContrasenya( contrasenya );
+		return usuari.setContrasenya( contrasenya_nova );
 	}
 
 	/**
@@ -143,8 +163,38 @@ public class UsuariCtrl
 	 * @param combinacio_colors Combinació de colors que es vol donar a l'usuari.
 	 * @return Cert, si les preferències s'han modificat correctament. Fals, altrament.
 	 */
-	public boolean modificaPreferencies( UsuariHex usuari, ModesInici mode_inici, CombinacionsColors combinacio_colors )
+	public static boolean modificaPreferencies( UsuariHex usuari, ModesInici mode_inici,
+	                                            CombinacionsColors combinacio_colors )
 	{
 		return ( usuari.setModeInici( mode_inici ) && usuari.setCombinacionsColors( combinacio_colors ) );
 	}
+
+	/**
+	 * Actualitza les estadístiques d'un usuari després de jugar una partida.
+	 *
+	 * @param usuari           Usuari al que es volen actualitzar les estadístiques.
+	 * @param ha_guanyat       Indica si l'usuari ha guanyat la partida.
+	 * @param jugador_contrari Dificultat del contrincant.
+	 * @param temps_emprat     Temps de joc de l'usuari a la partida.
+	 * @param fitxes_usades    Fitxes utilitzades per l'usuari a la partida.
+	 */
+	public static void actualitzaEstadistiques( UsuariHex usuari, boolean ha_guanyat,
+	                                            TipusJugadors jugador_contrari, Long temps_emprat,
+	                                            Integer fitxes_usades )
+	{
+		usuari.recalculaDadesUsuariPartidaFinalitzada( ha_guanyat, jugador_contrari, temps_emprat, fitxes_usades );
+	}
+
+	/**
+	 * Reinicia les estadístiques d'un usuari en una certa dificultat.
+	 *
+	 * @param usuari Usuari al que es volen reiniciar les estadístiques.
+	 * @return Cert, si s'han reiniciat les estadístiques. Fals, altrament.
+	 */
+	public static boolean reiniciaEstadistiques( UsuariHex usuari )
+	{
+		usuari.reiniciaEstadistiques();
+		return true;
+	}
+
 }

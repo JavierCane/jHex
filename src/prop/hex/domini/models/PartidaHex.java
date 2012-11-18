@@ -284,28 +284,19 @@ public class PartidaHex extends Partida implements Serializable
 	 * @param quantitat  Quantitat en la que incrementar el nombre actual de pistes usades.
 	 * @return Cert si es modifiquen les pistes. Fals altrament.
 	 * @throws IllegalArgumentException Si el jugador amb l'identificador únic passat com a paràmetre no juga la
-	 *                                  partida.
+	 *                                  partida, o si el nombre de pistes resultant és negatiu.
 	 */
 	public boolean incrementaPistesUsades( String id_jugador, int quantitat ) throws IllegalArgumentException
 	{
-		if ( !pistes_usades.containsKey( id_jugador ) )
-		{
-			throw new IllegalArgumentException( "El jugador no juga la partida." );
-		}
-		else
-		{
-			int nou_num_pistes = pistes_usades.get( id_jugador ) + quantitat;
-			pistes_usades.put( id_jugador, nou_num_pistes );
-			return true;
-		}
+		return setPistesUsades( id_jugador, getPistesUsades( id_jugador ) + quantitat );
 	}
 
 	/**
-	 * Modifica les pistes usades per l'usuari amb id_jugador.
+	 * Modifica el temps de joc de l'usuari amb id_jugador.
 	 *
 	 * @param id_jugador Identificador únic del jugador.
-	 * @param temps      Número de pistes usades pel jugador.
-	 * @return Cert si es modifiquen les pistes. Fals altrament.
+	 * @param temps      Temps de joc del jugador.
+	 * @return Cert si es modifica el temps de joc. Fals altrament.
 	 * @throws IllegalArgumentException Si el jugador amb l'identificador únic passat com a paràmetre no juga la
 	 *                                  partida, o si el temps de joc és negatiu.
 	 */
@@ -323,6 +314,15 @@ public class PartidaHex extends Partida implements Serializable
 		return true;
 	}
 
+	/**
+	 * Incrementa el temps de joc de l'usuari amb id_jugador
+	 *
+	 * @param id_jugador Identificador únic del jugador.
+	 * @param temps      Temps de joc del jugador.
+	 * @return Cert si es modifica el temps de joc. Fals altrament.
+	 * @throws IllegalArgumentException Si el jugador amb l'identificador únic passat com a paràmetre no juga la
+	 *                                  partida, o si el temps de joc resultant és negatiu.
+	 */
 	public boolean incrementaTempsDeJoc( String id_jugador, long temps ) throws IllegalArgumentException
 	{
 		return setTempsDeJoc( id_jugador, getTempsDeJoc( id_jugador ) + temps );
