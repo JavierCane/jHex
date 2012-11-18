@@ -151,11 +151,13 @@ public class UsuariCtrl
 	{
 		if ( usuari.getContrasenya() != contrasenya_antiga )
 		{
-			throw new IllegalArgumentException( "[KO]\tLa contrasenya actual introduïda no correspon a l'actual de " +
-			                                    "" + "l'usuari." );
+			throw new IllegalArgumentException(
+					"[KO]\tLa contrasenya actual introduïda no correspon a l'actual de l'usuari." );
 		}
-
-		return usuari.setContrasenya( contrasenya_nova );
+		else
+		{
+			return usuari.setContrasenya( contrasenya_nova );
+		}
 	}
 
 	/**
