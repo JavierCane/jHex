@@ -132,6 +132,16 @@ public final class Ranquing
 	}
 
 	/**
+	 * Elimina les dades d'un usuari del rànquing. Automàticament actualitza el llistat.
+	 *
+	 * @param usuari
+	 */
+	public void eliminaUsuari( UsuariHex usuari )
+	{
+		ranquing.remove( usuari );
+	}
+
+	/**
 	 * Comprova si els rècords que té actualment la classe com millors rècords s'haurien d'actualitzar amb cualsevol
 	 * dels de l'usuari a actualitzar, en cas de que així sigui, ho fa.
 	 *
