@@ -16,7 +16,7 @@ public abstract class Partida implements Serializable
 	/**
 	 * ID de serialització
 	 */
-	private static final long serialVersionUID = -969562011587079574L;
+	protected static final long serialVersionUID = -969562011587079574L;
 	/**
 	 * Usuari que farà de jugador A
 	 */
@@ -129,7 +129,7 @@ public abstract class Partida implements Serializable
 	}
 
 	/**
-	 * Mètode consultor de la data i hora de creació de la partida
+	 * Mètode consultor de la data de creació
 	 * 
 	 * @return Data i hora de creació de la partida
 	 */
@@ -139,7 +139,7 @@ public abstract class Partida implements Serializable
 	}
 
 	/**
-	 * Mètode consultor del nom de la partida
+	 * Mètode consusltor del nom de la partida
 	 * 
 	 * @return Nom de la partida
 	 */
@@ -149,7 +149,7 @@ public abstract class Partida implements Serializable
 	}
 
 	/**
-	 * Mètode consultor de si una partida ha estat finalitzada o no
+	 * Mètode consultor de is una partida ha estat finalitzada o no
 	 * 
 	 * @return <em>true</em> si la partida ha estat finalitzada; <em>false</em> en cas contrari
 	 */
@@ -159,8 +159,8 @@ public abstract class Partida implements Serializable
 	}
 
 	/**
-	 * Mètode consultor de l’estat de la partida. Els paràmetres permeten aportar informació a sobre de l’últim moviment
-	 * d’interès realitzat (normalment l’últim realitzat correctament).
+	 * Mètode consultor de l'estat de la partida. Els paràmetres permeten aportar informació a sobre de l'últim moviment
+	 * d'interès realitzat (normalment l'últim realitzat correctament)
 	 * 
 	 * @param fila Fila del moviment d'interès
 	 * @param columna Col·lumna del moviment d'interès
@@ -276,15 +276,15 @@ public abstract class Partida implements Serializable
 
 	/**
 	 * Crea un String amb informació de la partida.
-	 *
+	 * 
 	 * @return Text amb informació de la partida
 	 */
 	@Override
 	public String toString()
 	{
 		String text = "[nom: " + this.nom + ", jugador A: " + this.jugador_a.getNom() + ", jugador B: "
-				+ this.jugador_b.getNom() + ", mida tauler: " + this.tauler.getMida() + ", data creació: "
-				+ this.data_creacio.toString() + ", finalitzada: " + this.finalitzada;
+				+ this.jugador_b.getNom() + ", mida tauler: " + this.tauler.getMida() + ", data creacio: "
+				+ this.data_creacio.toString() + ", finalitzada: " + this.finalitzada + "]";
 		return text;
 	}
 }
