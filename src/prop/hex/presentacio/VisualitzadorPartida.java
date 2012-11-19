@@ -129,11 +129,12 @@ public class VisualitzadorPartida extends JPanel
 		{
 			try
 			{
+				//No ens cal comprovar si el moviment es fa o no (si retorna true o false).
 				PartidaCtrl.mouFitxa( i, j );
 			}
 			catch ( UnsupportedOperationException exepcio )
 			{
-				System.out.println( "Moviment no vàlid: " + exepcio.getMessage() );
+				System.out.println( "Moviment no vàlid, partida finalitzada: " + exepcio.getMessage() );
 			}
 		}
 
@@ -192,11 +193,14 @@ public class VisualitzadorPartida extends JPanel
 		g.setColor( jugador_a.getCombinacionsColors().getColorCasella( EstatCasella.JUGADOR_A ) );
 		g.drawString( jugador_a.getNom(), 10, 460 );
 		g.drawString( "D'esquerra a dreta", 10, 480 );
-		g.drawString( "Temps: " + PartidaCtrl.getPartidaActual().getTempsDeJoc( jugador_a.getIdentificadorUnic() ), 10,
-				500 );
+		if ( jugador_a.getTipusJugador() == TipusJugadors.JUGADOR )
+		{
+			g.drawString( "Temps: " + PartidaCtrl.getPartidaActual().getTempsDeJoc( jugador_a.getIdentificadorUnic() ),
+					10, 500 );
+		}
 
 		g.setColor( jugador_a.getCombinacionsColors().getColorCasella( EstatCasella.JUGADOR_B ) );
-		g.drawString( jugador_a.getNom(), 300, 460 );
+		g.drawString( jugador_b.getNom(), 300, 460 );
 		g.drawString( "De dalt a baix", 300, 480 );
 		if ( jugador_b.getTipusJugador() == TipusJugadors.JUGADOR )
 		{
