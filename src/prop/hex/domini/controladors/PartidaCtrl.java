@@ -75,13 +75,14 @@ public class PartidaCtrl
 	 * @param jugador_b   Usuari que fa de jugador B.
 	 * @param nom         Nom de la partida.
 	 * @return Cert si s'ha inicialitzat la partida correctament. Fals altrament.
-	 * @throws ClassNotFoundException Si no es pot carregar la classe de les intel·ligències artificials.
-	 * @throws IllegalAccessError     Si s'intenta accedir a un lloc no permès quan es carreguen les intel·ligències
-	 *                                artificials.
-	 * @throws InstantiationError     Si hi ha problemes amb la instanciació de les intel·ligències artificials.
+	 * @throws ClassNotFoundException   Si no es pot carregar la classe de les intel·ligències artificials.
+	 * @throws IllegalAccessError       Si s'intenta accedir a un lloc no permès quan es carreguen les intel·ligències
+	 *                                  artificials.
+	 * @throws InstantiationError       Si hi ha problemes amb la instanciació de les intel·ligències artificials.
+	 * @throws IllegalArgumentException Si ja existeix una partida amb les dades donades creada en la mateixa data
 	 */
 	public static boolean inicialitzaPartida( int mida_tauler, UsuariHex jugador_a, UsuariHex jugador_b, String nom )
-			throws ClassNotFoundException, InstantiationException, IllegalAccessException
+			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException
 	{
 		TaulerHex tauler = new TaulerHex( mida_tauler );
 		partida_actual = new PartidaHex( jugador_a, jugador_b, tauler, nom );
