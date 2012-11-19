@@ -86,6 +86,11 @@ public class PartidaCtrl
 		TaulerHex tauler = new TaulerHex( mida_tauler );
 		partida_actual = new PartidaHex( jugador_a, jugador_b, tauler, nom );
 
+		if ( gestor_partida.existeixElement( partida_actual.getIdentificadorUnic() ) )
+		{
+			throw new IllegalArgumentException( "Ja existeix una partida amb aquestes dades per a la mateixa data!" );
+		}
+
 		inicialitzaEstructuresControl( jugador_a, jugador_b );
 
 		return true;
