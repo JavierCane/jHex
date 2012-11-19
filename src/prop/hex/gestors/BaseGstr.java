@@ -1,8 +1,6 @@
 package prop.hex.gestors;
 
 import java.io.*;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Classe abstracta i parametritzada pel tractament de fitxers.
@@ -74,9 +72,10 @@ public abstract class BaseGstr<T>
 	 * path_del_programa/carpeta_dades/subcarpeta_dades/
 	 *
 	 * @param nom_element Nom de l'element que es vol carregar
-	 * @return l'objecte de l'element carregat
-	 * @throws IOException
-	 * @throws ClassNotFoundException
+	 * @return L'objecte de l'element carregat
+	 * @throws IOException            Si hi ha un problema d'entrada/sortida.
+	 * @throws ClassNotFoundException Si no es troba la classe de l'objecte materialitzat
+	 * @throws NullPointerException   Si el fitxer que es vol llegir és buit.
 	 */
 	public T carregaElement( String nom_element ) throws IOException, ClassNotFoundException, NullPointerException
 	{

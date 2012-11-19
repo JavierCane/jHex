@@ -171,7 +171,7 @@ public class PartidaCtrl
 	 * @throws InstantiationException   Si hi ha problemes quan s'intenta instanciar la partida o la intel·ligència
 	 *                                  artificial.
 	 * @throws IllegalArgumentException Si algun dels usuaris no juga a la partida.
-	 * @throws NullPointerException     Si
+	 * @throws NullPointerException     Si el fitxer que conté les dades és buit.
 	 */
 	public static boolean carregaPartida( String identificador_partida, UsuariHex jugador_a, UsuariHex jugador_b )
 			throws IOException, ClassNotFoundException, FileNotFoundException, IllegalAccessException,
