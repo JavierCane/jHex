@@ -26,8 +26,8 @@ public class UsuariCtrl
 
 	/**
 	 * Crea una instància d'UsuariHex associada a un jugador amb el nom d'usuari i la contrasenya donats o un
-	 * usuari de la IA,
-	 * sempre i quan no existeixi ja un usuari amb el mateix identificador al sistema.
+	 * usuari de la IA, sempre i quan no existeixi ja un usuari amb el mateix identificador al sistema. Si no és un
+	 * ususari convidat, es guarda a memòria secundària.
 	 *
 	 * @param nom           Nom de l'usuari nou que es vol instanciar.
 	 * @param contrasenya   Contrasenya de l'usuari nou que es vol instanciar.
@@ -36,22 +36,23 @@ public class UsuariCtrl
 	 * @return Un nou UsuariHex, i si es tracta d'un jugador, amb el nom i la contrasenya donats.
 	 * @throws IllegalArgumentException Si el nom d'usuari ja existeix al sistema,
 	 *                                  si conté caràcters il·legals o si es tracta d'un nom no permès.
+	 * @throws IOException              Si ha succeït un error d'entrada/sortida inesperat.
 	 */
-	public static UsuariHex creaUsuari( String nom, String contrasenya, TipusJugadors tipus_jugador,
-	                                    boolean registrat ) throws IllegalArgumentException
+	public static UsuariHex creaUsuari( String nom, String contrasenya, TipusJugadors tipus_jugador, boolean registrat )
+			throws IllegalArgumentException, IOException
 	{
 		if ( tipus_jugador == TipusJugadors.JUGADOR )
 		{
 			if ( !nom.matches( UsuariHex.getCaractersPermesos() ) )
 			{
 				throw new IllegalArgumentException( "[KO]\tEl nom d'usuari conté caràcters il·legals. Només " +
-						"s'accepten caràcters alfanumèris (sense accents), espais i guions baixos." );
+				                                    "s'accepten caràcters alfanumèris (sense accents), espais i guions baixos." );
 			}
 
 			if ( registrat && UsuariHex.getNomsNoPermesos().contains( nom ) )
 			{
 				throw new IllegalArgumentException( "[KO]\tNo es permet utilitzar aquest nom d'usuari. Els noms no " +
-						"permesos són " + UsuariHex.getNomsNoPermesos().toString() );
+				                                    "permesos són " + UsuariHex.getNomsNoPermesos().toString() );
 			}
 
 			UsuariHex usuari_hex = new UsuariHex( nom, contrasenya );
@@ -61,12 +62,31 @@ public class UsuariCtrl
 			}
 			else
 			{
+				if ( registrat )
+				{
+					if ( guardaUsuari( usuari_hex ) )
+					{
+						return usuari_hex;
+					}
+					else
+					{
+						throw new IOException( "[KO]\tNo s'ha pogut guardar el jugador." );
+					}
+				}
 				return usuari_hex;
 			}
 		}
 		else
 		{
-			return new UsuariIAHex( tipus_jugador );
+			UsuariIAHex usuari_ia = new UsuariIAHex( tipus_jugador );
+			if ( guardaUsuari( usuari_ia ) )
+			{
+				return usuari_ia;
+			}
+			else
+			{
+				throw new IOException( "[KO]\tNo s'ha pogut guardar el jugador." );
+			}
 		}
 	}
 
@@ -101,12 +121,14 @@ public class UsuariCtrl
 	 * @throws IllegalArgumentException Si l'usuari identificat pel nom no existeix
 	 *                                  i, si es vol carregar un jugador, si la contrasenya no coincideix amb
 	 *                                  l'usuari.
-	 * @throws FileNotFoundException
-	 * @throws IOException
-	 * @throws ClassNotFoundException
+	 * @throws FileNotFoundException    Si el fitxer no s'ha generat i no s'han pogut escriure les dades.
+	 * @throws IOException              IOException Si ha succeït un error d'entrada/sortida inesperat.
+	 * @throws ClassNotFoundException   Si hi ha un problema de classes quan es carrega l'usuari.
+	 * @throws NullPointerException
 	 */
-	public static UsuariHex carregaUsuari( String nom, String contrasenya, TipusJugadors tipus_jugador ) throws
-			IllegalArgumentException, FileNotFoundException, IOException, ClassNotFoundException
+	public static UsuariHex carregaUsuari( String nom, String contrasenya, TipusJugadors tipus_jugador )
+			throws IllegalArgumentException, FileNotFoundException, IOException, ClassNotFoundException,
+			       NullPointerException
 	{
 		if ( !gestor_usuari.existeixElement( nom ) )
 		{
@@ -135,9 +157,10 @@ public class UsuariCtrl
 	 *
 	 * @param usuari Usuari que es vol guardar al sistema.
 	 * @return Cert, si l'usuari s'han pogut guardar correctament. Fals, altrament.
-	 * @throws IOException
+	 * @throws IOException           Si ha succeït un error d'entrada/sortida inesperat.
+	 * @throws FileNotFoundException Si el fitxer no s'ha generat i no s'han pogut escriure les dades.
 	 */
-	public static boolean guardaUsuari( UsuariHex usuari ) throws IOException
+	public static boolean guardaUsuari( UsuariHex usuari ) throws IOException, FileNotFoundException
 	{
 
 		return gestor_usuari.guardaElement( usuari, usuari.getIdentificadorUnic() );
@@ -153,13 +176,13 @@ public class UsuariCtrl
 	 * @throws IllegalArgumentException Si la contrasenya antiga passada com a paràmetre no coincideix amb la
 	 *                                  contrasenya de l'usuari.
 	 */
-	public static boolean modificaContrasenya( UsuariHex usuari, String contrasenya_antiga,
-	                                           String contrasenya_nova ) throws IllegalArgumentException
+	public static boolean modificaContrasenya( UsuariHex usuari, String contrasenya_antiga, String contrasenya_nova )
+			throws IllegalArgumentException
 	{
 		if ( usuari.getContrasenya() != contrasenya_antiga )
 		{
-			throw new IllegalArgumentException( "[KO]\tLa contrasenya actual introduïda no correspon a l'actual de " +
-					"l'usuari." );
+			throw new IllegalArgumentException(
+					"[KO]\tLa contrasenya actual introduïda no correspon a l'actual de " + "l'usuari." );
 		}
 		else
 		{
@@ -190,9 +213,8 @@ public class UsuariCtrl
 	 * @param temps_emprat     Temps de joc de l'usuari a la partida.
 	 * @param fitxes_usades    Fitxes utilitzades per l'usuari a la partida.
 	 */
-	public static void actualitzaEstadistiques( UsuariHex usuari, boolean ha_guanyat,
-	                                            TipusJugadors jugador_contrari, Long temps_emprat,
-	                                            Integer fitxes_usades )
+	public static void actualitzaEstadistiques( UsuariHex usuari, boolean ha_guanyat, TipusJugadors jugador_contrari,
+	                                            Long temps_emprat, Integer fitxes_usades )
 	{
 		usuari.recalculaDadesUsuariPartidaFinalitzada( ha_guanyat, jugador_contrari, temps_emprat, fitxes_usades );
 	}

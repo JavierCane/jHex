@@ -91,7 +91,6 @@ public final class TaulerHexDrvr
 		{
 			System.out.println( "[KO]\tNo existeix cap tauler!" );
 		}
-
 	}
 
 	/**
@@ -212,7 +211,7 @@ public final class TaulerHexDrvr
 	}
 
 	/**
-	 *
+	 * Comprova el funcionament de la funció d'obtenir els veïns d'una casella.
 	 */
 	public static void testGetVeins()
 	{

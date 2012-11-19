@@ -16,6 +16,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -27,10 +29,28 @@ import java.awt.event.MouseEvent;
 public class JugarDrvr
 {
 
-	public static void IAVsHuma()
+	public static void IAVsHuma() throws FileNotFoundException, IOException, ClassNotFoundException,
+	                                     NullPointerException
 	{
-		UsuariHex usuari_A = UsuariCtrl.creaUsuari( "Maquina facil", "contrasenya", TipusJugadors.IA_FACIL, false );
-		UsuariHex usuari_B = UsuariCtrl.creaUsuari( "Huma", "contrasenya", TipusJugadors.JUGADOR, false );
+
+		UsuariHex usuari_A;
+		UsuariHex usuari_B;
+		try
+		{
+			usuari_A = UsuariCtrl.creaUsuari( "Maquina facil", "contrasenya", TipusJugadors.IA_FACIL, false );
+		}
+		catch ( Exception e )
+		{
+			usuari_A = UsuariCtrl.carregaUsuari( "Maquina facil", "contrasenya", TipusJugadors.IA_FACIL );
+		}
+		try
+		{
+			usuari_B = UsuariCtrl.creaUsuari( "Huma", "contrasenya", TipusJugadors.JUGADOR, false );
+		}
+		catch ( Exception e )
+		{
+			usuari_B = UsuariCtrl.carregaUsuari( "Huma", "contrasenya", TipusJugadors.JUGADOR );
+		}
 
 		try
 		{
@@ -44,10 +64,28 @@ public class JugarDrvr
 		instanciaFinestra();
 	}
 
-	public static void HumaVsIA()
+	public static void HumaVsIA() throws FileNotFoundException, IOException, ClassNotFoundException,
+	                                     NullPointerException
 	{
-		UsuariHex usuari_A = UsuariCtrl.creaUsuari( "Huma", "contrasenya", TipusJugadors.JUGADOR, false );
-		UsuariHex usuari_B = UsuariCtrl.creaUsuari( "Maquina facil", "contrasenya", TipusJugadors.IA_FACIL, false );
+
+		UsuariHex usuari_A;
+		UsuariHex usuari_B;
+		try
+		{
+			usuari_A = UsuariCtrl.creaUsuari( "Huma", "contrasenya", TipusJugadors.JUGADOR, false );
+		}
+		catch ( Exception e )
+		{
+			usuari_A = UsuariCtrl.carregaUsuari( "Huma", "contrasenya", TipusJugadors.JUGADOR );
+		}
+		try
+		{
+			usuari_B = UsuariCtrl.creaUsuari( "Maquina facil", "contrasenya", TipusJugadors.IA_FACIL, false );
+		}
+		catch ( Exception e )
+		{
+			usuari_B = UsuariCtrl.carregaUsuari( "Maquina facil", "contrasenya", TipusJugadors.IA_FACIL );
+		}
 
 		try
 		{
@@ -61,11 +99,28 @@ public class JugarDrvr
 		instanciaFinestra();
 	}
 
-	public static void HumaVsHuma()
+	public static void HumaVsHuma() throws FileNotFoundException, IOException, ClassNotFoundException,
+	                                       NullPointerException
 	{
 
-		UsuariHex usuari_A = UsuariCtrl.creaUsuari( "Huma 1", "contrasenya", TipusJugadors.JUGADOR, false );
-		UsuariHex usuari_B = UsuariCtrl.creaUsuari( "Huma 2", "contrasenya", TipusJugadors.JUGADOR, false );
+		UsuariHex usuari_A;
+		UsuariHex usuari_B;
+		try
+		{
+			usuari_A = UsuariCtrl.creaUsuari( "Huma 1", "contrasenya", TipusJugadors.JUGADOR, false );
+		}
+		catch ( Exception e )
+		{
+			usuari_A = UsuariCtrl.carregaUsuari( "Huma 1", "contrasenya", TipusJugadors.JUGADOR );
+		}
+		try
+		{
+			usuari_B = UsuariCtrl.creaUsuari( "Huma 2", "contrasenya", TipusJugadors.JUGADOR, false );
+		}
+		catch ( Exception e )
+		{
+			usuari_B = UsuariCtrl.carregaUsuari( "Huma 2", "contrasenya", TipusJugadors.JUGADOR );
+		}
 
 		try
 		{
@@ -79,11 +134,28 @@ public class JugarDrvr
 		instanciaFinestra();
 	}
 
-	public static void IAVsIA()
+	public static void IAVsIA() throws FileNotFoundException, IOException, ClassNotFoundException,
+	                                   NullPointerException
 	{
 
-		UsuariHex usuari_A = UsuariCtrl.creaUsuari( "Maquina facil 2", "contrasenya", TipusJugadors.IA_FACIL, false );
-		UsuariHex usuari_B = UsuariCtrl.creaUsuari( "Maquina facil 1", "contrasenya", TipusJugadors.IA_FACIL, false );
+		UsuariHex usuari_A;
+		UsuariHex usuari_B;
+		try
+		{
+			usuari_A = UsuariCtrl.creaUsuari( "Maquina facil 2", "contrasenya", TipusJugadors.IA_FACIL, false );
+		}
+		catch ( Exception e )
+		{
+			usuari_A = UsuariCtrl.carregaUsuari( "Maquina facil 2", "contrasenya", TipusJugadors.IA_FACIL );
+		}
+		try
+		{
+			usuari_B = UsuariCtrl.creaUsuari( "Maquina facil 1", "contrasenya", TipusJugadors.IA_FACIL, false );
+		}
+		catch ( Exception e )
+		{
+			usuari_B = UsuariCtrl.carregaUsuari( "Maquina facil 1", "contrasenya", TipusJugadors.IA_FACIL );
+		}
 
 		try
 		{
