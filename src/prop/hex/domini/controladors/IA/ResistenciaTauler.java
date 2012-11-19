@@ -43,7 +43,7 @@ public class ResistenciaTauler
 		{
 			for ( int j = 0; j < tauler.getMida(); j++ )
 			{
-				if ( resistencies_parcials[i][j] == Double.MAX_VALUE )
+				if ( resistencies_parcials[i][j] >= 10000.0 )
 				{
 					System.out.print( "inf " );
 				}
@@ -86,15 +86,15 @@ public class ResistenciaTauler
 			{
 				double r_entrada = calculaResistenciaColumna( fila, columna );
 
-				if ( r_entrada == Double.MAX_VALUE )
+				if ( r_entrada >= 10000.0 )
 				{
-					resistencies_parcials[fila][columna] = Double.MAX_VALUE;
+					resistencies_parcials[fila][columna] = 10000.0;
 				}
 				else
 				{
-					if ( resistenciaCasella( new Casella( fila, columna ) ) == Double.MAX_VALUE )
+					if ( resistenciaCasella( new Casella( fila, columna ) ) >= 10000.0 )
 					{
-						resistencies_parcials[fila][columna] = Double.MAX_VALUE;
+						resistencies_parcials[fila][columna] = 10000.0;
 					}
 					else
 					{
@@ -124,15 +124,15 @@ public class ResistenciaTauler
 			{
 				double r_entrada = calculaResistenciaFila( fila, columna );
 
-				if ( r_entrada == Double.MAX_VALUE )
+				if ( r_entrada >= 10000.0 )
 				{
-					resistencies_parcials[fila][columna] = Double.MAX_VALUE;
+					resistencies_parcials[fila][columna] = 10000.0;
 				}
 				else
 				{
-					if ( resistenciaCasella( new Casella( fila, columna ) ) == Double.MAX_VALUE )
+					if ( resistenciaCasella( new Casella( fila, columna ) ) >= 10000.0 )
 					{
-						resistencies_parcials[fila][columna] = Double.MAX_VALUE;
+						resistencies_parcials[fila][columna] = 10000.0;
 					}
 					else
 					{
@@ -180,7 +180,7 @@ public class ResistenciaTauler
 					return 0.0;
 				}
 				//Si no és Inf tampoc.
-				else if ( resistencies_parcials[veins.get( i ).getFila()][veins.get( i ).getColumna()] != Double.MAX_VALUE )
+				else if ( resistencies_parcials[veins.get( i ).getFila()][veins.get( i ).getColumna()] < 10000 )
 				{
 					calcula_paralel = true;
 					inversa_rt += 1.0 / resistencies_parcials[veins.get( i ).getFila()][veins.get( i ).getColumna()];
@@ -194,7 +194,7 @@ public class ResistenciaTauler
 			return ( 1.0 / inversa_rt );
 		}
 
-		return Double.MAX_VALUE;
+		return 10000.0;
 	}
 
 	private double calculaResistenciaColumna( int fila, int columna )
@@ -232,7 +232,7 @@ public class ResistenciaTauler
 					return 0.0;
 				}
 				//Si no és Inf tampoc.
-				else if ( resistencies_parcials[veins.get( i ).getFila()][veins.get( i ).getColumna()] != Double.MAX_VALUE )
+				else if ( resistencies_parcials[veins.get( i ).getFila()][veins.get( i ).getColumna()] < 10000.0 )
 				{
 					calcula_paralel = true;
 					inversa_rt += 1.0 / resistencies_parcials[veins.get( i ).getFila()][veins.get( i ).getColumna()];
@@ -246,7 +246,7 @@ public class ResistenciaTauler
 			return ( 1.0 / inversa_rt );
 		}
 
-		return Double.MAX_VALUE;
+		return 10000.0;
 	}
 
 	private double resistenciaCasella( Casella casella )
@@ -262,7 +262,7 @@ public class ResistenciaTauler
 		}
 		else
 		{
-			return Double.MAX_VALUE;
+			return 10000;
 		}
 	}
 }

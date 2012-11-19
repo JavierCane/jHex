@@ -9,14 +9,20 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * Busquem grups de caselles contigues, tenint en compte les cantonades.
  * El JugadorA va d'est a oest, el JugadorB de nord a sud.
  */
 public class GrupCaselles
 {
 
-	TaulerHex tauler;
-	ArrayList<Casella> grup;
+	private TaulerHex tauler;
+	private ArrayList<Casella> grup;
 
+	/**
+	 * Constructora
+	 *
+	 * @param tauler tauler sobre el que buscar grups.
+	 */
 	public GrupCaselles( TaulerHex tauler )
 	{
 		this.tauler = tauler;
@@ -168,11 +174,14 @@ public class GrupCaselles
 		ArrayList<Casella> CasellesB = grupB.getGrup();
 		for ( int i = 0; i < grup.size(); i++ )
 		{
-			for ( int j = 0; j < CasellesB.size(); j++ )
+			if ( tauler.getEstatCasella( grup.get( i ) ) == EstatCasella.BUIDA )
 			{
-				if ( grup.get( i ).equals( CasellesB.get( j ) ) )
+				for ( int j = 0; j < CasellesB.size(); j++ )
 				{
-					contador++;
+					if ( grup.get( i ).equals( CasellesB.get( j ) ) )
+					{
+						contador++;
+					}
 				}
 			}
 		}

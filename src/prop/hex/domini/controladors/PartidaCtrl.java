@@ -164,12 +164,12 @@ public class PartidaCtrl
 		usuaris_partida[1] = jugador_b;
 
 		jugadors_ia = new MouFitxaIA[2];
-		for ( int i = 0; i < 2; ++i )
-		{
-			jugadors_ia[i] =
-					( MouFitxaIA ) Class.forName( jugador_a.getTipusJugador().getClasseCorresponent() ).newInstance();
-			jugadors_ia[i].setPartida( partida_actual );
-		}
+		jugadors_ia[0] = ( MouFitxaIA ) Class.forName( "prop.hex.domini.controladors." + jugador_a.getTipusJugador().getClasseCorresponent() )
+							.newInstance();
+		jugadors_ia[0].setPartida( partida_actual );
+		jugadors_ia[1] = ( MouFitxaIA ) Class.forName( "prop.hex.domini.controladors." + jugador_b.getTipusJugador().getClasseCorresponent() )
+							.newInstance();
+		jugadors_ia[1].setPartida( partida_actual );
 
 		darrera_fitxa = new Casella( 0, 0 );
 		instant_darrer_moviment = new Date().getTime() / 1000L;
@@ -292,13 +292,19 @@ public class PartidaCtrl
 			throw new UnsupportedOperationException( "La partida ja ha finalitzat" );
 		}
 
+		if ( !partida_actual.getTauler()
+				.esMovimentValid( fitxes_jugadors[partida_actual.getTornsJugats() % 2], fila, columna ) )
+		{
+			throw new UnsupportedOperationException( "Moviment no vàlid" );
+		}
+
 		if ( partida_actual.getTauler()
 				.mouFitxa( fitxes_jugadors[partida_actual.getTornsJugats() % 2], fila, columna ) )
 		{
 			darrera_fitxa = new Casella( fila, columna );
-			partida_actual
-					.incrementaTempsDeJoc( usuaris_partida[partida_actual.getTornsJugats() % 2].getIdentificadorUnic(),
-							instant_darrer_moviment - instant_actual );
+
+			partida_actual.incrementaTempsDeJoc( usuaris_partida[partida_actual.getTornsJugats() % 2].getIdentificadorUnic(),
+					instant_actual - instant_darrer_moviment );
 			partida_actual.incrementaTornsJugats( 1 );
 
 			// Per actualitzar l'estat de la partida en el controlador.
@@ -376,4 +382,10 @@ public class PartidaCtrl
 	{
 		return partida_actual.getModeInici() == ModesInici.PASTIS;
 	}
+
+	public static PartidaHex getPartidaActual()
+	{
+		return partida_actual;
+	}
+
 }

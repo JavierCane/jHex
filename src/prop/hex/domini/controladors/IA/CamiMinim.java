@@ -9,19 +9,24 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 /**
- * Created with IntelliJ IDEA.
- * User: marc
- * Date: 17/11/12
- * Time: 11:47
- * To change this template use File | Settings | File Templates.
+ * Busca el camí mínim per arribar d'una punta a una altra del tauler,
+ * horitzontal o verticalment depenent de quin jugador sigui (resistencia mínima del tauler).
  */
 public class CamiMinim
 {
 
-	TaulerHex tauler;
-	EstatCasella jugador;
-	int[][] resistencies_parcials;
+	private TaulerHex tauler;
+	private EstatCasella jugador;
+	/**
+	 * Guardem els valors parcials del cami mínim. Li diem resistencies per mantenir el concepte
+	 * on cada casella es una resistencia el valor de la qual varia segons el seu contingut.
+	 */
+	private int[][] resistencies_parcials;
 
+	/**
+	 * @param tauler  Tauler sobre el que buscar
+	 * @param jugador Per a quin jugador volem buscar
+	 */
 	public CamiMinim( TaulerHex tauler, EstatCasella jugador )
 	{
 		this.tauler = tauler;
@@ -36,27 +41,19 @@ public class CamiMinim
 		}
 	}
 
-/*
-	DIJKSTRA (Grafo G, nodo_fuente s)
-		para u ∈ V[G] hacer
-			distancia[u] = INFINITO
-			padre[u] = NULL
-		distancia[s] = 0
-		adicionar (cola, (s,distance[s]))
-		mientras que cola no es vacía hacer
-			u = extraer_minimo(cola)
-			para todos v ∈ adyacencia[u] hacer
-				si distancia[v] > distancia[u] + peso (u, v) hacer
-					distancia[v] = distancia[u] + peso (u, v)
-					padre[v] = u
-	                adicionar(cola,(v,distance[v]))
-*/
-
+	/**
+	 * Busca el camí mínim aplicant l'algoritme de Dijkstra
+	 *
+	 * @return retorna el camí de cost mínim (Resistencia mínima).
+	 */
 	public int evalua()
 	{
 		Comparator<ResistenciaCasella> comparador = new ResistenciaCasellaComparator();
 		PriorityQueue<ResistenciaCasella> cua_caselles = new PriorityQueue<ResistenciaCasella>( 10, comparador );
 
+		/**
+		 * Omplim la cua_caselles amb les caselles d'un canto, el superior si és jugador_B o l'esquerra si és A.
+		 */
 		if ( jugador == EstatCasella.JUGADOR_A )
 		{
 			for ( int fila = 0; fila < tauler.getMida(); fila++ )
@@ -74,6 +71,9 @@ public class CamiMinim
 			}
 		}
 
+		/**
+		 * Fem Dijkstra sobre la cua_caselles.
+		 */
 		while ( !cua_caselles.isEmpty() )
 		{
 			ResistenciaCasella actual = cua_caselles.poll();
@@ -89,30 +89,42 @@ public class CamiMinim
 			}
 		}
 
+		/**
+		 * Mirem la cantonada inferior o dreta (depenent del jugador) i ens quedem amb el mínim valor de totes les
+		 * caselles que hi ha, aquest serà el mínim valor per creuar el tauler.
+		 */
 		int min = 100000;
 
 		if ( jugador == EstatCasella.JUGADOR_A )
 		{
 			for ( int fila = 0; fila < tauler.getMida(); fila++ )
 			{
-			//	if (  )
-				System.out.print(resistencies_parcials[fila][tauler.getMida()-1]);
+				if ( resistencies_parcials[fila][tauler.getMida() - 1] < min )
+				{
+					min = resistencies_parcials[fila][tauler.getMida() - 1];
+				}
 			}
-			System.out.print("\n");
 		}
 		else
 		{
 			for ( int columna = 0; columna < tauler.getMida(); columna++ )
 			{
-				System.out.print(resistencies_parcials[tauler.getMida()-1][columna]);
+				if ( resistencies_parcials[tauler.getMida() - 1][columna] < min )
+				{
+					min = resistencies_parcials[tauler.getMida() - 1][columna];
+				}
 			}
-			System.out.print("\n");
 		}
 
 		return min;
 	}
 
-
+	/**
+	 * Retorna la resistencia d'una casella donada.
+	 *
+	 * @param casella
+	 * @return
+	 */
 	private int resistenciaCasella( Casella casella )
 	{
 		EstatCasella estat = tauler.getEstatCasella( casella );
@@ -130,6 +142,10 @@ public class CamiMinim
 		}
 	}
 
+	/**
+	 * Classe que vincula una casella amb la seva resistencia.
+	 * Necessaria com a auxiliar a Dijkstra.
+	 */
 	private class ResistenciaCasella
 	{
 
@@ -153,6 +169,9 @@ public class CamiMinim
 		}
 	}
 
+	/**
+	 * Classe comparadora de ResistenciaCasella per a poder utilitzar priority queues.
+	 */
 	public class ResistenciaCasellaComparator implements Comparator<ResistenciaCasella>
 	{
 
