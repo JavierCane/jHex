@@ -9,16 +9,22 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 /**
- * Busca el camí mínim per arribar d'una punta a una altra del tauler,
+ * Busca el camí de cost mínim per arribar d'una punta a una altra del tauler,
  * horitzontal o verticalment depenent de quin jugador sigui (resistencia mínima del tauler).
  */
 public class CamiMinim
 {
 
+	/**
+	 * Tauler sobre el que es fa la cerca.
+	 */
 	private TaulerHex tauler;
+	/**
+	 * Jugador per al que es fa la cerca.
+	 */
 	private EstatCasella jugador;
 	/**
-	 * Guardem els valors parcials del cami mínim. Li diem resistencies per mantenir el concepte
+	 * Guardem els valors parcials del cost del cami mínim. Li diem resistencies per mantenir el concepte
 	 * on cada casella es una resistencia el valor de la qual varia segons el seu contingut.
 	 */
 	private int[][] resistencies_parcials;
@@ -42,14 +48,13 @@ public class CamiMinim
 	}
 
 	/**
-	 * Busca el camí mínim aplicant l'algoritme de Dijkstra
+	 * Busca el camí de cost mínim aplicant l'algoritme de Dijkstra
 	 *
 	 * @return retorna el camí de cost mínim (Resistencia mínima).
 	 */
 	public int evalua()
 	{
-		Comparator<ResistenciaCasella> comparador = new ResistenciaCasellaComparator();
-		PriorityQueue<ResistenciaCasella> cua_caselles = new PriorityQueue<ResistenciaCasella>( 10, comparador );
+		PriorityQueue<ResistenciaCasella> cua_caselles = new PriorityQueue<ResistenciaCasella>();
 
 		/**
 		 * Omplim la cua_caselles amb les caselles d'un canto, el superior si és jugador_B o l'esquerra si és A.
@@ -123,7 +128,7 @@ public class CamiMinim
 	 * Retorna la resistencia d'una casella donada.
 	 *
 	 * @param casella
-	 * @return
+	 * @return resistencia d'aquesta casella (0 si és del jugador, 1 si està buida o inf. altrament.
 	 */
 	private int resistenciaCasella( Casella casella )
 	{
@@ -142,51 +147,4 @@ public class CamiMinim
 		}
 	}
 
-	/**
-	 * Classe que vincula una casella amb la seva resistencia.
-	 * Necessaria com a auxiliar a Dijkstra.
-	 */
-	private class ResistenciaCasella
-	{
-
-		int resistencia;
-		Casella casella;
-
-		ResistenciaCasella( Casella casella, int resistencia )
-		{
-			this.casella = casella;
-			this.resistencia = resistencia;
-		}
-
-		int getResistencia()
-		{
-			return resistencia;
-		}
-
-		Casella getCasella()
-		{
-			return casella;
-		}
-	}
-
-	/**
-	 * Classe comparadora de ResistenciaCasella per a poder utilitzar priority queues.
-	 */
-	public class ResistenciaCasellaComparator implements Comparator<ResistenciaCasella>
-	{
-
-		@Override
-		public int compare( ResistenciaCasella x, ResistenciaCasella y )
-		{
-			if ( x.getResistencia() < y.getResistencia() )
-			{
-				return -1;
-			}
-			if ( x.getResistencia() > y.getResistencia() )
-			{
-				return 1;
-			}
-			return 0;
-		}
-	}
 }

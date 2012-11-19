@@ -15,11 +15,17 @@ import java.util.List;
 public class GrupCaselles
 {
 
+	/**
+	 * Tauler sobre el que es busquen els grups.
+	 */
 	private TaulerHex tauler;
+	/**
+	 * Grup de caselles.
+	 */
 	private ArrayList<Casella> grup;
 
 	/**
-	 * Constructora
+	 * Instancia un GrupCaselles, amb el grup buit.
 	 *
 	 * @param tauler tauler sobre el que buscar grups.
 	 */
@@ -30,13 +36,13 @@ public class GrupCaselles
 	}
 
 	/**
-	 * A partir de la casella inicial, busca totes les caselles colindants amb el mateix estat.
+	 * A partir de la casella inicial donada, busca totes les caselles colindants amb el mateix estat, omplint el grup.
 	 *
 	 * @param inici Casella inicial per buscar tot el grup.
 	 */
 	public void estendre( Casella inici )
 	{
-		EstatCasella jo = tauler.getEstatCasella( inici.getFila(), inici.getColumna() );
+		EstatCasella jo = tauler.getEstatCasella( inici );
 
 		List<Casella> pendents = new LinkedList<Casella>();
 		pendents.add( inici );
@@ -72,7 +78,7 @@ public class GrupCaselles
 				}
 			}
 
-			List<Casella> veins = tauler.getVeins( casella.getFila(), casella.getColumna() ); //obtenim els veins.
+			List<Casella> veins = tauler.getVeins( casella ); //obtenim els veins.
 			for ( int i = 0; i < veins.size(); i++ )
 			{
 				Casella vei = veins.get( i );
@@ -89,10 +95,10 @@ public class GrupCaselles
 	 * Métode auxiliar per a estendre, comprova si una casella es pot afegir a grup.
 	 * Mira si te el mateix estat, no està afegida al grup i no està a pendents.
 	 *
-	 * @param casella
-	 * @param pendents
-	 * @param jo
-	 * @return
+	 * @param casella   casella a mirar si es pot afegir.
+	 * @param pendents  llistat de caselles pendents per analitzar.
+	 * @param jo        llistat de la meva casella.
+	 * @return          true si es pot afegir, false altrament.
 	 */
 	private boolean esPotAfegir( Casella casella, List<Casella> pendents, EstatCasella jo )
 	{
@@ -109,7 +115,7 @@ public class GrupCaselles
 	 * Afegeix la casella "afegir" al grup.
 	 *
 	 * @param afegir casella a afegir
-	 * @return
+	 * @return  return false si no es pot afegir, altrament return true.
 	 */
 	public boolean afegirCasella( Casella afegir )
 	{
@@ -125,7 +131,7 @@ public class GrupCaselles
 	/**
 	 * Retorna un ArrayList de caselles amb totes les caselles del grup.
 	 *
-	 * @return
+	 * @return Grup de caselles.
 	 */
 	public ArrayList<Casella> getGrup()
 	{
@@ -145,10 +151,10 @@ public class GrupCaselles
 
 		for ( int i = 0; i < grup.size(); i++ )
 		{
-			List<Casella> veins_locals = tauler.getVeins( grup.get( i ).getFila(), grup.get( i ).getColumna() );
+			List<Casella> veins_locals = tauler.getVeins( grup.get( i ) );
 			for ( int j = 0; j < veins_locals.size(); j++ )
 			{
-				if ( tauler.getEstatCasella( veins_locals.get( j ).getFila(), veins_locals.get( j ).getColumna() ) == EstatCasella.BUIDA )
+				if ( tauler.getEstatCasella( veins_locals.get( j ) ) == EstatCasella.BUIDA )
 				{
 					veins.afegirCasella( veins_locals.get( j ) );
 				}
@@ -168,6 +174,11 @@ public class GrupCaselles
 		return grup.contains( casella );
 	}
 
+	/**
+	 * Obté el nombre de caselles d'intersecció entre dos grups de caselles.
+	 * @param grupB grup amb el que intersequem.
+	 * @return nombre de caselles intersecades.
+	 */
 	public int interseca( GrupCaselles grupB )
 	{
 		int contador = 0;

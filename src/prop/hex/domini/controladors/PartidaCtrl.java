@@ -41,8 +41,7 @@ public class PartidaCtrl
 	 * Tipus de fitxa de cada jugador.
 	 */
 	private static EstatCasella[] fitxes_jugadors = {
-			EstatCasella.JUGADOR_A,
-			EstatCasella.JUGADOR_B
+			EstatCasella.JUGADOR_A, EstatCasella.JUGADOR_B
 	};
 
 	/**
@@ -81,8 +80,7 @@ public class PartidaCtrl
 	 * @throws InstantiationError       Si hi ha problemes amb la instanciació de les intel·ligències artificials.
 	 * @throws IllegalArgumentException Si ja existeix una partida amb les dades donades creada en la mateixa data
 	 */
-	public static boolean inicialitzaPartida( int mida_tauler, UsuariHex jugador_a, UsuariHex jugador_b, String nom )
-			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException
+	public static boolean inicialitzaPartida( int mida_tauler, UsuariHex jugador_a, UsuariHex jugador_b, String nom ) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException
 	{
 		TaulerHex tauler = new TaulerHex( mida_tauler );
 		partida_actual = new PartidaHex( jugador_a, jugador_b, tauler, nom );
@@ -115,9 +113,7 @@ public class PartidaCtrl
 	 *                                  artificial.
 	 * @throws IllegalArgumentException Si algun dels usuaris no juga a la partida.
 	 */
-	public static boolean carregaPartida( String identificador_partida, UsuariHex jugador_a, UsuariHex jugador_b )
-			throws IOException, ClassNotFoundException, FileNotFoundException, IllegalAccessException,
-			       InstantiationException, IllegalArgumentException
+	public static boolean carregaPartida( String identificador_partida, UsuariHex jugador_a, UsuariHex jugador_b ) throws IOException, ClassNotFoundException, FileNotFoundException, IllegalAccessException, InstantiationException, IllegalArgumentException
 	{
 		partida_actual = gestor_partida.carregaElement( identificador_partida );
 		gestor_partida.eliminaElement( identificador_partida );
@@ -156,19 +152,16 @@ public class PartidaCtrl
 	 *                                artificials.
 	 * @throws InstantiationError     Si hi ha problemes amb la instanciació de les intel·ligències artificials.
 	 */
-	private static void inicialitzaEstructuresControl( UsuariHex jugador_a, UsuariHex jugador_b )
-			throws ClassNotFoundException, IllegalAccessException, InstantiationException
+	private static void inicialitzaEstructuresControl( UsuariHex jugador_a, UsuariHex jugador_b ) throws ClassNotFoundException, IllegalAccessException, InstantiationException
 	{
 		usuaris_partida = new UsuariHex[2];
 		usuaris_partida[0] = jugador_a;
 		usuaris_partida[1] = jugador_b;
 
 		jugadors_ia = new MouFitxaIA[2];
-		jugadors_ia[0] = ( MouFitxaIA ) Class.forName( "prop.hex.domini.controladors." + jugador_a.getTipusJugador().getClasseCorresponent() )
-							.newInstance();
+		jugadors_ia[0] = ( MouFitxaIA ) Class.forName( "prop.hex.domini.controladors." + jugador_a.getTipusJugador().getClasseCorresponent() ).newInstance();
 		jugadors_ia[0].setPartida( partida_actual );
-		jugadors_ia[1] = ( MouFitxaIA ) Class.forName( "prop.hex.domini.controladors." + jugador_b.getTipusJugador().getClasseCorresponent() )
-							.newInstance();
+		jugadors_ia[1] = ( MouFitxaIA ) Class.forName( "prop.hex.domini.controladors." + jugador_b.getTipusJugador().getClasseCorresponent() ).newInstance();
 		jugadors_ia[1].setPartida( partida_actual );
 
 		darrera_fitxa = new Casella( 0, 0 );
@@ -204,14 +197,8 @@ public class PartidaCtrl
 		EstatPartida estat_actual = consultaEstatPartida();
 		if ( estat_actual != EstatPartida.NO_FINALITZADA )
 		{
-			UsuariCtrl.actualitzaEstadistiques( usuaris_partida[0], estat_actual == EstatPartida.GUANYA_JUGADOR_A,
-					usuaris_partida[1].getTipusJugador(),
-					partida_actual.getTempsDeJoc( usuaris_partida[0].getIdentificadorUnic() ),
-					partida_actual.getTauler().getNumFitxesA() );
-			UsuariCtrl.actualitzaEstadistiques( usuaris_partida[1], estat_actual == EstatPartida.GUANYA_JUGADOR_B,
-					usuaris_partida[0].getTipusJugador(),
-					partida_actual.getTempsDeJoc( usuaris_partida[1].getIdentificadorUnic() ),
-					partida_actual.getTauler().getNumFitxesA() );
+			UsuariCtrl.actualitzaEstadistiques( usuaris_partida[0], estat_actual == EstatPartida.GUANYA_JUGADOR_A, usuaris_partida[1].getTipusJugador(), partida_actual.getTempsDeJoc( usuaris_partida[0].getIdentificadorUnic() ), partida_actual.getTauler().getNumFitxesA() );
+			UsuariCtrl.actualitzaEstadistiques( usuaris_partida[1], estat_actual == EstatPartida.GUANYA_JUGADOR_B, usuaris_partida[0].getTipusJugador(), partida_actual.getTempsDeJoc( usuaris_partida[1].getIdentificadorUnic() ), partida_actual.getTauler().getNumFitxesA() );
 
 			Ranquing ranquing = Ranquing.getInstancia();
 			for ( UsuariHex usuari : usuaris_partida )
@@ -248,8 +235,7 @@ public class PartidaCtrl
 	 */
 	private static Casella movimentIA()
 	{
-		return jugadors_ia[partida_actual.getTornsJugats() % 2]
-				.mouFitxa( fitxes_jugadors[partida_actual.getTornsJugats() % 2] );
+		return jugadors_ia[partida_actual.getTornsJugats() % 2].mouFitxa( fitxes_jugadors[partida_actual.getTornsJugats() % 2] );
 	}
 
 	/**
@@ -292,31 +278,30 @@ public class PartidaCtrl
 			throw new UnsupportedOperationException( "La partida ja ha finalitzat" );
 		}
 
-		if ( !partida_actual.getTauler()
-				.esMovimentValid( fitxes_jugadors[partida_actual.getTornsJugats() % 2], fila, columna ) )
+		if ( !partida_actual.getTauler().esMovimentValid( fitxes_jugadors[partida_actual.getTornsJugats() % 2], fila, columna ) )
 		{
-			throw new UnsupportedOperationException( "Moviment no vàlid" );
-		}
-
-		if ( partida_actual.getTauler()
-				.mouFitxa( fitxes_jugadors[partida_actual.getTornsJugats() % 2], fila, columna ) )
-		{
-			darrera_fitxa = new Casella( fila, columna );
-
-			partida_actual.incrementaTempsDeJoc( usuaris_partida[partida_actual.getTornsJugats() % 2].getIdentificadorUnic(),
-					instant_actual - instant_darrer_moviment );
-			partida_actual.incrementaTornsJugats( 1 );
-
-			// Per actualitzar l'estat de la partida en el controlador.
-			consultaEstatPartida();
-
-			instant_darrer_moviment = new Date().getTime() / 1000L;
-
-			return true;
+			return false;
 		}
 		else
 		{
-			return false;
+			if ( partida_actual.getTauler().mouFitxa( fitxes_jugadors[partida_actual.getTornsJugats() % 2], fila, columna ) )
+			{
+				darrera_fitxa = new Casella( fila, columna );
+
+				partida_actual.incrementaTempsDeJoc( usuaris_partida[partida_actual.getTornsJugats() % 2].getIdentificadorUnic(), instant_actual - instant_darrer_moviment );
+				partida_actual.incrementaTornsJugats( 1 );
+
+				// Per actualitzar l'estat de la partida en el controlador.
+				consultaEstatPartida();
+
+				instant_darrer_moviment = new Date().getTime() / 1000L;
+
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 	}
 
@@ -338,8 +323,7 @@ public class PartidaCtrl
 	 */
 	public static EstatPartida consultaEstatPartida()
 	{
-		EstatPartida estat_partida =
-				partida_actual.comprovaEstatPartida( darrera_fitxa.getFila(), darrera_fitxa.getColumna() );
+		EstatPartida estat_partida = partida_actual.comprovaEstatPartida( darrera_fitxa.getFila(), darrera_fitxa.getColumna() );
 
 		partida_actual.setFinalitzada( estat_partida != EstatPartida.NO_FINALITZADA );
 
@@ -383,6 +367,11 @@ public class PartidaCtrl
 		return partida_actual.getModeInici() == ModesInici.PASTIS;
 	}
 
+	/**
+	 * Obté la partida actual en joc.
+	 *
+	 * @return PartidaHex amb la partida actual.
+	 */
 	public static PartidaHex getPartidaActual()
 	{
 		return partida_actual;

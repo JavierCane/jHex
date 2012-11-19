@@ -7,18 +7,40 @@ import prop.hex.domini.models.TaulerHex;
 import java.util.ArrayList;
 
 /**
- *
- *
+ * Obté les connexions virtuals i semivirtuals de primer ordre. És a dir, els conjunts de caselles d'un usuari
+ * que es poden connectar col·locant una fitxa indepentdentment del que faci l'usuari contrari (connexió virtual)
+ * o que l'usuari contrari ens pot bloquejar (connexió semivirtual).
  */
 public class ConnexionsVirtuals
 {
 
+	/**
+	 * Tauler sobre el que es busquen les connexions.
+	 */
 	private TaulerHex tauler;
+	/**
+	 * Llistat de grups de caselles contigues.
+	 */
 	private ArrayList<GrupCaselles> grups;
+	/**
+	 * Jugador per al que es busquen les connexions.
+	 */
 	private EstatCasella jo;
+	/**
+	 * Nombre de connexions virtuals.
+	 */
 	private int connexions_virtuals;
+	/**
+	 * Nombre de connexions semivirtuals.
+	 */
 	private int connexions_semivirtuals;
 
+	/**
+	 * Instancia la classe amb el tauler i l'usuari especificats, també busca els grups i les connexions
+	 * que hi ha entre ells.
+	 * @param tauler
+	 * @param jo
+	 */
 	public ConnexionsVirtuals( TaulerHex tauler, EstatCasella jo )
 	{
 		this.tauler = tauler;
@@ -33,7 +55,7 @@ public class ConnexionsVirtuals
 	}
 
 	/**
-	 * Busca connexions i semiconnexions de primer ordre.
+	 * Busca connexions i semiconnexions de primer ordre, es a dir, grups que tenen caselles veines en comú.
 	 */
 	private void buscaConnexions()
 	{
@@ -42,7 +64,7 @@ public class ConnexionsVirtuals
 		{
 			for ( int j = i+1; j < grups.size(); j++ )
 			{
-				//interseccio és el nombre de caselles que comparteixen dos grups.
+				//interseccio és el nombre de caselles veines que comparteixen dos grups.
 				int interseccio = grups.get( i ).getVeins().interseca( grups.get( j ).getVeins() );
 				if ( interseccio >= 2 ) //si és més que 2 la connexió és virtual per la regla OR.
 				{
@@ -57,7 +79,7 @@ public class ConnexionsVirtuals
 	}
 
 	/**
-	 * Consultora
+	 * Obté els grups de caselles.
 	 * @return ArrayList amb els grups de caselles.
 	 */
 	public ArrayList<GrupCaselles> getGrups()
@@ -66,7 +88,7 @@ public class ConnexionsVirtuals
 	}
 
 	/**
-	 * Consultora
+	 * Obté el nombre de connexions virtuals.
 	 * @return nombre de connexions virtuals.
 	 */
 	public int getConnexions_virtuals()
@@ -75,7 +97,7 @@ public class ConnexionsVirtuals
 	}
 
 	/**
-	 * Consultora
+	 * Obté el nombre de connexions semivirtuals.
 	 * @return nombre de connexions semivirtuals.
 	 */
 	public int getConnexions_semivirtuals()

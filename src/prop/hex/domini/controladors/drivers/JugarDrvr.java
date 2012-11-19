@@ -25,6 +25,7 @@ import java.awt.event.MouseEvent;
  */
 public class JugarDrvr
 {
+
 	public static void IAVsHuma()
 	{
 		UsuariHex usuari_A = UsuariCtrl.creaUsuari( "Maquina facil", "contrasenya", TipusJugadors.IA_FACIL, false );
@@ -41,6 +42,7 @@ public class JugarDrvr
 
 		instanciaFinestra();
 	}
+
 	public static void HumaVsIA()
 	{
 		UsuariHex usuari_A = UsuariCtrl.creaUsuari( "Huma", "contrasenya", TipusJugadors.JUGADOR, false );
@@ -55,7 +57,7 @@ public class JugarDrvr
 			System.out.println( "Excepció al inicialitzar la partida: " + e.getMessage() );
 		}
 
-		instanciaFinestra( );
+		instanciaFinestra();
 	}
 
 	public static void HumaVsHuma()
@@ -95,11 +97,11 @@ public class JugarDrvr
 	}
 
 
-	private static void instanciaFinestra( )
+	private static void instanciaFinestra()
 	{
 		JFrame f = new JFrame( "Visor partida" );
 		//f.setDefaultCloseOperation();
-		f.add( new Finestra( ) );
+		f.add( new Finestra() );
 		f.pack();
 		f.setVisible( true );
 	}
@@ -129,7 +131,7 @@ public class JugarDrvr
 		private int iniciX = 60;
 		private int iniciY = 60;
 
-		public Finestra( )
+		public Finestra()
 		{
 			tauler = ( TaulerHex ) PartidaCtrl.getPartidaActual().getTauler();
 			jugador_a = ( UsuariHex ) PartidaCtrl.getPartidaActual().getJugadorA();
@@ -237,11 +239,10 @@ public class JugarDrvr
 			g.setColor( jugador_a.getCombinacionsColors().getColorFonsFinestra() );
 			g.fillRect( 0, 0, getWidth(), getHeight() );
 
-			g.setColor(jugador_a.getCombinacionsColors().getColorCasella(EstatCasella.JUGADOR_A));
-			g.drawLine(5, 50, 240, 460);
-			g.setColor(jugador_a.getCombinacionsColors().getColorCasella(EstatCasella.JUGADOR_B));
-			g.drawLine(245, 465, 720, 465);
-
+			g.setColor( jugador_a.getCombinacionsColors().getColorCasella( EstatCasella.JUGADOR_A ) );
+			g.drawLine( 5, 50, 240, 460 );
+			g.setColor( jugador_a.getCombinacionsColors().getColorCasella( EstatCasella.JUGADOR_B ) );
+			g.drawLine( 245, 465, 720, 465 );
 
 
 			g.translate( iniciX, iniciY );
@@ -271,10 +272,25 @@ public class JugarDrvr
 				g.setColor( Color.black );
 				g.drawRoundRect( 500, 450, 120, 40, 8, 8 );
 				g.setColor( Color.white );
-				g.drawString( "Mou IA", 540, 475);
+				g.drawString( "Mou IA", 540, 475 );
 			}
 
-//		g.setColor( Color.black );
+			g.setColor( Color.black );
+
+			g.setColor( jugador_a.getCombinacionsColors().getColorCasella( EstatCasella.JUGADOR_A ) );
+			g.drawString( jugador_a.getNom(), 10, 460 );
+			g.drawString( "D'esquerra a dreta", 10, 480 );
+			g.drawString( "Temps: " + PartidaCtrl.getPartidaActual().getTempsDeJoc(jugador_a.getIdentificadorUnic()), 10, 500);
+
+			g.setColor( jugador_a.getCombinacionsColors().getColorCasella( EstatCasella.JUGADOR_B ) );
+			g.drawString( jugador_a.getNom(), 300, 460 );
+			g.drawString( "De dalt a baix", 300, 480 );
+			if(jugador_b.getTipusJugador() == TipusJugadors.JUGADOR)
+			{
+				g.drawString( "Temps: " + PartidaCtrl.getPartidaActual().getTempsDeJoc(jugador_b.getIdentificadorUnic()), 300, 500);
+			}
+
+
 //		g.drawString( "Camí mínim B: " + cami_minim_B, 10, 500 );
 		}
 	}

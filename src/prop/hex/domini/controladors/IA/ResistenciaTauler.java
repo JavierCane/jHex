@@ -10,16 +10,20 @@ import java.util.List;
 
 /**
  * Per evaluar un tauler concret imaginem el tauler com un circuit elèctric. On cada casella té una resistencia,
- * Per a cada jugador resistencia de cada casella serà
- * 1 si la casella està buida.
- * 0 si pertany al mateix jugador.
- * Inf. si pertany al jugador contrari.
+ * Per a cada jugador resistencia de cada casella serà:
+ *  1 si la casella està buida.
+ *  0 si pertany al mateix jugador.
+ *  Inf. si pertany al jugador contrari.
  * Apliquem un voltatge a cada costat (A esquerra i dreta si és jugador A o a baix i a dalt si és jugador B),
  * i n'evaluem la resistencia total.
+ *
  * La resistencia d'un tauler calculada d'aquesta manera ve a ser un indicador de la facilitat de creuar d'un punt a
  * un altre del tauler.
  * Si la resistencia d'un tauler és 0 vol dir que el jugador ha guanyat.
  * Si és Inf. vol dir que el jugador contrari ha guanyat.
+ *
+ * L'algoritme aplicat aqui per calcular la resistencia només fa una aproximació de la resistencia global ja que
+ * calcular la resistencia global és massa costos.
  */
 public class ResistenciaTauler
 {
