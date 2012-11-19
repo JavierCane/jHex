@@ -158,7 +158,8 @@ public abstract class BaseGstr<T>
 			String nom = arxiu.getName();
 			if ( nom.endsWith( this.extensio_fitxers ) )
 			{
-				noms_elements.add( nom.replaceAll( "[A-Za-z_@\\-]+\\." + this.extensio_fitxers + "$", "" ) );
+				// Aquesta crida afegeix el nom de l'element sense l'extensió al conjunt de noms
+				noms_elements.add( nom.replaceAll( "\\." + this.extensio_fitxers + "$", "" ) );
 			}
 		}
 
