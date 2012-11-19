@@ -1,29 +1,30 @@
-*ReadMe*
+================================
+Joc de taula Hex
 ================================
 
 Dades del projecte
 -------------------------
 
-* Joc:			Hex
-* Assignatura:	Projectes de Programació (PROP)
-* Facultat: 	Facultat d'Informàtica de Barcelona (FIB-UPC)
-* Curs:			2012-1013
-* Grup: 		7.3
-* Integrants:
-   - javier.ferrer.gonzalez@est.fib.upc.edu	Ferrer González, Javier
-   - guillermo.girona@est.fib.upc.edu 		Girona San Miguel, Guillermo
-   - marc.junyent@est.fib.upc.edu 			Junyent Martín, Marc
-   - isaac.sanchez.barrera@est.fib.upc.edu 	Sánchez Barrera, Isaac
+:Joc:			Hex
+:Assignatura:	Projectes de Programació (PROP)
+:Facultat: 	Facultat d'Informàtica de Barcelona (FIB-UPC)
+:Curs:			2012-1013
+:Grup: 		7.3
+:Integrants:
+  * javier.ferrer.gonzalez@est.fib.upc.edu	Ferrer González, Javier
+  * guillermo.girona@est.fib.upc.edu 		Girona San Miguel, Guillermo
+  * marc.junyent@est.fib.upc.edu 			Junyent Martín, Marc
+  * isaac.sanchez.barrera@est.fib.upc.edu 	Sánchez Barrera, Isaac
 
 
 Com compilar i executar
 -------------------------
 
-# Moure'ns al directori arrel dels paquets:
+1. Moure'ns al directori arrel dels paquets:
         cd /path/absolut/del/projecte/jHex/src/
-# Compilar incloent tots els fitxers dels drivers:
+2. Compilar incloent tots els fitxers dels drivers:
         javac prop/hex/domini/controladors/drivers/*.java
-# Executar el driver principal i anar provant totes les classes amb comoditat :)
+3. Executar el driver principal i anar provant totes les classes amb comoditat :)
         java prop.hex.domini.controladors.drivers.PrincipalDrvr
 
 Explicació PrincipalDrvr
