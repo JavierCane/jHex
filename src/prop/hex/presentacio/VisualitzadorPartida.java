@@ -252,7 +252,7 @@ public class VisualitzadorPartida extends JPanel
 
 		//Mostrem algunes dades pel jugador A
 		g.setColor( jugador_a.getCombinacionsColors().getColorCasella( EstatCasella.JUGADOR_A ) );
-		g.drawString( jugador_a.getNom(), 10, 460 );
+		g.drawString( "Nom: " + jugador_a.getNom(), 10, 460 );
 		g.drawString( "D'esquerra a dreta", 10, 480 );
 		if ( jugador_a.getTipusJugador() == TipusJugadors.JUGADOR )
 		{
@@ -262,7 +262,7 @@ public class VisualitzadorPartida extends JPanel
 
 		//I algunes dades pel jugador B
 		g.setColor( jugador_a.getCombinacionsColors().getColorCasella( EstatCasella.JUGADOR_B ) );
-		g.drawString( jugador_b.getNom(), 300, 460 );
+		g.drawString( "Nom: " + jugador_b.getNom(), 300, 460 );
 		g.drawString( "De dalt a baix", 300, 480 );
 		if ( jugador_b.getTipusJugador() == TipusJugadors.JUGADOR )
 		{
