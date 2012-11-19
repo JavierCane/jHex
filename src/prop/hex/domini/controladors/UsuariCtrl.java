@@ -42,11 +42,6 @@ public class UsuariCtrl
 	{
 		if ( tipus_jugador == TipusJugadors.JUGADOR )
 		{
-			if ( gestor_usuari.existeixElement( nom ) )
-			{
-				throw new IllegalArgumentException( "[KO]\tEl nom d'usuari ja existeix." );
-			}
-
 			if ( !nom.matches( UsuariHex.getCaractersPermesos() ) )
 			{
 				throw new IllegalArgumentException( "[KO]\tEl nom d'usuari conté caràcters il·legals. Només " +
@@ -58,9 +53,14 @@ public class UsuariCtrl
 				throw new IllegalArgumentException( "[KO]\tNo es permet utilitzar aquest nom d'usuari. Els noms no " +
 						"permesos són " + UsuariHex.getNomsNoPermesos().toString() );
 			}
+
+			UsuariHex usuari_hex = new UsuariHex( nom, contrasenya );
+			if ( gestor_usuari.existeixElement( usuari_hex.getIdentificadorUnic() ) )
+			{
+				throw new IllegalArgumentException( "[KO]\tEl nom d'usuari ja existeix." );
+			}
 			else
 			{
-				UsuariHex usuari_hex = new UsuariHex( nom, contrasenya );
 				return usuari_hex;
 			}
 		}
