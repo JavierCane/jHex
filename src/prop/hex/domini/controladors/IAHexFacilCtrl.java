@@ -12,6 +12,8 @@ import prop.hex.domini.models.PartidaHex;
 import prop.hex.domini.models.TaulerHex;
 
 /**
+ *
+ *
  */
 public class IAHexFacilCtrl extends InteligenciaArtificial implements MouFitxaIA
 {
@@ -40,7 +42,6 @@ public class IAHexFacilCtrl extends InteligenciaArtificial implements MouFitxaIA
 	 * @param fitxa_jugador  Indica el jugador de la partida a partir del qual avaluar <em>tauler</em>.
 	 * @return
 	 */
-
 	public int funcioAvaluacio( Tauler tauler, EstatPartida estat_moviment, int profunditat, EstatCasella fitxa_jugador )
 	{
 		if ( estat_moviment == EstatPartida.GUANYA_JUGADOR_A )
@@ -220,7 +221,7 @@ public class IAHexFacilCtrl extends InteligenciaArtificial implements MouFitxaIA
 			CamiMinim cami_minim_A = new CamiMinim( ( TaulerHex ) partida.getTauler(), EstatCasella.JUGADOR_A );
 			distancia_enemic = cami_minim_A.evalua();
 		}
-		if ( distancia_enemic <= 3 )
+		if ( distancia_enemic <= 4 )
 		{
 			tactica_agresiva = true;
 		}

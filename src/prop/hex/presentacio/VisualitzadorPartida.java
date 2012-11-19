@@ -13,37 +13,48 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 /**
- * Created with IntelliJ IDEA.
- * User: marc
- * Date: 19/11/12
- * Time: 12:15
- * To change this template use File | Settings | File Templates.
+ * Classe temporal per poder veure i jugar una partida mitjançant PartidaCtrl. Obre una finestra on dibuixa el tauler
+ * i captura els clicks del ratoli fent moure a qui toqui en cada situació.
+ * Aquesta classe s'utilitza des del driver de Jugar que comprova que funcioni PartidaCtrl així com IAHexFacilCtrl i
+ * totes les classes que aquest utilitza.
  */
 public class VisualitzadorPartida extends JPanel
 {
 
+	/**
+	 * Tauler d'Hex a dibuixar.
+	 */
 	private TaulerHex tauler;
+	/**
+	 * Jugador A
+	 */
 	private UsuariHex jugador_a;
+	/**
+	 * Jugador B
+	 */
 	private UsuariHex jugador_b;
-
 	/**
 	 * Poligon que s'utilitza per dibuixar a pantalla.
 	 */
 	private Polygon hexagon;
-
 	/**
 	 * dx i dy són els increments horitzontals i verticals entre caselles.
 	 */
-
 	private int dx, dy;
-
 	/**
-	 * Radi de les caselles i posició d'inici del taulell a la pantalla.
+	 * Radi de les caselles.
 	 */
 	private double radi = 40.0;
+	/**
+	 * Posició inicial del taulell a la pantalla.
+	 */
 	private int iniciX = 60;
 	private int iniciY = 60;
 
+	/**
+	 * Constructora, obté el taulell i els jugadors, construeix un poligon hexagonal i
+	 * afegeix el listener del ratoli pel cas del click.
+	 */
 	public VisualitzadorPartida()
 	{
 		tauler = ( TaulerHex ) PartidaCtrl.getPartidaActual().getTauler();
@@ -78,7 +89,8 @@ public class VisualitzadorPartida extends JPanel
 
 	/**
 	 * Calcula sobre quina casella es corresponen les coordenades píxel i crida a clickHexagon amb aquesta
-	 * informació.
+	 * informació. Listener de mouseClicked. Si s'ha fet click sobre una casella crida a clickHexagon,
+	 * si s'ha fet click sobre el botó de moviment IA, crida a mouIA
 	 *
 	 * @param x Coordenades píxel horitxontals.
 	 * @param y Coordenades píxel verticals.
@@ -113,6 +125,10 @@ public class VisualitzadorPartida extends JPanel
 		}
 	}
 
+	/**
+	 * Si la partida no està finalitzada i es torn de una IA, crida PartidaCtrl a executar moviment IA.
+	 * Torna a pintar l'escena.
+	 */
 	private void mouIA()
 	{
 		if ( PartidaCtrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA && !PartidaCtrl.esTornHuma() )
@@ -123,6 +139,12 @@ public class VisualitzadorPartida extends JPanel
 		repaint();
 	}
 
+	/**
+	 * Si la partida no està finalitzada i es torn d'un huma, crida a fer moviment a la casella i, j.
+	 * Torna a pintar l'escena.
+	 * @param i fila casella.
+	 * @param j columna casella.
+	 */
 	private void clickHexagon( int i, int j )
 	{
 		if ( PartidaCtrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA && PartidaCtrl.esTornHuma() )
@@ -141,25 +163,37 @@ public class VisualitzadorPartida extends JPanel
 		repaint();
 	}
 
+	/**
+	 * Retorna la mida de la pantalla.
+	 * @return
+	 */
 	public Dimension getPreferredSize()
 	{
 		return new Dimension( 800, 600 );
 	}
 
+	/**
+	 * Pinta la pantalla.
+	 * @param g paràmetre Graphics on es pinta.
+	 */
 	protected void paintComponent( Graphics g )
 	{
 		super.paintComponent( g );
 
+		//Pintem tot de blanc.
 		g.setColor( jugador_a.getCombinacionsColors().getColorFonsFinestra() );
 		g.fillRect( 0, 0, getWidth(), getHeight() );
 
+		//Dibuixem les linies horitzontals i verticals que indiquen cap a on juga cada jugador.
 		g.setColor( jugador_a.getCombinacionsColors().getColorCasella( EstatCasella.JUGADOR_A ) );
 		g.drawLine( 5, 50, 240, 460 );
+		g.drawLine( 505, 25, 740, 440 );
 		g.setColor( jugador_a.getCombinacionsColors().getColorCasella( EstatCasella.JUGADOR_B ) );
+		g.drawLine( 15, 15, 500, 15 );
 		g.drawLine( 245, 465, 720, 465 );
 
+		//Dibuixem el tauler, pintant cada hexagon del color que toca.
 		g.translate( iniciX, iniciY );
-
 		for ( int i = 0; i < tauler.getMida(); i++ )
 		{
 			g.translate( i * dx / 2, i * dy );
@@ -178,7 +212,8 @@ public class VisualitzadorPartida extends JPanel
 			g.translate( -i * dx / 2, -i * dy );
 		}
 
-		if ( !PartidaCtrl.esTornHuma() )
+		//Si és torn de la IA mostrem el botó Mou IA.
+		if ( !PartidaCtrl.esTornHuma() && PartidaCtrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA )
 		{
 			g.setColor( new Color( 0xAA0000 ) );
 			g.fillRoundRect( 500, 450, 120, 40, 8, 8 );
@@ -188,8 +223,23 @@ public class VisualitzadorPartida extends JPanel
 			g.drawString( "Mou IA", 540, 475 );
 		}
 
+		//Mostrem el torn actual.
 		g.setColor( Color.black );
+		g.drawString( "Torn: " + PartidaCtrl.getPartidaActual().getTornsJugats(), 0, 300 );
 
+		//Si ha guanyat un jugador, mostrem el resultat.
+		if ( PartidaCtrl.consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_A )
+		{
+			g.setColor( jugador_a.getCombinacionsColors().getColorCasella( EstatCasella.JUGADOR_A ) );
+			g.drawString( "Guanya " + jugador_a.getNom(), 0, 330 );
+		}
+		else if ( PartidaCtrl.consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_B )
+		{
+			g.setColor( jugador_a.getCombinacionsColors().getColorCasella( EstatCasella.JUGADOR_B ) );
+			g.drawString( "Guanya " + jugador_b.getNom(), 0, 330 );
+		}
+
+		//Mostrem algunes dades pel jugador A
 		g.setColor( jugador_a.getCombinacionsColors().getColorCasella( EstatCasella.JUGADOR_A ) );
 		g.drawString( jugador_a.getNom(), 10, 460 );
 		g.drawString( "D'esquerra a dreta", 10, 480 );
@@ -199,6 +249,7 @@ public class VisualitzadorPartida extends JPanel
 					10, 500 );
 		}
 
+		//I algunes dades pel jugador B
 		g.setColor( jugador_a.getCombinacionsColors().getColorCasella( EstatCasella.JUGADOR_B ) );
 		g.drawString( jugador_b.getNom(), 300, 460 );
 		g.drawString( "De dalt a baix", 300, 480 );
@@ -207,7 +258,5 @@ public class VisualitzadorPartida extends JPanel
 			g.drawString( "Temps: " + PartidaCtrl.getPartidaActual().getTempsDeJoc( jugador_b.getIdentificadorUnic() ),
 					300, 500 );
 		}
-
-//		g.drawString( "Camí mínim B: " + cami_minim_B, 10, 500 );
 	}
 }

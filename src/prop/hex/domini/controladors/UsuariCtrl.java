@@ -124,7 +124,7 @@ public class UsuariCtrl
 	 * @throws FileNotFoundException    Si el fitxer no s'ha generat i no s'han pogut escriure les dades.
 	 * @throws IOException              IOException Si ha succeït un error d'entrada/sortida inesperat.
 	 * @throws ClassNotFoundException   Si hi ha un problema de classes quan es carrega l'usuari.
-	 * @throws NullPointerException
+	 * @throws NullPointerException     Es dona si el fitxer està buit.
 	 */
 	public static UsuariHex carregaUsuari( String nom, String contrasenya, TipusJugadors tipus_jugador )
 			throws IllegalArgumentException, FileNotFoundException, IOException, ClassNotFoundException,

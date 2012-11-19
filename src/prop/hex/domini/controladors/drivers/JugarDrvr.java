@@ -29,8 +29,17 @@ import java.io.IOException;
 public class JugarDrvr
 {
 
-	public static void IAVsHuma() throws FileNotFoundException, IOException, ClassNotFoundException,
-	                                     NullPointerException
+	/**
+	 * Crea 2 usuaris, carrega una partida amb élls i instancia una finestra amb VisualitzadorPartida.
+	 * Permet jugar una partida IA vs Huma.
+	 *
+	 * @throws FileNotFoundException  Si el fitxer no s'ha generat i no s'han pogut escriure les dades.
+	 * @throws IOException            IOException Si ha succeït un error d'entrada/sortida inesperat.
+	 * @throws ClassNotFoundException Si hi ha un problema de classes quan es carrega l'usuari.
+	 * @throws NullPointerException   Es dona si el fitxer està buit.
+	 */
+	public static void IAVsHuma()
+			throws FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
 	{
 
 		UsuariHex usuari_A;
@@ -64,8 +73,17 @@ public class JugarDrvr
 		instanciaFinestra();
 	}
 
-	public static void HumaVsIA() throws FileNotFoundException, IOException, ClassNotFoundException,
-	                                     NullPointerException
+	/**
+	 * Crea 2 usuaris, carrega una partida amb élls i instancia una finestra amb VisualitzadorPartida.
+	 * Permet jugar una partida Huma vs IA.
+	 *
+	 * @throws FileNotFoundException  Si el fitxer no s'ha generat i no s'han pogut escriure les dades.
+	 * @throws IOException            IOException Si ha succeït un error d'entrada/sortida inesperat.
+	 * @throws ClassNotFoundException Si hi ha un problema de classes quan es carrega l'usuari.
+	 * @throws NullPointerException   Es dona si el fitxer està buit.
+	 */
+	public static void HumaVsIA()
+			throws FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
 	{
 
 		UsuariHex usuari_A;
@@ -99,8 +117,17 @@ public class JugarDrvr
 		instanciaFinestra();
 	}
 
-	public static void HumaVsHuma() throws FileNotFoundException, IOException, ClassNotFoundException,
-	                                       NullPointerException
+	/**
+	 * Crea 2 usuaris, carrega una partida amb élls i instancia una finestra amb VisualitzadorPartida.
+	 * Permet jugar una partida Huma vs Huma.
+	 *
+	 * @throws FileNotFoundException  Si el fitxer no s'ha generat i no s'han pogut escriure les dades.
+	 * @throws IOException            IOException Si ha succeït un error d'entrada/sortida inesperat.
+	 * @throws ClassNotFoundException Si hi ha un problema de classes quan es carrega l'usuari.
+	 * @throws NullPointerException   Es dona si el fitxer està buit.
+	 */
+	public static void HumaVsHuma()
+			throws FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
 	{
 
 		UsuariHex usuari_A;
@@ -134,8 +161,16 @@ public class JugarDrvr
 		instanciaFinestra();
 	}
 
-	public static void IAVsIA() throws FileNotFoundException, IOException, ClassNotFoundException,
-	                                   NullPointerException
+	/**
+	 * Crea 2 usuaris, carrega una partida amb élls i instancia una finestra amb VisualitzadorPartida.
+	 * Permet jugar una partida IA vs IA.
+	 *
+	 * @throws FileNotFoundException  Si el fitxer no s'ha generat i no s'han pogut escriure les dades.
+	 * @throws IOException            IOException Si ha succeït un error d'entrada/sortida inesperat.
+	 * @throws ClassNotFoundException Si hi ha un problema de classes quan es carrega l'usuari.
+	 * @throws NullPointerException   Es dona si el fitxer està buit.
+	 */
+	public static void IAVsIA() throws FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
 	{
 
 		UsuariHex usuari_A;
@@ -169,14 +204,14 @@ public class JugarDrvr
 		instanciaFinestra();
 	}
 
-
+	/**
+	 * Crea un JFrame i obre la finestra utilitzant com a contingut VisualitzadorPartida.
+	 */
 	private static void instanciaFinestra()
 	{
 		JFrame f = new JFrame( "Visor partida" );
-		//f.setDefaultCloseOperation();
 		f.add( new VisualitzadorPartida() );
 		f.pack();
 		f.setVisible( true );
 	}
-
 }
