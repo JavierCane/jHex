@@ -19,6 +19,7 @@ import java.util.*;
  * Internament, els jugadors estan indexats per posició en un array; el jugador A es troba en la posició 0 i el B en
  * la posició 1.
  */
+@SuppressWarnings( "unchecked" )
 public class PartidaCtrl
 {
 
