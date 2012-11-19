@@ -50,7 +50,7 @@ public class JugarDrvr
 
 		try
 		{
-			PartidaCtrl.inicialitzaPartida( 7, usuari_A, usuari_B, "Partida de Prova" );
+			PartidaCtrl.getInstancia().inicialitzaPartida( 7, usuari_A, usuari_B, "Partida de Prova" );
 		}
 		catch ( Exception e )
 		{
@@ -94,7 +94,7 @@ public class JugarDrvr
 
 		try
 		{
-			PartidaCtrl.inicialitzaPartida( 7, usuari_A, usuari_B, "Partida de Prova" );
+			PartidaCtrl.getInstancia().inicialitzaPartida( 7, usuari_A, usuari_B, "Partida de Prova" );
 		}
 		catch ( Exception e )
 		{
@@ -138,7 +138,7 @@ public class JugarDrvr
 
 		try
 		{
-			PartidaCtrl.inicialitzaPartida( 7, usuari_A, usuari_B, "Partida de Prova" );
+			PartidaCtrl.getInstancia().inicialitzaPartida( 7, usuari_A, usuari_B, "Partida de Prova" );
 		}
 		catch ( Exception e )
 		{
@@ -181,7 +181,7 @@ public class JugarDrvr
 
 		try
 		{
-			PartidaCtrl.inicialitzaPartida( 7, usuari_A, usuari_B, "Partida de Prova" );
+			PartidaCtrl.getInstancia().inicialitzaPartida( 7, usuari_A, usuari_B, "Partida de Prova" );
 		}
 		catch ( Exception e )
 		{
