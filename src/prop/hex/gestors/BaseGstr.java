@@ -149,17 +149,17 @@ public abstract class BaseGstr<T>
 	 */
 	public Set<String> llistaElements()
 	{
-		File carpeta = new File( this.carpeta_dades + '/' + this.subcarpeta_dades + '/' );
+		File carpeta = new File( carpeta_dades + '/' + subcarpeta_dades + '/' );
 		File[] llista_arxius = carpeta.listFiles();
 
 		Set<String> noms_elements = new HashSet<String>();
 		for ( File arxiu : llista_arxius )
 		{
 			String nom = arxiu.getName();
-			if ( nom.endsWith( this.extensio_fitxers ) )
+			if ( nom.endsWith( extensio_fitxers ) )
 			{
-				// Aquesta crida afegeix el nom de l'element sense l'extensió al conjunt de noms
-				noms_elements.add( nom.replaceAll( "\\." + this.extensio_fitxers + "$", "" ) );
+				// Afegeixo el nom de l'element sense l'extensió al conjunt de noms
+				noms_elements.add( nom.substring( 0, nom.length() - 4 ) );
 			}
 		}
 
