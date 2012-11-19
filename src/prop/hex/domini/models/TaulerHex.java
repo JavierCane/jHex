@@ -7,6 +7,9 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.LinkedList;
 
+/**
+ * Representa un tauler del joc Hex.
+ */
 public class TaulerHex extends Tauler implements Serializable
 {
 

@@ -1,36 +1,23 @@
 package prop.hex.domini.controladors.drivers;
 
-import prop.cluster.domini.models.estats.EstatCasella;
-import prop.cluster.domini.models.estats.EstatPartida;
-import prop.hex.domini.controladors.IAHexFacilCtrl;
 import prop.hex.domini.controladors.PartidaCtrl;
 import prop.hex.domini.controladors.UsuariCtrl;
-import prop.hex.domini.models.Casella;
-import prop.hex.domini.models.PartidaHex;
-import prop.hex.domini.models.TaulerHex;
 import prop.hex.domini.models.UsuariHex;
 import prop.hex.domini.models.enums.TipusJugadors;
 import prop.hex.presentacio.VisualitzadorPartida;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
- * Created with IntelliJ IDEA.
- * User: marc
- * Date: 18/11/12
- * Time: 20:13
- * To change this template use File | Settings | File Templates.
+ * Permet jugar una partida de prova escollint els tipus d'oponent.
  */
 public class JugarDrvr
 {
 
 	/**
-	 * Crea 2 usuaris, carrega una partida amb élls i instancia una finestra amb VisualitzadorPartida.
+	 * Crea 2 usuaris, carrega una partida amb ells i instancia una finestra amb VisualitzadorPartida.
 	 * Permet jugar una partida IA vs Huma.
 	 *
 	 * @throws FileNotFoundException  Si el fitxer no s'ha generat i no s'han pogut escriure les dades.
@@ -74,7 +61,7 @@ public class JugarDrvr
 	}
 
 	/**
-	 * Crea 2 usuaris, carrega una partida amb élls i instancia una finestra amb VisualitzadorPartida.
+	 * Crea 2 usuaris, carrega una partida amb ells i instancia una finestra amb VisualitzadorPartida.
 	 * Permet jugar una partida Huma vs IA.
 	 *
 	 * @throws FileNotFoundException  Si el fitxer no s'ha generat i no s'han pogut escriure les dades.
@@ -118,7 +105,7 @@ public class JugarDrvr
 	}
 
 	/**
-	 * Crea 2 usuaris, carrega una partida amb élls i instancia una finestra amb VisualitzadorPartida.
+	 * Crea 2 usuaris, carrega una partida amb ells i instancia una finestra amb VisualitzadorPartida.
 	 * Permet jugar una partida Huma vs Huma.
 	 *
 	 * @throws FileNotFoundException  Si el fitxer no s'ha generat i no s'han pogut escriure les dades.
@@ -162,7 +149,7 @@ public class JugarDrvr
 	}
 
 	/**
-	 * Crea 2 usuaris, carrega una partida amb élls i instancia una finestra amb VisualitzadorPartida.
+	 * Crea 2 usuaris, carrega una partida amb ells i instancia una finestra amb VisualitzadorPartida.
 	 * Permet jugar una partida IA vs IA.
 	 *
 	 * @throws FileNotFoundException  Si el fitxer no s'ha generat i no s'han pogut escriure les dades.
