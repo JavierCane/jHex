@@ -72,7 +72,8 @@ public class CamiMinim
 			for ( int columna = 0; columna < tauler.getMida(); columna++ )
 			{
 				resistencies_parcials[0][columna] = resistenciaCasella( new Casella( 0, columna ) );
-				cua_caselles.add( new ResistenciaCasella( new Casella( 0, columna ), resistencies_parcials[0][columna] ) );
+				cua_caselles
+						.add( new ResistenciaCasella( new Casella( 0, columna ), resistencies_parcials[0][columna] ) );
 			}
 		}
 
@@ -86,10 +87,13 @@ public class CamiMinim
 			List<Casella> veins = tauler.getVeins( actual.getCasella() );
 			for ( Casella vei : veins )
 			{
-				if ( resistencies_parcials[vei.getFila()][vei.getColumna()] > actual.getResistencia() + resistenciaCasella( vei ) )
+				if ( resistencies_parcials[vei.getFila()][vei.getColumna()] >
+				     actual.getResistencia() + resistenciaCasella( vei ) )
 				{
-					resistencies_parcials[vei.getFila()][vei.getColumna()] = actual.getResistencia() + resistenciaCasella( vei );
-					cua_caselles.add( new ResistenciaCasella( vei, resistencies_parcials[vei.getFila()][vei.getColumna()] ) );
+					resistencies_parcials[vei.getFila()][vei.getColumna()] =
+							actual.getResistencia() + resistenciaCasella( vei );
+					cua_caselles.add( new ResistenciaCasella( vei,
+							resistencies_parcials[vei.getFila()][vei.getColumna()] ) );
 				}
 			}
 		}
@@ -146,5 +150,4 @@ public class CamiMinim
 			return 100000;
 		}
 	}
-
 }

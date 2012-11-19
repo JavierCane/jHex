@@ -38,6 +38,7 @@ public class ConnexionsVirtuals
 	/**
 	 * Instancia la classe amb el tauler i l'usuari especificats, també busca els grups i les connexions
 	 * que hi ha entre ells.
+	 *
 	 * @param tauler
 	 * @param jo
 	 */
@@ -62,7 +63,7 @@ public class ConnexionsVirtuals
 		// Comparem tots els grups amb tots (sense repetir).
 		for ( int i = 0; i < grups.size(); i++ )
 		{
-			for ( int j = i+1; j < grups.size(); j++ )
+			for ( int j = i + 1; j < grups.size(); j++ )
 			{
 				//interseccio és el nombre de caselles veines que comparteixen dos grups.
 				int interseccio = grups.get( i ).getVeins().interseca( grups.get( j ).getVeins() );
@@ -80,6 +81,7 @@ public class ConnexionsVirtuals
 
 	/**
 	 * Obté els grups de caselles.
+	 *
 	 * @return ArrayList amb els grups de caselles.
 	 */
 	public ArrayList<GrupCaselles> getGrups()
@@ -89,6 +91,7 @@ public class ConnexionsVirtuals
 
 	/**
 	 * Obté el nombre de connexions virtuals.
+	 *
 	 * @return nombre de connexions virtuals.
 	 */
 	public int getConnexions_virtuals()
@@ -98,6 +101,7 @@ public class ConnexionsVirtuals
 
 	/**
 	 * Obté el nombre de connexions semivirtuals.
+	 *
 	 * @return nombre de connexions semivirtuals.
 	 */
 	public int getConnexions_semivirtuals()
@@ -131,6 +135,7 @@ public class ConnexionsVirtuals
 
 	/**
 	 * Mira si la casella està en algun grup.
+	 *
 	 * @param casella
 	 * @return true si casella està en un grup, false si no.
 	 */
@@ -146,5 +151,4 @@ public class ConnexionsVirtuals
 
 		return false;
 	}
-
 }

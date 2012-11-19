@@ -55,7 +55,8 @@ public class GrupCaselles
 			grup.add( casella );                     //l'afegim al grup.
 
 			//Comprovem si esta a la cantonada, primer pel jugador A i despres pel B i si ho està mirem totes les cantonades.
-			if ( jo == EstatCasella.JUGADOR_A && ( casella.getColumna() == 0 || casella.getColumna() == tauler.getMida() - 1 ) )
+			if ( jo == EstatCasella.JUGADOR_A &&
+			     ( casella.getColumna() == 0 || casella.getColumna() == tauler.getMida() - 1 ) )
 			{
 				for ( int i = 0; i < tauler.getMida(); i++ )
 				{
@@ -66,7 +67,8 @@ public class GrupCaselles
 					}
 				}
 			}
-			else if ( jo == EstatCasella.JUGADOR_B && ( casella.getFila() == 0 || casella.getFila() == tauler.getMida() - 1 ) )
+			else if ( jo == EstatCasella.JUGADOR_B &&
+			          ( casella.getFila() == 0 || casella.getFila() == tauler.getMida() - 1 ) )
 			{
 				for ( int i = 0; i < tauler.getMida(); i++ )
 				{
@@ -95,16 +97,16 @@ public class GrupCaselles
 	 * Métode auxiliar per a estendre, comprova si una casella es pot afegir a grup.
 	 * Mira si te el mateix estat, no està afegida al grup i no està a pendents.
 	 *
-	 * @param casella   casella a mirar si es pot afegir.
-	 * @param pendents  llistat de caselles pendents per analitzar.
-	 * @param jo        llistat de la meva casella.
-	 * @return          true si es pot afegir, false altrament.
+	 * @param casella  casella a mirar si es pot afegir.
+	 * @param pendents llistat de caselles pendents per analitzar.
+	 * @param jo       llistat de la meva casella.
+	 * @return true si es pot afegir, false altrament.
 	 */
 	private boolean esPotAfegir( Casella casella, List<Casella> pendents, EstatCasella jo )
 	{
 		if ( tauler.getEstatCasella( casella.getFila(), casella.getColumna() ) == jo &&
-				!grup.contains( casella ) &&
-				!pendents.contains( casella ) )
+		     !grup.contains( casella ) &&
+		     !pendents.contains( casella ) )
 		{
 			return true;
 		}
@@ -115,7 +117,7 @@ public class GrupCaselles
 	 * Afegeix la casella "afegir" al grup.
 	 *
 	 * @param afegir casella a afegir
-	 * @return  return false si no es pot afegir, altrament return true.
+	 * @return return false si no es pot afegir, altrament return true.
 	 */
 	public boolean afegirCasella( Casella afegir )
 	{
@@ -125,7 +127,6 @@ public class GrupCaselles
 		}
 		grup.add( afegir );
 		return true;
-
 	}
 
 	/**
@@ -176,6 +177,7 @@ public class GrupCaselles
 
 	/**
 	 * Obté el nombre de caselles d'intersecció entre dos grups de caselles.
+	 *
 	 * @param grupB grup amb el que intersequem.
 	 * @return nombre de caselles intersecades.
 	 */

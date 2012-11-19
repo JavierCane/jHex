@@ -9,7 +9,13 @@ import prop.hex.domini.models.Casella;
 public class ResistenciaCasella implements Comparable<ResistenciaCasella>
 {
 
+	/**
+	 * Resistencia de la casella
+	 */
 	private int resistencia;
+	/**
+	 * Casella del tauler.
+	 */
 	private Casella casella;
 
 	/**
@@ -26,6 +32,7 @@ public class ResistenciaCasella implements Comparable<ResistenciaCasella>
 
 	/**
 	 * Obté la resistencia asociada a una casella.
+	 *
 	 * @return resistencia asociada a la casella.
 	 */
 	int getResistencia()
@@ -35,6 +42,7 @@ public class ResistenciaCasella implements Comparable<ResistenciaCasella>
 
 	/**
 	 * Obté la casella.
+	 *
 	 * @return Casella
 	 */
 	Casella getCasella()
@@ -44,8 +52,9 @@ public class ResistenciaCasella implements Comparable<ResistenciaCasella>
 
 	/**
 	 * Comparador, compara només les resistencies asociades.
+	 *
 	 * @param b ResistenciaCasella a comparar.
-	 * @return  -1 si és més petita que b, 1 si és més gran i 0 si són iguals.
+	 * @return -1 si és més petita que b, 1 si és més gran i 0 si són iguals.
 	 */
 	@Override
 	public int compareTo( ResistenciaCasella b )

@@ -1,5 +1,9 @@
 package prop.hex.domini.models;
 
+/**
+ * Representa una casella del tauler, guarda al fila i columna i implementa equals per a poder usar
+ * algunes estructures de dades i fer cerques.
+ */
 public class Casella
 {
 
@@ -76,21 +80,22 @@ public class Casella
 	 */
 	public boolean equals( Object o )
 	{
+		// Si l'objecte es null retornem false directament.
 		if ( o == null )
 		{
 			return false;
 		}
-
+		// Si és ell mateix retornem true (reciprocitat).
 		if ( o == this )
 		{
 			return true;
 		}
-
+		// Si no és una casella, retornem false.
 		if ( !( o instanceof Casella ) )
 		{
 			return false;
 		}
-
+		//Un cop descartats tots els casos anteriors, calculem el resultat d'equals.
 		Casella c = ( Casella ) o;
 		if ( c.getFila() == fila && c.getColumna() == columna )
 		{
