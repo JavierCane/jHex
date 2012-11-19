@@ -2,53 +2,53 @@ package prop.cluster.domini.models;
 
 import java.io.Serializable;
 
-
 /**
- *
  * Representa tota la informació d'un usuari.
  * Conté les dades principals del perfil i les seves
  * estadístiques en els diferents nivells de dificultat.
  * Cada usuari té un nom com a identificador.
  */
 
-
 public class Usuari implements Serializable
 {
+
 	/**
 	 * Nom (Identificador) de l'usuari.
 	 */
 	protected String nom;
+
 	/**
 	 * La contrasenya de l'usuari en el sistema.
 	 */
 	protected String contrasenya;
+
 	/**
 	 * Array on cada posició hi ha el número de victòries de l'usuari
 	 * contra diferents tipus de contrincants.
 	 */
 	protected int[] num_victories;
+
 	/**
-	 * Array on cada posició hi ha el número de empats del usuari
-	 * contra diferents tipus de contrincants.
+	 * Array on cada posició hi ha el número de empats del usuari contra diferents tipus de contrincants.
 	 */
 	protected int[] num_empats;
+
 	/**
-	 * Array on cada posició hi ha el número de derrotes del usuari
-	 * contra diferents tipus de contrincants.
+	 * Array on cada posició hi ha el número de derrotes del usuari contra diferents tipus de contrincants.
 	 */
 	protected int[] num_derrotes;
 
 	/**
-	 * Constructora d'un usuari. Crea un usuari amb el nom i contrasenya desitjats.
-	 * Els altres atributs s’inicialitzen a 0.
+	 * Constructora d'un usuari. Crea un usuari amb el nom i contrasenya desitjats. Els altres atributs
+	 * s’inicialitzen a 0.
 	 *
-	 * @param nom            Nom de l'usuari.
-	 * @param contrasenya    Contrasenya de l'usuari.
-	 * @param dificultat     Número total de dificultats en el joc (1 contra altres usuaris + N contra màquina).
+	 * @param nom         Nom de l'usuari.
+	 * @param contrasenya Contrasenya de l'usuari.
+	 * @param dificultat  Número total de dificultats en el joc (1 contra altres usuaris + N contra màquina).
 	 */
-	public Usuari ( String nom, String contrasenya, int dificultat )
+	public Usuari( String nom, String contrasenya, int dificultat )
 	{
-		this.nom = nom ;
+		this.nom = nom;
 		this.contrasenya = contrasenya;
 		num_victories = new int[dificultat];
 		num_empats = new int[dificultat];
@@ -66,9 +66,9 @@ public class Usuari implements Serializable
 	/**
 	 * Mètode per definir el nom d'usuari.
 	 *
-	 * @param nom    Nom de l'usuari que se li vol assignar.
+	 * @param nom Nom de l'usuari que se li vol assignar.
 	 */
-	public boolean setNom ( String nom )
+	public boolean setNom( String nom )
 	{
 		this.nom = nom;
 		return true;
@@ -77,9 +77,9 @@ public class Usuari implements Serializable
 	/**
 	 * Mètode der definir una contrasenya.
 	 *
-	 * @param contrasenya    Contrasenya de l'usuari que se li vol assignar.
+	 * @param contrasenya Contrasenya de l'usuari que se li vol assignar.
 	 */
-	public boolean setContrasenya ( String contrasenya )
+	public boolean setContrasenya( String contrasenya )
 	{
 		this.contrasenya = contrasenya;
 		return true;
@@ -88,7 +88,7 @@ public class Usuari implements Serializable
 	/**
 	 * Mètode consultor del nom.
 	 */
-	public String getNom ()
+	public String getNom()
 	{
 		return nom;
 	}
@@ -96,7 +96,7 @@ public class Usuari implements Serializable
 	/**
 	 * Mètode consultor de la contrasenya de l'usuari.
 	 */
-	public String getContrasenya ()
+	public String getContrasenya()
 	{
 		return contrasenya;
 	}
@@ -104,10 +104,10 @@ public class Usuari implements Serializable
 	/**
 	 * Mètode consultor de les victòres contra un contrincant concret.
 	 *
-	 * @param contrincant    Contrincant contra qui ha guanyat l’usuari.
+	 * @param contrincant Contrincant contra qui ha guanyat l’usuari.
 	 * @return El número de victòries contra un contrincant concret.
 	 */
-	public int getVictories ( int contrincant )
+	public int getVictories( int contrincant )
 	{
 		return num_victories[contrincant];
 	}
@@ -115,21 +115,21 @@ public class Usuari implements Serializable
 	/**
 	 * Mètode consultor dels empats contra un contrincant concret.
 	 *
-	 * @param contrincant    Contrincant contra qui ha empatat l’usuari.
+	 * @param contrincant Contrincant contra qui ha empatat l’usuari.
 	 * @return El número de empats contra un contrincant concret.
 	 */
-	public int getEmpats ( int contrincant )
+	public int getEmpats( int contrincant )
 	{
 		return num_empats[contrincant];
 	}
 
 	/**
-	 *  Mètode consultor de les derrotes contra un contrincant concret.
+	 * Mètode consultor de les derrotes contra un contrincant concret.
 	 *
-	 * @param contrincant    Contrincant contra qui ha perdut l’usuari.
+	 * @param contrincant Contrincant contra qui ha perdut l’usuari.
 	 * @return El número de derrotes contra un contrincant concret.
 	 */
-	public int getDerrotes ( int contrincant )
+	public int getDerrotes( int contrincant )
 	{
 		return num_derrotes[contrincant];
 	}
@@ -138,37 +138,34 @@ public class Usuari implements Serializable
 	 * Mètode per incrementar les victòres d'un usuari
 	 * contra un contrincant determinat.
 	 *
-	 * @param contrincant    Contrincant contra qui ha guanyat l’usuari.
-	 * @return               Retorna true sempre.
-	 *
+	 * @param contrincant Contrincant contra qui ha guanyat l’usuari.
+	 * @return Retorna true sempre.
 	 */
-	public boolean incrementaVictories ( int contrincant )
+	public boolean incrementaVictories( int contrincant )
 	{
 		num_victories[contrincant] = num_victories[contrincant] + 1;
 		return true;
 	}
 
 	/**
-	 * Mètode per incrementar els empats d'un usuari
-	 * contra un contrincant determinat.
+	 * Mètode per incrementar els empats d'un usuari contra un contrincant determinat.
 	 *
-	 * @param contrincant    Contrincant contra qui ha empatat l’usuari.
-	 * @return               Retorna true sempre.
+	 * @param contrincant Contrincant contra qui ha empatat l’usuari.
+	 * @return Retorna true sempre.
 	 */
-	public boolean incrementaEmpats ( int contrincant )
+	public boolean incrementaEmpats( int contrincant )
 	{
 		num_empats[contrincant] = num_empats[contrincant] + 1;
 		return true;
 	}
 
 	/**
-	 * Mètode per incrementar les derrotes d'un usuari
-	 * contra un contrincant determinat.
+	 * Mètode per incrementar les derrotes d'un usuari contra un contrincant determinat.
 	 *
-	 * @param contrincant    Contrincant contra qui ha perdut l’usuari.
-	 * @return               Retorna true sempre.
+	 * @param contrincant Contrincant contra qui ha perdut l’usuari.
+	 * @return Retorna true sempre.
 	 */
-	public boolean incrementaDerrotes ( int contrincant )
+	public boolean incrementaDerrotes( int contrincant )
 	{
 		num_derrotes[contrincant] = num_derrotes[contrincant] + 1;
 		return true;
@@ -182,20 +179,16 @@ public class Usuari implements Serializable
 	@Override
 	public String toString()
 	{
-		return "[Nom: " + nom + ", contrasenya: " + contrasenya +
-		       ", num victories: [" + obteStringDeVector( num_victories ) +
-		       "], num empats: [" + obteStringDeVector( num_empats ) +
-		       "], num derrotes: [" + obteStringDeVector( num_derrotes ) + "]]";
+		return "[Nom: " + nom + ", contrasenya: " + contrasenya + ", num victories: [" +
+		       obteStringDeVector( num_victories ) + "], num empats: [" + obteStringDeVector( num_empats ) + "], " +
+		       "num derrotes: [" + obteStringDeVector( num_derrotes ) + "]]";
 	}
 
 	/**
-	 * String amb les estadadístiques d'un usuari
-	 * en victòries, empats o derrotes segons convingui.
+	 * String amb les estadadístiques d'un usuari en victòries, empats o derrotes segons convingui.
 	 *
-	 * @param vector_origen Vector amb el número de victòries,
-	 *        empats o derrotes segons el paràmetre que es passi.
-	 * @return Retorna les xifres de victòries,
-	 *         empats o derrotes en forma d'enumeració. [x,y,z,...]
+	 * @param vector_origen Vector amb el número de victòries, empats o derrotes segons el paràmetre que es passi.
+	 * @return Retorna les xifres de victòries, empats o derrotes en forma d'enumeració. [x,y,z,...]
 	 */
 	private String obteStringDeVector( int[] vector_origen )
 	{
@@ -204,20 +197,16 @@ public class Usuari implements Serializable
 		{
 			string_resultant += vector_origen[iterador] + ", ";
 		}
-		return string_resultant.substring( 0,
-				string_resultant.length() - 2 );
+		return string_resultant.substring( 0, string_resultant.length() - 2 );
 	}
 
 	/**
-	 * Mètode que reinicia les estadístiques de victòries,
-	 * empats i derrotes d'un usuari
-	 *
-	 *
+	 * Mètode que reinicia les estadístiques de victòries, empats i derrotes d'un usuari
 	 */
-	public void reiniciaEstadistiques ( )
+	public void reiniciaEstadistiques()
 	{
 		int i;
-		for ( i = 0; i < num_victories.length; i++)
+		for ( i = 0; i < num_victories.length; i++ )
 		{
 			num_victories[i] = 0;
 			num_empats[i] = 0;
