@@ -10,10 +10,10 @@ Dades del projecte
 * Curs:			2012-1013
 * Grup: 		7.3
 * Integrants:
-  - javier.ferrer.gonzalez@est.fib.upc.edu	Ferrer González, Javier
-  - guillermo.girona@est.fib.upc.edu 		Girona San Miguel, Guillermo
-  - marc.junyent@est.fib.upc.edu 			Junyent Martín, Marc
-  - isaac.sanchez.barrera@est.fib.upc.edu 	Sánchez Barrera, Isaac
+   - javier.ferrer.gonzalez@est.fib.upc.edu	Ferrer González, Javier
+   - guillermo.girona@est.fib.upc.edu 		Girona San Miguel, Guillermo
+   - marc.junyent@est.fib.upc.edu 			Junyent Martín, Marc
+   - isaac.sanchez.barrera@est.fib.upc.edu 	Sánchez Barrera, Isaac
 
 
 Com compilar i executar
