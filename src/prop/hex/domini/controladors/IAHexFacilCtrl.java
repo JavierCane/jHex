@@ -59,7 +59,7 @@ public class IAHexFacilCtrl extends InteligenciaArtificial implements MouFitxaIA
 	 * @param profunditat    És la profunditat a la que s'ha arribat durant l'exploració de les diferents possibilitats de
 	 *                       moviment. Cada unitat de <em>profunditat</em> representa un torn jugat de la partida.
 	 * @param fitxa_jugador  Indica el jugador de la partida a partir del qual avaluar <em>tauler</em>.
-	 * @return
+	 * @return La puntuació de l'evaluació
 	 */
 	public int funcioAvaluacio( Tauler tauler, EstatPartida estat_moviment, int profunditat,
 	                            EstatCasella fitxa_jugador )
@@ -112,7 +112,7 @@ public class IAHexFacilCtrl extends InteligenciaArtificial implements MouFitxaIA
 	 *
 	 * @param tauler        Tauler sobre el que calculem l'evaluació.
 	 * @param fitxa_jugador Jugador per al que calculem l'evaluació.
-	 * @return
+	 * @return La puntuació de l'evaluació
 	 */
 	private int passiu( Tauler tauler, EstatCasella fitxa_jugador )
 	{
@@ -166,7 +166,7 @@ public class IAHexFacilCtrl extends InteligenciaArtificial implements MouFitxaIA
 	 *
 	 * @param tauler        Tauler sobre el que calculem l'evaluació.
 	 * @param fitxa_jugador Jugador per al que calculem l'evaluació.
-	 * @return
+	 * @return La puntuació de l'evaluació.
 	 */
 	private int agressiu( Tauler tauler, EstatCasella fitxa_jugador )
 	{
@@ -193,7 +193,7 @@ public class IAHexFacilCtrl extends InteligenciaArtificial implements MouFitxaIA
 	/**
 	 * Obté la casella més central on és possible moure.
 	 *
-	 * @return
+	 * @return La casella més propera al centre on es pot moure.
 	 */
 	private Casella posicioCentral()
 	{

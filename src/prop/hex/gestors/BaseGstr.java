@@ -5,9 +5,7 @@ import java.io.*;
 /**
  * Classe abstracta i parametritzada pel tractament de fitxers.
  * Conte els metodes generics com guardar i carregar objectes del tipus insanciat desde la subcarpeta de dades
- * que especifiqui la classe que hereti d'aqui
- * <p/>
- * Date: 29/10/12
+ * que especifiqui la classe que hereti d'aquí.
  */
 @SuppressWarnings( "unchecked" )
 public abstract class BaseGstr<T>

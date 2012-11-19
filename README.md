@@ -21,7 +21,7 @@ Com compilar i executar
 
 # Moure'ns al directori arrel dels paquets:
         cd /path/absolut/del/projecte/jHex/src/
-# Compilar incluent tots els fitxers dels drivers:
+# Compilar incloent tots els fitxers dels drivers:
         javac prop/hex/domini/controladors/drivers/*.java
 # Executar el driver principal i anar provant totes les classes amb comoditat :)
         java prop.hex.domini.controladors.drivers.PrincipalDrvr
@@ -30,13 +30,14 @@ Explicació PrincipalDrvr
 -------------------------
 
 Classe principal per realitzar tots els tests dels drivers. 
-Només s'ha d'executar aquesta classe i (mitjançant la tècnica de reflexió) ja s'encarrega d'anar a buscar tots els drivers que n'hi hagin a la carpeta corresponent (carpeta_drivers) i llistar els seus mètodes per poder-los provar.
+Només s'ha d'executar aquesta classe i (mitjançant la tècnica de reflexió) ja s'encarrega d'anar a buscar tots els
+drivers que hi hagi a la carpeta corresponent (carpeta_drivers) i llistar els seus mètodes per poder-los provar.
 
 Estructura de fitxers
 -------------------------
 
 * dat/		Dades del joc (persistència d'usuaris, partides, etc.).
-* doc/		Documentació del codi.
+* doc/		Documentació del codi, classes implementades per cadascú i diagrama estàtic del domini.
 * res/		Recursos diversos utilitzats al projecte (preferències del IDE IntelliJ, disseny de les pantalles, etc.)
 * src/		Codi font del projecte.
 * README.md	Explicació del projecte.

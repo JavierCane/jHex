@@ -1,8 +1,8 @@
 package prop.hex.domini.controladors.IA;
 
+import prop.cluster.domini.models.estats.EstatCasella;
 import prop.hex.domini.models.Casella;
 import prop.hex.domini.models.TaulerHex;
-import prop.cluster.domini.models.estats.EstatCasella;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -140,9 +140,9 @@ public class GrupCaselles
 	}
 
 	/**
-	 * Retorna un GrupCaselles amb totes les caselles veines.
+	 * Consulta les caselles veines.
 	 *
-	 * @return
+	 * @return Un GrupCaselles amb les caselles veïnes al grup.
 	 */
 	public GrupCaselles getVeins()
 	{
@@ -168,7 +168,7 @@ public class GrupCaselles
 	 * Mira si la casella pertany al grup.
 	 *
 	 * @param casella
-	 * @return
+	 * @return Cert si la casella pertany al grup. Fals altrament.
 	 */
 	public boolean pertanyAlGrup( Casella casella )
 	{
