@@ -44,7 +44,7 @@ public class PartidaHexGstr extends BaseGstr<PartidaHex>
 				if ( identificadors[identificadors.length - 1] == id_usuari ||
 				     identificadors[identificadors.length - 2] == id_usuari )
 				{
-					// Afegeixo el nom de l'element sense l'extensió al conjunt d'identificadors
+					// Afegim el nom de l'element sense l'extensió al conjunt d'identificadors
 					noms_elements.add( id_partida );
 				}
 			}
