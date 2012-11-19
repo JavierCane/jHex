@@ -12,8 +12,23 @@ import prop.hex.domini.models.PartidaHex;
 import prop.hex.domini.models.TaulerHex;
 
 /**
- *
- *
+ * Herencia de InteligenciaArtificial que aplica el MiniMax. Implementa la funcioAvaluacio del minimax (de
+ * InteligenciaArtificial i mouFitxa i setPartida per a funcionar amb MouFitxaIA
+ * <p/>
+ * La funció d'Avaluació d'aquesta inteligencia funciona de la següent manera:
+ * Si ens trobem en el primer torn (torn 0 o torn 1), és a dir, no hem col·locat cap fitxa,
+ * busquem la casella més centarl possible (sense fer minimax ni re).
+ * <p/>
+ * A partir d'aqui s'utilitza un minimax que pot seguir dues estrategies (funcions d'evaluació) la passiva i
+ * l'agresiva. Si l'enemic té un camí mínim amb cost inferior o igual a quatre, entenem que aviat conseguirà guanyar
+ * i prioritzem perjudicar-lo per sobre de guanyar nosaltres, aquesta és l'estratègia agresiva. En cas contrari,
+ * utilitzem l'estratègia passiva.
+ * <p/>
+ * Estratègia passiva: Tenim en compte 3 factors, la resistencia del tauler, el cost del camí mínim i el nombre de
+ * connexions virtuals, tant nostres com de l'enemic. Es multiplica cada factor per un pes i aquest és el cost total.
+ * <p/>
+ * Estratègia agresiva: Té en compte els mateixos 3 factors, però només de l'enemic,
+ * també és multiplica cada factor per un pes, similar al cas de la passiva però una mica modificats.
  */
 public class IAHexFacilCtrl extends InteligenciaArtificial implements MouFitxaIA
 {
@@ -26,7 +41,7 @@ public class IAHexFacilCtrl extends InteligenciaArtificial implements MouFitxaIA
 	/**
 	 * Profunditat màxima per al minimax.
 	 */
-	private int profunditat_maxima = 2;
+	private static int profunditat_maxima = 2;
 
 	/**
 	 * Si l'enemic esta a punt de guanyar, prioritzem perjudicar-lo en lloc de obtenir nosaltres millor posició.
@@ -34,6 +49,10 @@ public class IAHexFacilCtrl extends InteligenciaArtificial implements MouFitxaIA
 	private boolean tactica_agresiva;
 
 	/**
+	 * Funció d'avaluació del MiniMax, si estem en un estat termianl on ja ha guanyat un jugador retornem 1000000 o
+	 * -1000000, que son valors prou grans, sinó, apliquem l'estratègia agresiva o la passiva en funció del valor de
+	 * la variable tactica_agresiva.
+	 *
 	 * @param tauler         Objecte de la classe <code>Tauler</code> sobre el qual es disputa una partida.
 	 * @param estat_moviment Descriu en quin estat ha quedat <em>tauler</em> en funció de l'últim moviment efectuat
 	 *                       sobre aquest.
@@ -42,7 +61,8 @@ public class IAHexFacilCtrl extends InteligenciaArtificial implements MouFitxaIA
 	 * @param fitxa_jugador  Indica el jugador de la partida a partir del qual avaluar <em>tauler</em>.
 	 * @return
 	 */
-	public int funcioAvaluacio( Tauler tauler, EstatPartida estat_moviment, int profunditat, EstatCasella fitxa_jugador )
+	public int funcioAvaluacio( Tauler tauler, EstatPartida estat_moviment, int profunditat,
+	                            EstatCasella fitxa_jugador )
 	{
 		if ( estat_moviment == EstatPartida.GUANYA_JUGADOR_A )
 		{
@@ -67,18 +87,34 @@ public class IAHexFacilCtrl extends InteligenciaArtificial implements MouFitxaIA
 			}
 		}
 
-		if(tactica_agresiva)
+		if ( tactica_agresiva )
 		{
-			return agressiu(tauler, fitxa_jugador);
+			return agressiu( tauler, fitxa_jugador );
 		}
 		else
 		{
-			return passiu(tauler, fitxa_jugador);
+			return passiu( tauler, fitxa_jugador );
 		}
-
 	}
 
-	private int passiu( Tauler tauler, EstatCasella fitxa_jugador)
+	/**
+	 * Per a cada jugador calculem les connexions virtuals, el camí de cost mínim i la resistencia del tauler.
+	 * La funció d'evaluació és:
+	 * Eval = ( - cost_camí_mínim_meu + cost_camí_mínim_enemic ) * 500
+	 * + ( nombre_connexions_virtuals_meves - nombre_connexions_virtuals_enemic ) * (100 - 2 * torn_actual)
+	 * + log(resistencia_enemic/resistencia_meva + 1) * 500;
+	 * <p/>
+	 * D'aquesta manera és te en compte reduir els nostres costos però també intentar reduir o no augmentar els de
+	 * l'enemic, a més, les connexions virtuals perden importancia a mesura que avança la partida,
+	 * ja que hem comprovat que a mesura que avança la partida i hi ha més caselles,
+	 * el fet d'establir una connexió virtual nova dona cada cop menys ventatges sobre l'enemic,
+	 * mentres que al principi si que és útil. És a dir, deixem de crear connexions per a connectar directament.
+	 *
+	 * @param tauler        Tauler sobre el que calculem l'evaluació.
+	 * @param fitxa_jugador Jugador per al que calculem l'evaluació.
+	 * @return
+	 */
+	private int passiu( Tauler tauler, EstatCasella fitxa_jugador )
 	{
 		int eval;
 
@@ -104,33 +140,35 @@ public class IAHexFacilCtrl extends InteligenciaArtificial implements MouFitxaIA
 		{
 			eval = ( -long_cami_A + long_cami_B ) * pes_long_cami;
 			eval += ( nombre_cv_A - nombre_cv_B ) * pes_nombre_cv;
-			//	eval += ( nombre_cv_A ) * pes_nombre_cv;
-			//		eval += ( cv_A.getConnexions_semivirtuals() - cv_B.getConnexions_semivirtuals() ) * ( 10 - partida.getTornsJugats() / 4 );
 			eval += ( int ) ( Math.log( valor_resistencia_B / valor_resistencia_A + 1.0 ) * pes_resistencia );
-
-			//	eval = (30*long_cami_B)/long_cami_A + nombre_cv_A;
 		}
 		else
 		{
 			eval = ( long_cami_A - long_cami_B ) * pes_long_cami;
 			eval += ( -nombre_cv_A + nombre_cv_B ) * pes_nombre_cv;
-			//	eval += ( nombre_cv_B ) * pes_nombre_cv;
-			//		eval += ( -cv_A.getConnexions_semivirtuals() + cv_B.getConnexions_semivirtuals() ) * ( 10 - partida.getTornsJugats() / 4 );
 			eval += ( int ) ( Math.log( valor_resistencia_A / valor_resistencia_B + 1.0 ) * pes_resistencia );
-
-			//	eval = (30*long_cami_A)/long_cami_B + nombre_cv_B;
 		}
 
-//		eval = 30*long_cami_B +
-
-		return eval + 2000;
-
-//		return -cami_minim.evalua()*16 + cv.getConnexions_virtuals()*6 + cv.getConnexions_semivirtuals();
-//		return cv.getConnexions_virtuals() * 4 + cv.getConnexions_semivirtuals();
+		return eval;
 	}
 
-
-	private int agressiu( Tauler tauler, EstatCasella fitxa_jugador)
+	/**
+	 * Per al jugador enemic, calculem les connexions virtuals, el camí de cost mínim i la resistencia del tauler.
+	 * <p/>
+	 * La funció d'evaluació és:
+	 * Eval = cost_camí_mínim_enemic * 100
+	 * - nombre_connexions_virtuals_enemic * 30
+	 * + resistencia_enemic * 400;
+	 * <p/>
+	 * L'únic objectiu que es persegueix és augmentar la resistencia del jugador enemic, és a dir,
+	 * la dificultat que tè per connectar els dos extrems. Igualment hem comprovat que tenir en compte les connexions
+	 * virtuals és útil per desfer empats de puntuació.
+	 *
+	 * @param tauler        Tauler sobre el que calculem l'evaluació.
+	 * @param fitxa_jugador Jugador per al que calculem l'evaluació.
+	 * @return
+	 */
+	private int agressiu( Tauler tauler, EstatCasella fitxa_jugador )
 	{
 		if ( fitxa_jugador == EstatCasella.JUGADOR_A )
 		{
@@ -138,7 +176,8 @@ public class IAHexFacilCtrl extends InteligenciaArtificial implements MouFitxaIA
 			ConnexionsVirtuals cv_B = new ConnexionsVirtuals( ( TaulerHex ) tauler, EstatCasella.JUGADOR_B );
 			ResistenciaTauler resistencia_B = new ResistenciaTauler( ( TaulerHex ) tauler, EstatCasella.JUGADOR_B );
 
-			return cami_minim_B.evalua()*100 - cv_B.getConnexions_virtuals()*30 + (int)(1000.0*resistencia_B.evalua());
+			return cami_minim_B.evalua() * 100 - cv_B.getConnexions_virtuals() * 30 +
+			       ( int ) ( 400.0 * resistencia_B.evalua() );
 		}
 		else
 		{
@@ -146,13 +185,13 @@ public class IAHexFacilCtrl extends InteligenciaArtificial implements MouFitxaIA
 			ConnexionsVirtuals cv_A = new ConnexionsVirtuals( ( TaulerHex ) tauler, EstatCasella.JUGADOR_A );
 			ResistenciaTauler resistencia_A = new ResistenciaTauler( ( TaulerHex ) tauler, EstatCasella.JUGADOR_A );
 
-			return cami_minim_A.evalua()*100 - cv_A.getConnexions_virtuals()*30 + (int)(1000.0*resistencia_A.evalua());
+			return cami_minim_A.evalua() * 100 - cv_A.getConnexions_virtuals() * 30 +
+			       ( int ) ( 400.0 * resistencia_A.evalua() );
 		}
 	}
 
-
 	/**
-	 * Obté la casella més central possible.
+	 * Obté la casella més central on és possible moure.
 	 *
 	 * @return
 	 */
@@ -164,11 +203,13 @@ public class IAHexFacilCtrl extends InteligenciaArtificial implements MouFitxaIA
 		{
 			for ( int columna = 0; columna < tauler.getMida() / 2; columna++ )
 			{
-				if ( tauler.getEstatCasella( tauler.getMida() / 2 + fila, tauler.getMida() / 2 + columna ) == EstatCasella.BUIDA )
+				if ( tauler.esMovimentValid( EstatCasella.JUGADOR_A, tauler.getMida() / 2 + fila,
+						tauler.getMida() / 2 + columna ) )
 				{
 					return new Casella( tauler.getMida() / 2 + fila, tauler.getMida() / 2 + columna );
 				}
-				if ( tauler.getEstatCasella( tauler.getMida() / 2 - fila, tauler.getMida() / 2 - columna ) == EstatCasella.BUIDA )
+				if ( tauler.esMovimentValid( EstatCasella.JUGADOR_A, tauler.getMida() / 2 - fila,
+						tauler.getMida() / 2 - columna ) )
 				{
 					return new Casella( tauler.getMida() / 2 - fila, tauler.getMida() / 2 - fila );
 				}
@@ -199,6 +240,11 @@ public class IAHexFacilCtrl extends InteligenciaArtificial implements MouFitxaIA
 	}
 
 	/**
+	 * Retorna un moviment adequat al tauler actual per al jugador indicat per fitxa.
+	 * En la primera jugada de cada jugador es busca la posició més central, en les altres es crida a minimax,
+	 * la funció d'evaluació pot variar. Si l'enemic es troba a un cami mínim amb cost inferior o igual a 4 es crida
+	 * a l'estratègia agresiva, i si no, a la passiva.
+	 *
 	 * @param fitxa Fitxa que vol col·locar-se al tauler de la partida del paràmetre implícit.
 	 * @return La casella on es mouria la fitxa.
 	 */
@@ -210,6 +256,7 @@ public class IAHexFacilCtrl extends InteligenciaArtificial implements MouFitxaIA
 			return posicioCentral();
 		}
 
+		//Mirem la distància de l'enemic i disposem la tàctica adequada amb tactia_agresiva.
 		int distancia_enemic;
 		if ( fitxa == EstatCasella.JUGADOR_A )
 		{
@@ -230,8 +277,10 @@ public class IAHexFacilCtrl extends InteligenciaArtificial implements MouFitxaIA
 			tactica_agresiva = false;
 		}
 
+		//Cridem al minimax.
 		int[] casella = super.minimax( partida, fitxa, profunditat_maxima );
 
+		//Retornem la casella.
 		if ( casella != null )
 		{
 			return new Casella( casella[0], casella[1] );

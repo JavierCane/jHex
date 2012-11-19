@@ -142,6 +142,7 @@ public class VisualitzadorPartida extends JPanel
 	/**
 	 * Si la partida no està finalitzada i es torn d'un huma, crida a fer moviment a la casella i, j.
 	 * Torna a pintar l'escena.
+	 *
 	 * @param i fila casella.
 	 * @param j columna casella.
 	 */
@@ -165,6 +166,7 @@ public class VisualitzadorPartida extends JPanel
 
 	/**
 	 * Retorna la mida de la pantalla.
+	 *
 	 * @return
 	 */
 	public Dimension getPreferredSize()
@@ -174,6 +176,7 @@ public class VisualitzadorPartida extends JPanel
 
 	/**
 	 * Pinta la pantalla.
+	 *
 	 * @param g paràmetre Graphics on es pinta.
 	 */
 	protected void paintComponent( Graphics g )
@@ -201,7 +204,15 @@ public class VisualitzadorPartida extends JPanel
 			{
 				g.translate( j * dx, 0 );
 
-				g.setColor( jugador_a.getCombinacionsColors().getColorCasella( tauler.getEstatCasella( i, j ) ) );
+				if ( i == tauler.getMida() / 2 && j == tauler.getMida() / 2 &&
+				     PartidaCtrl.getPartidaActual().getTornsJugats() == 0 )
+				{
+					g.setColor( new Color( 0x333333 ) );
+				}
+				else
+				{
+					g.setColor( jugador_a.getCombinacionsColors().getColorCasella( tauler.getEstatCasella( i, j ) ) );
+				}
 				g.fillPolygon( hexagon );
 
 				g.setColor( jugador_a.getCombinacionsColors().getColorVoraCaselles() );
