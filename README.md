@@ -34,7 +34,9 @@ Només s'ha d'executar aquesta classe i (mitjançant la tècnica de reflexió) j
 
 Estructura de fitxers
 -------------------------
-* docs/		Documentació del codi.
-* src/		Codi font del projecte.
+
 * dat/		Dades del joc (persistència d'usuaris, partides, etc.).
+* doc/		Documentació del codi.
+* res/		Recursos diversos utilitzats al projecte (preferències del IDE IntelliJ, disseny de les pantalles, etc.)
+* src/		Codi font del projecte.
 * README.md	Explicació del projecte.
