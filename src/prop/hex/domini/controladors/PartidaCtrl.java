@@ -19,7 +19,6 @@ import java.util.*;
  * Internament, els jugadors estan indexats per posició en un array; el jugador A es troba en la posició 0 i el B en
  * la posició 1.
  */
-@SuppressWarnings( "unchecked" )
 public class PartidaCtrl
 {
 
@@ -104,7 +103,7 @@ public class PartidaCtrl
 	 * @param id_usuari Identificador únic de l'usuari
 	 * @return Una llista amb les dades de les partides.
 	 */
-	public static HashMap<String, String>[] llistaPartidesUsuari( String id_usuari )
+	public static ArrayList<HashMap<String, String>> llistaPartidesUsuari( String id_usuari )
 	{
 		ArrayList<HashMap<String, String>> llista_partides = new ArrayList<HashMap<String, String>>();
 		Set<String> id_partides = gestor_partida.llistaPartidesUsuari( id_usuari );
@@ -135,7 +134,7 @@ public class PartidaCtrl
 			llista_partides.add( info_partida );
 		}
 
-		return ( HashMap<String, String>[] ) llista_partides.toArray();
+		return llista_partides;
 	}
 
 	/**
