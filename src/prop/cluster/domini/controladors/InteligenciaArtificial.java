@@ -6,17 +6,17 @@ import prop.cluster.domini.models.estats.EstatCasella;
 import prop.cluster.domini.models.estats.EstatPartida;
 
 /**
- * 
+ *
  * La classe <code>InteligenciaArtificial</code> proporciona una implementació estàndard de l'algorisme MiniMax amb
  * l'optimització de poda alfa-beta. Per a més informació sobre el funcionament de l'algorisme poden consultar aquest <a
  * href=http://www.lsi.upc.edu/~bejar/heuristica/docmin.html>enllaç</a>
- * 
+ *
  */
 public abstract class InteligenciaArtificial
 {
 	/**
 	 * Intercanvia l'estat d'una casella ocupada del tauler
-	 * 
+	 *
 	 * @param estat Representa l'estat de la casella ocupada que es vol intercanviar
 	 * @return L'estat contrari a l'estat de la casella <em>estat</em>
 	 */
@@ -31,7 +31,7 @@ public abstract class InteligenciaArtificial
 
 	/**
 	 * Avalua un objecte de la classe <code>Tauler</code> seguint l'heurísitca que s'implementi
-	 * 
+	 *
 	 * @param tauler Objecte de la classe <code>Tauler</code> sobre el qual es disputa una partida.
 	 * @param estat_moviment Descriu en quin estat ha quedat <em>tauler</em> en funció de l'últim moviment efectuat
 	 *        sobre aquest.
@@ -41,7 +41,7 @@ public abstract class InteligenciaArtificial
 	 * @return Un enter indicant l'avaulació de <em>tauler</em>.
 	 */
 	public abstract int funcioAvaluacio( Tauler tauler, EstatPartida estat_moviment, int profunditat,
-			EstatCasella fitxa_jugador );
+	                                     EstatCasella fitxa_jugador );
 
 	/**
 	 * Donada una partida amb una certa situació i la fitxa del jugador que ha de moure durant el torn actual, calcula
@@ -49,7 +49,7 @@ public abstract class InteligenciaArtificial
 	 * aconseguir aquest càlcul és necessari generar una estructura arbòria on cada nivell representa el pròxim torn i,
 	 * dins d'un mateix nivell, es generen tots els possibles moviments vàlids a realtzar, també cal donar un límit que
 	 * trunqui la cerca, per evitar que el cost temporal de l'algorisme MiniMax augmenti exponencialment.
-	 * 
+	 *
 	 * @param partida Objecte de la classe <code>Partida</code> que representa la partida actual en joc.
 	 * @param estat_casella Representa la fitxa del jugador que ha de disputar el torn actual de la partida.
 	 * @param profunditat_maxima Representa el nivell límit en la cerca arbòria del moviment òptim.
@@ -104,7 +104,7 @@ public abstract class InteligenciaArtificial
 	 * Mètode privat i recursiu que genera tots els possibles moviments d'un torn en una certa partida. De tots els
 	 * moviments, se selecciona el més favorable als interessos del jugador controlat per l'algorisme MiniMax, que a la
 	 * vegada és el més desfavorable als interessos del seu oponent.
-	 * 
+	 *
 	 * @param partida Objecte de la classe <code>Partida</code> que representa la partida actual en joc.
 	 * @param estat_partida Indica en quin estat es troba actualment <em>partida</em>
 	 * @param alfa Valor de la millor opció (el més alt) que s'ha trobat fins al moment durant la cerca de l'arbre pel
@@ -119,11 +119,11 @@ public abstract class InteligenciaArtificial
 	 *         <em>partida</em>.
 	 */
 	private int valorMax( Partida partida, EstatPartida estat_partida, int alfa, int beta, EstatCasella estat_casella,
-			int profunditat, int profunditat_maxima, EstatCasella fitxa_jugador )
+	                      int profunditat, int profunditat_maxima, EstatCasella fitxa_jugador )
 	{
 		Tauler tauler = partida.getTauler();
 		if ( profunditat == profunditat_maxima || estat_partida == EstatPartida.GUANYA_JUGADOR_A
-				|| estat_partida == EstatPartida.GUANYA_JUGADOR_B || estat_partida == EstatPartida.EMPAT )
+		     || estat_partida == EstatPartida.GUANYA_JUGADOR_B || estat_partida == EstatPartida.EMPAT )
 		{
 			return funcioAvaluacio( tauler, estat_partida, profunditat, fitxa_jugador );
 		}
@@ -161,7 +161,7 @@ public abstract class InteligenciaArtificial
 	 * Mètode privat i recursiu que genera tots els possibles moviments d'un torn en una certa partida. De tots els
 	 * moviments, se selecciona el més favorable als interessos de l'oponent, que a la vegada és el més desfavorable pel
 	 * jugador controlat per l'algorisme MiniMax.
-	 * 
+	 *
 	 * @param partida Objecte de la classe <code>Partida</code> que representa la partida actual en joc.
 	 * @param estat_partida Indica en quin estat es troba actualment <em>partida</em>
 	 * @param alfa Valor de la millor opció (el més alt) que s'ha trobat fins al moment durant la cerca de l'arbre pel
@@ -176,11 +176,11 @@ public abstract class InteligenciaArtificial
 	 *         <em>partida</em>.
 	 */
 	private int valorMin( Partida partida, EstatPartida estat_partida, int alfa, int beta, EstatCasella estat_casella,
-			int profunditat, int profunditat_maxima, EstatCasella fitxa_jugador )
+	                      int profunditat, int profunditat_maxima, EstatCasella fitxa_jugador )
 	{
 		Tauler tauler = partida.getTauler();
 		if ( profunditat == profunditat_maxima || estat_partida == EstatPartida.GUANYA_JUGADOR_A
-				|| estat_partida == EstatPartida.GUANYA_JUGADOR_B || estat_partida == EstatPartida.EMPAT )
+		     || estat_partida == EstatPartida.GUANYA_JUGADOR_B || estat_partida == EstatPartida.EMPAT )
 		{
 			return funcioAvaluacio( tauler, estat_partida, profunditat, fitxa_jugador );
 		}
