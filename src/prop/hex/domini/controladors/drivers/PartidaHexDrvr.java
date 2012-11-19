@@ -253,11 +253,11 @@ public final class PartidaHexDrvr
 						int quantitat_temps = llegeixEnter( "Escriu el temps de joc que vols afegir a l'usuari:" );
 						try
 						{
-							partides.get( actual ).incrementaPistesUsades( jugador, quantitat );
+							partides.get( actual ).incrementaTempsDeJoc( jugador, quantitat_temps );
 							System.out.println( "[OK]\tS'ha incrementat correctament el temps de joc del jugador " +
 							                    "amb identificador únic " + jugador + ", " +
 							                    "afegint " + quantitat_temps + ".\nEl temps de joc actual és " +
-							                    partides.get( actual ).getPistesUsades( jugador ) + "." );
+							                    partides.get( actual ).getTempsDeJoc( jugador ) + "." );
 						}
 						catch ( IllegalArgumentException excepcio )
 						{
