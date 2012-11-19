@@ -4,11 +4,11 @@ import java.io.File;
 import java.io.FileFilter;
 
 /**
- * Created with IntelliJ IDEA.
- * User: javierferrer
- * Date: 06/11/12
- * Time: 22:45
- * To change this template use File | Settings | File Templates.
+ * Classe auxiliar per poder filtrar el llistat de fitxers a mostrar a la llista de drivers a executar per part del
+ * PrincipalDrvr.
+ *
+ * Implementa l'operació accept de FileFilter amb tal de restringir que únicament es llistin fitxers .java i que no
+ * siguin el propi PrincipalDrvr, aquest fitxer de filtrat i el d'utilitats pels drivers.
  */
 public final class FiltratLlistatDrivers implements FileFilter
 {

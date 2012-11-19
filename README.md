@@ -1,13 +1,40 @@
-# Reglas básicas a respetar:
-* El programa final y entregado tiene que compilar con un simple:
-```java
-javac *.java
-```
-* No se puede utilizar ninguna librería que esté fuera de "lo estándar" de Java sin permiso del tutor.
-* La versión de Java de los PCs de la FIB es la: 1.6.0_33
-# Estándares de codificación
-* Nombres de clases: CamelCase
-* Nombres de métodos: camelCase
-* Nombres de atributos y variables: atributos_y_variables
-* Comentarios: Comentario de bloque a nivel de clase y métodos de tipo /** blablabla */. Comentarios inline de tipo // blablabla y /* blablabla */
-* Para todo lo demás (indetación, espacios, etc.): Hay un archivo con los ajustes para el programa IntelliJ IDEA mediante los cuales, con un simple Cmd+alt+l, formatea automáticamente el código a los estándares definidos.
+*ReadMe*
+================================
+
+Dades del projecte
+-------------------------
+
+* Joc:			Hex
+* Assignatura:	Projectes de Programació (PROP)
+* Facultat: 	Facultat d'Informàtica de Barcelona (FIB-UPC)
+* Curs:			2012-1013
+* Grup: 		7.3
+* Integrants:
+** javier.ferrer.gonzalez@est.fib.upc.edu	Ferrer González, Javier
+** guillermo.girona@est.fib.upc.edu 		Girona San Miguel, Guillermo
+** marc.junyent@est.fib.upc.edu 			Junyent Martín, Marc
+** isaac.sanchez.barrera@est.fib.upc.edu 	Sánchez Barrera, Isaac
+
+
+Com compilar i executar
+-------------------------
+
+# Moure'ns al directori arrel dels paquets:
+        cd /path/absolut/del/projecte/jHex/src/
+# Compilar incluent tots els fitxers dels drivers:
+        javac prop/hex/domini/controladors/drivers/*.java
+# Executar el driver principal i anar provant totes les classes amb comoditat :)
+        java prop.hex.domini.controladors.drivers.PrincipalDrvr
+
+Explicació PrincipalDrvr
+-------------------------
+
+Classe principal per realitzar tots els tests dels drivers. 
+Només s'ha d'executar aquesta classe i (mitjançant la tècnica de reflexió) ja s'encarrega d'anar a buscar tots els drivers que n'hi hagin a la carpeta corresponent (carpeta_drivers) i llistar els seus mètodes per poder-los provar.
+
+Estructura de fitxers
+-------------------------
+* docs/		Documentació del codi.
+* src/		Codi font del projecte.
+* dat/		Dades del joc (persistència d'usuaris, partides, etc.).
+* README.md	Explicació del projecte.
