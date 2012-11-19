@@ -18,12 +18,12 @@ public abstract class BaseGstr<T>
 	/**
 	 * Carpeta del sistema de fitxers on es guardaran totes les dades del joc
 	 */
-	private String carpeta_dades = "dat";
+	protected String carpeta_dades = "dat";
 
 	/**
 	 * Extensió dels fitxers de dades
 	 */
-	private String extensio_fitxers = "dat";
+	protected String extensio_fitxers = "dat";
 
 	/**
 	 * Subcarpeta del sistema de fitxers, dins de carpeta_dades, per guardar els arxius. Especificada a les
@@ -140,29 +140,5 @@ public abstract class BaseGstr<T>
 		                                 this.extensio_fitxers );
 
 		return arxiu_a_accedir.exists();
-	}
-
-	/**
-	 * Llista els noms dels elements de la subcarpeta de dades.
-	 *
-	 * @return El conjunt dels noms dels elements de la subcarpeta de dades.
-	 */
-	public Set<String> llistaElements()
-	{
-		File carpeta = new File( carpeta_dades + '/' + subcarpeta_dades + '/' );
-		File[] llista_arxius = carpeta.listFiles();
-
-		Set<String> noms_elements = new HashSet<String>();
-		for ( File arxiu : llista_arxius )
-		{
-			String nom = arxiu.getName();
-			if ( nom.endsWith( extensio_fitxers ) )
-			{
-				// Afegeixo el nom de l'element sense l'extensió al conjunt de noms
-				noms_elements.add( nom.substring( 0, nom.length() - 4 ) );
-			}
-		}
-
-		return noms_elements;
 	}
 }
