@@ -401,7 +401,7 @@ public class PartidaCtrl
 	 */
 	public static EstatPartida consultaEstatPartida()
 	{
-		if(darrera_fitxa == null )
+		if(partida_actual == null )
 		{
 			return EstatPartida.NO_FINALITZADA;
 		}
