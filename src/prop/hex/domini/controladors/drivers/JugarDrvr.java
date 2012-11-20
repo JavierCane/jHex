@@ -57,14 +57,7 @@ public class JugarDrvr
 			System.out.println( "Excepció al inicialitzar la partida: " + e.getMessage() );
 		}
 
-		SwingUtilities.invokeLater( new Runnable()
-		{
-
-			public void run()
-			{
-				instanciaFinestra();
-			}
-		} );
+		instanciaFinestra();
 	}
 
 	/**
@@ -108,14 +101,7 @@ public class JugarDrvr
 			System.out.println( "Excepció al inicialitzar la partida: " + e.getMessage() );
 		}
 
-		SwingUtilities.invokeLater( new Runnable()
-		{
-
-			public void run()
-			{
-				instanciaFinestra();
-			}
-		} );
+		instanciaFinestra();
 	}
 
 	/**
@@ -158,14 +144,8 @@ public class JugarDrvr
 		{
 			System.out.println( "Error al inicialitzar la partida." );
 		}
-		SwingUtilities.invokeLater( new Runnable()
-		{
 
-			public void run()
-			{
-				instanciaFinestra();
-			}
-		} );
+		instanciaFinestra();
 	}
 
 	/**
@@ -208,14 +188,7 @@ public class JugarDrvr
 			System.out.println( "Excepció al inicialitzar la partida: " + e.getMessage() );
 		}
 
-		SwingUtilities.invokeLater( new Runnable()
-		{
-
-			public void run()
-			{
-				instanciaFinestra();
-			}
-		} );
+		instanciaFinestra();
 	}
 
 	/**
