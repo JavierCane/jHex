@@ -4,8 +4,8 @@ import prop.cluster.domini.models.Tauler;
 import prop.cluster.domini.models.estats.EstatCasella;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Representa un tauler del joc Hex.
@@ -90,7 +90,8 @@ public class TaulerHex extends Tauler implements Serializable
 		}
 		else
 		{
-			if ( num_fitxes_a + num_fitxes_b == 0 && fila == mida/2 && columna == mida/2) {
+			if ( num_fitxes_a + num_fitxes_b == 0 && fila == mida / 2 && columna == mida / 2 )
+			{
 				return false;
 			}
 			return true;
