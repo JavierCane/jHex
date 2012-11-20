@@ -401,11 +401,6 @@ public class PartidaCtrl
 	 */
 	public static EstatPartida consultaEstatPartida()
 	{
-		if(partida_actual == null )
-		{
-			return EstatPartida.NO_FINALITZADA;
-		}
-
 		EstatPartida estat_partida =
 				partida_actual.comprovaEstatPartida( darrera_fitxa.getFila(), darrera_fitxa.getColumna() );
 
