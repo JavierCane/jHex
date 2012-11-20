@@ -10,24 +10,18 @@ Dades del projecte
 * Curs:			2012-1013
 * Grup: 		7.3
 * Integrants:
-  * [Ferrer González, Javier](mailto:javier.ferrer.gonzalez@est.fib.upc.edu)
-  * [Girona San Miguel, Guillermo](mailto:guillermo.girona@est.fib.upc.edu)
-  * [Junyent Martín, Marc](mailto:marc.junyent@est.fib.upc.edu)
-  * [Sánchez Barrera, Isaac](mailto:isaac.sanchez.barrera@est.fib.upc.edu)
+> * [Ferrer González, Javier](mailto:javier.ferrer.gonzalez@est.fib.upc.edu)
+> * [Girona San Miguel, Guillermo](mailto:guillermo.girona@est.fib.upc.edu)
+> * [Junyent Martín, Marc](mailto:marc.junyent@est.fib.upc.edu)
+> * [Sánchez Barrera, Isaac](mailto:isaac.sanchez.barrera@est.fib.upc.edu)
 
 
 Com compilar i executar
 --------
 
-1. Moure'ns al directori arrel dels paquets:
-
-   `` cd /path/absolut/del/projecte/jHex/src/``
-2. Compilar incloent tots els fitxers dels drivers:
-
-    ``javac prop/hex/domini/controladors/drivers/*.java``
-3. Executar el driver principal i anar provant totes les classes amb comoditat :)
-
-    ``java prop.hex.domini.controladors.drivers.PrincipalDrvr``
+1. Moure'ns al directori arrel dels paquets: `` cd /path/absolut/del/projecte/jHex/src/``
+2. Compilar incloent tots els fitxers dels drivers: ``javac prop/hex/domini/controladors/drivers/*.java``
+3. Executar el driver principal: ``java prop.hex.domini.controladors.drivers.PrincipalDrvr``
 
 Explicació PrincipalDrvr
 --------
