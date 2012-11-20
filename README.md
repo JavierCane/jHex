@@ -20,10 +20,13 @@ Com compilar i executar
 --------
 
 1. Moure'ns al directori arrel dels paquets:
+
 `` cd /path/absolut/del/projecte/jHex/src/``
 2. Compilar incloent tots els fitxers dels drivers:
+
 ``javac prop/hex/domini/controladors/drivers/*.java``
-3. Executar el driver principal: 
+3. Executar el driver principal:
+
 ``java prop.hex.domini.controladors.drivers.PrincipalDrvr``
 
 Explicació PrincipalDrvr
