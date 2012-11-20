@@ -22,8 +22,6 @@ import java.util.*;
 public class PartidaCtrl
 {
 
-	private static PartidaCtrl instancia = null;
-
 	/**
 	 * Instància amb la partida que s'està executant actualment.
 	 */
@@ -67,16 +65,6 @@ public class PartidaCtrl
 	 */
 	private PartidaCtrl()
 	{
-	}
-
-	public static PartidaCtrl getInstancia()
-	{
-		if ( null == instancia )
-		{
-			instancia = new PartidaCtrl();
-		}
-
-		return instancia;
 	}
 
 	/**

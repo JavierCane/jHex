@@ -13,9 +13,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 /**
- * Classe temporal per poder veure i jugar una partida mitjançant PartidaCtrl.getInstancia(). Obre una finestra on dibuixa el tauler
+ * Classe temporal per poder veure i jugar una partida mitjançant PartidaCtrl. Obre una finestra on dibuixa el tauler
  * i captura els clicks del ratoli fent moure a qui toqui en cada situació.
- * Aquesta classe s'utilitza des del driver de Jugar que comprova que funcioni PartidaCtrl.getInstancia() així com IAHexFacilCtrl i
+ * Aquesta classe s'utilitza des del driver de Jugar que comprova que funcioni PartidaCtrl així com IAHexFacilCtrl i
  * totes les classes que aquest utilitza.
  */
 public class VisualitzadorPartida extends JPanel
@@ -57,9 +57,9 @@ public class VisualitzadorPartida extends JPanel
 	 */
 	public VisualitzadorPartida()
 	{
-		tauler = ( TaulerHex ) PartidaCtrl.getInstancia().getPartidaActual().getTauler();
-		jugador_a = ( UsuariHex ) PartidaCtrl.getInstancia().getPartidaActual().getJugadorA();
-		jugador_b = ( UsuariHex ) PartidaCtrl.getInstancia().getPartidaActual().getJugadorB();
+		tauler = ( TaulerHex ) PartidaCtrl.getPartidaActual().getTauler();
+		jugador_a = ( UsuariHex ) PartidaCtrl.getPartidaActual().getJugadorA();
+		jugador_b = ( UsuariHex ) PartidaCtrl.getPartidaActual().getJugadorB();
 
 		//Creem l'exagon que dibuixarem despres.
 		int x[] = new int[6];
@@ -126,15 +126,14 @@ public class VisualitzadorPartida extends JPanel
 	}
 
 	/**
-	 * Si la partida no està finalitzada i es torn de una IA, crida PartidaCtrl.getInstancia() a executar moviment IA.
+	 * Si la partida no està finalitzada i es torn de una IA, crida PartidaCtrl a executar moviment IA.
 	 * Torna a pintar l'escena.
 	 */
 	private void mouIA()
 	{
-		if ( PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.NO_FINALITZADA &&
-		     !PartidaCtrl.getInstancia().esTornHuma() )
+		if ( PartidaCtrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA && !PartidaCtrl.esTornHuma() )
 		{
-			PartidaCtrl.getInstancia().executaMovimentIA();
+			PartidaCtrl.executaMovimentIA();
 		}
 
 		repaint();
@@ -149,13 +148,12 @@ public class VisualitzadorPartida extends JPanel
 	 */
 	private void clickHexagon( int i, int j )
 	{
-		if ( PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.NO_FINALITZADA &&
-		     PartidaCtrl.getInstancia().esTornHuma() )
+		if ( PartidaCtrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA && PartidaCtrl.esTornHuma() )
 		{
 			try
 			{
 				//No ens cal comprovar si el moviment es fa o no (si retorna true o false).
-				PartidaCtrl.getInstancia().mouFitxa( i, j );
+				PartidaCtrl.mouFitxa( i, j );
 			}
 			catch ( UnsupportedOperationException exepcio )
 			{
@@ -207,7 +205,7 @@ public class VisualitzadorPartida extends JPanel
 				g.translate( j * dx, 0 );
 
 				if ( i == tauler.getMida() / 2 && j == tauler.getMida() / 2 &&
-				     PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats() == 0 )
+				     PartidaCtrl.getPartidaActual().getTornsJugats() == 0 )
 				{
 					g.setColor( new Color( 0x333333 ) );
 				}
@@ -226,8 +224,7 @@ public class VisualitzadorPartida extends JPanel
 		}
 
 		//Si és torn de la IA mostrem el botó Mou IA.
-		if ( !PartidaCtrl.getInstancia().esTornHuma() &&
-		     PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.NO_FINALITZADA )
+		if ( !PartidaCtrl.esTornHuma() && PartidaCtrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA )
 		{
 			g.setColor( new Color( 0xAA0000 ) );
 			g.fillRoundRect( 500, 450, 120, 40, 8, 8 );
@@ -239,15 +236,15 @@ public class VisualitzadorPartida extends JPanel
 
 		//Mostrem el torn actual.
 		g.setColor( Color.black );
-		g.drawString( "Torn: " + PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats(), 0, 300 );
+		g.drawString( "Torn: " + PartidaCtrl.getPartidaActual().getTornsJugats(), 0, 300 );
 
 		//Si ha guanyat un jugador, mostrem el resultat.
-		if ( PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_A )
+		if ( PartidaCtrl.consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_A )
 		{
 			g.setColor( jugador_a.getCombinacionsColors().getColorCasella( EstatCasella.JUGADOR_A ) );
 			g.drawString( "Guanya " + jugador_a.getNom(), 0, 330 );
 		}
-		else if ( PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_B )
+		else if ( PartidaCtrl.consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_B )
 		{
 			g.setColor( jugador_a.getCombinacionsColors().getColorCasella( EstatCasella.JUGADOR_B ) );
 			g.drawString( "Guanya " + jugador_b.getNom(), 0, 330 );
@@ -259,8 +256,8 @@ public class VisualitzadorPartida extends JPanel
 		g.drawString( "D'esquerra a dreta", 10, 480 );
 		if ( jugador_a.getTipusJugador() == TipusJugadors.JUGADOR )
 		{
-			g.drawString( "Temps: " + PartidaCtrl.getInstancia().getPartidaActual()
-					.getTempsDeJoc( jugador_a.getIdentificadorUnic() ), 10, 500 );
+			g.drawString( "Temps: " + PartidaCtrl.getPartidaActual().getTempsDeJoc( jugador_a.getIdentificadorUnic() ),
+					10, 500 );
 		}
 
 		//I algunes dades pel jugador B
@@ -269,8 +266,8 @@ public class VisualitzadorPartida extends JPanel
 		g.drawString( "De dalt a baix", 300, 480 );
 		if ( jugador_b.getTipusJugador() == TipusJugadors.JUGADOR )
 		{
-			g.drawString( "Temps: " + PartidaCtrl.getInstancia().getPartidaActual()
-					.getTempsDeJoc( jugador_b.getIdentificadorUnic() ), 300, 500 );
+			g.drawString( "Temps: " + PartidaCtrl.getPartidaActual().getTempsDeJoc( jugador_b.getIdentificadorUnic() ),
+					300, 500 );
 		}
 	}
 }
