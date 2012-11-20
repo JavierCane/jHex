@@ -4,6 +4,8 @@ import prop.cluster.domini.models.estats.EstatCasella;
 import prop.hex.domini.models.Casella;
 import prop.hex.domini.models.PartidaHex;
 
+import prop.hex.domini.controladors.IAHexFacilCtrl; // [!!!] No tocar.
+
 /**
  * Interface per poder cridar als moviments de la intel·ligència artificial de manera genèrica.
  */
