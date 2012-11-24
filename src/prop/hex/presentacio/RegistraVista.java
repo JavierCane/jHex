@@ -7,7 +7,7 @@ import java.awt.event.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class IniciaSessioVista
+public class RegistraVista
 {
 
 	private PresentacioCtrl presentacio_ctrl;
@@ -15,20 +15,20 @@ public class IniciaSessioVista
 	private JPanelImatge panel_principal = new JPanelImatge( "img/fons.png" );
 	private JPanel panel_titol = new JPanel();
 	private JPanel panel_dades = new JPanelImatge( "img/caixa.png" );
-	private JPanel panel_botons = new JPanel();
 	private JPanel panel_sortida = new JPanel();
 	private JButton accepta = new JButton( "Accepta" );
-	private JButton registra = new JButton( "Registra't" );
-	private JButton convidat = new JButton( "Entra com a convidat" );
+	private JButton descarta = new JButton( "Descarta" );
 	private JButton surt = new JButton( "", new ImageIcon( "img/surt.png" ) );
 	private JTextField usuari = new JTextField();
 	private JPasswordField contrasenya = new JPasswordField();
-	private JLabel titol = new JLabel( "Inicia sessió" );
+	private JPasswordField confirma_contrasenya = new JPasswordField();
+	private JLabel titol = new JLabel( "Registra't" );
 	private JLabel text_usuari = new JLabel( "Nom d'usuari:" );
 	private JLabel text_contrasenya = new JLabel( "Contrasenya:" );
+	private JLabel text_confirma_contrasenya = new JLabel( "Confirma la contrasenya:" );
 	private JLabel titol_baix = new JLabel( "jHex v1.0" );
 
-	public IniciaSessioVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
+	public RegistraVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
 	{
 		this.presentacio_ctrl = presentacio_ctrl;
 		frame_vista = frame_principal;
@@ -37,7 +37,7 @@ public class IniciaSessioVista
 
 	public void fesVisible()
 	{
-		frame_vista.setContentPane(panel_principal);
+		frame_vista.setContentPane( panel_principal );
 		frame_vista.pack();
 		frame_vista.setVisible( true );
 	}
@@ -62,7 +62,6 @@ public class IniciaSessioVista
 		inicialitzaPanelPrincipal();
 		inicialitzaPanelTitol();
 		inicialitzaPanelDades();
-		inicialitzaPanelBotons();
 		inicialitzaPanelSortida();
 		assignaListeners();
 	}
@@ -78,30 +77,23 @@ public class IniciaSessioVista
 		panel_dades.setBorder( BorderFactory.createRaisedBevelBorder() );
 		panel_dades.setLayout( new BoxLayout( panel_dades, BoxLayout.PAGE_AXIS ) );
 		JPanel panel_camps = new JPanel();
-		panel_camps.setLayout( new GridLayout( 2, 2, 10, 10 ) );
+		panel_camps.setLayout( new GridLayout( 3, 2, 10, 10 ) );
 		panel_camps.add( text_usuari );
 		panel_camps.add( usuari );
 		panel_camps.add( text_contrasenya );
 		panel_camps.add( contrasenya );
+		panel_camps.add( text_confirma_contrasenya );
+		panel_camps.add( confirma_contrasenya );
 		panel_camps.setBorder( BorderFactory.createEmptyBorder( 10, 10, 10, 10 ) );
 		panel_camps.setOpaque( false );
-		panel_dades.add( panel_camps );
-		accepta.setAlignmentX( Component.CENTER_ALIGNMENT );
-		panel_dades.add( accepta );
-		panel_dades.add( Box.createVerticalStrut( 10 ) );
-
-
-	}
-
-	private void inicialitzaPanelBotons()
-	{
-		panel_botons.setLayout( new BoxLayout( panel_botons, BoxLayout.PAGE_AXIS ) );
-		registra.setAlignmentX( Component.CENTER_ALIGNMENT );
-		panel_botons.add( registra );
-		panel_botons.add( Box.createVerticalStrut( 10 ) );
-		convidat.setAlignmentX( Component.CENTER_ALIGNMENT );
-		panel_botons.add( convidat );
+		JPanel panel_botons = new JPanel();
+		panel_botons.setLayout( new FlowLayout() );
+		panel_botons.add( accepta );
+		panel_botons.add( descarta );
+		panel_botons.setBorder( BorderFactory.createEmptyBorder( 10, 10, 10, 10 ) );
 		panel_botons.setOpaque( false );
+		panel_dades.add( panel_camps );
+		panel_dades.add( panel_botons );
 	}
 
 	private void inicialitzaPanelSortida()
@@ -120,21 +112,17 @@ public class IniciaSessioVista
 		propietats_panel.gridx = 1;
 		propietats_panel.gridy = 0;
 		propietats_panel.weightx = 0.5;
-		propietats_panel.weighty = 0.1;
+		propietats_panel.weighty = 0.2;
 		panel_principal.add( panel_titol, propietats_panel );
 		propietats_panel.gridx = 1;
 		propietats_panel.gridy = 1;
-		propietats_panel.weighty = 0.5;
+		propietats_panel.weighty = 0.6;
 		panel_principal.add( panel_dades, propietats_panel );
-		propietats_panel.gridx = 1;
-		propietats_panel.gridy = 2;
-		propietats_panel.weighty = 0.4;
-		panel_principal.add( panel_botons, propietats_panel );
 		propietats_panel.fill = GridBagConstraints.NONE;
 		propietats_panel.gridx = 2;
 		propietats_panel.gridy = 2;
 		propietats_panel.weightx = 0.25;
-		propietats_panel.weighty = 0.1;
+		propietats_panel.weighty = 0.2;
 		propietats_panel.anchor = GridBagConstraints.SOUTHEAST;
 		panel_principal.add( panel_sortida, propietats_panel );
 		propietats_panel.gridx = 0;
@@ -148,14 +136,25 @@ public class IniciaSessioVista
 	{
 		try
 		{
-			presentacio_ctrl.setJugadorPrincipal( usuari.getText(), contrasenya.getPassword().toString() );
+			String contrasenya_introduida = new String( contrasenya.getPassword() );
+			if ( !contrasenya_introduida.equals( new String( confirma_contrasenya.getPassword() ) ) )
+			{
+				VistaDialeg dialeg = new VistaDialeg();
+				String[] botons = { "Accepta" };
+				String valor_seleccionat = dialeg.setDialeg( "Error", "Les dues contrasenyes no coincideixen.",
+						botons, 2 );
+			}
+			else
+			{
+				presentacio_ctrl.registraUsuari( usuari.getText(), contrasenya_introduida );
+				presentacio_ctrl.vistaRegistraAIniciaSessio();
+			}
 		}
 		catch ( IllegalArgumentException excepcio )
 		{
 			VistaDialeg dialeg = new VistaDialeg();
 			String[] botons = { "Accepta" };
-			String valor_seleccionat = dialeg.setDialeg( "Error", "Nom d'usuari o contrasenya incorrectes.",
-					botons, 2 );
+			String valor_seleccionat = dialeg.setDialeg( "Error", "Nom d'usuari no vàlid.", botons, 2 );
 		}
 		catch ( Exception excepcio )
 		{
@@ -165,30 +164,9 @@ public class IniciaSessioVista
 		}
 	}
 
-	public void accioBotoConvidat( ActionEvent event )
+	public void accioBotoDescarta( ActionEvent event )
 	{
-		try
-		{
-			presentacio_ctrl.entraConvidat();
-		}
-		catch ( IllegalArgumentException excepcio )
-		{
-			VistaDialeg dialeg = new VistaDialeg();
-			String[] botons = { "Accepta" };
-			String valor_seleccionat = dialeg.setDialeg( "Error", "Nom d'usuari o contrasenya incorrectes.",
-					botons, 2 );
-		}
-		catch ( Exception excepcio )
-		{
-			VistaDialeg dialeg = new VistaDialeg();
-			String[] botons = { "Accepta" };
-			String valor_seleccionat = dialeg.setDialeg( "Error", "Error inesperat.", botons, 0 );
-		}
-	}
-
-	public void accioBotoRegistra( ActionEvent event )
-	{
-		presentacio_ctrl.vistaIniciaSessioARegistra();
+		presentacio_ctrl.vistaRegistraAIniciaSessio();
 	}
 
 	public void accioBotoSurt( ActionEvent event )
@@ -214,21 +192,13 @@ public class IniciaSessioVista
 			}
 		} );
 
-		convidat.addActionListener( new ActionListener()
-		{
-			@Override
-			public void actionPerformed( ActionEvent event )
-			{
-				accioBotoConvidat( event );
-			}
-		} );
 
-		registra.addActionListener( new ActionListener()
+		descarta.addActionListener( new ActionListener()
 		{
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
-				accioBotoRegistra( event );
+				accioBotoDescarta( event );
 			}
 		} );
 
