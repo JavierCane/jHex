@@ -94,7 +94,6 @@ public abstract class BaseGstr<T>
 			ObjectInputStream ois = new ObjectInputStream( fis );
 
 			// Llegim de disc l'objecte de tipus T mitjancant l'stream de dades obert
-			Object element = ois.readObject();
 			element_carregat = ( T ) ois.readObject();
 
 			ois.close();
