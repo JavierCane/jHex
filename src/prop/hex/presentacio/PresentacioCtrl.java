@@ -16,7 +16,7 @@ public class PresentacioCtrl
 	private JFrame frame_principal = new JFrame( "jHex" );
 	private UsuariHex jugador_principal;
 	private IniciaSessioVista inicia_sessio_vista = new IniciaSessioVista( this, frame_principal );
-	private RegistraVista registra_vista;
+	private RegistraVista registra_vista = new RegistraVista( this, frame_principal );
 	private MenuPrincipalVista menu_principal_vista = new MenuPrincipalVista( this, frame_principal );
 
 
@@ -50,7 +50,6 @@ public class PresentacioCtrl
 	public void vistaIniciaSessioARegistra()
 	{
 		inicia_sessio_vista.fesInvisible();
-		registra_vista = new RegistraVista( this, frame_principal );
 		registra_vista.fesVisible();
 	}
 
@@ -62,7 +61,7 @@ public class PresentacioCtrl
 
 	public void vistaIniciaSessioAMenuPrincipal()
 	{
-		inicia_sessio_vista.desactiva();
+		inicia_sessio_vista.fesInvisible();
 		menu_principal_vista.fesVisible();
 	}
 }

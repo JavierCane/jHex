@@ -148,7 +148,8 @@ public class IniciaSessioVista
 	{
 		try
 		{
-			presentacio_ctrl.setJugadorPrincipal( usuari.getText(), contrasenya.getPassword().toString() );
+			presentacio_ctrl.setJugadorPrincipal( usuari.getText(), new String( contrasenya.getPassword() ) );
+			presentacio_ctrl.vistaIniciaSessioAMenuPrincipal();
 		}
 		catch ( IllegalArgumentException excepcio )
 		{
