@@ -171,6 +171,8 @@ public class IniciaSessioVista
 		try
 		{
 			presentacio_ctrl.entraConvidat();
+			presentacio_ctrl.vistaIniciaSessioAMenuPrincipal();
+
 		}
 		catch ( IllegalArgumentException excepcio )
 		{
