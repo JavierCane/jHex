@@ -340,12 +340,12 @@ public class UsuariHex extends Usuari implements Serializable, Comparable<Usuari
 	 * per ordenar el ràquing en funció de les millors puntuacions globals.
 	 *
 	 * @param contrincant UsuariHex amb qui es vol comparar
-	 * @return > 0 si el paràmetre té més punts, 0 si estan empatats, < 0 si el contrincant té més punts.
+	 * @return -1 si l'usuari actual té més punts, 0 si estan empatats, 1 si l'usuari contrincant té més punts.
 	 */
 	@Override
 	public int compareTo( UsuariHex contrincant )
 	{
-		return puntuacio_global - contrincant.getPuntuacioGlobal();
+		return contrincant.getPuntuacioGlobal().compareTo( puntuacio_global );
 	}
 
 	/**

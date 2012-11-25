@@ -30,63 +30,63 @@ public final class RanquingDrvr
 
 		System.out.println( "[OK]\tActulment el rànquing té les seguents dades:\n\t\t" + ranquing.toString() );
 
-//		UsuariHex usuari = new UsuariHex( "Actualizado después", "Contraseña" );
-//		ranquing.actualitzaUsuari( usuari );
-//
-//		UsuariHex usuari_0 = new UsuariHex( "Sin partidas", "Contraseña" );
-//		ranquing.actualitzaUsuari( usuari_0 );
+		UsuariHex usuari = new UsuariHex( "Actualizado después", "Contraseña" );
+		ranquing.actualitzaUsuari( usuari );
+
+		UsuariHex usuari_0 = new UsuariHex( "Sin partidas", "Contraseña" );
+		ranquing.actualitzaUsuari( usuari_0 );
 
 		UsuariHex usuari_1 = new UsuariHex( "Derrotado 1", "Contraseña" );
-		usuari_1.recalculaDadesUsuariPartidaFinalitzada( false, TipusJugadors.IA_FACIL, (long) 10.2, 10 );
+		usuari_1.recalculaDadesUsuariPartidaFinalitzada( false, TipusJugadors.IA_FACIL, 10L, 10 );
 		ranquing.actualitzaUsuari( usuari_1 );
 
-//		UsuariHex usuari_2 = new UsuariHex( "Derrotado 2", "Contraseña" );
-//
-//		usuari_2.recalculaDadesUsuariPartidaFinalitzada( false, TipusJugadors.IA_DIFICIL, 10L, 10 );
-//
-//		System.out.println( "partides jugades: " + usuari_2.getPartidesJugades() + ", derrotes difícil: " +
-//		                    usuari_2.getDerrotes( TipusJugadors.IA_DIFICIL.getPosicioDificultat() ) + ", " +
-//		                    "puntuació global: " + usuari_2.getPuntuacioGlobal() );
-//
-//		ranquing.actualitzaUsuari( usuari_2 );
-//
-//		UsuariHex usuari_3 = new UsuariHex( "Derrotado 3", "Contraseña" );
-//		usuari_3.recalculaDadesUsuariPartidaFinalitzada( false, TipusJugadors.IA_FACIL, (long) 10.2, 10 );
-//		usuari_3.recalculaDadesUsuariPartidaFinalitzada( false, TipusJugadors.IA_DIFICIL, (long) 10.2, 10 );
-//		ranquing.actualitzaUsuari( usuari_3 );
-//
-//		UsuariHex usuari_4 = new UsuariHex( "Ganador 1", "Contraseña" );
-//		usuari_4.recalculaDadesUsuariPartidaFinalitzada( true, TipusJugadors.IA_FACIL, (long) 10.2, 10 );
-//		ranquing.actualitzaUsuari( usuari_4 );
-//
-//		UsuariHex usuari_5 = new UsuariHex( "Ganador 2", "Contraseña" );
-//		usuari_5.recalculaDadesUsuariPartidaFinalitzada( true, TipusJugadors.IA_DIFICIL, (long) 10.2, 10 );
-//		ranquing.actualitzaUsuari( usuari_5 );
-//
-//		UsuariHex usuari_6 = new UsuariHex( "Ganador 3", "Contraseña" );
-//		usuari_6.recalculaDadesUsuariPartidaFinalitzada( true, TipusJugadors.IA_FACIL, (long) 10.2, 10 );
-//		usuari_6.recalculaDadesUsuariPartidaFinalitzada( true, TipusJugadors.IA_DIFICIL, (long) 10.2, 10 );
-//		ranquing.actualitzaUsuari( usuari_6 );
-//
-//		UsuariHex usuari_7 = new UsuariHex( "Derrotado-Ganador 1", "Contraseña" );
-//		usuari_7.recalculaDadesUsuariPartidaFinalitzada( false, TipusJugadors.IA_FACIL, (long) 10.2, 10 );
-//		usuari_7.recalculaDadesUsuariPartidaFinalitzada( true, TipusJugadors.IA_FACIL, (long) 10.2, 10 );
-//		ranquing.actualitzaUsuari( usuari_7 );
-//
-//		UsuariHex usuari_8 = new UsuariHex( "Derrotado-Ganador 2", "Contraseña" );
-//		usuari_8.recalculaDadesUsuariPartidaFinalitzada( false, TipusJugadors.IA_DIFICIL, (long) 10.2, 10 );
-//		usuari_8.recalculaDadesUsuariPartidaFinalitzada( true, TipusJugadors.IA_DIFICIL, (long) 10.2, 10 );
-//		ranquing.actualitzaUsuari( usuari_8 );
-//
-//		UsuariHex usuari_9 = new UsuariHex( "Derrotado-Ganador 2", "Contraseña" );
-//		usuari_9.recalculaDadesUsuariPartidaFinalitzada( false, TipusJugadors.IA_FACIL, (long) 10.2, 10 );
-//		usuari_9.recalculaDadesUsuariPartidaFinalitzada( false, TipusJugadors.IA_DIFICIL, (long) 10.2, 10 );
-//		usuari_9.recalculaDadesUsuariPartidaFinalitzada( true, TipusJugadors.IA_FACIL, (long) 10.2, 10 );
-//		usuari_9.recalculaDadesUsuariPartidaFinalitzada( true, TipusJugadors.IA_DIFICIL, (long) 10.2, 10 );
-//		ranquing.actualitzaUsuari( usuari_9 );
-//
-//		usuari.recalculaDadesUsuariPartidaFinalitzada( true, TipusJugadors.IA_FACIL, (long) 10.2, 10 );
-//		ranquing.actualitzaUsuari( usuari );
+		UsuariHex usuari_2 = new UsuariHex( "Derrotado 2", "Contraseña" );
+
+		usuari_2.recalculaDadesUsuariPartidaFinalitzada( false, TipusJugadors.IA_DIFICIL, 10L, 10 );
+
+		System.out.println( "partides jugades: " + usuari_2.getPartidesJugades() + ", derrotes difícil: " +
+		                    usuari_2.getDerrotes( TipusJugadors.IA_DIFICIL.getPosicioDificultat() ) + ", " +
+		                    "puntuació global: " + usuari_2.getPuntuacioGlobal() );
+
+		ranquing.actualitzaUsuari( usuari_2 );
+
+		UsuariHex usuari_3 = new UsuariHex( "Derrotado 3", "Contraseña" );
+		usuari_3.recalculaDadesUsuariPartidaFinalitzada( false, TipusJugadors.IA_FACIL, 10L, 10 );
+		usuari_3.recalculaDadesUsuariPartidaFinalitzada( false, TipusJugadors.IA_DIFICIL, 10L, 10 );
+		ranquing.actualitzaUsuari( usuari_3 );
+
+		UsuariHex usuari_4 = new UsuariHex( "Ganador 1", "Contraseña" );
+		usuari_4.recalculaDadesUsuariPartidaFinalitzada( true, TipusJugadors.IA_FACIL, 10L, 10 );
+		ranquing.actualitzaUsuari( usuari_4 );
+
+		UsuariHex usuari_5 = new UsuariHex( "Ganador 2", "Contraseña" );
+		usuari_5.recalculaDadesUsuariPartidaFinalitzada( true, TipusJugadors.IA_DIFICIL, 10L, 10 );
+		ranquing.actualitzaUsuari( usuari_5 );
+
+		UsuariHex usuari_6 = new UsuariHex( "Ganador 3", "Contraseña" );
+		usuari_6.recalculaDadesUsuariPartidaFinalitzada( true, TipusJugadors.IA_FACIL, 10L, 10 );
+		usuari_6.recalculaDadesUsuariPartidaFinalitzada( true, TipusJugadors.IA_DIFICIL, 10L, 10 );
+		ranquing.actualitzaUsuari( usuari_6 );
+
+		UsuariHex usuari_7 = new UsuariHex( "Derrotado-Ganador 1", "Contraseña" );
+		usuari_7.recalculaDadesUsuariPartidaFinalitzada( false, TipusJugadors.IA_FACIL, 10L, 10 );
+		usuari_7.recalculaDadesUsuariPartidaFinalitzada( true, TipusJugadors.IA_FACIL, 10L, 10 );
+		ranquing.actualitzaUsuari( usuari_7 );
+
+		UsuariHex usuari_8 = new UsuariHex( "Derrotado-Ganador 2", "Contraseña" );
+		usuari_8.recalculaDadesUsuariPartidaFinalitzada( false, TipusJugadors.IA_DIFICIL, 10L, 10 );
+		usuari_8.recalculaDadesUsuariPartidaFinalitzada( true, TipusJugadors.IA_DIFICIL, 10L, 10 );
+		ranquing.actualitzaUsuari( usuari_8 );
+
+		UsuariHex usuari_9 = new UsuariHex( "Derrotado-Ganador 2", "Contraseña" );
+		usuari_9.recalculaDadesUsuariPartidaFinalitzada( false, TipusJugadors.IA_FACIL, 10L, 10 );
+		usuari_9.recalculaDadesUsuariPartidaFinalitzada( false, TipusJugadors.IA_DIFICIL, 10L, 10 );
+		usuari_9.recalculaDadesUsuariPartidaFinalitzada( true, TipusJugadors.IA_FACIL, 10L, 10 );
+		usuari_9.recalculaDadesUsuariPartidaFinalitzada( true, TipusJugadors.IA_DIFICIL, 10L, 10 );
+		ranquing.actualitzaUsuari( usuari_9 );
+
+		usuari.recalculaDadesUsuariPartidaFinalitzada( true, TipusJugadors.IA_FACIL, 10L, 10 );
+		ranquing.actualitzaUsuari( usuari );
 
 		System.out.println( "[OK]\tDesprés de la bateria de modificacions de dades, el rànquing queda així:\n\t\t" +
 		                    ranquing.toString() );

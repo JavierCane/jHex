@@ -195,7 +195,7 @@ public class Usuari implements Serializable
 		String string_resultant = new String();
 		for ( int iterador : vector_origen )
 		{
-			string_resultant += vector_origen[iterador] + ", ";
+			string_resultant += iterador + ", ";
 		}
 		return string_resultant.substring( 0, string_resultant.length() - 2 );
 	}
