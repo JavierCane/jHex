@@ -12,6 +12,7 @@ import java.util.List;
  */
 public final class Ranquing implements Serializable
 {
+
 	/**
 	 * ID de serialització
 	 */
@@ -82,10 +83,10 @@ public final class Ranquing implements Serializable
 		fitxes_minimes = Integer.MAX_VALUE;
 
 		usuari_mes_partides_guanyades = null;
-		mes_partides_guanyades = Integer.MIN_VALUE;
+		mes_partides_guanyades = 0;
 
 		usuari_mes_partides_jugades = null;
-		mes_partides_jugades = Integer.MIN_VALUE;
+		mes_partides_jugades = 0;
 	}
 
 	/**
@@ -103,6 +104,23 @@ public final class Ranquing implements Serializable
 		}
 
 		return instancia;
+	}
+
+	/**
+	 * Mètode amb la finalitat de poder depurar el programa amb més facilitat. Simplement retorna tots els atributs
+	 * de la classe y els seus corresponents valors.
+	 *
+	 * @return Un String amb tots els atribus del rànquing.
+	 */
+	public String toString()
+	{
+		return "[Rànquing: " + ranquing.toString() + ", " +
+		       "usuari temps minim: " + usuari_temps_minim +
+		       ", temps minim: " + temps_minim + ", usuari fitxes minimes: " + usuari_fitxes_minimes +
+		       ", fitxes minimes: " + fitxes_minimes + ", usuari mes partides guanyades: " +
+		       usuari_mes_partides_guanyades + ", mes partides guanyades: " + mes_partides_guanyades +
+		       ", usuari mes partides jugades: " + usuari_mes_partides_jugades + ", mes partides jugades: " +
+		       mes_partides_jugades + "]";
 	}
 
 	/**
@@ -159,25 +177,25 @@ public final class Ranquing implements Serializable
 	{
 		String identificador_usuari = usuari.getIdentificadorUnic();
 
-		if ( temps_minim >= usuari.getTempsMinim() )
+		if ( temps_minim > usuari.getTempsMinim() )
 		{
 			temps_minim = usuari.getTempsMinim();
 			usuari_temps_minim = identificador_usuari;
 		}
 
-		if ( fitxes_minimes >= usuari.getFitxesMinimes() )
+		if ( fitxes_minimes > usuari.getFitxesMinimes() )
 		{
 			fitxes_minimes = usuari.getFitxesMinimes();
 			usuari_fitxes_minimes = identificador_usuari;
 		}
 
-		if ( mes_partides_guanyades <= usuari.getPartidesGuanyades() )
+		if ( mes_partides_guanyades < usuari.getPartidesGuanyades() )
 		{
 			mes_partides_guanyades = usuari.getPartidesGuanyades();
 			usuari_mes_partides_guanyades = identificador_usuari;
 		}
 
-		if ( mes_partides_jugades <= usuari.getPartidesJugades() )
+		if ( mes_partides_jugades < usuari.getPartidesJugades() )
 		{
 			mes_partides_jugades = usuari.getPartidesJugades();
 			usuari_mes_partides_jugades = identificador_usuari;

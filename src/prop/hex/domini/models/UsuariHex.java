@@ -267,6 +267,16 @@ public class UsuariHex extends Usuari implements Serializable, Comparable<Usuari
 		{
 			if ( ha_guanyat )
 			{
+				if ( num_victories[tipus_jugador_contrari.getPosicioDificultat()] < Integer.MAX_VALUE )
+				{
+					num_victories[tipus_jugador_contrari.getPosicioDificultat()]++;
+				}
+
+				if ( partides_guanyades < Integer.MAX_VALUE )
+				{
+					partides_guanyades++;
+				}
+
 				if ( temps_emprat < temps_minim )
 				{
 					temps_minim = temps_emprat;
@@ -277,15 +287,6 @@ public class UsuariHex extends Usuari implements Serializable, Comparable<Usuari
 					fitxes_minimes = fitxes_usades;
 				}
 
-				if ( num_victories[tipus_jugador_contrari.getPosicioDificultat()] < Integer.MAX_VALUE )
-				{
-					num_victories[tipus_jugador_contrari.getPosicioDificultat()]++;
-				}
-
-				if ( partides_guanyades < Integer.MAX_VALUE )
-				{
-					partides_guanyades++;
-				}
 			}
 			else
 			{
