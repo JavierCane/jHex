@@ -5,83 +5,54 @@ import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class MenuPrincipalVista
+public class MenuPrincipalVista extends JHexVista
 {
-	private PresentacioCtrl presentacio_ctrl;
-	private JFrame frame_vista;
-	private JPanelImatge panel_principal = new JPanelImatge( "img/fons.png" );
-	private JPanel panel_titol = new JPanel();
+
 	private JPanel panel_botons = new JPanel();
-	private JPanel panel_sortida = new JPanel();
+	private JPanel panel_tanca_sessio = new JPanel();
+	private JLabel nom_jugador_principal;
+	private JButton tanca_sessio = new JButton( "Tanca la sessió" );
 	private JButton juga = new JButton( "Juga una partida" );
 	private JButton carrega = new JButton( "Carrega una partida" );
 	private JButton preferencies = new JButton( "Preferències" );
 	private JButton ranquing = new JButton( "Rànquing" );
-	private JButton surt = new JButton( "", new ImageIcon( "img/surt.png" ) );
-	private JLabel titol = new JLabel( "Menú principal" );
-	private JLabel titol_baix = new JLabel( "jHex v1.0" );
 
 	public MenuPrincipalVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
 	{
-		this.presentacio_ctrl = presentacio_ctrl;
-		frame_vista = frame_principal;
+		super( presentacio_ctrl, frame_principal );
+		titol = new JLabel( "Menú principal" );
 		inicialitzaVista();
 	}
 
-	public void fesVisible()
-	{
-		frame_vista.setContentPane( panel_principal );
-		frame_vista.pack();
-		frame_vista.setVisible( true );
-	}
-
-	public void fesInvisible()
-	{
-		frame_vista.setVisible( false );
-	}
-
-	public void activa()
-	{
-		frame_vista.setEnabled( true );
-	}
-
-	public void desactiva()
-	{
-		frame_vista.setEnabled( false );
-	}
-
-	private void inicialitzaVista()
+	protected void inicialitzaVista()
 	{
 		inicialitzaPanelPrincipal();
 		inicialitzaPanelTitol();
 		inicialitzaPanelBotons();
+		inicialitzaPanelTancaSessio();
 		inicialitzaPanelSortida();
 		assignaListeners();
-	}
-
-	private void inicialitzaPanelTitol()
-	{
-		panel_titol.add( titol );
-		panel_titol.setOpaque( false );
 	}
 
 	private void inicialitzaPanelBotons()
 	{
 		panel_botons.setLayout( new GridLayout( 4, 1, 20, 20 ) );
-		panel_botons.add(juga);
-		panel_botons.add(carrega);
-		panel_botons.add(preferencies);
-		panel_botons.add(ranquing);
+		panel_botons.add( juga );
+		panel_botons.add( carrega );
+		panel_botons.add( preferencies );
+		panel_botons.add( ranquing );
 		panel_botons.setOpaque( false );
 	}
 
-	private void inicialitzaPanelSortida()
+	private void inicialitzaPanelTancaSessio()
 	{
-		panel_sortida.add( surt );
-		panel_sortida.setOpaque( false );
+		nom_jugador_principal = new JLabel( "Has iniciat sessió com a " + presentacio_ctrl.obteNomJugadorPrincipal() );
+		panel_tanca_sessio.add( nom_jugador_principal );
+		panel_tanca_sessio.add( tanca_sessio );
+		panel_tanca_sessio.setOpaque( false );
 	}
 
-	private void inicialitzaPanelPrincipal()
+	protected void inicialitzaPanelPrincipal()
 	{
 		panel_principal.setLayout( new GridBagLayout() );
 		panel_principal.setBorder( BorderFactory.createEmptyBorder( 10, 10, 10, 10 ) );
@@ -99,10 +70,12 @@ public class MenuPrincipalVista
 		propietats_panel.weighty = 0.6;
 		panel_principal.add( panel_botons, propietats_panel );
 		propietats_panel.fill = GridBagConstraints.NONE;
+		propietats_panel.gridy = 2;
+		propietats_panel.weighty = 0.2;
+		panel_principal.add( panel_tanca_sessio, propietats_panel );
 		propietats_panel.gridx = 2;
 		propietats_panel.gridy = 2;
 		propietats_panel.weightx = 0.25;
-		propietats_panel.weighty = 0.2;
 		propietats_panel.anchor = GridBagConstraints.SOUTHEAST;
 		panel_principal.add( panel_sortida, propietats_panel );
 		propietats_panel.gridx = 0;
@@ -114,7 +87,7 @@ public class MenuPrincipalVista
 
 	public void accioBotoJuga( ActionEvent event )
 	{
-
+		presentacio_ctrl.vistaMenuPrincipalAIniciaPartida();
 	}
 
 	public void accioBotoCarrega( ActionEvent event )
@@ -124,7 +97,7 @@ public class MenuPrincipalVista
 
 	public void accioBotoPreferencies( ActionEvent event )
 	{
-
+		presentacio_ctrl.vistaMenuPrincipalAPreferencies();
 	}
 
 	public void accioBotoRanquing( ActionEvent event )
@@ -132,22 +105,17 @@ public class MenuPrincipalVista
 
 	}
 
-	public void accioBotoSurt( ActionEvent event )
+	public void accioBotoTancaSessio( ActionEvent event )
 	{
-		VistaDialeg dialeg = new VistaDialeg();
-		String[] botons = { "Sí", "No" };
-		String valor_seleccionat = dialeg.setDialeg( "Confirmació de la sortida", "Estàs segur de que vols sortir "
-				+ "del programa?", botons, 3 );
-		if ( valor_seleccionat == "Sí" )
-		{
-			System.exit( 0 );
-		}
+		presentacio_ctrl.tancaSessio();
+		presentacio_ctrl.vistaMenuPrincipalAIniciaSessio();
 	}
 
-	private void assignaListeners()
+	protected void assignaListeners()
 	{
 		juga.addActionListener( new ActionListener()
 		{
+
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
@@ -155,9 +123,9 @@ public class MenuPrincipalVista
 			}
 		} );
 
-
 		carrega.addActionListener( new ActionListener()
 		{
+
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
@@ -167,6 +135,7 @@ public class MenuPrincipalVista
 
 		preferencies.addActionListener( new ActionListener()
 		{
+
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
@@ -176,6 +145,7 @@ public class MenuPrincipalVista
 
 		ranquing.addActionListener( new ActionListener()
 		{
+
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
@@ -183,8 +153,19 @@ public class MenuPrincipalVista
 			}
 		} );
 
+		tanca_sessio.addActionListener( new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed( ActionEvent event )
+			{
+				accioBotoTancaSessio( event );
+			}
+		} );
+
 		surt.addActionListener( new ActionListener()
 		{
+
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{

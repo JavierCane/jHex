@@ -7,69 +7,33 @@ import java.awt.event.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class RegistraVista
+public class RegistraVista extends JHexVista
 {
 
-	private PresentacioCtrl presentacio_ctrl;
-	private JFrame frame_vista;
-	private JPanelImatge panel_principal = new JPanelImatge( "img/fons.png" );
-	private JPanel panel_titol = new JPanel();
 	private JPanel panel_dades = new JPanelImatge( "img/caixa.png" );
-	private JPanel panel_sortida = new JPanel();
 	private JButton accepta = new JButton( "Accepta" );
 	private JButton descarta = new JButton( "Descarta" );
-	private JButton surt = new JButton( "", new ImageIcon( "img/surt.png" ) );
 	private JTextField usuari = new JTextField();
 	private JPasswordField contrasenya = new JPasswordField();
 	private JPasswordField confirma_contrasenya = new JPasswordField();
-	private JLabel titol = new JLabel( "Registra't" );
 	private JLabel text_usuari = new JLabel( "Nom d'usuari:" );
 	private JLabel text_contrasenya = new JLabel( "Contrasenya:" );
 	private JLabel text_confirma_contrasenya = new JLabel( "Confirma la contrasenya:" );
-	private JLabel titol_baix = new JLabel( "jHex v1.0" );
 
 	public RegistraVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
 	{
-		this.presentacio_ctrl = presentacio_ctrl;
-		frame_vista = frame_principal;
+		super( presentacio_ctrl, frame_principal );
+		titol = new JLabel("Registra't");
 		inicialitzaVista();
 	}
 
-	public void fesVisible()
-	{
-		frame_vista.setContentPane( panel_principal );
-		frame_vista.pack();
-		frame_vista.setVisible( true );
-	}
-
-	public void fesInvisible()
-	{
-		frame_vista.setVisible( false );
-	}
-
-	public void activa()
-	{
-		frame_vista.setEnabled( true );
-	}
-
-	public void desactiva()
-	{
-		frame_vista.setEnabled( false );
-	}
-
-	private void inicialitzaVista()
+	protected void inicialitzaVista()
 	{
 		inicialitzaPanelPrincipal();
 		inicialitzaPanelTitol();
 		inicialitzaPanelDades();
 		inicialitzaPanelSortida();
 		assignaListeners();
-	}
-
-	private void inicialitzaPanelTitol()
-	{
-		panel_titol.add( titol );
-		panel_titol.setOpaque( false );
 	}
 
 	private void inicialitzaPanelDades()
@@ -96,13 +60,7 @@ public class RegistraVista
 		panel_dades.add( panel_botons );
 	}
 
-	private void inicialitzaPanelSortida()
-	{
-		panel_sortida.add( surt );
-		panel_sortida.setOpaque( false );
-	}
-
-	private void inicialitzaPanelPrincipal()
+	protected void inicialitzaPanelPrincipal()
 	{
 		panel_principal.setLayout( new GridBagLayout() );
 		panel_principal.setBorder( BorderFactory.createEmptyBorder( 10, 10, 10, 10 ) );
@@ -169,19 +127,7 @@ public class RegistraVista
 		presentacio_ctrl.vistaRegistraAIniciaSessio();
 	}
 
-	public void accioBotoSurt( ActionEvent event )
-	{
-		VistaDialeg dialeg = new VistaDialeg();
-		String[] botons = { "Sí", "No" };
-		String valor_seleccionat = dialeg.setDialeg( "Confirmació de la sortida", "Estàs segur de que vols sortir "
-				+ "del programa?", botons, 3 );
-		if ( valor_seleccionat == "Sí" )
-		{
-			System.exit( 0 );
-		}
-	}
-
-	private void assignaListeners()
+	protected void assignaListeners()
 	{
 		accepta.addActionListener( new ActionListener()
 		{

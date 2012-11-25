@@ -204,6 +204,16 @@ public class UsuariCtrl
 		return ( usuari.setModeInici( mode_inici ) && usuari.setCombinacionsColors( combinacio_colors ) );
 	}
 
+	public static ModesInici obteModeInici(UsuariHex usuari)
+	{
+		return usuari.getModeInici();
+	}
+
+	public static CombinacionsColors obteCombinacioDeColors(UsuariHex usuari)
+	{
+		return usuari.getCombinacionsColors();
+	}
+
 	/**
 	 * Actualitza les estadístiques d'un usuari després de jugar una partida.
 	 *
