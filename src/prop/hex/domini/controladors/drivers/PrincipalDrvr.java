@@ -100,6 +100,8 @@ public final class PrincipalDrvr
 				vol_sortir_al_menu_principal = false;
 			}
 		}
+
+		System.exit( 0 );
 	}
 
 	/**
