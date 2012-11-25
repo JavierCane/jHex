@@ -1,5 +1,7 @@
 package prop.hex.domini.models;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -76,17 +78,7 @@ public final class Ranquing implements Serializable
 	{
 		ranquing = new ArrayList<UsuariHex>();
 
-		usuari_temps_minim = null;
-		temps_minim = Long.MAX_VALUE;
-
-		usuari_fitxes_minimes = null;
-		fitxes_minimes = Integer.MAX_VALUE;
-
-		usuari_mes_partides_guanyades = null;
-		mes_partides_guanyades = 0;
-
-		usuari_mes_partides_jugades = null;
-		mes_partides_jugades = 0;
+		inicialitzaRecords();
 	}
 
 	/**
@@ -96,7 +88,7 @@ public final class Ranquing implements Serializable
 	 *
 	 * @return L'objecte singleton amb el rànquing.
 	 */
-	public static Ranquing getInstancia()
+	public static synchronized Ranquing getInstancia()
 	{
 		if ( null == instancia )
 		{
@@ -121,6 +113,16 @@ public final class Ranquing implements Serializable
 		       usuari_mes_partides_guanyades + ", mes partides guanyades: " + mes_partides_guanyades +
 		       ", usuari mes partides jugades: " + usuari_mes_partides_jugades + ", mes partides jugades: " +
 		       mes_partides_jugades + "]";
+	}
+
+	/**
+	 * Consulta l'identificador del rànquing. Utilitzada per guardar a disc el fitxer corresponent.
+	 *
+	 * @return L'identificador únic del rànquing.
+	 */
+	public String getIdentificadorUnic()
+	{
+		return "ranquing";
 	}
 
 	/**
@@ -165,6 +167,53 @@ public final class Ranquing implements Serializable
 	public void eliminaUsuari( UsuariHex usuari )
 	{
 		ranquing.remove( usuari );
+	}
+
+	/**
+	 * Funció que neteja el rànquing actual (elimina els usuaris ja ordenats i reinicialitza els rècords)
+	 */
+	public void netejaRanquing()
+	{
+		ranquing.clear();
+		inicialitzaRecords();
+	}
+
+	/**
+	 * Sobreescritura del mètode readObject.
+	 * Mètode utilitzat després de fer la deserialització de l'objecte llegit de disc mitjançant defaultReadObject()
+	 * Necessari per poder establir els paràmetres de la classe de tipus Singleton (si no els deixava com els d'una
+	 * nova instància).
+	 *
+	 * @param ois
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
+	private void readObject( ObjectInputStream ois ) throws IOException, ClassNotFoundException
+	{
+		ois.defaultReadObject();
+
+		synchronized ( instancia )
+		{
+			instancia = this;
+		}
+	}
+
+	/**
+	 * Inicialitza els rècords de temps, fitxes mínimes, més partides guanyades i més partides jugades.
+	 */
+	private void inicialitzaRecords()
+	{
+		usuari_temps_minim = null;
+		temps_minim = Long.MAX_VALUE;
+
+		usuari_fitxes_minimes = null;
+		fitxes_minimes = Integer.MAX_VALUE;
+
+		usuari_mes_partides_guanyades = null;
+		mes_partides_guanyades = 0;
+
+		usuari_mes_partides_jugades = null;
+		mes_partides_jugades = 0;
 	}
 
 	/**

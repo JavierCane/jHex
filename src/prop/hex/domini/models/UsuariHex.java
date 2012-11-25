@@ -374,7 +374,7 @@ public class UsuariHex extends Usuari implements Serializable, Comparable<Usuari
 		{
 			UsuariHex usuari_hex = ( UsuariHex ) suposat_usuari_hex;
 
-			if ( usuari_hex.getIdentificadorUnic() == this.getIdentificadorUnic() )
+			if ( usuari_hex.getIdentificadorUnic().equals( this.getIdentificadorUnic() ) )
 			{
 				return true;
 			}
