@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Controlador de partida per al joc Hex.
+ * Controlador de partida per al joc Hex. Programat seguint el patró singleton.
  * Gestiona tot el flux d'execució d'una partida al joc de taula Hex a més de la càrrega i materialització de
  * partides en memòria secundària.
  * <p/>
@@ -23,19 +23,24 @@ public class PartidaCtrl
 {
 
 	/**
+	 * Instància del controlador.
+	 */
+	private static PartidaCtrl instancia;
+
+	/**
 	 * Instància amb la partida que s'està executant actualment.
 	 */
-	private static PartidaHex partida_actual = null;
+	private PartidaHex partida_actual;
 
 	/**
 	 * Instància del gestor de partides en disc.
 	 */
-	private static PartidaHexGstr gestor_partida = new PartidaHexGstr();
+	private PartidaHexGstr gestor_partida;
 
 	/**
 	 * Instàncies de les intel·ligències artificials per als jugadors no humans.
 	 */
-	private static MouFitxaIA[] jugadors_ia;
+	private MouFitxaIA[] jugadors_ia;
 
 	/**
 	 * Tipus de fitxa de cada jugador.
@@ -48,23 +53,41 @@ public class PartidaCtrl
 	/**
 	 * Conté els usuaris de la partida actual.
 	 */
-	private static UsuariHex[] usuaris_partida;
+	private UsuariHex[] usuaris_partida;
 
 	/**
 	 * Instant de temps en què es va efectuar el darrer moviment.
 	 */
-	private static long instant_darrer_moviment;
+	private long instant_darrer_moviment;
 
 	/**
 	 * Instància de casella que conté la posició de la darrera fitxa.
 	 */
-	private static Casella darrera_fitxa;
+	private Casella darrera_fitxa;
 
 	/**
-	 * Constructor per defecte. Declarat privat perquè la classe no sigui instanciable.
+	 * Constructor per defecte. Declarat privat perquè és una classe singleton
 	 */
 	private PartidaCtrl()
 	{
+		gestor_partida = new PartidaHexGstr();
+	}
+
+	/**
+	 * Consultora de l'instancia actual del controlador de partida.
+	 * Si encara no s'ha inicialitzat l'objecte, crida el constructor. Si ja s'ha instanciat prèviament,
+	 * simplement retorna l'instancia ja creada.
+	 *
+	 * @return L'objecte singleton amb el el controlador de partida.
+	 */
+	public static synchronized PartidaCtrl getInstancia()
+	{
+		if ( instancia == null )
+		{
+			instancia = new PartidaCtrl();
+		}
+
+		return instancia;
 	}
 
 	/**
@@ -81,7 +104,7 @@ public class PartidaCtrl
 	 * @throws InstantiationError       Si hi ha problemes amb la instanciació de les intel·ligències artificials.
 	 * @throws IllegalArgumentException Si ja existeix una partida amb les dades donades creada en la mateixa data
 	 */
-	public static boolean inicialitzaPartida( int mida_tauler, UsuariHex jugador_a, UsuariHex jugador_b, String nom )
+	public boolean inicialitzaPartida( int mida_tauler, UsuariHex jugador_a, UsuariHex jugador_b, String nom )
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException
 	{
 		TaulerHex tauler = new TaulerHex( mida_tauler );
@@ -103,29 +126,21 @@ public class PartidaCtrl
 	 * @param id_usuari Identificador únic de l'usuari
 	 * @return Una llista amb les dades de les partides.
 	 */
-	public static ArrayList<HashMap<String, String>> llistaPartidesUsuari( String id_usuari )
+	public ArrayList<HashMap<String, String>> llistaPartidesUsuari( String id_usuari )
 	{
 		ArrayList<HashMap<String, String>> llista_partides = new ArrayList<HashMap<String, String>>();
 		Set<String> id_partides = gestor_partida.llistaPartidesUsuari( id_usuari );
 		for ( String id_partida : id_partides )
 		{
 			HashMap<String, String> info_partida = new HashMap<String, String>();
-			String[] camps = id_partida.split( "@" );
-
-			// Per poder obtenir les dades d'una data s'ha d'instanciar un objecte de tipus Calendar.
-			Calendar data = new GregorianCalendar();
-			data.setTime( new Date( Long.valueOf( camps[0] ) * 1000L ) );
+			String[] camps = id_partida.replace( '-', ' ' ).split( "@" );
 
 			// L'identificador s'inclou perquè el controlador de presentació pugui demanar la partida concreta.
 			info_partida.put( "identificador", id_partida );
 
 			// Es formaten la data i l'hora perquè no ho hagi de fer la vista.
-			info_partida.put( "data_hora", String.valueOf( data.get( Calendar.DAY_OF_MONTH ) ) + '/' +
-			                               String.valueOf( data.get( Calendar.MONTH ) ) + '/' +
-			                               String.valueOf( data.get( Calendar.YEAR ) ) + ' ' +
-			                               String.valueOf( data.get( Calendar.HOUR ) ) + ':' +
-			                               String.valueOf( data.get( Calendar.MINUTE ) ) + ':' +
-			                               String.valueOf( data.get( Calendar.SECOND ) ) );
+			info_partida
+					.put( "data_hora", String.format( "%1$td/%1$tm/%1$tY %1$tR", Long.valueOf( camps[0] ) * 1000L ) );
 
 			info_partida.put( "nom", camps[2] );
 			info_partida.put( "jugador_a", camps[3] );
@@ -143,7 +158,7 @@ public class PartidaCtrl
 	 * @param id_usuari Identificador únic de l'usuari de qui es volen esborrar les partides.
 	 * @return Cert si s'han esborrat. Fals altrament.
 	 */
-	public static boolean esborraPartidesUsuari( String id_usuari )
+	public boolean esborraPartidesUsuari( String id_usuari )
 	{
 		Set<String> id_partides = gestor_partida.llistaPartidesUsuari( id_usuari );
 		for ( String id_partida : id_partides )
@@ -173,7 +188,7 @@ public class PartidaCtrl
 	 * @throws IllegalArgumentException Si algun dels usuaris no juga a la partida.
 	 * @throws NullPointerException     Si el fitxer que conté les dades és buit.
 	 */
-	public static boolean carregaPartida( String identificador_partida, UsuariHex jugador_a, UsuariHex jugador_b )
+	public boolean carregaPartida( String identificador_partida, UsuariHex jugador_a, UsuariHex jugador_b )
 			throws IOException, ClassNotFoundException, FileNotFoundException, IllegalAccessException,
 			       InstantiationException, IllegalArgumentException, NullPointerException
 	{
@@ -214,7 +229,7 @@ public class PartidaCtrl
 	 *                                artificials.
 	 * @throws InstantiationError     Si hi ha problemes amb la instanciació de les intel·ligències artificials.
 	 */
-	private static void inicialitzaEstructuresControl( UsuariHex jugador_a, UsuariHex jugador_b )
+	private void inicialitzaEstructuresControl( UsuariHex jugador_a, UsuariHex jugador_b )
 			throws ClassNotFoundException, IllegalAccessException, InstantiationException
 	{
 		usuaris_partida = new UsuariHex[2];
@@ -243,7 +258,7 @@ public class PartidaCtrl
 	 * @throws IOException                   Si hi ha un error d'entrada/sortida
 	 * @throws UnsupportedOperationException Si es vol guardar una partida ja finalitzada.
 	 */
-	public static boolean guardaPartida() throws FileNotFoundException, IOException, UnsupportedOperationException
+	public boolean guardaPartida() throws FileNotFoundException, IOException, UnsupportedOperationException
 	{
 		if ( partida_actual.estaFinalitzada() )
 		{
@@ -259,7 +274,7 @@ public class PartidaCtrl
 	 *
 	 * @return Cert si s'ha tancat correctament. Fals altrament.
 	 */
-	public static boolean tancaPartida()
+	public boolean tancaPartida()
 	{
 		EstatPartida estat_actual = consultaEstatPartida();
 		if ( estat_actual != EstatPartida.NO_FINALITZADA )
@@ -295,7 +310,7 @@ public class PartidaCtrl
 	 *
 	 * @return Cert si s'ha tancat correctament. Fals altrament.
 	 */
-	public static boolean tancaIEliminaPartida()
+	public boolean tancaIEliminaPartida()
 	{
 		gestor_partida.eliminaElement( partida_actual.getIdentificadorUnic() );
 		return tancaPartida();
@@ -306,7 +321,7 @@ public class PartidaCtrl
 	 *
 	 * @return La casella resultat dels càlculs del moviment.
 	 */
-	private static Casella movimentIA()
+	private Casella movimentIA()
 	{
 		return jugadors_ia[partida_actual.getTornsJugats() % 2]
 				.mouFitxa( fitxes_jugadors[partida_actual.getTornsJugats() % 2] );
@@ -317,7 +332,7 @@ public class PartidaCtrl
 	 *
 	 * @return La casella on mouria la intel·ligència artificial configurada per a les pistes.
 	 */
-	public static Casella obtePista()
+	public Casella obtePista()
 	{
 		return movimentIA();
 	}
@@ -327,7 +342,7 @@ public class PartidaCtrl
 	 *
 	 * @return La casella on mou la intel·ligència artificial.
 	 */
-	public static Casella executaMovimentIA()
+	public Casella executaMovimentIA()
 	{
 		Casella resultat_moviment = movimentIA();
 		mouFitxa( resultat_moviment.getFila(), resultat_moviment.getColumna() );
@@ -343,7 +358,7 @@ public class PartidaCtrl
 	 * @return Cert si s'ha mogut la fitxa. Fals altrament.
 	 * @throws UnsupportedOperationException Si la partida ja ha finalitzat.
 	 */
-	public static boolean mouFitxa( int fila, int columna ) throws UnsupportedOperationException
+	public boolean mouFitxa( int fila, int columna ) throws UnsupportedOperationException
 	{
 		long instant_actual = new Date().getTime() / 1000L;
 
@@ -389,7 +404,7 @@ public class PartidaCtrl
 	 *
 	 * @return Cert si el jugador és humà. Fals altrament.
 	 */
-	public static boolean esTornHuma()
+	public boolean esTornHuma()
 	{
 		return ( usuaris_partida[partida_actual.getTornsJugats() % 2].getTipusJugador() == TipusJugadors.JUGADOR );
 	}
@@ -399,7 +414,7 @@ public class PartidaCtrl
 	 *
 	 * @return L'estat de la partida (si guanya algun jugador o encara no està finalitzada).
 	 */
-	public static EstatPartida consultaEstatPartida()
+	public EstatPartida consultaEstatPartida()
 	{
 		EstatPartida estat_partida =
 				partida_actual.comprovaEstatPartida( darrera_fitxa.getFila(), darrera_fitxa.getColumna() );
@@ -414,7 +429,7 @@ public class PartidaCtrl
 	 *
 	 * @return Cert si s'ha canviat la fitxa. Fals altrament.
 	 */
-	public static boolean intercanviaDarreraFitxa()
+	public boolean intercanviaDarreraFitxa()
 	{
 		if ( partida_actual.getTauler().intercanviaFitxa( darrera_fitxa.getFila(), darrera_fitxa.getColumna() ) )
 		{
@@ -431,7 +446,7 @@ public class PartidaCtrl
 	 *
 	 * @return Cert si es pot (està la regla del pastís i hi ha només una fitxa). Fals altrament.
 	 */
-	public static boolean esPotIntercanviarDarreraFitxa()
+	public boolean esPotIntercanviarDarreraFitxa()
 	{
 		return ( partida_actual.getTornsJugats() == 1 && esReglaPastis() );
 	}
@@ -441,7 +456,7 @@ public class PartidaCtrl
 	 *
 	 * @return Cert si comença amb la regla del pastís. Fals altrament.
 	 */
-	public static boolean esReglaPastis()
+	public boolean esReglaPastis()
 	{
 		return partida_actual.getModeInici() == ModesInici.PASTIS;
 	}
@@ -451,7 +466,7 @@ public class PartidaCtrl
 	 *
 	 * @return PartidaHex amb la partida actual.
 	 */
-	public static PartidaHex getPartidaActual()
+	public PartidaHex getPartidaActual()
 	{
 		return partida_actual;
 	}
