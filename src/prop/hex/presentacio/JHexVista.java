@@ -13,6 +13,7 @@ public abstract class JHexVista
 	protected JPanelImatge panel_principal;
 	protected JPanel panel_titol;
 	protected JPanel panel_sortida;
+	protected JButton ajuda;
 	protected JButton surt;
 	protected JLabel titol;
 	protected JLabel titol_baix;
@@ -22,6 +23,7 @@ public abstract class JHexVista
 		panel_principal = new JPanelImatge( "img/fons.png" );
 		panel_titol = new JPanel();
 		panel_sortida = new JPanel();
+		ajuda = new JButton( "", new ImageIcon( "img/ajuda.png" ) );
 		surt = new JButton( "", new ImageIcon( "img/surt.png" ) );
 		titol_baix = new JLabel( "jHex v1.0" );
 		this.presentacio_ctrl = presentacio_ctrl;
@@ -66,6 +68,8 @@ public abstract class JHexVista
 
 	protected void inicialitzaPanelSortida()
 	{
+		panel_sortida.setLayout( new GridLayout( 2, 1, 10, 10 ) );
+		panel_sortida.add( ajuda );
 		panel_sortida.add( surt );
 		panel_sortida.setOpaque( false );
 	}
@@ -76,12 +80,10 @@ public abstract class JHexVista
 	{
 		VistaDialeg dialeg = new VistaDialeg();
 		String[] botons = {
-				"Sí",
-				"No"
+				"Sí", "No"
 		};
-		String valor_seleccionat =
-				dialeg.setDialeg( "Confirmació de la sortida", "Estàs segur que vols sortir " + "del programa?", botons,
-						3 );
+		String valor_seleccionat = dialeg.setDialeg( "Confirmació de la sortida", "Estàs segur que vols sortir " +
+				"del programa?", botons, 3 );
 		if ( valor_seleccionat == "Sí" )
 		{
 			System.exit( 0 );

@@ -92,7 +92,7 @@ public class MenuPrincipalVista extends JHexVista
 
 	public void accioBotoCarrega( ActionEvent event )
 	{
-
+		presentacio_ctrl.vistaMenuPrincipalACarregaPartida();
 	}
 
 	public void accioBotoPreferencies( ActionEvent event )
@@ -102,7 +102,7 @@ public class MenuPrincipalVista extends JHexVista
 
 	public void accioBotoRanquing( ActionEvent event )
 	{
-
+		presentacio_ctrl.vistaMenuPrincipalARanquing();
 	}
 
 	public void accioBotoTancaSessio( ActionEvent event )
