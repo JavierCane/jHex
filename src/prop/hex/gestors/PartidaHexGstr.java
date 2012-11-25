@@ -41,8 +41,8 @@ public class PartidaHexGstr extends BaseGstr<PartidaHex>
 				String[] identificadors = id_partida.split( "@" );
 
 				// Comprovem si l'usuari juga a la partida
-				if ( identificadors[identificadors.length - 1] == id_usuari ||
-				     identificadors[identificadors.length - 2] == id_usuari )
+				if ( identificadors[identificadors.length - 1].equals( id_usuari ) ||
+				     identificadors[identificadors.length - 2].equals( id_usuari ) )
 				{
 					// Afegim el nom de l'element sense l'extensió al conjunt d'identificadors
 					noms_elements.add( id_partida );
