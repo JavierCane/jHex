@@ -49,6 +49,75 @@ public class IAHexFacilCtrl extends InteligenciaArtificial implements MouFitxaIA
 	private boolean tactica_agresiva;
 
 	/**
+	 * Array de "contramoviments" si és el 2n torn.
+	 */
+	private Casella[][] moviments_obertura = {
+			{
+					new Casella( 2, 3 ),
+					new Casella( 4, 2 ),
+					new Casella( 3, 3 ),
+					null,
+					new Casella( 1, 5 ),
+					null,
+					null
+			},
+			{
+					new Casella( 2, 3 ),
+					new Casella( 4, 2 ),
+					null,
+					null,
+					null,
+					null,
+					new Casella( 1, 5 )
+			},
+			{
+					new Casella( 2, 3 ),
+					null,
+					null,
+					null,
+					null,
+					null,
+					new Casella( 1, 5 )
+			},
+			{
+					new Casella( 1, 5 ),
+					new Casella( 2, 4 ),
+					null,
+					null,
+					null,
+					new Casella( 4, 2 ),
+					new Casella( 1, 5 ),
+			},
+			{
+					new Casella( 1, 5 ),
+					null,
+					null,
+					null,
+					null,
+					null,
+					new Casella( 3, 2 )
+			},
+			{
+					new Casella( 1, 5 ),
+					null,
+					null,
+					null,
+					null,
+					new Casella( 2, 4 ),
+					new Casella( 3, 2 ),
+			},
+			{
+					null,
+					null,
+					new Casella( 5, 1 ),
+					null,
+					new Casella( 2, 3 ),
+					new Casella( 2, 4 ),
+					new Casella( 3, 2 )
+			}
+	};
+
+	/**
 	 * Funció d'avaluació del MiniMax, si estem en un estat termianl on ja ha guanyat un jugador retornem 1000000 o
 	 * -1000000, que son valors prou grans, sinó, apliquem l'estratègia agresiva o la passiva en funció del valor de
 	 * la variable tactica_agresiva.
@@ -250,9 +319,45 @@ public class IAHexFacilCtrl extends InteligenciaArtificial implements MouFitxaIA
 	 */
 	public Casella mouFitxa( EstatCasella fitxa )
 	{
-		// En la primera jugada no es fa minimax, en lloc d'això, és mira la casella més central possible.
+		// En la primera jugada no es fa minimax, en lloc d'això, es mira en la llista de contramoviments o,
+		// en el seu defecte, es retorna la casella més central possible.
 		if ( partida.getTornsJugats() <= 1 )
 		{
+			if ( partida.getTornsJugats() == 1 )
+			{
+				Casella moviment = null;
+				if ( partida.getTornsJugats() == 1 )
+				{
+					Casella fitxa_posada = null;
+
+					// Busquem quina és la fitxa que ha posat l'altre jugador
+					int fila = 0;
+					while ( fitxa_posada == null && fila < partida.getTauler().getMida() )
+					{
+						int columna = 0;
+						while ( fitxa_posada == null && columna < partida.getTauler().getMida() )
+						{
+							if ( partida.getTauler().getEstatCasella( fila, columna ) != EstatCasella.BUIDA )
+							{
+								fitxa_posada = new Casella( fila, columna );
+							}
+
+							columna++;
+						}
+
+						fila++;
+					}
+
+					if ( fitxa_posada != null )
+					{
+						if ( moviments_obertura[fitxa_posada.getFila()][fitxa_posada.getColumna()] != null )
+						{
+							return moviments_obertura[fitxa_posada.getFila()][fitxa_posada.getColumna()];
+						}
+					}
+				}
+			}
+
 			return posicioCentral();
 		}
 
