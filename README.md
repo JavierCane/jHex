@@ -19,11 +19,15 @@ Dades del projecte
 Com compilar i executar
 --------
 
-1. Moure'ns al directori arrel dels paquets:
-> `` cd /path/absolut/del/projecte/jHex/src/``
-2. Compilar incloent tots els fitxers dels drivers:
+1. Moure'ns al directori arrel del projecte:
+> ``cd /path/absolut/del/projecte/jHex/``
+2. Eliminar possibles arxius de compilacions prèvies:
+> ``rm $(find ./src/* | grep .class$)``
+3. Moure'ns al directori arrel del codi font:
+> ``cd /path/absolut/del/projecte/jHex/src/``
+4. Compilar incloent tots els fitxers dels drivers:
 > ``javac prop/hex/domini/controladors/drivers/*.java``
-3. Executar el driver principal:
+5. Executar el driver principal:
 > ``java prop.hex.domini.controladors.drivers.PrincipalDrvr``
 
 Explicació PrincipalDrvr
