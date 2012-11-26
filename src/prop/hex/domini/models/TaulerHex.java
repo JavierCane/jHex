@@ -8,7 +8,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Representa un tauler del joc Hex.
+ * Representa un tauler del joc Hex. El jugador A ha de connectar els costats esquerre i dret (columnes 0 i mida - 1),
+ * el jugador B ha de connectar els costats superior i inferior (files 0 i mida - 1).
  */
 public class TaulerHex extends Tauler implements Serializable
 {
