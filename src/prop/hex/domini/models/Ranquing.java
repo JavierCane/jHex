@@ -28,7 +28,7 @@ public final class Ranquing implements Serializable
 	/**
 	 * Llista d'usuaris ordenada per les seves puntuacions globals
 	 */
-	private List<UsuariHex> ranquing;
+	private List<UsuariHex> clasificacio;
 
 	/**
 	 * Identificador de l'usuari que hagi aconseguit guanyar una partida en el menor temps
@@ -76,7 +76,7 @@ public final class Ranquing implements Serializable
 	 */
 	private Ranquing()
 	{
-		ranquing = new ArrayList<UsuariHex>();
+		clasificacio = new ArrayList<UsuariHex>();
 
 		inicialitzaRecords();
 	}
@@ -106,7 +106,7 @@ public final class Ranquing implements Serializable
 	 */
 	public String toString()
 	{
-		return "[Rànquing: " + ranquing.toString() + ", " +
+		return "[Clasificació: " + clasificacio.toString() + ", " +
 		       "usuari temps minim: " + usuari_temps_minim +
 		       ", temps minim: " + temps_minim + ", usuari fitxes minimes: " + usuari_fitxes_minimes +
 		       ", fitxes minimes: " + fitxes_minimes + ", usuari mes partides guanyades: " +
@@ -122,7 +122,7 @@ public final class Ranquing implements Serializable
 	 */
 	public String getIdentificadorUnic()
 	{
-		return "ranquing";
+		return "clasificacio";
 	}
 
 	/**
@@ -130,9 +130,9 @@ public final class Ranquing implements Serializable
 	 *
 	 * @return La llista d'usuaris amb puntuacions globals més altes.
 	 */
-	public List<UsuariHex> getRanquing()
+	public List<UsuariHex> getClasificacio()
 	{
-		return ranquing;
+		return clasificacio;
 	}
 
 	/**
@@ -143,19 +143,19 @@ public final class Ranquing implements Serializable
 	 */
 	public void actualitzaUsuari( UsuariHex usuari )
 	{
-		int posicio_usuari_ranquing = ranquing.indexOf( usuari );
+		int posicio_usuari_ranquing = clasificacio.indexOf( usuari );
 
 		// Si l'usuari ja està insertat al rànquing actualitzo les seves dades
 		if ( posicio_usuari_ranquing != -1 )
 		{
-			ranquing.set( posicio_usuari_ranquing, usuari );
+			clasificacio.set( posicio_usuari_ranquing, usuari );
 		}
 		else // Si l'usuari no està al rànquing el fico
 		{
-			ranquing.add( usuari );
+			clasificacio.add( usuari );
 		}
 
-		Collections.sort( ranquing ); // Actualitzo l'ordre del rànquing
+		Collections.sort( clasificacio ); // Actualitzo l'ordre del rànquing
 		comprovaRecords( usuari ); // Comprovo si els rècords son millors que els de l'usuari que estic actualitzant
 	}
 
@@ -166,7 +166,7 @@ public final class Ranquing implements Serializable
 	 */
 	public void eliminaUsuari( UsuariHex usuari )
 	{
-		ranquing.remove( usuari );
+		clasificacio.remove( usuari );
 	}
 
 	/**
@@ -174,7 +174,7 @@ public final class Ranquing implements Serializable
 	 */
 	public void netejaRanquing()
 	{
-		ranquing.clear();
+		clasificacio.clear();
 		inicialitzaRecords();
 	}
 
