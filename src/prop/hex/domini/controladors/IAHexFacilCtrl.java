@@ -15,11 +15,12 @@ import prop.hex.domini.models.TaulerHex;
  * Herencia de InteligenciaArtificial que aplica el MiniMax. Implementa la funcioAvaluacio del minimax (de
  * InteligenciaArtificial i mouFitxa i setPartida per a funcionar amb MouFitxaIA
  * <p/>
- * La funció d'Avaluació d'aquesta inteligencia funciona de la següent manera:
- * Si ens trobem en el primer torn (torn 0 o torn 1), és a dir, no hem col·locat cap fitxa,
- * busquem la casella més centarl possible (sense fer minimax ni re).
+ * La funció d'Avaluació d'aquesta intel·ligència funciona de la següent manera:
+ * Si ens trobem en el primer torn (torn 0) busquem la casella més central possible (sense minimax ni res). Si ens
+ * trobem en el segon torn (torn 1), comprovem la millor casella a la llista de contramoviments (moviments_obertura)
+ * i, en el seu defecte, retornem la casella més central possible.
  * <p/>
- * A partir d'aqui s'utilitza un minimax que pot seguir dues estrategies (funcions d'evaluació) la passiva i
+ * A partir d'aquí s'utilitza un minimax que pot seguir dues estratègies (funcions d'avaluació) la passiva i
  * l'agresiva. Si l'enemic té un camí mínim amb cost inferior o igual a quatre, entenem que aviat conseguirà guanyar
  * i prioritzem perjudicar-lo per sobre de guanyar nosaltres, aquesta és l'estratègia agresiva. En cas contrari,
  * utilitzem l'estratègia passiva.
@@ -28,7 +29,7 @@ import prop.hex.domini.models.TaulerHex;
  * connexions virtuals, tant nostres com de l'enemic. Es multiplica cada factor per un pes i aquest és el cost total.
  * <p/>
  * Estratègia agresiva: Té en compte els mateixos 3 factors, però només de l'enemic,
- * també és multiplica cada factor per un pes, similar al cas de la passiva però una mica modificats.
+ * també es multiplica cada factor per un pes, similar al cas de la passiva però una mica modificats.
  */
 public class IAHexFacilCtrl extends InteligenciaArtificial implements MouFitxaIA
 {
