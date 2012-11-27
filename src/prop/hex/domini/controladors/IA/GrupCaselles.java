@@ -24,6 +24,8 @@ public class GrupCaselles
 	 */
 	private ArrayList<Casella> grup;
 
+	private EstatCasella jo;
+
 	/**
 	 * Instancia un GrupCaselles, amb el grup buit.
 	 *
@@ -42,7 +44,7 @@ public class GrupCaselles
 	 */
 	public void estendre( Casella inici )
 	{
-		EstatCasella jo = tauler.getEstatCasella( inici );
+		jo = tauler.getEstatCasella( inici );
 
 		List<Casella> pendents = new LinkedList<Casella>();
 		pendents.add( inici );
@@ -150,14 +152,46 @@ public class GrupCaselles
 
 		List<Casella> visitats = new LinkedList<Casella>();
 
-		for ( int i = 0; i < grup.size(); i++ )
+		for ( Casella casella : grup )
 		{
-			List<Casella> veins_locals = tauler.getVeins( grup.get( i ) );
-			for ( int j = 0; j < veins_locals.size(); j++ )
+			//Mirem si els veins es poden afegir.
+			List<Casella> veins_locals = tauler.getVeins( casella );
+			for ( Casella vei : veins_locals )
 			{
-				if ( tauler.getEstatCasella( veins_locals.get( j ) ) == EstatCasella.BUIDA )
+				if ( tauler.getEstatCasella( vei ) == EstatCasella.BUIDA )
 				{
-					veins.afegirCasella( veins_locals.get( j ) );
+					veins.afegirCasella( vei );
+				}
+			}
+
+			//Mirem si la casella pertany a la cantonada d'un jugador i si es pot afegir.
+			if ( jo == EstatCasella.JUGADOR_A )
+			{
+				//Si es jugador A mirem les columnes.
+				if ( casella.getColumna() == 0 || casella.getColumna() == tauler.getMida() - 1 )
+				{
+					//Iterem per totes les de la mateixa columna i les afegim si es pot.
+					for ( int i = 0; i < tauler.getMida(); i++ )
+					{
+						if ( tauler.getEstatCasella( i, casella.getColumna() ) == EstatCasella.BUIDA )
+						{
+							veins.afegirCasella( new Casella( i, casella.getColumna() ) );
+						}
+					}
+				}
+			}
+			//Fem el mateix pel jugador B
+			else if ( jo == EstatCasella.JUGADOR_B )
+			{
+				if ( casella.getFila() == 0 || casella.getFila() == tauler.getMida() - 1 )
+				{
+					for ( int j = 0; j < tauler.getMida(); j++ )
+					{
+						if ( tauler.getEstatCasella( casella.getFila(), j ) == EstatCasella.BUIDA )
+						{
+							veins.afegirCasella( new Casella( casella.getFila(), j ) );
+						}
+					}
 				}
 			}
 		}
