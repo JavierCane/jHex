@@ -36,22 +36,7 @@ public class TaulerHex extends Tauler implements Serializable
 	public TaulerHex( int mida )
 	{
 		super( mida );
-
-		codi_hash = 0;
-
-		Random generador = new Random();
-		codis_hash_moviments = new ArrayList<HashMap<EstatCasella, Integer>>( mida * mida );
-		for ( int i = 0; i < mida * mida; i++ )
-		{
-			codis_hash_moviments.add( new HashMap<EstatCasella, Integer>( 3 ) );
-
-			int codi_hash_inicial = generador.nextInt();
-			codi_hash ^= codi_hash_inicial;
-
-			codis_hash_moviments.get( i ).put( EstatCasella.BUIDA, codi_hash_inicial );
-			codis_hash_moviments.get( i ).put( EstatCasella.JUGADOR_A, generador.nextInt() );
-			codis_hash_moviments.get( i ).put( EstatCasella.JUGADOR_B, generador.nextInt() );
-		}
+		generaCodiHashTaulerBuit();
 	}
 
 	/**
@@ -66,6 +51,16 @@ public class TaulerHex extends Tauler implements Serializable
 	public TaulerHex( int mida, EstatCasella[][] caselles, int num_fitxes_a, int num_fitxes_b )
 	{
 		super( mida, caselles, num_fitxes_a, num_fitxes_b );
+		generaCodiHashTaulerBuit();
+
+		for ( int fila = 0; fila < mida; fila++ )
+		{
+			for ( int columna = 0; columna < mida; columna++ )
+			{
+				codi_hash ^= getCodiHashMoviment( EstatCasella.BUIDA, fila, columna );
+				codi_hash ^= getCodiHashMoviment( caselles[fila][columna], fila, columna );
+			}
+		}
 	}
 
 	/**
@@ -76,6 +71,28 @@ public class TaulerHex extends Tauler implements Serializable
 	public TaulerHex( TaulerHex original )
 	{
 		super( original );
+		codi_hash = original.codi_hash;
+		codis_hash_moviments = original.codis_hash_moviments;
+	}
+
+	/**
+	 * Genera el codi hash per a un tauler sense fitxes i calcula els codis hash de cada moviment.
+	 */
+	public void generaCodiHashTaulerBuit()
+	{
+		Random generador = new Random();
+		codis_hash_moviments = new ArrayList<HashMap<EstatCasella, Integer>>( mida * mida );
+		for ( int i = 0; i < mida * mida; i++ )
+		{
+			codis_hash_moviments.add( new HashMap<EstatCasella, Integer>( 3 ) );
+
+			int codi_hash_inicial = generador.nextInt();
+			codi_hash ^= codi_hash_inicial;
+
+			codis_hash_moviments.get( i ).put( EstatCasella.BUIDA, codi_hash_inicial );
+			codis_hash_moviments.get( i ).put( EstatCasella.JUGADOR_A, generador.nextInt() );
+			codis_hash_moviments.get( i ).put( EstatCasella.JUGADOR_B, generador.nextInt() );
+		}
 	}
 
 	/**
