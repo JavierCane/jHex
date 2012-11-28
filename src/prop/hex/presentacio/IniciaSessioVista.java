@@ -1,11 +1,10 @@
 package prop.hex.presentacio;
 
 import javax.swing.*;
-import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class IniciaSessioVista extends JHexVista
+public class IniciaSessioVista extends BaseVista
 {
 	private JPanel panel_dades = new JPanelImatge( "img/caixa.png" );
 	private JPanel panel_botons = new JPanel();
@@ -109,13 +108,13 @@ public class IniciaSessioVista extends JHexVista
 			VistaDialeg dialeg = new VistaDialeg();
 			String[] botons = { "Accepta" };
 			String valor_seleccionat =
-					dialeg.setDialeg( "Error", "Nom d'usuari o contrasenya incorrectes.", botons, 2 );
+					dialeg.setDialeg( "Error", "Nom d'usuari o contrasenya incorrectes.", botons, JOptionPane.WARNING_MESSAGE );
 		}
 		catch ( Exception excepcio )
 		{
 			VistaDialeg dialeg = new VistaDialeg();
 			String[] botons = { "Accepta" };
-			String valor_seleccionat = dialeg.setDialeg( "Error", "Error inesperat.", botons, 0 );
+			String valor_seleccionat = dialeg.setDialeg( "Error", "Error inesperat.", botons, JOptionPane.ERROR_MESSAGE );
 		}
 	}
 
@@ -131,13 +130,13 @@ public class IniciaSessioVista extends JHexVista
 			VistaDialeg dialeg = new VistaDialeg();
 			String[] botons = { "Accepta" };
 			String valor_seleccionat =
-					dialeg.setDialeg( "Error", "Nom d'usuari o contrasenya incorrectes.", botons, 2 );
+					dialeg.setDialeg( "Error", "Nom d'usuari o contrasenya incorrectes.", botons, JOptionPane.WARNING_MESSAGE );
 		}
 		catch ( Exception excepcio )
 		{
 			VistaDialeg dialeg = new VistaDialeg();
 			String[] botons = { "Accepta" };
-			String valor_seleccionat = dialeg.setDialeg( "Error", "Error inesperat.", botons, 0 );
+			String valor_seleccionat = dialeg.setDialeg( "Error", "Error inesperat.", botons, JOptionPane.ERROR_MESSAGE );
 		}
 	}
 

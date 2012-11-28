@@ -1,11 +1,10 @@
 package prop.hex.presentacio;
 
 import javax.swing.*;
-import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class CarregaPartidaVista extends JHexVista
+public class CarregaPartidaVista extends BaseVista
 {
 
 	private JPanel panel_central = new JPanel();

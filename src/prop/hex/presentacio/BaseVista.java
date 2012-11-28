@@ -5,7 +5,7 @@ import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public abstract class JHexVista
+public abstract class BaseVista
 {
 
 	protected PresentacioCtrl presentacio_ctrl;
@@ -18,7 +18,7 @@ public abstract class JHexVista
 	protected JLabel titol;
 	protected JLabel titol_baix;
 
-	public JHexVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
+	public BaseVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
 	{
 		panel_principal = new JPanelImatge( "img/fons.png" );
 		panel_titol = new JPanel();
@@ -83,7 +83,7 @@ public abstract class JHexVista
 				"Sí", "No"
 		};
 		String valor_seleccionat = dialeg.setDialeg( "Confirmació de la sortida", "Estàs segur que vols sortir " +
-				"del programa?", botons, 3 );
+				"del programa?", botons, JOptionPane.QUESTION_MESSAGE );
 		if ( valor_seleccionat == "Sí" )
 		{
 			System.exit( 0 );

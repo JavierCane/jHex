@@ -1,11 +1,10 @@
 package prop.hex.presentacio;
 
 import javax.swing.*;
-import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class MenuPrincipalVista extends JHexVista
+public class MenuPrincipalVista extends BaseVista
 {
 
 	private JPanel panel_botons = new JPanel();

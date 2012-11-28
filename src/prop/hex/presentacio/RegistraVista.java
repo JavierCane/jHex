@@ -1,13 +1,11 @@
 package prop.hex.presentacio;
 
 import javax.swing.*;
-import javax.swing.event.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class RegistraVista extends JHexVista
+public class RegistraVista extends BaseVista
 {
 
 	private JPanel panel_dades = new JPanelImatge( "img/caixa.png" );
@@ -23,7 +21,7 @@ public class RegistraVista extends JHexVista
 	public RegistraVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
 	{
 		super( presentacio_ctrl, frame_principal );
-		titol = new JLabel("Registra't");
+		titol = new JLabel( "Registra't" );
 		inicialitzaVista();
 	}
 
@@ -99,8 +97,8 @@ public class RegistraVista extends JHexVista
 			{
 				VistaDialeg dialeg = new VistaDialeg();
 				String[] botons = { "Accepta" };
-				String valor_seleccionat = dialeg.setDialeg( "Error", "Les dues contrasenyes no coincideixen.",
-						botons, 2 );
+				String valor_seleccionat = dialeg.setDialeg( "Error", "Les dues contrasenyes no coincideixen.", botons,
+						JOptionPane.WARNING_MESSAGE );
 			}
 			else
 			{
@@ -112,13 +110,15 @@ public class RegistraVista extends JHexVista
 		{
 			VistaDialeg dialeg = new VistaDialeg();
 			String[] botons = { "Accepta" };
-			String valor_seleccionat = dialeg.setDialeg( "Error", "Nom d'usuari no vàlid.", botons, 2 );
+			String valor_seleccionat =
+					dialeg.setDialeg( "Error", "Nom d'usuari no vàlid.", botons, JOptionPane.WARNING_MESSAGE );
 		}
 		catch ( Exception excepcio )
 		{
 			VistaDialeg dialeg = new VistaDialeg();
 			String[] botons = { "Accepta" };
-			String valor_seleccionat = dialeg.setDialeg( "Error", "Error inesperat.", botons, 0 );
+			String valor_seleccionat =
+					dialeg.setDialeg( "Error", "Error inesperat.", botons, JOptionPane.ERROR_MESSAGE );
 		}
 	}
 
@@ -131,6 +131,7 @@ public class RegistraVista extends JHexVista
 	{
 		accepta.addActionListener( new ActionListener()
 		{
+
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
@@ -138,9 +139,9 @@ public class RegistraVista extends JHexVista
 			}
 		} );
 
-
 		descarta.addActionListener( new ActionListener()
 		{
+
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
@@ -150,6 +151,7 @@ public class RegistraVista extends JHexVista
 
 		surt.addActionListener( new ActionListener()
 		{
+
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{

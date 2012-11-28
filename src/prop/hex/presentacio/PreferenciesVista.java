@@ -4,11 +4,11 @@ import prop.hex.domini.models.enums.CombinacionsColors;
 import prop.hex.domini.models.enums.ModesInici;
 
 import javax.swing.*;
-import javax.swing.event.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class PreferenciesVista extends JHexVista
+public class PreferenciesVista extends BaseVista
 {
 
 	private JPanel panel_central = new JPanel();
@@ -131,23 +131,26 @@ public class PreferenciesVista extends JHexVista
 		{
 			ModesInici mode_inici = ModesInici.ESTANDARD;
 			CombinacionsColors combinacio_colors = CombinacionsColors.VERMELL_BLAU;
+
 			if ( mode_inici_pastis.isSelected() )
 			{
 				mode_inici = ModesInici.PASTIS;
 			}
+
 			if ( colors_negre_blanc.isSelected() )
 			{
 				combinacio_colors = CombinacionsColors.NEGRE_BLANC;
 			}
+
 			presentacio_ctrl.modificaPreferenciesJugadorPrincipal( mode_inici, combinacio_colors );
 			presentacio_ctrl.guardaJugadorPrincipal();
 			presentacio_ctrl.vistaPreferenciesAMenuPrincipal();
 		}
-		catch (Exception e)
+		catch ( Exception e )
 		{
 			VistaDialeg dialeg = new VistaDialeg();
 			String[] botons = { "Accepta" };
-			String valor_seleccionat = dialeg.setDialeg( "Error", "Error al guardar el fitxer d'usuari.", botons, 0 );
+			String valor_seleccionat = dialeg.setDialeg( "Error", "Error al guardar el fitxer d'usuari.", botons, JOptionPane.ERROR_MESSAGE );
 		}
 	}
 
