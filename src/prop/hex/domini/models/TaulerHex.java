@@ -20,6 +20,11 @@ public class TaulerHex extends Tauler implements Serializable
 	private static final long serialVersionUID = 1451699733261138732L;
 
 	/**
+	 * Codi de hash del tauler
+	 */
+	private int codi_hash;
+
+	/**
 	 * Constructor del tauler. Crea un tauler de la mida desitjada amb totes les caselles buides (EstatCasella.BUIDA).
 	 *
 	 * @param mida Les dimensions que tindrà el tauler
@@ -74,6 +79,7 @@ public class TaulerHex extends Tauler implements Serializable
 	 * @throws IndexOutOfBoundsException si (fila, columna) no és una casella vàlida.
 	 * @throws IllegalArgumentException  si fitxa no és de cap jugador (és EstatCasella.BUIDA).
 	 */
+	@Override
 	public boolean esMovimentValid( EstatCasella fitxa, int fila, int columna )
 			throws IndexOutOfBoundsException, IllegalArgumentException
 	{
@@ -129,6 +135,30 @@ public class TaulerHex extends Tauler implements Serializable
 	 * Mou la fitxa a la casella indicada i actualitza els comptadors.
 	 *
 	 * @param fitxa   Fitxa que es vol col·locar.
+	 * @param fila    Fila de la casella del tauler.
+	 * @param columna Columna de la casella del tauler.
+	 * @return Cert si s’ha realitzat el moviment. Fals altrament.
+	 * @throws IndexOutOfBoundsException si casella no és una casella vàlida.
+	 * @throws IllegalArgumentException  si fitxa no és de cap jugador (és EstatCasella.BUIDA)  o el moviment no és
+	 *                                   vàlid.
+	 */
+	@Override
+	public boolean mouFitxa( EstatCasella fitxa, int fila, int columna )
+			throws IndexOutOfBoundsException, IllegalArgumentException
+	{
+		boolean resultat = super.mouFitxa( fitxa, fila, columna );
+		if ( resultat )
+		{
+			codi_hash ^= codiHashMoviment( fitxa, fila, columna );
+		}
+
+		return resultat;
+	}
+
+	/**
+	 * Mou la fitxa a la casella indicada i actualitza els comptadors.
+	 *
+	 * @param fitxa   Fitxa que es vol col·locar.
 	 * @param casella Casella del tauler.
 	 * @return Cert si s’ha realitzat el moviment. Fals altrament.
 	 * @throws IndexOutOfBoundsException si casella no és una casella vàlida.
@@ -144,6 +174,28 @@ public class TaulerHex extends Tauler implements Serializable
 	/**
 	 * Treu la fitxa de la casella indicada i actualitza els comptadors.
 	 *
+	 * @param fila    Fila de la casella del tauler.
+	 * @param columna Columna de la casella del tauler.
+	 * @return Cert si s’ha realitzat el moviment. Fals altrament.
+	 * @throws IndexOutOfBoundsException si no és una casella vàlida.
+	 * @throws IllegalArgumentException  si la casella és buida (és EstatCasella.BUIDA).
+	 */
+	@Override
+	public boolean treuFitxa( int fila, int columna ) throws IndexOutOfBoundsException, IllegalArgumentException
+	{
+		int codi_antic = codiHashMoviment( caselles[fila][columna], fila, columna );
+		boolean resultat = super.treuFitxa( fila, columna );
+		if ( resultat )
+		{
+			codi_hash ^= codi_antic;
+		}
+
+		return resultat;
+	}
+
+	/**
+	 * Treu la fitxa de la casella indicada i actualitza els comptadors.
+	 *
 	 * @param casella Casella del tauler.
 	 * @return Cert si s’ha realitzat el moviment. Fals altrament.
 	 * @throws IndexOutOfBoundsException si no és una casella vàlida.
@@ -152,6 +204,52 @@ public class TaulerHex extends Tauler implements Serializable
 	public boolean treuFitxa( Casella casella ) throws IndexOutOfBoundsException, IllegalArgumentException
 	{
 		return treuFitxa( casella.getFila(), casella.getColumna() );
+	}
+
+	/**
+	 * Calcula el codi de hash associat a un moviment.
+	 *
+	 * @param fitxa   Fitxa que es mou
+	 * @param fila    Fila on es mou la fitxa
+	 * @param columna Columna on es mou la fitxa
+	 * @return El codi de hash d'un moviment.
+	 */
+	private int codiHashMoviment( EstatCasella fitxa, int fila, int columna )
+	{
+		int codi = columna ^ ( fila << 15 );
+		if ( fitxa == EstatCasella.JUGADOR_A )
+		{
+			codi ^= 1 << 30;
+		}
+		else
+		{
+			codi ^= 2 << 30;
+		}
+
+		return codi;
+	}
+
+	/**
+	 * Intercanvia la fitxa d'una casella amb la de l'altre jugador i actualitza els comptadors.
+	 *
+	 * @param fila    Fila de la casella del tauler.
+	 * @param columna Columna de la casella del tauler.
+	 * @return Cert si s'ha intercanviat la fitxa. Fals altrament.
+	 * @throws IndexOutOfBoundsException si no és una casella vàlida.
+	 * @throws IllegalArgumentException  si la casella és buida (és EstatCasella.BUIDA).
+	 */
+	@Override
+	public boolean intercanviaFitxa( int fila, int columna ) throws IndexOutOfBoundsException, IllegalArgumentException
+	{
+		int codi_antic = codiHashMoviment( caselles[fila][columna], fila, columna );
+		boolean resultat = super.intercanviaFitxa( fila, columna );
+
+		if ( resultat )
+		{
+			codi_hash ^= codi_antic ^ codiHashMoviment( caselles[fila][columna], fila, columna );
+		}
+
+		return resultat;
 	}
 
 	/**
@@ -218,6 +316,7 @@ public class TaulerHex extends Tauler implements Serializable
 	 *
 	 * @return El String amb la informació completa del tauler.
 	 */
+	@Override
 	public String toString()
 	{
 		String informacio = "[Mida: " + mida + ", num. fitxes jugador A: " + num_fitxes_a + ", " +
@@ -253,5 +352,16 @@ public class TaulerHex extends Tauler implements Serializable
 		informacio = informacio + "]";
 
 		return informacio;
+	}
+
+	/**
+	 * Consulta el codi de hash del tauler.
+	 *
+	 * @return El codi de hash del tauler.
+	 */
+	@Override
+	public int hashCode()
+	{
+		return codi_hash;
 	}
 }
