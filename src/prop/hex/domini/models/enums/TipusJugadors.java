@@ -17,7 +17,8 @@ package prop.hex.domini.models.enums;
 public enum TipusJugadors
 {
 	JUGADOR( 0, 5, 3, "IAHexFacilCtrl" ),
-	IA_FACIL( 1, 10, 2, "IAHexFacilCtrl", "Maquina facil" ),
+	IA_FACIL( 1, 10, 2, "IAHexQueenBeeCtrl", "Maquina facil" ),
+	IA_QUEENBEE( 1, 10, 2, "IAHexQueenBeeCtrl", "Maquina QueenBee" ),
 	IA_DIFICIL( 2, 15, 1, "IAHexDificilCtrl", "Maquina dificil" );
 
 	/**

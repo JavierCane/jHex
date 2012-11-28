@@ -17,17 +17,27 @@ public class IAQueenBeeDrvr
 	{
 		TaulerHex tauler = new TaulerHex(5);
 
-		tauler.mouFitxa( EstatCasella.JUGADOR_A, 1, 2);
+		tauler.mouFitxa( EstatCasella.JUGADOR_B, 3, 1);
+		tauler.mouFitxa( EstatCasella.JUGADOR_A, 2, 2);
+		tauler.mouFitxa( EstatCasella.JUGADOR_B, 3, 2);
+		tauler.mouFitxa( EstatCasella.JUGADOR_A, 1, 4);
+
+//		tauler.mouFitxa( EstatCasella.JUGADOR_A, 1, 2);
+//		tauler.mouFitxa( EstatCasella.JUGADOR_A, 1, 3);
 
 		System.out.println("AAAAAAAA");
 		TwoDistance distancia_A = new TwoDistance(tauler, EstatCasella.JUGADOR_A);
 		System.out.println();
 		distancia_A.shout();
+		System.out.println();
+		System.out.println();
 
 		System.out.println("BBBBBBBB");
 		TwoDistance distancia_B = new TwoDistance(tauler, EstatCasella.JUGADOR_B);
 		System.out.println();
 		distancia_B.shout();
+		System.out.println();
+		System.out.println();
 
 	}
 
