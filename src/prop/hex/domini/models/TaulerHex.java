@@ -4,8 +4,7 @@ import prop.cluster.domini.models.Tauler;
 import prop.cluster.domini.models.estats.EstatCasella;
 
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Representa un tauler del joc Hex. El jugador A ha de connectar els costats esquerre i dret (columnes 0 i mida - 1),
@@ -20,6 +19,11 @@ public class TaulerHex extends Tauler implements Serializable
 	private static final long serialVersionUID = 1451699733261138732L;
 
 	/**
+	 * Codis hash de cada moviment en concret. Estan indexats considerant el tauler com un array unidimensional.
+	 */
+	private ArrayList<HashMap<EstatCasella, Integer>> codis_hash_moviments;
+
+	/**
 	 * Codi de hash del tauler
 	 */
 	private int codi_hash;
@@ -32,6 +36,22 @@ public class TaulerHex extends Tauler implements Serializable
 	public TaulerHex( int mida )
 	{
 		super( mida );
+
+		codi_hash = 0;
+
+		Random generador = new Random();
+		codis_hash_moviments = new ArrayList<HashMap<EstatCasella, Integer>>( mida * mida );
+		for ( int i = 0; i < mida * mida; i++ )
+		{
+			codis_hash_moviments.add( new HashMap<EstatCasella, Integer>( 3 ) );
+
+			int codi_hash_inicial = generador.nextInt();
+			codi_hash ^= codi_hash_inicial;
+
+			codis_hash_moviments.get( i ).put( EstatCasella.BUIDA, codi_hash_inicial );
+			codis_hash_moviments.get( i ).put( EstatCasella.JUGADOR_A, generador.nextInt() );
+			codis_hash_moviments.get( i ).put( EstatCasella.JUGADOR_B, generador.nextInt() );
+		}
 	}
 
 	/**
@@ -149,7 +169,7 @@ public class TaulerHex extends Tauler implements Serializable
 		boolean resultat = super.mouFitxa( fitxa, fila, columna );
 		if ( resultat )
 		{
-			codi_hash ^= codiHashMoviment( fitxa, fila, columna );
+			codi_hash ^= getCodiHashMoviment( fitxa, fila, columna );
 		}
 
 		return resultat;
@@ -183,11 +203,11 @@ public class TaulerHex extends Tauler implements Serializable
 	@Override
 	public boolean treuFitxa( int fila, int columna ) throws IndexOutOfBoundsException, IllegalArgumentException
 	{
-		int codi_antic = codiHashMoviment( caselles[fila][columna], fila, columna );
+		int codi_antic = getCodiHashMoviment( caselles[fila][columna], fila, columna );
 		boolean resultat = super.treuFitxa( fila, columna );
 		if ( resultat )
 		{
-			codi_hash ^= codi_antic;
+			codi_hash ^= codi_antic ^ getCodiHashMoviment( EstatCasella.BUIDA, fila, columna );
 		}
 
 		return resultat;
@@ -214,19 +234,9 @@ public class TaulerHex extends Tauler implements Serializable
 	 * @param columna Columna on es mou la fitxa
 	 * @return El codi de hash d'un moviment.
 	 */
-	private int codiHashMoviment( EstatCasella fitxa, int fila, int columna )
+	public int getCodiHashMoviment( EstatCasella fitxa, int fila, int columna )
 	{
-		int codi = columna ^ ( fila << 15 );
-		if ( fitxa == EstatCasella.JUGADOR_A )
-		{
-			codi ^= 1 << 30;
-		}
-		else
-		{
-			codi ^= 2 << 30;
-		}
-
-		return codi;
+		return codis_hash_moviments.get( fila * mida + columna ).get( fitxa );
 	}
 
 	/**
@@ -241,12 +251,12 @@ public class TaulerHex extends Tauler implements Serializable
 	@Override
 	public boolean intercanviaFitxa( int fila, int columna ) throws IndexOutOfBoundsException, IllegalArgumentException
 	{
-		int codi_antic = codiHashMoviment( caselles[fila][columna], fila, columna );
+		int codi_antic = getCodiHashMoviment( caselles[fila][columna], fila, columna );
 		boolean resultat = super.intercanviaFitxa( fila, columna );
 
 		if ( resultat )
 		{
-			codi_hash ^= codi_antic ^ codiHashMoviment( caselles[fila][columna], fila, columna );
+			codi_hash ^= codi_antic ^ getCodiHashMoviment( caselles[fila][columna], fila, columna );
 		}
 
 		return resultat;

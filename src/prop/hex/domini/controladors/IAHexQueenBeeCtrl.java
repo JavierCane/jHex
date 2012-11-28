@@ -133,7 +133,8 @@ public class IAHexQueenBeeCtrl extends InteligenciaArtificial implements MouFitx
 	 */
 	public Casella mouFitxa( EstatCasella fitxa )
 	{
-		if(memoria == null) {
+		if ( memoria == null )
+		{
 			memoria = new HashMap<Integer, Integer>();
 		}
 		//Cridem al minimax.
