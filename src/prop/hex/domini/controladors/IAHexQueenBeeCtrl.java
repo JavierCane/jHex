@@ -12,6 +12,8 @@ import prop.hex.domini.models.Casella;
 import prop.hex.domini.models.PartidaHex;
 import prop.hex.domini.models.TaulerHex;
 
+import java.util.HashMap;
+
 /**
  * Created with IntelliJ IDEA.
  * User: marc
@@ -26,6 +28,8 @@ public class IAHexQueenBeeCtrl extends InteligenciaArtificial implements MouFitx
 	 * Partida on juga la instància de la intel·ligència artificial.
 	 */
 	private PartidaHex partida;
+
+	private HashMap<Integer, Integer> memoria;
 
 	/**
 	 * Profunditat màxima per al minimax.
@@ -48,42 +52,55 @@ public class IAHexQueenBeeCtrl extends InteligenciaArtificial implements MouFitx
 	public int funcioAvaluacio( Tauler tauler, EstatPartida estat_moviment, int profunditat,
 	                            EstatCasella fitxa_jugador )
 	{
-		if ( estat_moviment == EstatPartida.GUANYA_JUGADOR_A )
-		{
-			if ( fitxa_jugador == EstatCasella.JUGADOR_A )
-			{
-				return 1000000;
-			}
-			else
-			{
-				return -1000000;
-			}
-		}
-		else if ( estat_moviment == EstatPartida.GUANYA_JUGADOR_B )
-		{
-			if ( fitxa_jugador == EstatCasella.JUGADOR_B )
-			{
-				return 1000000;
-			}
-			else
-			{
-				return -1000000;
-			}
-		}
 
-		TwoDistance distancia_a = new TwoDistance( ( TaulerHex ) tauler, EstatCasella.JUGADOR_A );
-		TwoDistance distancia_b = new TwoDistance( ( TaulerHex ) tauler, EstatCasella.JUGADOR_B );
-		int potencial_a = distancia_a.getPotencial();
-		int potencial_b = distancia_b.getPotencial();
+		int retorn;
 
-		if ( fitxa_jugador == EstatCasella.JUGADOR_A )
+		if ( memoria.containsKey( ( ( TaulerHex ) tauler ).hashCode() ) )
 		{
-			return potencial_b - potencial_a;
+			retorn = memoria.get( ( ( TaulerHex ) tauler ).hashCode() );
 		}
 		else
 		{
-			return potencial_a - potencial_b;
+			if ( estat_moviment == EstatPartida.GUANYA_JUGADOR_A )
+			{
+				if ( fitxa_jugador == EstatCasella.JUGADOR_A )
+				{
+					return 1000000;
+				}
+				else
+				{
+					return -1000000;
+				}
+			}
+			else if ( estat_moviment == EstatPartida.GUANYA_JUGADOR_B )
+			{
+				if ( fitxa_jugador == EstatCasella.JUGADOR_B )
+				{
+					return 1000000;
+				}
+				else
+				{
+					return -1000000;
+				}
+			}
+
+			TwoDistance distancia_a = new TwoDistance( ( TaulerHex ) tauler, EstatCasella.JUGADOR_A );
+			TwoDistance distancia_b = new TwoDistance( ( TaulerHex ) tauler, EstatCasella.JUGADOR_B );
+			int potencial_a = distancia_a.getPotencial();
+			int potencial_b = distancia_b.getPotencial();
+
+			if ( fitxa_jugador == EstatCasella.JUGADOR_A )
+			{
+				retorn = potencial_b - potencial_a;
+			}
+			else
+			{
+				retorn = potencial_a - potencial_b;
+			}
+			memoria.put( ( ( TaulerHex ) tauler ).hashCode(), retorn );
 		}
+
+		return retorn;
 	}
 
 	/**
@@ -116,6 +133,9 @@ public class IAHexQueenBeeCtrl extends InteligenciaArtificial implements MouFitx
 	 */
 	public Casella mouFitxa( EstatCasella fitxa )
 	{
+		if(memoria == null) {
+			memoria = new HashMap<Integer, Integer>();
+		}
 		//Cridem al minimax.
 		int[] casella = super.minimax( partida, fitxa, profunditat_maxima );
 
