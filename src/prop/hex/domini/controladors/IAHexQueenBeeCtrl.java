@@ -4,9 +4,7 @@ import prop.cluster.domini.controladors.InteligenciaArtificial;
 import prop.cluster.domini.models.Tauler;
 import prop.cluster.domini.models.estats.EstatCasella;
 import prop.cluster.domini.models.estats.EstatPartida;
-import prop.hex.domini.controladors.IA.CamiMinim;
-import prop.hex.domini.controladors.IA.ConnexionsVirtuals;
-import prop.hex.domini.controladors.IA.ResistenciaTauler;
+import prop.hex.domini.controladors.IA.ElementTaulaTransposicions;
 import prop.hex.domini.controladors.IA.TwoDistance;
 import prop.hex.domini.models.Casella;
 import prop.hex.domini.models.PartidaHex;
@@ -29,12 +27,21 @@ public class IAHexQueenBeeCtrl extends InteligenciaArtificial implements MouFitx
 	 */
 	private PartidaHex partida;
 
-	private HashMap<Integer, Integer> memoria;
+	private HashMap<Integer, ElementTaulaTransposicions> memoria;
 
 	/**
 	 * Profunditat màxima per al minimax.
 	 */
 	private static int profunditat_maxima = 2;
+
+	IAHexQueenBeeCtrl()
+	{
+
+		if ( memoria == null )
+		{
+			memoria = new HashMap<Integer, ElementTaulaTransposicions>();
+		}
+	}
 
 	/**
 	 * Funció d'avaluació del MiniMax, si estem en un estat termianl on ja ha guanyat un jugador retornem 1000000 o
@@ -57,7 +64,7 @@ public class IAHexQueenBeeCtrl extends InteligenciaArtificial implements MouFitx
 
 		if ( memoria.containsKey( ( ( TaulerHex ) tauler ).hashCode() ) )
 		{
-			retorn = memoria.get( ( ( TaulerHex ) tauler ).hashCode() );
+			retorn = memoria.get( ( ( TaulerHex ) tauler ).hashCode() ).getPuntuacio( fitxa_jugador );
 		}
 		else
 		{
@@ -97,7 +104,7 @@ public class IAHexQueenBeeCtrl extends InteligenciaArtificial implements MouFitx
 			{
 				retorn = potencial_a - potencial_b;
 			}
-			memoria.put( ( ( TaulerHex ) tauler ).hashCode(), retorn );
+			memoria.put( ( ( TaulerHex ) tauler ).hashCode(), new ElementTaulaTransposicions( retorn, fitxa_jugador ) );
 		}
 
 		return retorn;
@@ -133,10 +140,6 @@ public class IAHexQueenBeeCtrl extends InteligenciaArtificial implements MouFitx
 	 */
 	public Casella mouFitxa( EstatCasella fitxa )
 	{
-		if ( memoria == null )
-		{
-			memoria = new HashMap<Integer, Integer>();
-		}
 		//Cridem al minimax.
 		int[] casella = super.minimax( partida, fitxa, profunditat_maxima );
 

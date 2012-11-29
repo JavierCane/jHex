@@ -80,7 +80,7 @@ public class TaulerHex extends Tauler implements Serializable
 	 */
 	public void generaCodiHashTaulerBuit()
 	{
-		Random generador = new Random();
+		Random generador = new Random( serialVersionUID );
 		codis_hash_moviments = new ArrayList<HashMap<EstatCasella, Integer>>( mida * mida );
 		for ( int i = 0; i < mida * mida; i++ )
 		{
