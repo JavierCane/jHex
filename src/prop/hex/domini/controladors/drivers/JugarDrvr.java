@@ -16,6 +16,70 @@ import java.io.IOException;
 public class JugarDrvr
 {
 
+	static UsuariHex usuari_A;
+	static UsuariHex usuari_B;
+	static TipusJugadors[] tipus_jugadors = TipusJugadors.values();
+
+	/**
+	 * Demana un jugador d'intel·ligència artificial a l'usuari
+	 *
+	 * @param missatge Missatge que es vol mostrar per a l'usuari
+	 * @return El tipus de jugador que escull l'usuari
+	 */
+	private static TipusJugadors demanaTipusJugadorIA( String missatge )
+	{
+		System.out.println( "Jugadors d'intel·ligència artificial:" );
+		for ( int i = 1; i < tipus_jugadors.length; i++ )
+		{
+			System.out.println( i + ".- " + tipus_jugadors[i].getNomUsuari() );
+		}
+
+		return tipus_jugadors[UtilsDrvr.llegeixEnter( missatge )];
+	}
+
+	/**
+	 * Obté un usuari amb les dades indicades pels paràmetres
+	 *
+	 * @param nom           Nom de l'usuari
+	 * @param tipus_jugador Tipus de
+	 * @return L'usuari
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @throws NullPointerException
+	 */
+	private static UsuariHex agafaUsuari( String nom, TipusJugadors tipus_jugador )
+			throws FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
+	{
+		UsuariHex usuari;
+		try
+		{
+			usuari = UsuariCtrl.creaUsuari( nom, "contrasenya", tipus_jugador, false );
+		}
+		catch ( Exception e )
+		{
+			usuari = UsuariCtrl.carregaUsuari( nom, "contrasenya", tipus_jugador );
+		}
+
+		return usuari;
+	}
+
+	/**
+	 * Crea la instància de la partida obre la seva visualització.
+	 */
+	private static void creaIVisualitzaPartida()
+	{
+		try
+		{
+			PartidaCtrl.getInstancia().inicialitzaPartida( 7, usuari_A, usuari_B, "Partida de Prova" );
+			instanciaFinestra();
+		}
+		catch ( Exception e )
+		{
+			System.out.println( "Excepció al inicialitzar la partida: " + e.getMessage() );
+		}
+	}
+
 	/**
 	 * Crea 2 usuaris, carrega una partida amb ells i instancia una finestra amb VisualitzadorPartida.
 	 * Permet jugar una partida IA vs Huma.
@@ -28,36 +92,11 @@ public class JugarDrvr
 	public static void IAVsHuma()
 			throws FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
 	{
+		usuari_A = agafaUsuari( "Maquina",
+				demanaTipusJugadorIA( "Escriu el número del tipus d'intel·ligència contrincant" ) );
+		usuari_B = agafaUsuari( "Huma", TipusJugadors.JUGADOR );
 
-		UsuariHex usuari_A;
-		UsuariHex usuari_B;
-		try
-		{
-			usuari_A = UsuariCtrl.creaUsuari( "Maquina facil", "contrasenya", TipusJugadors.IA_FACIL, false );
-		}
-		catch ( Exception e )
-		{
-			usuari_A = UsuariCtrl.carregaUsuari( "Maquina facil", "contrasenya", TipusJugadors.IA_FACIL );
-		}
-		try
-		{
-			usuari_B = UsuariCtrl.creaUsuari( "Huma", "contrasenya", TipusJugadors.JUGADOR, false );
-		}
-		catch ( Exception e )
-		{
-			usuari_B = UsuariCtrl.carregaUsuari( "Huma", "contrasenya", TipusJugadors.JUGADOR );
-		}
-
-		try
-		{
-			PartidaCtrl.getInstancia().inicialitzaPartida( 7, usuari_A, usuari_B, "Partida de Prova" );
-		}
-		catch ( Exception e )
-		{
-			System.out.println( "Excepció al inicialitzar la partida: " + e.getMessage() );
-		}
-
-		instanciaFinestra();
+		creaIVisualitzaPartida();
 	}
 
 	/**
@@ -73,35 +112,11 @@ public class JugarDrvr
 			throws FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
 	{
 
-		UsuariHex usuari_A;
-		UsuariHex usuari_B;
-		try
-		{
-			usuari_A = UsuariCtrl.creaUsuari( "Huma", "contrasenya", TipusJugadors.JUGADOR, false );
-		}
-		catch ( Exception e )
-		{
-			usuari_A = UsuariCtrl.carregaUsuari( "Huma", "contrasenya", TipusJugadors.JUGADOR );
-		}
-		try
-		{
-			usuari_B = UsuariCtrl.creaUsuari( "Maquina facil", "contrasenya", TipusJugadors.IA_FACIL, false );
-		}
-		catch ( Exception e )
-		{
-			usuari_B = UsuariCtrl.carregaUsuari( "Maquina facil", "contrasenya", TipusJugadors.IA_FACIL );
-		}
+		usuari_A = agafaUsuari( "Huma", TipusJugadors.JUGADOR );
+		usuari_B = agafaUsuari( "Maquina",
+				demanaTipusJugadorIA( "Escriu el número del tipus d'intel·ligència contrincant" ) );
 
-		try
-		{
-			PartidaCtrl.getInstancia().inicialitzaPartida( 7, usuari_A, usuari_B, "Partida de Prova" );
-		}
-		catch ( Exception e )
-		{
-			System.out.println( "Excepció al inicialitzar la partida: " + e.getMessage() );
-		}
-
-		instanciaFinestra();
+		creaIVisualitzaPartida();
 	}
 
 	/**
@@ -116,36 +131,10 @@ public class JugarDrvr
 	public static void HumaVsHuma()
 			throws FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
 	{
+		usuari_A = agafaUsuari( "Huma 1", TipusJugadors.JUGADOR );
+		usuari_B = agafaUsuari( "Huma 2", TipusJugadors.JUGADOR );
 
-		UsuariHex usuari_A;
-		UsuariHex usuari_B;
-		try
-		{
-			usuari_A = UsuariCtrl.creaUsuari( "Huma 1", "contrasenya", TipusJugadors.JUGADOR, false );
-		}
-		catch ( Exception e )
-		{
-			usuari_A = UsuariCtrl.carregaUsuari( "Huma 1", "contrasenya", TipusJugadors.JUGADOR );
-		}
-		try
-		{
-			usuari_B = UsuariCtrl.creaUsuari( "Huma 2", "contrasenya", TipusJugadors.JUGADOR, false );
-		}
-		catch ( Exception e )
-		{
-			usuari_B = UsuariCtrl.carregaUsuari( "Huma 2", "contrasenya", TipusJugadors.JUGADOR );
-		}
-
-		try
-		{
-			PartidaCtrl.getInstancia().inicialitzaPartida( 7, usuari_A, usuari_B, "Partida de Prova" );
-		}
-		catch ( Exception e )
-		{
-			System.out.println( "Error al inicialitzar la partida." );
-		}
-
-		instanciaFinestra();
+		creaIVisualitzaPartida();
 	}
 
 	/**
@@ -159,36 +148,12 @@ public class JugarDrvr
 	 */
 	public static void IAVsIA() throws FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
 	{
+		usuari_A = agafaUsuari( "Maquina",
+				demanaTipusJugadorIA( "Escriu el número del tipus d'intel·ligència principal" ) );
+		usuari_B = agafaUsuari( "Maquina",
+				demanaTipusJugadorIA( "Escriu el número del tipus d'intel·ligència contrincant" ) );
 
-		UsuariHex usuari_A;
-		UsuariHex usuari_B;
-		try
-		{
-			usuari_A = UsuariCtrl.creaUsuari( "Maquina facil 2", "contrasenya", TipusJugadors.IA_FACIL, false );
-		}
-		catch ( Exception e )
-		{
-			usuari_A = UsuariCtrl.carregaUsuari( "Maquina facil 2", "contrasenya", TipusJugadors.IA_FACIL );
-		}
-		try
-		{
-			usuari_B = UsuariCtrl.creaUsuari( "Maquina facil 1", "contrasenya", TipusJugadors.IA_FACIL, false );
-		}
-		catch ( Exception e )
-		{
-			usuari_B = UsuariCtrl.carregaUsuari( "Maquina facil 1", "contrasenya", TipusJugadors.IA_FACIL );
-		}
-
-		try
-		{
-			PartidaCtrl.getInstancia().inicialitzaPartida( 7, usuari_A, usuari_B, "Partida de Prova" );
-		}
-		catch ( Exception e )
-		{
-			System.out.println( "Excepció al inicialitzar la partida: " + e.getMessage() );
-		}
-
-		instanciaFinestra();
+		creaIVisualitzaPartida();
 	}
 
 	/**

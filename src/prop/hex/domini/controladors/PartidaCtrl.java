@@ -344,6 +344,7 @@ public class PartidaCtrl
 	 */
 	public Casella executaMovimentIA()
 	{
+		instant_darrer_moviment = new Date().getTime() / 1000L;
 		Casella resultat_moviment = movimentIA();
 		mouFitxa( resultat_moviment.getFila(), resultat_moviment.getColumna() );
 
