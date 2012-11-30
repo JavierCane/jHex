@@ -5,6 +5,7 @@ import prop.cluster.domini.models.estats.EstatPartida;
 import prop.hex.domini.controladors.PartidaCtrl;
 import prop.hex.domini.models.TaulerHex;
 import prop.hex.domini.models.UsuariHex;
+import prop.hex.domini.models.enums.CombinacionsColors;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,6 +13,7 @@ import java.awt.event.*;
 
 public class JPanelTauler extends JPanel
 {
+
 	/**
 	 * Tauler d'Hex a dibuixar.
 	 */
@@ -42,7 +44,7 @@ public class JPanelTauler extends JPanel
 	private int iniciX = 90;
 	private int iniciY = 80;
 
-	private JButton abandona = new JButton("Abandona la partida");
+	private JButton abandona = new JButton( "Abandona la partida" );
 
 	/**
 	 * Constructora, obté el taulell i els jugadors, construeix un poligon hexagonal i
@@ -94,7 +96,7 @@ public class JPanelTauler extends JPanel
 		int rx = iniciX;
 		int ry = iniciY;
 
-		if ( x < 720 && x > 500 && y < 570 && y > 450 )
+		if ( ( x < 170 && x > -50 && y < 480 && y > 360 ) || ( x < 800 && x > 580 && y < 270 && y > 150 ) )
 		{
 			mouIA();
 		}
@@ -125,8 +127,8 @@ public class JPanelTauler extends JPanel
 	 */
 	private void mouIA()
 	{
-		if ( PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.NO_FINALITZADA &&
-				!PartidaCtrl.getInstancia().esTornHuma() )
+		if ( PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.NO_FINALITZADA && !PartidaCtrl
+				.getInstancia().esTornHuma() )
 		{
 			PartidaCtrl.getInstancia().executaMovimentIA();
 		}
@@ -143,8 +145,8 @@ public class JPanelTauler extends JPanel
 	 */
 	private void clickHexagon( int i, int j )
 	{
-		if ( PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.NO_FINALITZADA &&
-				PartidaCtrl.getInstancia().esTornHuma() )
+		if ( PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.NO_FINALITZADA && PartidaCtrl
+				.getInstancia().esTornHuma() )
 		{
 			try
 			{
@@ -208,54 +210,81 @@ public class JPanelTauler extends JPanel
 		}
 
 		//Si és torn de la IA mostrem el botó Mou IA.
-		if ( !PartidaCtrl.getInstancia().esTornHuma() &&
-				PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.NO_FINALITZADA )
+		if ( !PartidaCtrl.getInstancia().esTornHuma() && PartidaCtrl.getInstancia().consultaEstatPartida() ==
+				EstatPartida.NO_FINALITZADA )
 		{
-			g.setColor( new Color( 0xAA0000 ) );
-			g.fillRoundRect( 500, 450, 120, 40, 8, 8 );
-			g.setColor( Color.black );
-			g.drawRoundRect( 500, 450, 120, 40, 8, 8 );
-			g.setColor( Color.white );
-			g.drawString( "Mou IA", 540, 475 );
+			if ( PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats() % 2 == 0 )
+			{
+				g.setColor( jugador_a.getCombinacionsColors().getColorCasella( EstatCasella.JUGADOR_A ) );
+				g.fillRoundRect( -50, 360, 120, 40, 8, 8 );
+				g.setColor( Color.black );
+				g.drawRoundRect( -50, 360, 120, 40, 8, 8 );
+				g.setColor( Color.white );
+				g.drawString( "Mou IA", -10, 385 );
+			}
+			else
+			{
+				g.setColor( jugador_a.getCombinacionsColors().getColorCasella( EstatCasella.JUGADOR_B ) );
+				g.fillRoundRect( 580, 150, 120, 40, 8, 8 );
+				g.setColor( Color.black );
+				g.drawRoundRect( 580, 150, 120, 40, 8, 8 );
+				g.setColor( Color.white );
+				g.drawString( "Mou IA", 620, 175 );
+			}
+
 		}
 
 		//Mostrem el torn actual.
 		g.setColor( Color.black );
 		g.drawString( "Torn: " + PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats(), -50, 210 );
-		g.drawString( "Torn: " + PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats(), 600, 0 );
+		g.drawString( "Torn: " + PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats(), 580, 0 );
 
 		//Si ha guanyat un jugador, mostrem el resultat.
 		if ( PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_A )
 		{
 			g.setColor( jugador_a.getCombinacionsColors().getColorCasella( EstatCasella.JUGADOR_A ) );
 			g.drawString( "Guanya " + jugador_a.getNom(), -50, 230 );
-			g.drawString( "Guanya " + jugador_a.getNom(), 600, 20 );
+			g.drawString( "Guanya " + jugador_a.getNom(), 580, 20 );
 		}
 		else if ( PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_B )
 		{
 			g.setColor( jugador_a.getCombinacionsColors().getColorCasella( EstatCasella.JUGADOR_B ) );
 			g.drawString( "Guanya " + jugador_b.getNom(), -50, 230 );
-			g.drawString( "Guanya " + jugador_b.getNom(), 600, 20 );
+			g.drawString( "Guanya " + jugador_b.getNom(), 580, 20 );
 		}
 
 		//Mostrem algunes dades pel jugador A
 		g.setColor( jugador_a.getCombinacionsColors().getColorCasella( EstatCasella.JUGADOR_A ) );
+		if ( PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats() % 2 == 0 )
+		{
+			g.drawString( "Té el torn", -50, 290 );
+		}
 		g.drawString( jugador_a.getNom(), -50, 310 );
 		g.drawString( "D'esquerra a dreta", -50, 330 );
 
-		g.drawString( "Temps: " +
-				PartidaCtrl.getInstancia().getPartidaActual().getTempsDeJoc( jugador_a.getIdentificadorUnic() ),
-				-50, 350 );
+		g.drawString( "Temps: " + PartidaCtrl.getInstancia().getPartidaActual().getTempsDeJoc( jugador_a
+				.getIdentificadorUnic() ), -50, 350 );
 
 		//I algunes dades pel jugador B
 		g.setColor( jugador_a.getCombinacionsColors().getColorCasella( EstatCasella.JUGADOR_B ) );
-		g.drawString( jugador_b.getNom(), 600, 100 );
-		g.drawString( "De dalt a baix", 600, 120 );
+		if ( PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats() % 2 == 1 )
+		{
+			g.drawString( "Té el torn", 580, 80 );
+		}
+		g.drawString( jugador_b.getNom(), 580, 100 );
+		g.drawString( "De dalt a baix", 580, 120 );
 
-		g.drawString( "Temps: " +
-				PartidaCtrl.getInstancia().getPartidaActual().getTempsDeJoc( jugador_b.getIdentificadorUnic() ),
-				600, 140 );
+		g.drawString( "Temps: " + PartidaCtrl.getInstancia().getPartidaActual().getTempsDeJoc( jugador_b
+				.getIdentificadorUnic() ), 580, 140 );
 
-		g.drawImage( ( new ImageIcon( "img/tauler.png" ) ).getImage(), -90, -80, getWidth(), getHeight(), null );
+		if ( jugador_a.getCombinacionsColors() == CombinacionsColors.VERMELL_BLAU )
+		{
+			g.drawImage( ( new ImageIcon( "img/tauler_vb.png" ) ).getImage(), -90, -80, getWidth(), getHeight(),
+					null );
+		}
+		else
+		{
+			g.drawImage( ( new ImageIcon( "img/tauler_nb.png" ) ).getImage(), -90, -80, getWidth(), getHeight(), null );
+		}
 	}
 }

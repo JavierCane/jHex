@@ -163,7 +163,14 @@ public class IniciaPartidaVista extends BaseVista implements ItemListener
 		}
 		else
 		{
-			jugador_A = TipusJugadors.IA_FACIL; //ESTO SE CAMBIA
+			if (tipus_maquina_1.getSelectedItem() == "Fàcil")
+			{
+				jugador_A = TipusJugadors.IA_FACIL;
+			}
+			else
+			{
+				jugador_A = TipusJugadors.IA_DIFICIL;
+			}
 		}
 		if ( tipus_jugador_2.getSelectedItem() == "Humà" )
 		{
@@ -171,7 +178,14 @@ public class IniciaPartidaVista extends BaseVista implements ItemListener
 		}
 		else
 		{
-			jugador_B = TipusJugadors.IA_FACIL;
+			if (tipus_maquina_2.getSelectedItem() == "Fàcil")
+			{
+				jugador_B = TipusJugadors.IA_FACIL;
+			}
+			else
+			{
+				jugador_B = TipusJugadors.IA_DIFICIL;
+			}
 		}
 		try
 		{

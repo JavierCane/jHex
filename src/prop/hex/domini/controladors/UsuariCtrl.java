@@ -197,7 +197,6 @@ public class UsuariCtrl
 				}
 				if ( !usuari.getContrasenya().equals( contrasenya ) )
 				{
-					System.out.println( "Aqui" );
 					throw new IllegalArgumentException( "[KO]\tLa contrasenya no és correcta." );
 				}
 			}
@@ -233,7 +232,6 @@ public class UsuariCtrl
 				}
 				if ( !usuari.getContrasenya().equals( contrasenya ) )
 				{
-					System.out.println( "Aqui" );
 					throw new IllegalArgumentException( "[KO]\tLa contrasenya no és correcta." );
 				}
 				usuari_jugador_B = usuari;
@@ -294,7 +292,6 @@ public class UsuariCtrl
 		return ( usuari_actual.setModeInici( mode_inici ) && usuari_actual.setCombinacionsColors( combinacio_colors
 		) );
 	}
-
 
 	public ModesInici obteModeInici()
 	{
