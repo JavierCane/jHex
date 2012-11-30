@@ -10,7 +10,7 @@ public class RanquingVista extends BaseVista
 	private JPanel panel_central = new JPanel();
 	private JPanel panel_botons = new JPanel();
 	private JButton torna = new JButton( "Torna al menú principal" );
-	private Object[][] dades_taula = new Object[][] { { "Test", 15, 10, 25 } };
+	private Object[][] dades_taula;
 	private Object[][] dades_hall_of_fame = new Object[][] {
 			{ "Test", "Test", "Test", "Test" }, {
 			"27 s", "10", "10", "10"
@@ -26,6 +26,7 @@ public class RanquingVista extends BaseVista
 	public RanquingVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
 	{
 		super( presentacio_ctrl, frame_principal );
+		dades_taula = presentacio_ctrl.obteLlistaRanquing();
 		titol = new JLabel( "Rànquing" );
 		inicialitzaVista();
 	}

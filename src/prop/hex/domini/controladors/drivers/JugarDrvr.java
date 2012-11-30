@@ -48,20 +48,20 @@ public class JugarDrvr
 	 * @throws ClassNotFoundException
 	 * @throws NullPointerException
 	 */
-	private static UsuariHex agafaUsuari( String nom, TipusJugadors tipus_jugador )
-			throws FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
+	private static UsuariHex agafaUsuari( String nom, TipusJugadors tipus_jugador ) throws FileNotFoundException,
+			IOException, ClassNotFoundException, NullPointerException
 	{
-		UsuariHex usuari;
 		try
 		{
-			usuari = UsuariCtrl.creaUsuari( nom, "contrasenya", tipus_jugador, false );
+			UsuariCtrl.getInstancia().creaUsuari( nom, "contrasenya", tipus_jugador );
+			UsuariCtrl.getInstancia().carregaUsuari( nom, "contrasenya", tipus_jugador );
 		}
 		catch ( Exception e )
 		{
-			usuari = UsuariCtrl.carregaUsuari( nom, "contrasenya", tipus_jugador );
+			UsuariCtrl.getInstancia().carregaUsuari( nom, "contrasenya", tipus_jugador );
 		}
 
-		return usuari;
+		return UsuariCtrl.getInstancia().getUsuariActual();
 	}
 
 	/**
@@ -89,11 +89,11 @@ public class JugarDrvr
 	 * @throws ClassNotFoundException Si hi ha un problema de classes quan es carrega l'usuari.
 	 * @throws NullPointerException   Es dona si el fitxer està buit.
 	 */
-	public static void IAVsHuma()
-			throws FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
+	public static void IAVsHuma() throws FileNotFoundException, IOException, ClassNotFoundException,
+			NullPointerException
 	{
-		usuari_A = agafaUsuari( "Maquina",
-				demanaTipusJugadorIA( "Escriu el número del tipus d'intel·ligència contrincant" ) );
+		TipusJugadors tipus_IA = demanaTipusJugadorIA( "Escriu el número del tipus d'intel·ligència contrincant" );
+		usuari_A = agafaUsuari( tipus_IA.getNomUsuari(), tipus_IA );
 		usuari_B = agafaUsuari( "Huma", TipusJugadors.JUGADOR );
 
 		creaIVisualitzaPartida();
@@ -108,13 +108,12 @@ public class JugarDrvr
 	 * @throws ClassNotFoundException Si hi ha un problema de classes quan es carrega l'usuari.
 	 * @throws NullPointerException   Es dona si el fitxer està buit.
 	 */
-	public static void HumaVsIA()
-			throws FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
+	public static void HumaVsIA() throws FileNotFoundException, IOException, ClassNotFoundException,
+			NullPointerException
 	{
-
+		TipusJugadors tipus_IA = demanaTipusJugadorIA( "Escriu el número del tipus d'intel·ligència contrincant" );
 		usuari_A = agafaUsuari( "Huma", TipusJugadors.JUGADOR );
-		usuari_B = agafaUsuari( "Maquina",
-				demanaTipusJugadorIA( "Escriu el número del tipus d'intel·ligència contrincant" ) );
+		usuari_B = agafaUsuari( tipus_IA.getNomUsuari(), tipus_IA );
 
 		creaIVisualitzaPartida();
 	}
@@ -128,8 +127,8 @@ public class JugarDrvr
 	 * @throws ClassNotFoundException Si hi ha un problema de classes quan es carrega l'usuari.
 	 * @throws NullPointerException   Es dona si el fitxer està buit.
 	 */
-	public static void HumaVsHuma()
-			throws FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
+	public static void HumaVsHuma() throws FileNotFoundException, IOException, ClassNotFoundException,
+			NullPointerException
 	{
 		usuari_A = agafaUsuari( "Huma 1", TipusJugadors.JUGADOR );
 		usuari_B = agafaUsuari( "Huma 2", TipusJugadors.JUGADOR );
@@ -146,12 +145,13 @@ public class JugarDrvr
 	 * @throws ClassNotFoundException Si hi ha un problema de classes quan es carrega l'usuari.
 	 * @throws NullPointerException   Es dona si el fitxer està buit.
 	 */
-	public static void IAVsIA() throws FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
+	public static void IAVsIA() throws FileNotFoundException, IOException, ClassNotFoundException,
+			NullPointerException
 	{
-		usuari_A = agafaUsuari( "Maquina",
-				demanaTipusJugadorIA( "Escriu el número del tipus d'intel·ligència principal" ) );
-		usuari_B = agafaUsuari( "Maquina",
-				demanaTipusJugadorIA( "Escriu el número del tipus d'intel·ligència contrincant" ) );
+		TipusJugadors tipus_IA_A = demanaTipusJugadorIA( "Escriu el número del tipus d'intel·ligència principal" );
+		TipusJugadors tipus_IA_B = demanaTipusJugadorIA( "Escriu el número del tipus d'intel·ligència contrincant" );
+		usuari_A = agafaUsuari( tipus_IA_A.getNomUsuari(), tipus_IA_A );
+		usuari_B = agafaUsuari( tipus_IA_B.getNomUsuari(), tipus_IA_B );
 
 		creaIVisualitzaPartida();
 	}

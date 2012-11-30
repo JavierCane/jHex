@@ -4,9 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Iterator;
 
 import prop.hex.domini.controladors.PartidaCtrl;
 import prop.hex.domini.controladors.UsuariCtrl;
+import prop.hex.domini.models.Ranquing;
 import prop.hex.domini.models.UsuariHex;
 import prop.hex.domini.models.enums.CombinacionsColors;
 import prop.hex.domini.models.enums.ModesInici;
@@ -16,8 +18,6 @@ public class PresentacioCtrl
 {
 
 	private JFrame frame_principal = new JFrame( "jHex" );
-	private UsuariHex jugador_principal;
-	private String nom_jugador_principal;
 	private boolean es_convidat = false;
 	private IniciaSessioVista inicia_sessio_vista = new IniciaSessioVista( this, frame_principal );
 	private RegistraVista registra_vista;
@@ -26,6 +26,7 @@ public class PresentacioCtrl
 	private IniciaPartidaVista inicia_partida_vista;
 	private RanquingVista ranquing_vista;
 	private CarregaPartidaVista carrega_partida_vista;
+	private PartidaVista partida_vista;
 
 	public void inicialitzaPresentacio()
 	{
@@ -37,58 +38,88 @@ public class PresentacioCtrl
 		inicia_sessio_vista.fesVisible();
 	}
 
-	public void setJugadorPrincipal( String nom, String contrasenya )
-			throws IllegalArgumentException, FileNotFoundException, IOException, ClassNotFoundException,
-			       NullPointerException
+	public void setJugadorPrincipal( String nom, String contrasenya ) throws IllegalArgumentException,
+			FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
 	{
-		jugador_principal = UsuariCtrl.carregaUsuari( nom, contrasenya, TipusJugadors.JUGADOR );
-		nom_jugador_principal = nom;
+		UsuariCtrl.getInstancia().carregaUsuari( nom, contrasenya, TipusJugadors.JUGADOR );
 	}
 
 	public void entraConvidat() throws IllegalArgumentException, IOException
 	{
-		jugador_principal = UsuariCtrl.creaUsuari( "Convidat", "", TipusJugadors.JUGADOR, false );
-		nom_jugador_principal = "Convidat";
+		UsuariCtrl.getInstancia().entraConvidat();
 		es_convidat = true;
 	}
 
 	public void registraUsuari( String nom, String contrasenya ) throws IllegalArgumentException, IOException
 	{
-		UsuariCtrl.creaUsuari( nom, contrasenya, TipusJugadors.JUGADOR, true );
+		UsuariCtrl.getInstancia().creaUsuari( nom, contrasenya, TipusJugadors.JUGADOR );
 	}
 
 	public void guardaJugadorPrincipal() throws IOException, FileNotFoundException
 	{
 		if ( !es_convidat )
 		{
-			UsuariCtrl.guardaUsuari( jugador_principal );
+			UsuariCtrl.getInstancia().guardaUsuari();
 		}
 	}
 
 	public void tancaSessio()
 	{
-		jugador_principal = null;
 		es_convidat = false;
 	}
 
 	public String obteNomJugadorPrincipal()
 	{
-		return nom_jugador_principal;
+		return UsuariCtrl.getInstancia().obteNom();
 	}
 
 	public ModesInici obteModeIniciJugadorPrincipal()
 	{
-		return UsuariCtrl.obteModeInici( jugador_principal );
+		return UsuariCtrl.getInstancia().obteModeInici();
 	}
 
 	public CombinacionsColors obteCombinacioDeColorsJugadorPrincipal()
 	{
-		return UsuariCtrl.obteCombinacioDeColors( jugador_principal );
+		return UsuariCtrl.getInstancia().obteCombinacioDeColors();
 	}
 
 	public void modificaPreferenciesJugadorPrincipal( ModesInici mode_inici, CombinacionsColors combinacio_colors )
 	{
-		UsuariCtrl.modificaPreferencies( jugador_principal, mode_inici, combinacio_colors );
+		UsuariCtrl.getInstancia().modificaPreferencies( mode_inici, combinacio_colors );
+	}
+
+	public void reiniciaEstadistiquesJugadorPrincipal()
+	{
+		UsuariCtrl.getInstancia().reiniciaEstadistiques();
+	}
+
+
+	public void configuraUsuarisPartida( TipusJugadors jugador_a, String nom, String contrasenya,
+	                                     TipusJugadors jugador_B ) throws IllegalArgumentException,
+			FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
+	{
+		UsuariCtrl.getInstancia().carregaJugadorsPartida( jugador_a, nom, contrasenya, jugador_B );
+	}
+
+	public void iniciaPartida( int mida_tauler, String nom_partida ) throws ClassNotFoundException,
+			InstantiationException, IllegalAccessException, IllegalArgumentException
+	{
+		PartidaCtrl.getInstancia().inicialitzaPartida( mida_tauler, UsuariCtrl.getInstancia().getUsuariJugadorA(),
+				UsuariCtrl.getInstancia().getUsuariJugadorB(), nom_partida );
+	}
+
+	public Object[][] obteLlistaRanquing()
+	{
+		Ranquing.getInstancia().toString();
+		Object[][] llista = new Object[Ranquing.getInstancia().getClasificacio().size()][4];
+		Iterator iterador = Ranquing.getInstancia().getClasificacio().listIterator();
+		int i = 0;
+		while ( iterador.hasNext() )
+		{
+			llista[i] = UsuariCtrl.getInstancia().obteEstadistiquesUsuari( ( UsuariHex ) iterador.next() );
+			++i;
+		}
+		return llista;
 	}
 
 	public void vistaIniciaSessioARegistra()
@@ -208,6 +239,26 @@ public class PresentacioCtrl
 			menu_principal_vista = new MenuPrincipalVista( this, frame_principal );
 		}
 		carrega_partida_vista = null;
+		menu_principal_vista.fesVisible();
+	}
+
+	public void vistaIniciaPartidaAPartida()
+	{
+		if ( partida_vista == null )
+		{
+			partida_vista = new PartidaVista( this, frame_principal );
+		}
+		inicia_partida_vista = null;
+		partida_vista.fesVisible();
+	}
+
+	public void vistaPartidaAMenuPrincipal()
+	{
+		if ( menu_principal_vista == null )
+		{
+			menu_principal_vista = new MenuPrincipalVista( this, frame_principal );
+		}
+		partida_vista = null;
 		menu_principal_vista.fesVisible();
 	}
 }

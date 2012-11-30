@@ -279,11 +279,11 @@ public class PartidaCtrl
 		EstatPartida estat_actual = consultaEstatPartida();
 		if ( estat_actual != EstatPartida.NO_FINALITZADA )
 		{
-			UsuariCtrl.actualitzaEstadistiques( usuaris_partida[0], estat_actual == EstatPartida.GUANYA_JUGADOR_A,
+			UsuariCtrl.getInstancia().actualitzaEstadistiques( usuaris_partida[0], estat_actual == EstatPartida.GUANYA_JUGADOR_A,
 					usuaris_partida[1].getTipusJugador(),
 					partida_actual.getTempsDeJoc( usuaris_partida[0].getIdentificadorUnic() ),
 					partida_actual.getTauler().getNumFitxesA() );
-			UsuariCtrl.actualitzaEstadistiques( usuaris_partida[1], estat_actual == EstatPartida.GUANYA_JUGADOR_B,
+			UsuariCtrl.getInstancia().actualitzaEstadistiques( usuaris_partida[1], estat_actual == EstatPartida.GUANYA_JUGADOR_B,
 					usuaris_partida[0].getTipusJugador(),
 					partida_actual.getTempsDeJoc( usuaris_partida[1].getIdentificadorUnic() ),
 					partida_actual.getTauler().getNumFitxesA() );

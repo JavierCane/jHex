@@ -21,6 +21,8 @@ public class PreferenciesVista extends BaseVista
 	private ButtonGroup grup_modes_inici = new ButtonGroup();
 	private JLabel colors = new JLabel( "Combinació de colors:" );
 	private JLabel modes_inici = new JLabel( "Mode d'inici de la partida:" );
+	private JButton reinicia_estadistiques = new JButton( "Reinicia les estadístiques" );
+	private JButton canvia_contrasenya = new JButton( "Canvia la contrasenya" );
 	private JButton accepta = new JButton( "Accepta" );
 	private JButton descarta = new JButton( "Descarta" );
 
@@ -43,7 +45,7 @@ public class PreferenciesVista extends BaseVista
 
 	private void inicialitzaPanelCentral()
 	{
-		panel_central.setLayout( new GridLayout( 2, 1, 10, 10 ) );
+		panel_central.setLayout( new GridLayout( 3, 1, 10, 10 ) );
 		panel_central.setOpaque( false );
 		JPanel panel_colors = new JPanelImatge( "img/caixa.png" );
 		panel_colors.setBorder( BorderFactory.createRaisedBevelBorder() );
@@ -83,11 +85,17 @@ public class PreferenciesVista extends BaseVista
 		panel_modes_inici.add( mode_inici_pastis );
 		panel_central.add( panel_colors );
 		panel_central.add( panel_modes_inici );
+		JPanel panel_botons_opcions = new JPanel();
+		panel_botons_opcions.add( reinicia_estadistiques );
+		panel_botons_opcions.add( canvia_contrasenya );
+		panel_botons_opcions.setOpaque( false );
+		panel_central.add( panel_botons_opcions );
 	}
 
 	private void inicialitzaPanelBotons()
 	{
 		panel_botons.setLayout( new FlowLayout() );
+
 		panel_botons.add( accepta );
 		panel_botons.add( descarta );
 		panel_botons.setOpaque( false );
@@ -125,6 +133,25 @@ public class PreferenciesVista extends BaseVista
 		panel_principal.add( titol_baix, propietats_panel );
 	}
 
+	public void accioBotoReiniciaEstadistiques( ActionEvent event )
+	{
+		VistaDialeg dialeg = new VistaDialeg();
+		String[] botons = {
+				"Sí", "No"
+		};
+		String valor_seleccionat = dialeg.setDialeg( "Reinicia les estadístiques", "Estàs segur que vols reiniciar " +
+				"les teves estadístiques? Aquesta acció no es podrà desfer.", botons, JOptionPane.WARNING_MESSAGE );
+		if ( valor_seleccionat == "Sí" )
+		{
+			presentacio_ctrl.reiniciaEstadistiquesJugadorPrincipal();
+		}
+	}
+
+	public void accioBotoCanviaContrasenya( ActionEvent event )
+	{
+
+	}
+
 	public void accioBotoAccepta( ActionEvent event )
 	{
 		try
@@ -150,7 +177,8 @@ public class PreferenciesVista extends BaseVista
 		{
 			VistaDialeg dialeg = new VistaDialeg();
 			String[] botons = { "Accepta" };
-			String valor_seleccionat = dialeg.setDialeg( "Error", "Error al guardar el fitxer d'usuari.", botons, JOptionPane.ERROR_MESSAGE );
+			String valor_seleccionat = dialeg.setDialeg( "Error", "Error al guardar el fitxer d'usuari.", botons,
+					JOptionPane.ERROR_MESSAGE );
 		}
 	}
 
@@ -161,6 +189,26 @@ public class PreferenciesVista extends BaseVista
 
 	protected void assignaListeners()
 	{
+		reinicia_estadistiques.addActionListener( new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed( ActionEvent event )
+			{
+				accioBotoReiniciaEstadistiques( event );
+			}
+		} );
+
+		canvia_contrasenya.addActionListener( new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed( ActionEvent event )
+			{
+				accioBotoCanviaContrasenya( event );
+			}
+		} );
+
 		accepta.addActionListener( new ActionListener()
 		{
 
