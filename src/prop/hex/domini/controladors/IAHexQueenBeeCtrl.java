@@ -32,7 +32,7 @@ public class IAHexQueenBeeCtrl extends InteligenciaArtificial implements MouFitx
 	/**
 	 * Profunditat màxima per al minimax.
 	 */
-	private static int profunditat_maxima = 2;
+	private static int profunditat_maxima = 3;
 
 	IAHexQueenBeeCtrl()
 	{
@@ -61,13 +61,13 @@ public class IAHexQueenBeeCtrl extends InteligenciaArtificial implements MouFitx
 	{
 
 		int retorn;
-
+/*
 		if ( memoria.containsKey( ( ( TaulerHex ) tauler ).hashCode() ) )
 		{
 			retorn = memoria.get( ( ( TaulerHex ) tauler ).hashCode() ).getPuntuacio( fitxa_jugador );
 		}
 		else
-		{
+		{*/
 			if ( estat_moviment == EstatPartida.GUANYA_JUGADOR_A )
 			{
 				if ( fitxa_jugador == EstatCasella.JUGADOR_A )
@@ -104,8 +104,9 @@ public class IAHexQueenBeeCtrl extends InteligenciaArtificial implements MouFitx
 			{
 				retorn = potencial_a - potencial_b;
 			}
-			memoria.put( ( ( TaulerHex ) tauler ).hashCode(), new ElementTaulaTransposicions( retorn, fitxa_jugador ) );
-		}
+	//		memoria.put( ( ( TaulerHex ) tauler ).hashCode(), new ElementTaulaTransposicions( retorn,
+	//		fitxa_jugador ) );
+	//	}
 
 		return retorn;
 	}

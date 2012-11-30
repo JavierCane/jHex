@@ -131,18 +131,20 @@ public class IAHexNegaMonteScout extends IAHexQueenBeeCtrl implements MouFitxaIA
 		int max_moviments =
 				Math.max( ( caselles_restants / ( ( int ) ( Math.sqrt( tauler.getMida() ) * 0.45 ) ) ) - profunditat,
 						7 - profunditat );
-		Set<Casella> explorades = new HashSet<Casella>( max_moviments );
 
 		beta_2 = beta;
 		boolean primer_fill = true;
 		FitesDePoda fita = FitesDePoda.FITA_SUPERIOR;
-		while ( explorades.size() < max_moviments && explorades.size() < caselles_restants )
+		boolean[][] explorades = new boolean[tauler.getMida()][tauler.getMida()];
+		int num_explorades = 0;
+		while ( num_explorades < max_moviments && num_explorades < caselles_restants )
 		{
 			Casella actual =
 					new Casella( generador.nextInt( tauler.getMida() ), generador.nextInt( tauler.getMida() ) );
-			if ( tauler.esMovimentValid( contrincant, actual ) && !explorades.contains( actual ) )
+			if ( tauler.esMovimentValid( contrincant, actual ) && !explorades[actual.getFila()][actual.getColumna()] )
 			{
-				explorades.add( actual );
+				explorades[actual.getFila()][actual.getColumna()] = true;
+				num_explorades++;
 				tauler.mouFitxa( contrincant, actual );
 				estat_iteracio = partida.comprovaEstatPartida( actual.getFila(), actual.getColumna() );
 				puntuacio = -negaMonteScout( actual, contrincant, jugador, -beta_2, -alfa, profunditat + 1,
