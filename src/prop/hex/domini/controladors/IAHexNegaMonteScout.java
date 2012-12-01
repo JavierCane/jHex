@@ -20,13 +20,15 @@ import java.util.Set;
  * Time: 10:19
  * To change this template use File | Settings | File Templates.
  */
-public class IAHexNegaMonteScout extends IAHexQueenBeeCtrl implements MouFitxaIA
+public class IAHexNegaMonteScout implements MouFitxaIA
 {
 
 	private PartidaHex partida;
 	private TaulerHex tauler;
-	private static int profunditat_maxima = 1;
+	private static int profunditat_maxima = 3;
 	private static HashMap<Integer, ElementTaulaTransposicions> taula_transposicio;
+	private Random generador;
+	private IAHexQueenBeeCtrl ia_avaluacio;
 
 	/**
 	 * Constructor per defecte. Genera la taula de transposició si no existeix.
@@ -37,6 +39,9 @@ public class IAHexNegaMonteScout extends IAHexQueenBeeCtrl implements MouFitxaIA
 		{
 			taula_transposicio = new HashMap<Integer, ElementTaulaTransposicions>();
 		}
+
+		ia_avaluacio = new IAHexQueenBeeCtrl();
+		generador = new Random();
 	}
 
 	/**
@@ -68,7 +73,7 @@ public class IAHexNegaMonteScout extends IAHexQueenBeeCtrl implements MouFitxaIA
 		if ( partida != null )
 		{
 			this.partida = partida;
-			return true;
+			return ia_avaluacio.setPartida( partida );
 		}
 		else
 		{
@@ -95,7 +100,7 @@ public class IAHexNegaMonteScout extends IAHexQueenBeeCtrl implements MouFitxaIA
 		int beta_2, puntuacio;
 		if ( profunditat == profunditat_maxima || estat_iteracio != EstatPartida.NO_FINALITZADA )
 		{
-			puntuacio = funcioAvaluacio( tauler, estat_iteracio, profunditat, jugador );
+			puntuacio = ia_avaluacio.funcioAvaluacio( tauler, estat_iteracio, profunditat, jugador );
 			taula_transposicio.put( tauler.hashCode(),
 					new ElementTaulaTransposicions( profunditat, FitesDePoda.VALOR_EXACTE, puntuacio, jugador ) );
 			return puntuacio;
@@ -125,12 +130,8 @@ public class IAHexNegaMonteScout extends IAHexQueenBeeCtrl implements MouFitxaIA
 			}
 		}
 
-		Random generador = new Random();
-
 		int caselles_restants = tauler.getMida() * tauler.getMida() - tauler.getTotalFitxes();
-		int max_moviments =
-				Math.max( ( caselles_restants / ( ( int ) ( Math.sqrt( tauler.getMida() ) * 0.45 ) ) ) - profunditat,
-						7 - profunditat );
+		int max_moviments = Math.max( caselles_restants / ( int ) ( Math.sqrt( tauler.getMida() ) * 0.85 ), 7 );
 
 		beta_2 = beta;
 		boolean primer_fill = true;
@@ -198,26 +199,33 @@ public class IAHexNegaMonteScout extends IAHexQueenBeeCtrl implements MouFitxaIA
 		int puntuacio_millor = Integer.MIN_VALUE + 1;
 		Casella millor_moviment = null;
 
-		for ( int fila = 0; fila < tauler.getMida(); fila++ )
+		int caselles_restants = tauler.getMida() * tauler.getMida() - tauler.getTotalFitxes();
+		if ( partida.getTornsJugats() < 2 )
 		{
-			for ( int columna = 0; columna < tauler.getMida(); columna++ )
+			caselles_restants--;
+		}
+		int max_moviments = Math.max( caselles_restants / ( int ) ( Math.sqrt( tauler.getMida() ) * 0.6 ), 7 );
+		boolean[][] explorades = new boolean[tauler.getMida()][tauler.getMida()];
+		int num_explorades = 0;
+		while ( num_explorades < max_moviments && num_explorades < caselles_restants )
+		{
+			Casella actual =
+					new Casella( generador.nextInt( tauler.getMida() ), generador.nextInt( tauler.getMida() ) );
+			if ( tauler.esMovimentValid( fitxa, actual ) && !explorades[actual.getFila()][actual.getColumna()] )
 			{
-				Casella actual = new Casella( fila, columna );
+				explorades[actual.getFila()][actual.getColumna()] = true;
+				num_explorades++;
+				tauler.mouFitxa( fitxa, actual );
+				int puntuacio_actual = negaMonteScout( actual, fitxa, fitxaContraria( fitxa ), Integer.MIN_VALUE + 1,
+						Integer.MAX_VALUE - 1, 1,
+						partida.comprovaEstatPartida( actual.getFila(), actual.getColumna() ) );
 
-				if ( tauler.esMovimentValid( fitxa, actual ) )
+				tauler.treuFitxa( actual );
+
+				if ( puntuacio_actual > puntuacio_millor )
 				{
-					tauler.mouFitxa( fitxa, actual );
-					int puntuacio_actual =
-							negaMonteScout( actual, fitxa, fitxaContraria( fitxa ), Integer.MIN_VALUE + 1,
-									Integer.MAX_VALUE - 1, 0, partida.comprovaEstatPartida( fila, columna ) );
-
-					tauler.treuFitxa( actual );
-
-					if ( puntuacio_actual > puntuacio_millor )
-					{
-						puntuacio_millor = puntuacio_actual;
-						millor_moviment = actual;
-					}
+					puntuacio_millor = puntuacio_actual;
+					millor_moviment = actual;
 				}
 			}
 		}
