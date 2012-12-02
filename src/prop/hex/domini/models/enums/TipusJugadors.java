@@ -20,7 +20,7 @@ public enum TipusJugadors
 	IA_FACIL( 1, 10, 2, "IAHexFacilCtrl", "Maquina facil" ),
 	IA_QUEENBEE( 1, 10, 2, "IAHexQueenBeeCtrl", "Maquina QueenBee" ),
 	IA_MCARLO( 1, 10, 2, "IAHexNegaMonteScout", "Maquina QueenScout" ),
-	IA_DIFICIL( 2, 15, 1, "IAHexDificilCtrl", "Maquina dificil" );
+	IA_DIFICIL( 2, 15, 1, "IAHexSexSearch", "Maquina dificil" );
 
 	/**
 	 * Nombre total de dificultats del joc.

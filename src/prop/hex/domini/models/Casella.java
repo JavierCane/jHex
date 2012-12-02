@@ -4,7 +4,7 @@ package prop.hex.domini.models;
  * Representa una casella del tauler, guarda al fila i columna i implementa equals per a poder usar
  * algunes estructures de dades i fer cerques.
  */
-public class Casella
+public class Casella implements Comparable<Casella>
 {
 
 	/**
@@ -102,6 +102,30 @@ public class Casella
 			return true;
 		}
 		return false;
+	}
+
+	public int compareTo( Casella casella )
+	{
+		if ( fila < casella.fila )
+		{
+			return -1;
+		}
+		else if ( fila > casella.fila )
+		{
+			return 1;
+		}
+		else if ( columna < casella.columna )
+		{
+			return -1;
+		}
+		else if ( columna > casella.columna )
+		{
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
 	}
 
 	/**

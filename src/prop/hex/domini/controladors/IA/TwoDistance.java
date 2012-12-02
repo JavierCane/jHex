@@ -4,7 +4,8 @@ import prop.cluster.domini.models.estats.EstatCasella;
 import prop.hex.domini.models.Casella;
 import prop.hex.domini.models.TaulerHex;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class TwoDistance
 {
@@ -128,7 +129,8 @@ public class TwoDistance
 		}
 	}
 
-	private void omple_cantonades_jugador_A() {
+	private void omple_cantonades_jugador_A()
+	{
 		for ( int fila = 0; fila < tauler.getMida(); fila++ )
 		{
 			if ( tauler.getEstatCasella( fila, 0 ) == EstatCasella.BUIDA )
@@ -165,7 +167,8 @@ public class TwoDistance
 		}
 	}
 
-	private void omple_cantonades_jugador_B() {
+	private void omple_cantonades_jugador_B()
+	{
 		for ( int columna = 0; columna < tauler.getMida(); columna++ )
 		{
 			if ( tauler.getEstatCasella( 0, columna ) == EstatCasella.BUIDA )
@@ -224,6 +227,24 @@ public class TwoDistance
 	public int[][] getPotencials()
 	{
 		return potencials;
+	}
+
+	public int getPotencialMinim( Casella casella )
+	{
+		int minim = Integer.MAX_VALUE;
+
+		for ( int fila = 0; fila < tauler.getMida(); fila++ )
+		{
+			for ( int columna = 0; columna < tauler.getMida(); columna++ )
+			{
+				if ( fila != casella.getFila() && columna != casella.getColumna() && potencials[fila][columna] < minim )
+				{
+					minim = potencials[fila][columna];
+				}
+			}
+		}
+
+		return minim;
 	}
 
 	public int getPotencial()

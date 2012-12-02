@@ -134,10 +134,10 @@ public class TaulerHex extends Tauler implements Serializable
 		}
 		else
 		{
-			if ( num_fitxes_a + num_fitxes_b == 0 && fila == mida / 2 && columna == mida / 2 )
+			/*if ( num_fitxes_a + num_fitxes_b == 0 && fila == mida / 2 && columna == mida / 2 )
 			{
 				return false;
-			}
+			}*/
 			return true;
 		}
 	}

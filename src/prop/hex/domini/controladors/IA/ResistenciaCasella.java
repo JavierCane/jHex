@@ -24,7 +24,7 @@ public class ResistenciaCasella implements Comparable<ResistenciaCasella>
 	 * @param casella
 	 * @param resistencia resistencia asociada a la casella.
 	 */
-	ResistenciaCasella( Casella casella, int resistencia )
+	public ResistenciaCasella( Casella casella, int resistencia )
 	{
 		this.casella = casella;
 		this.resistencia = resistencia;
@@ -35,7 +35,7 @@ public class ResistenciaCasella implements Comparable<ResistenciaCasella>
 	 *
 	 * @return resistencia asociada a la casella.
 	 */
-	int getResistencia()
+	public int getResistencia()
 	{
 		return resistencia;
 	}
@@ -45,7 +45,7 @@ public class ResistenciaCasella implements Comparable<ResistenciaCasella>
 	 *
 	 * @return Casella
 	 */
-	Casella getCasella()
+	public Casella getCasella()
 	{
 		return casella;
 	}
@@ -67,6 +67,9 @@ public class ResistenciaCasella implements Comparable<ResistenciaCasella>
 		{
 			return 1;
 		}
-		return 0;
+		else
+		{
+			return casella.compareTo( b.getCasella() );
+		}
 	}
 }
