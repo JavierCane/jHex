@@ -4,20 +4,18 @@ import prop.cluster.domini.models.estats.EstatCasella;
 import prop.hex.domini.models.Casella;
 import prop.hex.domini.models.TaulerHex;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.PriorityQueue;
-import java.util.List;
+import java.util.*;
 
 /**
  * REVISAR QUE PASA CON EL BORDE CONTRARIO Y LONGITUD DE BUSQUEDA
- *
+ * FALTA DESEMPATE!
  */
 public class TwoDistance
 {
 
 	private TaulerHex tauler;
 	private EstatCasella jugador;
+	private EstatCasella jugador_contrari;
 	private int[][] distancies_a, distancies_b, potencials;
 	private int infinit = 1000000;
 	private int potencial;
@@ -26,6 +24,14 @@ public class TwoDistance
 	{
 		this.tauler = tauler;
 		this.jugador = jugador;
+		if ( jugador == EstatCasella.JUGADOR_A )
+		{
+			jugador_contrari = EstatCasella.JUGADOR_B;
+		}
+		else
+		{
+			jugador_contrari = EstatCasella.JUGADOR_A;
+		}
 		distancies_a = new int[tauler.getMida()][tauler.getMida()];
 		distancies_b = new int[tauler.getMida()][tauler.getMida()];
 		potencials = new int[tauler.getMida()][tauler.getMida()];
@@ -129,7 +135,8 @@ public class TwoDistance
 			{
 				potencials[i][j] = distancies_a[i][j] + distancies_b[i][j];
 				//I assginem a potencial el nombre més petit de potencials.
-				if(potencials[i][j] < potencial) {
+				if ( potencials[i][j] < potencial )
+				{
 					potencial = potencials[i][j];
 				}
 			}
@@ -141,11 +148,11 @@ public class TwoDistance
 	//SILLA
 	private void followTheWhiteRabbit( int[][] distancia )
 	{
-
-		LinkedList<Casella> pendents = new LinkedList<Casella>();
+		ArrayList<Casella> pendents = new ArrayList<Casella>();
 		int contador = 0;
-		int maxim = tauler.getMida() * tauler.getMida() * tauler.getMida();// * tauler.getMida();
+		int maxim = tauler.getMida();// * tauler.getMida();
 
+		//Afegim a pendents totes les caselles buides del tauler no checkejades (no estan a la cantonada).
 		for ( int i = 0; i < tauler.getMida(); i++ )
 		{
 			for ( int j = 0; j < tauler.getMida(); j++ )
@@ -159,33 +166,49 @@ public class TwoDistance
 			}
 		}
 
-		while ( !pendents.isEmpty() && contador < maxim )
+		HashMap<Casella, ArrayList<Casella>> meta_veins = new HashMap<Casella, ArrayList<Casella>>();
+		for(Casella actual : pendents) {
+			ArrayList<Casella> veins = getVeins(actual);
+			meta_veins.put(actual, veins);
+		}
+
+		//Iterem pendents si el contador es menor a un maxim establert.
+		while ( contador < maxim )
 		{
-			Casella actual = pendents.poll();
+			boolean modificat = false;
 			contador++;
 
-			int min_u = infinit;
-			int min_dos = infinit;
-			ArrayList<Casella> veins = getVeins( actual );
-			for ( Casella vei : veins )
+			for ( Casella actual : pendents )
 			{
-				if ( distancia[vei.getFila()][vei.getColumna()] <= min_u )
+
+				int min_u = infinit;
+				int min_dos = infinit;
+				ArrayList<Casella> veins = meta_veins.get(actual);
+				for ( Casella vei : veins )
 				{
-					min_dos = min_u;
-					min_u = distancia[vei.getFila()][vei.getColumna()];
+					if ( distancia[vei.getFila()][vei.getColumna()] <= min_u )
+					{
+						min_dos = min_u;
+						min_u = distancia[vei.getFila()][vei.getColumna()];
+					}
+					else if ( distancia[vei.getFila()][vei.getColumna()] < min_dos )
+					{
+						min_dos = distancia[vei.getFila()][vei.getColumna()];
+					}
 				}
-				else if ( distancia[vei.getFila()][vei.getColumna()] < min_dos )
+
+				if ( min_dos < infinit )
 				{
-					min_dos = distancia[vei.getFila()][vei.getColumna()];
+					distancia[actual.getFila()][actual.getColumna()] = min_dos + 1;
+					modificat = true;
 				}
 			}
 
-			if ( min_dos < infinit )
+			//si en una iteració no es modifica cap valor, ja hem acabat.
+			if ( !modificat )
 			{
-				distancia[actual.getFila()][actual.getColumna()] = min_dos + 1;
+				break;
 			}
-
-			pendents.add( actual );
 		}
 	}
 
@@ -231,7 +254,8 @@ public class TwoDistance
 		return potencials;
 	}
 
-	public int getPotencial() {
+	public int getPotencial()
+	{
 		return potencial;
 	}
 

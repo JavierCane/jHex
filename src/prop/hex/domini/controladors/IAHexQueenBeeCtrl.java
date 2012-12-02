@@ -32,7 +32,7 @@ public class IAHexQueenBeeCtrl extends InteligenciaArtificial implements MouFitx
 	/**
 	 * Profunditat màxima per al minimax.
 	 */
-	private static int profunditat_maxima = 3;
+	private static int profunditat_maxima = 2;
 
 	IAHexQueenBeeCtrl()
 	{
