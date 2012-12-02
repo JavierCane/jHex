@@ -12,6 +12,8 @@ import java.lang.IllegalArgumentException;
  * <p/>
  * Té un control de les fitxes que té cada jugador al tauler i revisa que les fitxes s’afegeixen d’acord amb la
  * normativa del joc mitjançant un mètode redefinible.
+ *
+ * @author Isaac Sánchez Barrera (Grup 7.3, Hex)
  */
 public abstract class Tauler implements Serializable
 {

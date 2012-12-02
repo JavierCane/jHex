@@ -7,8 +7,9 @@ import java.io.Serializable;
  * Conté les dades principals del perfil i les seves
  * estadístiques en els diferents nivells de dificultat.
  * Cada usuari té un nom com a identificador.
+ *
+ * @author Àlex Moré Guardiola (Grup 7.1, Othello)
  */
-
 public class Usuari implements Serializable
 {
 
@@ -29,18 +30,20 @@ public class Usuari implements Serializable
 	protected int[] num_victories;
 
 	/**
-	 * Array on cada posició hi ha el número de empats del usuari contra diferents tipus de contrincants.
+	 * Array on cada posició hi ha el número de empats del usuari
+	 * contra diferents tipus de contrincants.
 	 */
 	protected int[] num_empats;
 
 	/**
-	 * Array on cada posició hi ha el número de derrotes del usuari contra diferents tipus de contrincants.
+	 * Array on cada posició hi ha el número de derrotes del usuari
+	 * contra diferents tipus de contrincants.
 	 */
 	protected int[] num_derrotes;
 
 	/**
-	 * Constructora d'un usuari. Crea un usuari amb el nom i contrasenya desitjats. Els altres atributs
-	 * s’inicialitzen a 0.
+	 * Constructora d'un usuari. Crea un usuari amb el nom i contrasenya desitjats.
+	 * Els altres atributs s’inicialitzen a 0.
 	 *
 	 * @param nom         Nom de l'usuari.
 	 * @param contrasenya Contrasenya de l'usuari.
@@ -67,6 +70,7 @@ public class Usuari implements Serializable
 	 * Mètode per definir el nom d'usuari.
 	 *
 	 * @param nom Nom de l'usuari que se li vol assignar.
+	 * @return Retorna true sempre, ja que s'ha efectuat l'assignació del nom.
 	 */
 	public boolean setNom( String nom )
 	{
@@ -78,6 +82,7 @@ public class Usuari implements Serializable
 	 * Mètode der definir una contrasenya.
 	 *
 	 * @param contrasenya Contrasenya de l'usuari que se li vol assignar.
+	 * @return Retorna true sempre, ja que s'ha efectuat l'assignació de la contrasenya.
 	 */
 	public boolean setContrasenya( String contrasenya )
 	{
@@ -148,7 +153,8 @@ public class Usuari implements Serializable
 	}
 
 	/**
-	 * Mètode per incrementar els empats d'un usuari contra un contrincant determinat.
+	 * Mètode per incrementar els empats d'un usuari
+	 * contra un contrincant determinat.
 	 *
 	 * @param contrincant Contrincant contra qui ha empatat l’usuari.
 	 * @return Retorna true sempre.
@@ -160,7 +166,8 @@ public class Usuari implements Serializable
 	}
 
 	/**
-	 * Mètode per incrementar les derrotes d'un usuari contra un contrincant determinat.
+	 * Mètode per incrementar les derrotes d'un usuari
+	 * contra un contrincant determinat.
 	 *
 	 * @param contrincant Contrincant contra qui ha perdut l’usuari.
 	 * @return Retorna true sempre.
@@ -179,16 +186,20 @@ public class Usuari implements Serializable
 	@Override
 	public String toString()
 	{
-		return "[Nom: " + nom + ", contrasenya: " + contrasenya + ", num victories: [" +
-		       obteStringDeVector( num_victories ) + "], num empats: [" + obteStringDeVector( num_empats ) + "], " +
-		       "num derrotes: [" + obteStringDeVector( num_derrotes ) + "]]";
+		return "[Nom: " + nom + ", contrasenya: " + contrasenya +
+		       ", num victories: [" + obteStringDeVector( num_victories ) +
+		       "], num empats: [" + obteStringDeVector( num_empats ) +
+		       "], num derrotes: [" + obteStringDeVector( num_derrotes ) + "]]";
 	}
 
 	/**
-	 * String amb les estadadístiques d'un usuari en victòries, empats o derrotes segons convingui.
+	 * String amb les estadadístiques d'un usuari
+	 * en victòries, empats o derrotes segons convingui.
 	 *
-	 * @param vector_origen Vector amb el número de victòries, empats o derrotes segons el paràmetre que es passi.
-	 * @return Retorna les xifres de victòries, empats o derrotes en forma d'enumeració. [x,y,z,...]
+	 * @param vector_origen Vector amb el número de victòries,
+	 *                      empats o derrotes segons el paràmetre que es passi.
+	 * @return Retorna les xifres de victòries,
+	 *         empats o derrotes en forma d'enumeració. [x,y,z,...]
 	 */
 	private String obteStringDeVector( int[] vector_origen )
 	{
@@ -201,7 +212,8 @@ public class Usuari implements Serializable
 	}
 
 	/**
-	 * Mètode que reinicia les estadístiques de victòries, empats i derrotes d'un usuari
+	 * Mètode que reinicia les estadístiques de victòries,
+	 * empats i derrotes d'un usuari
 	 */
 	public void reiniciaEstadistiques()
 	{
