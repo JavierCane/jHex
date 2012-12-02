@@ -104,6 +104,7 @@ public final class Ranquing implements Serializable
 	 *
 	 * @return Un String amb tots els atribus del rànquing.
 	 */
+	@Override
 	public String toString()
 	{
 		return "[Clasificació: " + clasificacio.toString() + ", " +

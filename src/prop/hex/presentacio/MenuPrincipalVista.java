@@ -2,13 +2,14 @@ package prop.hex.presentacio;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class MenuPrincipalVista extends BaseVista
+public final class MenuPrincipalVista extends BaseVista
 {
 
-	private JPanel panel_botons = new JPanel();
-	private JPanel panel_tanca_sessio = new JPanel();
+	private JPanel panell_botons = new JPanel();
+	private JPanel panell_tanca_sessio = new JPanel();
 	private JLabel nom_jugador_principal;
 	private JButton tanca_sessio = new JButton( "Tanca la sessió" );
 	private JButton juga = new JButton( "Juga una partida" );
@@ -19,42 +20,17 @@ public class MenuPrincipalVista extends BaseVista
 	public MenuPrincipalVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
 	{
 		super( presentacio_ctrl, frame_principal );
+
 		titol = new JLabel( "Menú principal" );
+
 		inicialitzaVista();
 	}
 
-	protected void inicialitzaVista()
+	@Override
+	protected void inicialitzaPanellPrincipal()
 	{
-		inicialitzaPanelPrincipal();
-		inicialitzaPanelTitol();
-		inicialitzaPanelBotons();
-		inicialitzaPanelTancaSessio();
-		inicialitzaPanelSortida();
-		assignaListeners();
-	}
-
-	private void inicialitzaPanelBotons()
-	{
-		panel_botons.setLayout( new GridLayout( 4, 1, 20, 20 ) );
-		panel_botons.add( juga );
-		panel_botons.add( carrega );
-		panel_botons.add( preferencies );
-		panel_botons.add( ranquing );
-		panel_botons.setOpaque( false );
-	}
-
-	private void inicialitzaPanelTancaSessio()
-	{
-		nom_jugador_principal = new JLabel( "Has iniciat sessió com a " + presentacio_ctrl.obteNomJugadorPrincipal() );
-		panel_tanca_sessio.add( nom_jugador_principal );
-		panel_tanca_sessio.add( tanca_sessio );
-		panel_tanca_sessio.setOpaque( false );
-	}
-
-	protected void inicialitzaPanelPrincipal()
-	{
-		panel_principal.setLayout( new GridBagLayout() );
-		panel_principal.setBorder( BorderFactory.createEmptyBorder( 10, 10, 10, 10 ) );
+		panell_principal.setLayout( new GridBagLayout() );
+		panell_principal.setBorder( BorderFactory.createEmptyBorder( 10, 10, 10, 10 ) );
 		GridBagConstraints propietats_panel = new GridBagConstraints();
 		propietats_panel.fill = GridBagConstraints.HORIZONTAL;
 		propietats_panel.anchor = GridBagConstraints.CENTER;
@@ -62,26 +38,46 @@ public class MenuPrincipalVista extends BaseVista
 		propietats_panel.gridy = 0;
 		propietats_panel.weightx = 0.5;
 		propietats_panel.weighty = 0.2;
-		panel_principal.add( panel_titol, propietats_panel );
+		panell_principal.add( panell_titol, propietats_panel );
 		propietats_panel.fill = GridBagConstraints.BOTH;
 		propietats_panel.gridx = 1;
 		propietats_panel.gridy = 1;
 		propietats_panel.weighty = 0.6;
-		panel_principal.add( panel_botons, propietats_panel );
+		panell_principal.add( panell_botons, propietats_panel );
 		propietats_panel.fill = GridBagConstraints.NONE;
 		propietats_panel.gridy = 2;
 		propietats_panel.weighty = 0.2;
-		panel_principal.add( panel_tanca_sessio, propietats_panel );
+		panell_principal.add( panell_tanca_sessio, propietats_panel );
 		propietats_panel.gridx = 2;
 		propietats_panel.gridy = 2;
 		propietats_panel.weightx = 0.25;
 		propietats_panel.anchor = GridBagConstraints.SOUTHEAST;
-		panel_principal.add( panel_sortida, propietats_panel );
+		panell_principal.add( panell_sortida, propietats_panel );
 		propietats_panel.gridx = 0;
 		propietats_panel.gridy = 2;
 		propietats_panel.weightx = 0.25;
 		propietats_panel.anchor = GridBagConstraints.SOUTHWEST;
-		panel_principal.add( titol_baix, propietats_panel );
+		panell_principal.add( titol_baix, propietats_panel );
+	}
+
+	@Override
+	protected void inicialitzaPanellCentral()
+	{
+		panell_botons.setLayout( new GridLayout( 4, 1, 20, 20 ) );
+		panell_botons.add( juga );
+		panell_botons.add( carrega );
+		panell_botons.add( preferencies );
+		panell_botons.add( ranquing );
+		panell_botons.setOpaque( false );
+	}
+
+	@Override
+	protected void inicialitzaPanellPeu()
+	{
+		nom_jugador_principal = new JLabel( "Has iniciat sessió com a " + presentacio_ctrl.obteNomJugadorPrincipal() );
+		panell_tanca_sessio.add( nom_jugador_principal );
+		panell_tanca_sessio.add( tanca_sessio );
+		panell_tanca_sessio.setOpaque( false );
 	}
 
 	public void accioBotoJuga( ActionEvent event )
@@ -110,8 +106,11 @@ public class MenuPrincipalVista extends BaseVista
 		presentacio_ctrl.vistaMenuPrincipalAIniciaSessio();
 	}
 
+	@Override
 	protected void assignaListeners()
 	{
+		super.assignaListeners();
+
 		juga.addActionListener( new ActionListener()
 		{
 
@@ -159,16 +158,6 @@ public class MenuPrincipalVista extends BaseVista
 			public void actionPerformed( ActionEvent event )
 			{
 				accioBotoTancaSessio( event );
-			}
-		} );
-
-		surt.addActionListener( new ActionListener()
-		{
-
-			@Override
-			public void actionPerformed( ActionEvent event )
-			{
-				accioBotoSurt( event );
 			}
 		} );
 	}

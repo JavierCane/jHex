@@ -133,6 +133,7 @@ public class Casella implements Comparable<Casella>
 	 *
 	 * @return El String amb la informació completa de la casella.
 	 */
+	@Override
 	public String toString()
 	{
 		return "[Fila: " + fila + ", columna: " + columna + " ]";

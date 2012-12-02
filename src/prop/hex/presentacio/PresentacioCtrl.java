@@ -1,11 +1,5 @@
 package prop.hex.presentacio;
 
-import javax.swing.*;
-import java.awt.*;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Iterator;
-
 import prop.hex.domini.controladors.PartidaCtrl;
 import prop.hex.domini.controladors.UsuariCtrl;
 import prop.hex.domini.models.Ranquing;
@@ -14,10 +8,16 @@ import prop.hex.domini.models.enums.CombinacionsColors;
 import prop.hex.domini.models.enums.ModesInici;
 import prop.hex.domini.models.enums.TipusJugadors;
 
-public class PresentacioCtrl
+import javax.swing.*;
+import java.awt.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Iterator;
+
+public final class PresentacioCtrl
 {
 
-	private JFrame frame_principal = new JFrame( "jHex" );
+	private JFrame frame_principal = new JFrame( "jHex - Joc de Taula Hex" );
 	private boolean es_convidat = false;
 	private IniciaSessioVista inicia_sessio_vista = new IniciaSessioVista( this, frame_principal );
 	private RegistraVista registra_vista;
@@ -38,8 +38,9 @@ public class PresentacioCtrl
 		inicia_sessio_vista.fesVisible();
 	}
 
-	public void setJugadorPrincipal( String nom, String contrasenya ) throws IllegalArgumentException,
-			FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
+	public void setJugadorPrincipal( String nom, String contrasenya )
+			throws IllegalArgumentException, FileNotFoundException, IOException, ClassNotFoundException,
+			       NullPointerException
 	{
 		UsuariCtrl.getInstancia().carregaUsuari( nom, contrasenya, TipusJugadors.JUGADOR );
 	}
@@ -93,16 +94,16 @@ public class PresentacioCtrl
 		UsuariCtrl.getInstancia().reiniciaEstadistiques();
 	}
 
-
 	public void configuraUsuarisPartida( TipusJugadors jugador_a, String nom, String contrasenya,
-	                                     TipusJugadors jugador_B ) throws IllegalArgumentException,
-			FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
+	                                     TipusJugadors jugador_b )
+			throws IllegalArgumentException, FileNotFoundException, IOException, ClassNotFoundException,
+			       NullPointerException
 	{
-		UsuariCtrl.getInstancia().carregaJugadorsPartida( jugador_a, nom, contrasenya, jugador_B );
+		UsuariCtrl.getInstancia().carregaJugadorsPartida( jugador_a, nom, contrasenya, jugador_b );
 	}
 
-	public void iniciaPartida( int mida_tauler, String nom_partida ) throws ClassNotFoundException,
-			InstantiationException, IllegalAccessException, IllegalArgumentException
+	public void iniciaPartida( int mida_tauler, String nom_partida )
+			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException
 	{
 		PartidaCtrl.getInstancia().inicialitzaPartida( mida_tauler, UsuariCtrl.getInstancia().getUsuariJugadorA(),
 				UsuariCtrl.getInstancia().getUsuariJugadorB(), nom_partida );
@@ -148,6 +149,7 @@ public class PresentacioCtrl
 		{
 			menu_principal_vista = new MenuPrincipalVista( this, frame_principal );
 		}
+
 		inicia_sessio_vista = null;
 		menu_principal_vista.fesVisible();
 	}

@@ -2,56 +2,60 @@ package prop.hex.presentacio;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class CarregaPartidaVista extends BaseVista
+public final class CarregaPartidaVista extends BaseVista
 {
 
-	private JPanel panel_central = new JPanel();
-	private JPanel panel_botons = new JPanel();
-	private JButton carrega = new JButton( "Carrega" );
-	private JButton descarta = new JButton( "Descarta" );
-	private Object[][] dades_taula = new Object[][] { { "Partida de prova", "Test", "25/11/2012 20:45" } };
-	private JTable taula_partides = new JTable( dades_taula, new String[] {
-			"Nom de la partida", "Oponent", "Data i hora"
+	private static JPanel panell_central = new JPanel();
+	private static JPanel panell_botons = new JPanel();
+	private static JButton carrega = new JButton( "Carrega" );
+	private static JButton descarta = new JButton( "Descarta" );
+	private static Object[][] dades_taula = new Object[][] {
+			{
+					"Partida de prova",
+					"Test",
+					"25/11/2012 20:45"
+			}
+	};
+	private static JTable taula_partides = new JTable( dades_taula, new String[] {
+			"Nom de la partida",
+			"Oponent",
+			"Data i hora"
 	} );
 
 	public CarregaPartidaVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
 	{
 		super( presentacio_ctrl, frame_principal );
+
 		titol = new JLabel( "Carrega una partida" );
+
 		inicialitzaVista();
 	}
 
-	protected void inicialitzaVista()
+	@Override
+	protected void inicialitzaPanellCentral()
 	{
-		inicialitzaPanelPrincipal();
-		inicialitzaPanelTitol();
-		inicialitzaPanelCentral();
-		inicialitzaPanelBotons();
-		inicialitzaPanelSortida();
-		assignaListeners();
-	}
-
-	private void inicialitzaPanelCentral()
-	{
-		panel_central.add( new JScrollPane( taula_partides ) );
-		panel_central.setOpaque( false );
+		panell_central.add( new JScrollPane( taula_partides ) );
+		panell_central.setOpaque( false );
 		taula_partides.setFillsViewportHeight( true );
 		taula_partides.setEnabled( false );
 	}
 
-	private void inicialitzaPanelBotons()
+	@Override
+	protected void inicialitzaPanellPeu()
 	{
-		panel_botons.add( carrega );
-		panel_botons.add( descarta );
-		panel_botons.setOpaque( false );
+		panell_botons.add( carrega );
+		panell_botons.add( descarta );
+		panell_botons.setOpaque( false );
 	}
 
-	protected void inicialitzaPanelPrincipal()
+	@Override
+	protected void inicialitzaPanellPrincipal()
 	{
-		panel_principal.setLayout( new GridBagLayout() );
-		panel_principal.setBorder( BorderFactory.createEmptyBorder( 10, 10, 10, 10 ) );
+		panell_principal.setLayout( new GridBagLayout() );
+		panell_principal.setBorder( BorderFactory.createEmptyBorder( 10, 10, 10, 10 ) );
 		GridBagConstraints propietats_panel = new GridBagConstraints();
 		propietats_panel.fill = GridBagConstraints.HORIZONTAL;
 		propietats_panel.anchor = GridBagConstraints.CENTER;
@@ -59,30 +63,29 @@ public class CarregaPartidaVista extends BaseVista
 		propietats_panel.gridy = 0;
 		propietats_panel.weightx = 0.5;
 		propietats_panel.weighty = 0.2;
-		panel_principal.add( panel_titol, propietats_panel );
+		panell_principal.add( panell_titol, propietats_panel );
 		propietats_panel.gridx = 1;
 		propietats_panel.gridy = 1;
 		propietats_panel.weighty = 0.6;
-		panel_principal.add( panel_central, propietats_panel );
+		panell_principal.add( panell_central, propietats_panel );
 		propietats_panel.gridy = 2;
 		propietats_panel.weighty = 0.2;
-		panel_principal.add( panel_botons, propietats_panel );
+		panell_principal.add( panell_botons, propietats_panel );
 		propietats_panel.fill = GridBagConstraints.NONE;
 		propietats_panel.gridx = 2;
 		propietats_panel.gridy = 2;
 		propietats_panel.weightx = 0.25;
 		propietats_panel.anchor = GridBagConstraints.SOUTHEAST;
-		panel_principal.add( panel_sortida, propietats_panel );
+		panell_principal.add( panell_sortida, propietats_panel );
 		propietats_panel.gridx = 0;
 		propietats_panel.gridy = 2;
 		propietats_panel.weightx = 0.25;
 		propietats_panel.anchor = GridBagConstraints.SOUTHWEST;
-		panel_principal.add( titol_baix, propietats_panel );
+		panell_principal.add( titol_baix, propietats_panel );
 	}
 
 	public void accioBotoCarrega( ActionEvent event )
 	{
-
 	}
 
 	public void accioBotoDescarta( ActionEvent event )
@@ -90,8 +93,11 @@ public class CarregaPartidaVista extends BaseVista
 		presentacio_ctrl.vistaCarregaPartidaAMenuPrincipal();
 	}
 
+	@Override
 	protected void assignaListeners()
 	{
+		super.assignaListeners();
+
 		carrega.addActionListener( new ActionListener()
 		{
 
@@ -111,16 +117,5 @@ public class CarregaPartidaVista extends BaseVista
 				accioBotoDescarta( event );
 			}
 		} );
-
-		surt.addActionListener( new ActionListener()
-		{
-
-			@Override
-			public void actionPerformed( ActionEvent event )
-			{
-				accioBotoSurt( event );
-			}
-		} );
 	}
-
 }

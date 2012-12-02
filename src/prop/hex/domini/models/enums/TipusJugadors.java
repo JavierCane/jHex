@@ -1,5 +1,7 @@
 package prop.hex.domini.models.enums;
 
+import java.util.*;
+
 /**
  * Enum amb les distintes dificultats del joc.
  * La gràcia d'aquest enum es que es dinàmic i els paràmetres de cada una de les dificultats només figuren aquí,
@@ -16,16 +18,23 @@ package prop.hex.domini.models.enums;
  */
 public enum TipusJugadors
 {
-	JUGADOR( 0, 5, 3, "IAHexFacilCtrl" ),
-	IA_FACIL( 1, 10, 2, "IAHexFacilCtrl", "Maquina facil" ),
-	IA_QUEENBEE( 1, 10, 2, "IAHexQueenBeeCtrl", "Maquina QueenBee" ),
-	IA_MCARLO( 1, 10, 2, "IAHexNegaMonteScout", "Maquina QueenScout" ),
-	IA_DIFICIL( 2, 15, 1, "IAHexSexSearch", "Maquina dificil" );
+	JUGADOR( 0, 5, 4, "IAHexFacilCtrl" ),
+	IA_FACIL( 1, 10, 3, "IAHexFacilCtrl", "Jose Antonio Camacho (MiniMax, nivell 0)" ),
+	IA_MONTESCOUT( 2, 15, 2, "IAHexNegaMonteScout", "Bill Clinton (MonteScout, nivell 1)" ),
+	IA_QUEENBEE( 3, 15, 2, "IAHexQueenBeeCtrl", "Hillary Clinton (QueenBee, nivell 1.5)" ),
+	IA_SEXQUEENBEE( 4, 20, 1, "IAHexSexSearch", "Monica Lewinsky (SexQueenBee, nivell 2)" );
 
 	/**
 	 * Nombre total de dificultats del joc.
 	 */
-	private static final int num_dificultats = TipusJugadors.values().length;
+	private static final int num_dificultats = values().length;
+
+	/**
+	 * Llista no modificable dels possibles valors de l'enum
+	 */
+	private static final List<TipusJugadors> tipus_jugadors = Collections.unmodifiableList( Arrays.asList( values() ) );
+
+	private static final Vector<TipusJugadors> jugadors_maquina = new Vector<TipusJugadors>();
 
 	/**
 	 * Posició de la dificultat a l'array de nombres de victories/derrotes d'un Usuari.
@@ -91,6 +100,19 @@ public enum TipusJugadors
 	}
 
 	/**
+	 * Mètode per obtenir la versió de text del valor de l'enum.
+	 * Usada als JComboBox de les vistes per mostrar la traducció corresponent de cada valor de l'enum al seu nom
+	 *
+	 * @return String valor de la variable "nom_usuari" de l'enum (corresponent a la cinquena posició de la
+	 *         configuració)
+	 */
+	@Override
+	public String toString()
+	{
+		return nom_usuari;
+	}
+
+	/**
 	 * Mètode públic per poder obtenir el nombre de dificultats del joc
 	 *
 	 * @return El total nombre de dificultats que té el joc.
@@ -152,5 +174,42 @@ public enum TipusJugadors
 	public String getNomUsuari()
 	{
 		return nom_usuari;
+	}
+
+	/**
+	 * Obté un tipus de jugador de forma aleatòria garantitzant que serà de tipus màquina.
+	 * Funció útil per jugar contra una màquina desconeguda.
+	 *
+	 * @return TipusJugadors Jugador de tipus màquina aleatori
+	 */
+	public static TipusJugadors getMaquinaAleatoria()
+	{
+		Random num_aleatori = new Random();
+
+		return tipus_jugadors.get( num_aleatori.nextInt( num_dificultats - 1 ) + 1 );
+	}
+
+	/**
+	 * Mètode que retorna un vector de tipus de jugadors de tipus màquines.
+	 * Afegeix també una màquina aleatòria.
+	 * Usada per elavorar els JComboBox de les vistes
+	 *
+	 * @return Vector<TipusJugadors> TipusJugadors de tipus màquina
+	 */
+	public static Vector<TipusJugadors> obteLlistatMaquines()
+	{
+		if ( jugadors_maquina.isEmpty() )
+		{
+			// Afegeixo tots els tipus de jugadors que siguin màquines (tingin nom de màquina)
+			for ( TipusJugadors tipus_jugador : values() )
+			{
+				if ( tipus_jugador.getNomUsuari() != null )
+				{
+					jugadors_maquina.add( tipus_jugador );
+				}
+			}
+		}
+
+		return jugadors_maquina;
 	}
 }

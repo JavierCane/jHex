@@ -2,47 +2,46 @@ package prop.hex.presentacio;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class PartidaVista extends BaseVista
+public final class PartidaVista extends BaseVista
 {
 
-	private JPanelTauler panel_central = new JPanelTauler();
-	private JPanel panel_botons = new JPanel();
+	private JPanelTauler panell_central = new JPanelTauler();
+	private JPanel panell_botons = new JPanel();
 	private JButton abandona = new JButton( "Abandona la partida" );
 
 	public PartidaVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
 	{
 		super( presentacio_ctrl, frame_principal );
+
+		titol = new JLabel( "jHex" );
+
 		inicialitzaVista();
 	}
 
-	protected void inicialitzaVista()
+	@Override
+	protected void inicialitzaPanellPrincipal()
 	{
-		inicialitzaPanelPrincipal();
-		inicialitzaPanelCentral();
-		inicialitzaPanelBotons();
-		assignaListeners();
+		panell_principal.add( panell_central );
+		panell_principal.add( panell_botons );
 	}
 
-	private void inicialitzaPanelCentral()
+	@Override
+	protected void inicialitzaPanellCentral()
 	{
-		panel_central.setOpaque( false );
+		panell_central.setOpaque( false );
 	}
 
-	private void inicialitzaPanelBotons()
+	@Override
+	protected void inicialitzaPanellPeu()
 	{
-		panel_botons.setLayout( new FlowLayout( FlowLayout.CENTER, 230, 0 ) );
-		panel_botons.add( titol_baix );
-		panel_botons.add( abandona );
-		panel_botons.add( surt );
-		panel_botons.setOpaque( false );
-	}
-
-	protected void inicialitzaPanelPrincipal()
-	{
-		panel_principal.add( panel_central );
-		panel_principal.add( panel_botons );
+		panell_botons.setLayout( new FlowLayout( FlowLayout.CENTER, 230, 0 ) );
+		panell_botons.add( titol_baix );
+		panell_botons.add( abandona );
+		panell_botons.add( surt );
+		panell_botons.setOpaque( false );
 	}
 
 	public void accioBotoAbandona( ActionEvent event )
@@ -50,8 +49,10 @@ public class PartidaVista extends BaseVista
 		presentacio_ctrl.vistaPartidaAMenuPrincipal();
 	}
 
+	@Override
 	protected void assignaListeners()
 	{
+		super.assignaListeners();
 
 		abandona.addActionListener( new ActionListener()
 		{
@@ -62,16 +63,5 @@ public class PartidaVista extends BaseVista
 				accioBotoAbandona( event );
 			}
 		} );
-
-		surt.addActionListener( new ActionListener()
-		{
-
-			@Override
-			public void actionPerformed( ActionEvent event )
-			{
-				accioBotoSurt( event );
-			}
-		} );
 	}
-
 }

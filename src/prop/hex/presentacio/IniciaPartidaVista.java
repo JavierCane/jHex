@@ -4,127 +4,153 @@ import prop.hex.domini.models.enums.TipusJugadors;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
-public class IniciaPartidaVista extends BaseVista implements ItemListener
+public final class IniciaPartidaVista extends BaseVista implements ItemListener
 {
 
-	private JPanel panel_central = new JPanel();
-	private JPanel panel_botons = new JPanel();
-	private JPanel seleccio_jugador_1 = new JPanel();
-	private JPanel seleccio_jugador_2 = new JPanel();
+	// Panells
+	private JPanel panell_central = new JPanel();
+	private JPanel panell_botons = new JPanel();
+	private JPanel seleccio_jugador_a = new JPanel(); // Panell de tipus CardLayout (intercanviable)
+	private JPanel seleccio_jugador_b = new JPanel(); // Panell de tipus CardLayout (intercanviable)
+
+	// Botons
 	private JButton inicia_partida = new JButton( "Inicia la partida" );
 	private JButton situacio_inicial = new JButton( "Defineix la situació inicial" );
 	private JButton descarta = new JButton( "Descarta" );
-	private JComboBox tipus_jugador_1 = new JComboBox( new String[] {
-			"Humà", "Màquina"
+
+	// Camps de tipus combos
+	private JComboBox combo_tipus_jugador_a = new JComboBox( new String[] {
+			"Convidat 1",
+			"Màquina"
 	} );
-	private JComboBox tipus_maquina_1 = new JComboBox( new String[] {
-			"Fàcil", "Difícil"
+	private JComboBox combo_tipus_maquina_a = new JComboBox( TipusJugadors.obteLlistatMaquines() );
+	private JComboBox combo_tipus_jugador_b = new JComboBox( new String[] {
+			"Usuari registrat",
+			"Convidat 2",
+			"Màquina"
 	} );
-	private JComboBox tipus_jugador_2 = new JComboBox( new String[] {
-			"Humà", "Màquina"
-	} );
-	private JComboBox tipus_maquina_2 = new JComboBox( new String[] {
-			"Fàcil", "Difícil"
-	} );
-	private JTextField usuari = new JTextField();
-	private JPasswordField contrasenya = new JPasswordField();
-	private JLabel nom_jugador_principal = new JLabel( "Nom d'usuari: " + presentacio_ctrl.obteNomJugadorPrincipal
-			() );
+	private JComboBox combo_tipus_maquina_b = new JComboBox( TipusJugadors.obteLlistatMaquines() );
+
+	// Camps de tipus text/contrasenya
+	private JTextField camp_nom_usuari_b = new JTextField();
+	private JPasswordField camp_contrasenya_usuari_b = new JPasswordField();
+
+	// Etiquetes de text
+	private JLabel nom_jugador_principal = new JLabel( "Nom d'usuari: " + presentacio_ctrl.obteNomJugadorPrincipal() );
 	private JLabel text_usuari = new JLabel( "Nom d'usuari:" );
 	private JLabel text_contrasenya = new JLabel( "Contrasenya:" );
-	private JLabel text_jugador_1 = new JLabel( "Jugador 1:" );
-	private JLabel text_jugador_2 = new JLabel( "Jugador 2:" );
+	private JLabel text_jugador_a = new JLabel( "Jugador 1:" );
+	private JLabel text_jugador_b = new JLabel( "Jugador 2:" );
 
 	public IniciaPartidaVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
 	{
 		super( presentacio_ctrl, frame_principal );
+
 		titol = new JLabel( "Juga una partida" );
+
 		inicialitzaVista();
 	}
 
-	protected void inicialitzaVista()
+	@Override
+	protected void inicialitzaPanellCentral()
 	{
-		inicialitzaPanelPrincipal();
-		inicialitzaPanelTitol();
-		inicialitzaPanelCentral();
-		inicialitzaPanelBotons();
-		inicialitzaPanelSortida();
-		assignaListeners();
-	}
+		// Panell central
+		panell_central.setLayout( new GridLayout( 2, 1, 10, 10 ) );
+		panell_central.setOpaque( false );
 
-	private void inicialitzaPanelCentral()
-	{
-		panel_central.setLayout( new GridLayout( 2, 1, 10, 10 ) );
-		panel_central.setOpaque( false );
-		JPanel panel_jugador_1 = new JPanelImatge( "img/caixa.png" );
-		panel_jugador_1.setBorder( BorderFactory.createRaisedBevelBorder() );
-		panel_jugador_1.setLayout( new BoxLayout( panel_jugador_1, BoxLayout.PAGE_AXIS ) );
-		panel_jugador_1.setOpaque( false );
-		text_jugador_1.setAlignmentX( Component.CENTER_ALIGNMENT );
-		panel_jugador_1.add( text_jugador_1 );
+		// Panell jugador 1
+		JPanel panell_jugador_1 = new JPanelImatge( "img/caixa.png" ); // Caixa i text "Jugador 1:"
+		panell_jugador_1.setBorder( BorderFactory.createRaisedBevelBorder() );
+		panell_jugador_1.setLayout( new BoxLayout( panell_jugador_1, BoxLayout.PAGE_AXIS ) );
+		panell_jugador_1.setOpaque( false );
+		text_jugador_a.setAlignmentX( Component.CENTER_ALIGNMENT );
+		panell_jugador_1.add( text_jugador_a );
+
 		JPanel principal_jugador_1 = new JPanel();
 		principal_jugador_1.setLayout( new GridLayout( 1, 2, 10, 10 ) );
 		principal_jugador_1.setBorder( BorderFactory.createEmptyBorder( 10, 10, 10, 10 ) );
 		principal_jugador_1.setOpaque( false );
-		seleccio_jugador_1.setLayout( new CardLayout() );
-		seleccio_jugador_1.setOpaque( false );
-		JPanel maquina_jugador_1 = new JPanel();
-		maquina_jugador_1.add( tipus_maquina_1 );
-		maquina_jugador_1.setOpaque( false );
-		JPanel huma_jugador_1 = new JPanel();
-		huma_jugador_1.add( nom_jugador_principal );
-		huma_jugador_1.setOpaque( false );
-		seleccio_jugador_1.add( huma_jugador_1, "Humà" );
-		seleccio_jugador_1.add( maquina_jugador_1, "Màquina" );
-		principal_jugador_1.add( tipus_jugador_1 );
-		principal_jugador_1.add( seleccio_jugador_1 );
-		panel_jugador_1.add( principal_jugador_1 );
-		JPanel panel_jugador_2 = new JPanelImatge( "img/caixa.png" );
-		panel_jugador_2.setBorder( BorderFactory.createRaisedBevelBorder() );
-		panel_jugador_2.setLayout( new BoxLayout( panel_jugador_2, BoxLayout.PAGE_AXIS ) );
-		panel_jugador_2.setOpaque( false );
-		text_jugador_2.setAlignmentX( Component.CENTER_ALIGNMENT );
-		panel_jugador_2.add( text_jugador_2 );
+
+		// Seleccionable Jugador 1, CardLayout (mostra un dels n JPanels afegits
+		seleccio_jugador_a.setLayout( new CardLayout() );
+		seleccio_jugador_a.setOpaque( false );
+
+		JPanel text_usuari_registrat = new JPanel(); // Etiqueta de text nom Jugador 1
+		text_usuari_registrat.add( nom_jugador_principal );
+		text_usuari_registrat.setOpaque( false );
+		seleccio_jugador_a.add( text_usuari_registrat, "Usuari registrat" );
+
+		// Combo/seleccionable Jugador 1, Convidat 1, Màquina 1
+		JPanel opcions_maquina_seleccio_jugador_a = new JPanel();
+		opcions_maquina_seleccio_jugador_a.add( combo_tipus_maquina_a );
+		opcions_maquina_seleccio_jugador_a.setOpaque( false );
+		seleccio_jugador_a.add( opcions_maquina_seleccio_jugador_a, "Màquina" );
+
+		// Afegeixo a la vista el panell de selecció de tipus de jugador a
+		principal_jugador_1.add( combo_tipus_jugador_a );
+		principal_jugador_1.add( seleccio_jugador_a );
+		panell_jugador_1.add( principal_jugador_1 );
+
+		// Panell jugador 2
+		JPanel panell_jugador_2 = new JPanelImatge( "img/caixa.png" ); // Caixa i text "Jugador 2:"
+		panell_jugador_2.setBorder( BorderFactory.createRaisedBevelBorder() );
+		panell_jugador_2.setLayout( new BoxLayout( panell_jugador_2, BoxLayout.PAGE_AXIS ) );
+		panell_jugador_2.setOpaque( false );
+		text_jugador_b.setAlignmentX( Component.CENTER_ALIGNMENT );
+		panell_jugador_2.add( text_jugador_b );
+
 		JPanel principal_jugador_2 = new JPanel();
 		principal_jugador_2.setLayout( new GridLayout( 1, 2, 10, 10 ) );
 		principal_jugador_2.setBorder( BorderFactory.createEmptyBorder( 10, 10, 10, 10 ) );
 		principal_jugador_2.setOpaque( false );
-		seleccio_jugador_2.setLayout( new CardLayout() );
-		seleccio_jugador_2.setOpaque( false );
-		JPanel maquina_jugador_2 = new JPanel();
-		maquina_jugador_2.add( tipus_maquina_2 );
+
+		JPanel maquina_jugador_2 = new JPanel(); // Combo/seleccionable Convidat 2, Màquina 2
+		maquina_jugador_2.add( combo_tipus_maquina_b );
 		maquina_jugador_2.setOpaque( false );
-		JPanel huma_jugador_2 = new JPanel();
+
+		JPanel huma_jugador_2 = new JPanel(); // Etiqueta de text nom Jugador 2
 		huma_jugador_2.setLayout( new GridLayout( 2, 2, 10, 10 ) );
 		huma_jugador_2.setOpaque( false );
+
 		huma_jugador_2.add( text_usuari );
-		huma_jugador_2.add( usuari );
+		huma_jugador_2.add( camp_nom_usuari_b );
 		huma_jugador_2.add( text_contrasenya );
-		huma_jugador_2.add( contrasenya );
-		seleccio_jugador_2.add( huma_jugador_2, "Humà" );
-		seleccio_jugador_2.add( maquina_jugador_2, "Màquina" );
-		principal_jugador_2.add( tipus_jugador_2 );
-		principal_jugador_2.add( seleccio_jugador_2 );
-		panel_jugador_2.add( principal_jugador_2 );
-		panel_central.add( panel_jugador_1 );
-		panel_central.add( panel_jugador_2 );
+		huma_jugador_2.add( camp_contrasenya_usuari_b );
+
+		seleccio_jugador_b.setLayout( new CardLayout() );
+		seleccio_jugador_b.setOpaque( false );
+		seleccio_jugador_b.add( huma_jugador_2, "Humà" );
+		seleccio_jugador_b.add( maquina_jugador_2, "Màquina" );
+
+		principal_jugador_2.add( combo_tipus_jugador_b );
+		principal_jugador_2.add( seleccio_jugador_b );
+		panell_jugador_2.add( principal_jugador_2 );
+
+		// Panel central
+		panell_central.add( panell_jugador_1 );
+		panell_central.add( panell_jugador_2 );
 	}
 
-	private void inicialitzaPanelBotons()
+	@Override
+	protected void inicialitzaPanellPeu()
 	{
-		panel_botons.setLayout( new FlowLayout() );
-		panel_botons.add( inicia_partida );
-		panel_botons.add( situacio_inicial );
-		panel_botons.add( descarta );
-		panel_botons.setOpaque( false );
+		panell_botons.setLayout( new FlowLayout() );
+		panell_botons.add( inicia_partida );
+		panell_botons.add( situacio_inicial );
+		panell_botons.add( descarta );
+		panell_botons.setOpaque( false );
 	}
 
-	protected void inicialitzaPanelPrincipal()
+	@Override
+	protected void inicialitzaPanellPrincipal()
 	{
-		panel_principal.setLayout( new GridBagLayout() );
-		panel_principal.setBorder( BorderFactory.createEmptyBorder( 10, 10, 10, 10 ) );
+		panell_principal.setLayout( new GridBagLayout() );
+		panell_principal.setBorder( BorderFactory.createEmptyBorder( 10, 10, 10, 10 ) );
 		GridBagConstraints propietats_panel = new GridBagConstraints();
 		propietats_panel.fill = GridBagConstraints.HORIZONTAL;
 		propietats_panel.anchor = GridBagConstraints.CENTER;
@@ -132,76 +158,65 @@ public class IniciaPartidaVista extends BaseVista implements ItemListener
 		propietats_panel.gridy = 0;
 		propietats_panel.weightx = 0.5;
 		propietats_panel.weighty = 0.2;
-		panel_principal.add( panel_titol, propietats_panel );
+		panell_principal.add( panell_titol, propietats_panel );
 		propietats_panel.gridx = 1;
 		propietats_panel.gridy = 1;
 		propietats_panel.weighty = 0.6;
-		panel_principal.add( panel_central, propietats_panel );
+		panell_principal.add( panell_central, propietats_panel );
 		propietats_panel.gridy = 2;
 		propietats_panel.weighty = 0.2;
-		panel_principal.add( panel_botons, propietats_panel );
+		panell_principal.add( panell_botons, propietats_panel );
 		propietats_panel.fill = GridBagConstraints.NONE;
 		propietats_panel.gridx = 2;
 		propietats_panel.gridy = 2;
 		propietats_panel.weightx = 0.25;
 		propietats_panel.anchor = GridBagConstraints.SOUTHEAST;
-		panel_principal.add( panel_sortida, propietats_panel );
+		panell_principal.add( panell_sortida, propietats_panel );
 		propietats_panel.gridx = 0;
 		propietats_panel.gridy = 2;
 		propietats_panel.weightx = 0.25;
 		propietats_panel.anchor = GridBagConstraints.SOUTHWEST;
-		panel_principal.add( titol_baix, propietats_panel );
+		panell_principal.add( titol_baix, propietats_panel );
 	}
 
 	public void accioBotoIniciaPartida( ActionEvent event )
 	{
-		TipusJugadors jugador_A;
-		TipusJugadors jugador_B;
-		if ( tipus_jugador_1.getSelectedItem() == "Humà" )
+		TipusJugadors tipus_jugador_a;
+		TipusJugadors tipus_jugador_b;
+
+		if ( combo_tipus_jugador_a.getSelectedItem() == "Humà" )
 		{
-			jugador_A = TipusJugadors.JUGADOR;
+			tipus_jugador_a = TipusJugadors.JUGADOR;
 		}
 		else
 		{
-			if (tipus_maquina_1.getSelectedItem() == "Fàcil")
-			{
-				jugador_A = TipusJugadors.IA_FACIL;
-			}
-			else
-			{
-				jugador_A = TipusJugadors.IA_DIFICIL;
-			}
+			tipus_jugador_a = ( TipusJugadors ) combo_tipus_maquina_a.getSelectedItem();
 		}
-		if ( tipus_jugador_2.getSelectedItem() == "Humà" )
+
+		if ( combo_tipus_jugador_b.getSelectedItem() == "Humà" )
 		{
-			jugador_B = TipusJugadors.JUGADOR;
+			tipus_jugador_b = TipusJugadors.JUGADOR;
 		}
 		else
 		{
-			if (tipus_maquina_2.getSelectedItem() == "Fàcil")
-			{
-				jugador_B = TipusJugadors.IA_FACIL;
-			}
-			else
-			{
-				jugador_B = TipusJugadors.IA_DIFICIL;
-			}
+			tipus_jugador_b = ( TipusJugadors ) combo_tipus_maquina_b.getSelectedItem();
 		}
+
 		try
 		{
-			presentacio_ctrl.configuraUsuarisPartida( jugador_A, usuari.getText(),
-					new String( contrasenya.getPassword() ), jugador_B );
-			presentacio_ctrl.iniciaPartida(7, "AAA");
+			presentacio_ctrl.configuraUsuarisPartida( tipus_jugador_a, camp_nom_usuari_b.getText(),
+					new String( camp_contrasenya_usuari_b.getPassword() ), tipus_jugador_b );
+
+			presentacio_ctrl.iniciaPartida( 7, "AAA" );
 			presentacio_ctrl.vistaIniciaPartidaAPartida();
 		}
 		catch ( Exception excepcio )
 		{
 			VistaDialeg dialeg = new VistaDialeg();
 			String[] botons = { "Accepta" };
-			String valor_seleccionat = dialeg.setDialeg( "Error", "Error inesperat.", botons,
-					JOptionPane.ERROR_MESSAGE );
+			String valor_seleccionat =
+					dialeg.setDialeg( "Error", "Error inesperat.", botons, JOptionPane.ERROR_MESSAGE );
 		}
-
 	}
 
 	public void accioBotoDescarta( ActionEvent event )
@@ -211,25 +226,34 @@ public class IniciaPartidaVista extends BaseVista implements ItemListener
 
 	public void accioSeleccionaTipusJugador1( ActionEvent event )
 	{
-
 	}
 
+	/**
+	 * Mètode per intercanviar els diferents panells afegits al CardLayout quan es cambiï el tipus de jugador
+	 * seleccionat
+	 *
+	 * @param event
+	 */
+	@Override
 	public void itemStateChanged( ItemEvent event )
 	{
-		if ( event.getItemSelectable() == tipus_jugador_1 )
+		if ( event.getItemSelectable() == combo_tipus_jugador_a )
 		{
-			CardLayout c = ( CardLayout ) ( seleccio_jugador_1.getLayout() );
-			c.show( seleccio_jugador_1, ( String ) event.getItem() );
+			CardLayout c = ( CardLayout ) ( seleccio_jugador_a.getLayout() );
+			c.show( seleccio_jugador_a, ( String ) event.getItem() );
 		}
 		else
 		{
-			CardLayout c = ( CardLayout ) ( seleccio_jugador_2.getLayout() );
-			c.show( seleccio_jugador_2, ( String ) event.getItem() );
+			CardLayout c = ( CardLayout ) ( seleccio_jugador_b.getLayout() );
+			c.show( seleccio_jugador_b, ( String ) event.getItem() );
 		}
 	}
 
+	@Override
 	protected void assignaListeners()
 	{
+		super.assignaListeners();
+
 		inicia_partida.addActionListener( new ActionListener()
 		{
 
@@ -250,17 +274,7 @@ public class IniciaPartidaVista extends BaseVista implements ItemListener
 			}
 		} );
 
-		surt.addActionListener( new ActionListener()
-		{
-
-			@Override
-			public void actionPerformed( ActionEvent event )
-			{
-				accioBotoSurt( event );
-			}
-		} );
-
-		tipus_jugador_1.addItemListener( this );
-		tipus_jugador_2.addItemListener( this );
+		combo_tipus_jugador_a.addItemListener( this );
+		combo_tipus_jugador_b.addItemListener( this );
 	}
 }

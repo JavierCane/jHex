@@ -297,6 +297,7 @@ public abstract class Tauler implements Serializable
 	 *
 	 * @return El String amb la informació completa del tauler.
 	 */
+	@Override
 	public String toString()
 	{
 		String informacio = "[Mida: " + mida + ", num. fitxes jugador A: " + num_fitxes_a + ", " +

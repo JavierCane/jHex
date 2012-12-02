@@ -17,7 +17,7 @@ import java.awt.event.MouseEvent;
  * Aquesta classe s'utilitza des del driver de Jugar que comprova que funcioni PartidaCtrl així com IAHexFacilCtrl i
  * totes les classes que aquest utilitza.
  */
-public class VisualitzadorPartida extends JPanel
+public final class VisualitzadorPartida extends JPanel
 {
 
 	/**

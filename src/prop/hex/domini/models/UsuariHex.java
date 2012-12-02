@@ -68,9 +68,10 @@ public class UsuariHex extends Usuari implements Serializable, Comparable<Usuari
 	 */
 	private static final Set<String> noms_reservats =
 			Collections.unmodifiableSet( new HashSet<String>( Arrays.asList( new String[] {
-					"Maquina facil",
-					"Maquina dificil",
-					"Convidat",
+					"Jose Antonio Camacho (MiniMax, nivell 0)",
+					"Bill Clinton (MonteScout, nivell 1)",
+					"Hillary Clinton (QueenBee, nivell 1.5)",
+					"Monica Lewinsky (SexQueenBee, nivell 2)",
 			} ) ) );
 
 	/**
@@ -115,6 +116,7 @@ public class UsuariHex extends Usuari implements Serializable, Comparable<Usuari
 	 *
 	 * @return Un String amb tots els atribus de l'usuari.
 	 */
+	@Override
 	public String toString()
 	{
 		return super.toString() + " [Mode inici: " + mode_inici +
@@ -286,7 +288,6 @@ public class UsuariHex extends Usuari implements Serializable, Comparable<Usuari
 				{
 					fitxes_minimes = fitxes_usades;
 				}
-
 			}
 			else
 			{

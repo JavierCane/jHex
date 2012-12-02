@@ -8,11 +8,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class PreferenciesVista extends BaseVista
+public final class PreferenciesVista extends BaseVista
 {
 
-	private JPanel panel_central = new JPanel();
-	private JPanel panel_botons = new JPanel();
+	private JPanel panell_central = new JPanel();
+	private JPanel panell_botons = new JPanel();
 	private JRadioButton colors_vermell_blau = new JRadioButton( "Vermell/Blau" );
 	private JRadioButton colors_negre_blanc = new JRadioButton( "Negre/Blanc" );
 	private JRadioButton mode_inici_estandard = new JRadioButton( "Estàndard" );
@@ -29,31 +29,58 @@ public class PreferenciesVista extends BaseVista
 	public PreferenciesVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
 	{
 		super( presentacio_ctrl, frame_principal );
+
 		titol = new JLabel( "Preferències" );
+
 		inicialitzaVista();
 	}
 
-	protected void inicialitzaVista()
+	@Override
+	protected void inicialitzaPanellPrincipal()
 	{
-		inicialitzaPanelPrincipal();
-		inicialitzaPanelTitol();
-		inicialitzaPanelCentral();
-		inicialitzaPanelBotons();
-		inicialitzaPanelSortida();
-		assignaListeners();
+		panell_principal.setLayout( new GridBagLayout() );
+		panell_principal.setBorder( BorderFactory.createEmptyBorder( 10, 10, 10, 10 ) );
+		GridBagConstraints propietats_panel = new GridBagConstraints();
+		propietats_panel.fill = GridBagConstraints.HORIZONTAL;
+		propietats_panel.anchor = GridBagConstraints.CENTER;
+		propietats_panel.gridx = 1;
+		propietats_panel.gridy = 0;
+		propietats_panel.weightx = 0.5;
+		propietats_panel.weighty = 0.2;
+		panell_principal.add( panell_titol, propietats_panel );
+		propietats_panel.gridx = 1;
+		propietats_panel.gridy = 1;
+		propietats_panel.weighty = 0.6;
+		panell_principal.add( panell_central, propietats_panel );
+		propietats_panel.gridy = 2;
+		propietats_panel.weighty = 0.2;
+		panell_principal.add( panell_botons, propietats_panel );
+		propietats_panel.fill = GridBagConstraints.NONE;
+		propietats_panel.gridx = 2;
+		propietats_panel.gridy = 2;
+		propietats_panel.weightx = 0.25;
+		propietats_panel.anchor = GridBagConstraints.SOUTHEAST;
+		panell_principal.add( panell_sortida, propietats_panel );
+		propietats_panel.gridx = 0;
+		propietats_panel.gridy = 2;
+		propietats_panel.weightx = 0.25;
+		propietats_panel.anchor = GridBagConstraints.SOUTHWEST;
+		panell_principal.add( titol_baix, propietats_panel );
 	}
 
-	private void inicialitzaPanelCentral()
+	@Override
+	protected void inicialitzaPanellCentral()
 	{
-		panel_central.setLayout( new GridLayout( 3, 1, 10, 10 ) );
-		panel_central.setOpaque( false );
-		JPanel panel_colors = new JPanelImatge( "img/caixa.png" );
-		panel_colors.setBorder( BorderFactory.createRaisedBevelBorder() );
-		panel_colors.setLayout( new GridLayout( 3, 1, 10, 10 ) );
+		panell_central.setLayout( new GridLayout( 3, 1, 10, 10 ) );
+		panell_central.setOpaque( false );
+		JPanel panell_colors = new JPanelImatge( "img/caixa.png" );
+		panell_colors.setBorder( BorderFactory.createRaisedBevelBorder() );
+		panell_colors.setLayout( new GridLayout( 3, 1, 10, 10 ) );
 		grup_colors.add( colors_vermell_blau );
 		grup_colors.add( colors_negre_blanc );
 		colors_vermell_blau.setOpaque( false );
 		colors_negre_blanc.setOpaque( false );
+
 		if ( presentacio_ctrl.obteCombinacioDeColorsJugadorPrincipal() == CombinacionsColors.VERMELL_BLAU )
 		{
 			colors_vermell_blau.setSelected( true );
@@ -62,16 +89,18 @@ public class PreferenciesVista extends BaseVista
 		{
 			colors_negre_blanc.setSelected( true );
 		}
-		panel_colors.add( colors );
-		panel_colors.add( colors_vermell_blau );
-		panel_colors.add( colors_negre_blanc );
-		JPanel panel_modes_inici = new JPanelImatge( "img/caixa.png" );
-		panel_modes_inici.setBorder( BorderFactory.createRaisedBevelBorder() );
-		panel_modes_inici.setLayout( new GridLayout( 3, 1, 10, 10 ) );
+
+		panell_colors.add( colors );
+		panell_colors.add( colors_vermell_blau );
+		panell_colors.add( colors_negre_blanc );
+		JPanel panell_modes_inici = new JPanelImatge( "img/caixa.png" );
+		panell_modes_inici.setBorder( BorderFactory.createRaisedBevelBorder() );
+		panell_modes_inici.setLayout( new GridLayout( 3, 1, 10, 10 ) );
 		grup_modes_inici.add( mode_inici_estandard );
 		grup_modes_inici.add( mode_inici_pastis );
 		mode_inici_estandard.setOpaque( false );
 		mode_inici_pastis.setOpaque( false );
+
 		if ( presentacio_ctrl.obteModeIniciJugadorPrincipal() == ModesInici.ESTANDARD )
 		{
 			mode_inici_estandard.setSelected( true );
@@ -80,67 +109,39 @@ public class PreferenciesVista extends BaseVista
 		{
 			mode_inici_pastis.setSelected( true );
 		}
-		panel_modes_inici.add( modes_inici );
-		panel_modes_inici.add( mode_inici_estandard );
-		panel_modes_inici.add( mode_inici_pastis );
-		panel_central.add( panel_colors );
-		panel_central.add( panel_modes_inici );
-		JPanel panel_botons_opcions = new JPanel();
-		panel_botons_opcions.add( reinicia_estadistiques );
-		panel_botons_opcions.add( canvia_contrasenya );
-		panel_botons_opcions.setOpaque( false );
-		panel_central.add( panel_botons_opcions );
+
+		panell_modes_inici.add( modes_inici );
+		panell_modes_inici.add( mode_inici_estandard );
+		panell_modes_inici.add( mode_inici_pastis );
+		panell_central.add( panell_colors );
+		panell_central.add( panell_modes_inici );
+		JPanel panell_botons_opcions = new JPanel();
+		panell_botons_opcions.add( reinicia_estadistiques );
+		panell_botons_opcions.add( canvia_contrasenya );
+		panell_botons_opcions.setOpaque( false );
+		panell_central.add( panell_botons_opcions );
 	}
 
-	private void inicialitzaPanelBotons()
+	@Override
+	protected void inicialitzaPanellPeu()
 	{
-		panel_botons.setLayout( new FlowLayout() );
+		panell_botons.setLayout( new FlowLayout() );
 
-		panel_botons.add( accepta );
-		panel_botons.add( descarta );
-		panel_botons.setOpaque( false );
-	}
-
-	protected void inicialitzaPanelPrincipal()
-	{
-		panel_principal.setLayout( new GridBagLayout() );
-		panel_principal.setBorder( BorderFactory.createEmptyBorder( 10, 10, 10, 10 ) );
-		GridBagConstraints propietats_panel = new GridBagConstraints();
-		propietats_panel.fill = GridBagConstraints.HORIZONTAL;
-		propietats_panel.anchor = GridBagConstraints.CENTER;
-		propietats_panel.gridx = 1;
-		propietats_panel.gridy = 0;
-		propietats_panel.weightx = 0.5;
-		propietats_panel.weighty = 0.2;
-		panel_principal.add( panel_titol, propietats_panel );
-		propietats_panel.gridx = 1;
-		propietats_panel.gridy = 1;
-		propietats_panel.weighty = 0.6;
-		panel_principal.add( panel_central, propietats_panel );
-		propietats_panel.gridy = 2;
-		propietats_panel.weighty = 0.2;
-		panel_principal.add( panel_botons, propietats_panel );
-		propietats_panel.fill = GridBagConstraints.NONE;
-		propietats_panel.gridx = 2;
-		propietats_panel.gridy = 2;
-		propietats_panel.weightx = 0.25;
-		propietats_panel.anchor = GridBagConstraints.SOUTHEAST;
-		panel_principal.add( panel_sortida, propietats_panel );
-		propietats_panel.gridx = 0;
-		propietats_panel.gridy = 2;
-		propietats_panel.weightx = 0.25;
-		propietats_panel.anchor = GridBagConstraints.SOUTHWEST;
-		panel_principal.add( titol_baix, propietats_panel );
+		panell_botons.add( accepta );
+		panell_botons.add( descarta );
+		panell_botons.setOpaque( false );
 	}
 
 	public void accioBotoReiniciaEstadistiques( ActionEvent event )
 	{
 		VistaDialeg dialeg = new VistaDialeg();
 		String[] botons = {
-				"Sí", "No"
+				"Sí",
+				"No"
 		};
-		String valor_seleccionat = dialeg.setDialeg( "Reinicia les estadístiques", "Estàs segur que vols reiniciar " +
-				"les teves estadístiques? Aquesta acció no es podrà desfer.", botons, JOptionPane.WARNING_MESSAGE );
+		String valor_seleccionat = dialeg.setDialeg( "Reinicia les estadístiques",
+				"Estàs segur que vols reiniciar " + "les teves estadístiques? Aquesta acció no es podrà desfer.",
+				botons, JOptionPane.WARNING_MESSAGE );
 		if ( valor_seleccionat == "Sí" )
 		{
 			presentacio_ctrl.reiniciaEstadistiquesJugadorPrincipal();
@@ -149,7 +150,6 @@ public class PreferenciesVista extends BaseVista
 
 	public void accioBotoCanviaContrasenya( ActionEvent event )
 	{
-
 	}
 
 	public void accioBotoAccepta( ActionEvent event )
@@ -187,8 +187,11 @@ public class PreferenciesVista extends BaseVista
 		presentacio_ctrl.vistaPreferenciesAMenuPrincipal();
 	}
 
+	@Override
 	protected void assignaListeners()
 	{
+		super.assignaListeners();
+
 		reinicia_estadistiques.addActionListener( new ActionListener()
 		{
 
@@ -226,16 +229,6 @@ public class PreferenciesVista extends BaseVista
 			public void actionPerformed( ActionEvent event )
 			{
 				accioBotoDescarta( event );
-			}
-		} );
-
-		surt.addActionListener( new ActionListener()
-		{
-
-			@Override
-			public void actionPerformed( ActionEvent event )
-			{
-				accioBotoSurt( event );
 			}
 		} );
 	}
