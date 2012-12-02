@@ -24,7 +24,7 @@ Com compilar i executar
 2. Eliminar possibles arxius de compilacions prèvies:
 > ``rm $(find ./src/* | grep .class$)``
 3. Moure'ns al directori arrel del codi font:
-> ``cd /path/absolut/del/projecte/jHex/src/``
+> ``cd src/``
 4. Compilar incloent tots els fitxers dels drivers:
 > ``javac prop/hex/domini/controladors/drivers/*.java``
 5. Executar el driver principal:
