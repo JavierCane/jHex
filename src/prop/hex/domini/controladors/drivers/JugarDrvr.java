@@ -48,8 +48,8 @@ public class JugarDrvr
 	 * @throws ClassNotFoundException
 	 * @throws NullPointerException
 	 */
-	private static UsuariHex agafaUsuari( String nom, TipusJugadors tipus_jugador ) throws FileNotFoundException,
-			IOException, ClassNotFoundException, NullPointerException
+	private static UsuariHex agafaUsuari( String nom, TipusJugadors tipus_jugador )
+			throws FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
 	{
 		try
 		{
@@ -89,8 +89,8 @@ public class JugarDrvr
 	 * @throws ClassNotFoundException Si hi ha un problema de classes quan es carrega l'usuari.
 	 * @throws NullPointerException   Es dona si el fitxer està buit.
 	 */
-	public static void IAVsHuma() throws FileNotFoundException, IOException, ClassNotFoundException,
-			NullPointerException
+	public static void IAVsHuma()
+			throws FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
 	{
 		TipusJugadors tipus_IA = demanaTipusJugadorIA( "Escriu el número del tipus d'intel·ligència contrincant" );
 		usuari_A = agafaUsuari( tipus_IA.getNomUsuari(), tipus_IA );
@@ -108,8 +108,8 @@ public class JugarDrvr
 	 * @throws ClassNotFoundException Si hi ha un problema de classes quan es carrega l'usuari.
 	 * @throws NullPointerException   Es dona si el fitxer està buit.
 	 */
-	public static void HumaVsIA() throws FileNotFoundException, IOException, ClassNotFoundException,
-			NullPointerException
+	public static void HumaVsIA()
+			throws FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
 	{
 		TipusJugadors tipus_IA = demanaTipusJugadorIA( "Escriu el número del tipus d'intel·ligència contrincant" );
 		usuari_A = agafaUsuari( "Huma", TipusJugadors.JUGADOR );
@@ -127,8 +127,8 @@ public class JugarDrvr
 	 * @throws ClassNotFoundException Si hi ha un problema de classes quan es carrega l'usuari.
 	 * @throws NullPointerException   Es dona si el fitxer està buit.
 	 */
-	public static void HumaVsHuma() throws FileNotFoundException, IOException, ClassNotFoundException,
-			NullPointerException
+	public static void HumaVsHuma()
+			throws FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
 	{
 		usuari_A = agafaUsuari( "Huma 1", TipusJugadors.JUGADOR );
 		usuari_B = agafaUsuari( "Huma 2", TipusJugadors.JUGADOR );
@@ -145,8 +145,7 @@ public class JugarDrvr
 	 * @throws ClassNotFoundException Si hi ha un problema de classes quan es carrega l'usuari.
 	 * @throws NullPointerException   Es dona si el fitxer està buit.
 	 */
-	public static void IAVsIA() throws FileNotFoundException, IOException, ClassNotFoundException,
-			NullPointerException
+	public static void IAVsIA() throws FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
 	{
 		TipusJugadors tipus_IA_A = demanaTipusJugadorIA( "Escriu el número del tipus d'intel·ligència principal" );
 		TipusJugadors tipus_IA_B = demanaTipusJugadorIA( "Escriu el número del tipus d'intel·ligència contrincant" );

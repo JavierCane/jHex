@@ -64,5 +64,4 @@ public final class UtilsDrvr
 		System.out.println( capcalera );
 		return llegeixParaula();
 	}
-
 }

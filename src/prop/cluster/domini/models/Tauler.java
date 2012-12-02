@@ -4,8 +4,6 @@ import prop.cluster.domini.models.estats.EstatCasella;
 
 import java.io.Serializable;
 import java.util.Arrays;
-import java.lang.IndexOutOfBoundsException;
-import java.lang.IllegalArgumentException;
 
 /**
  * Representa un tauler d’un joc. Les caselles vàlides són les que tenen la fila i la columna en l’interval 0..mida-1.
