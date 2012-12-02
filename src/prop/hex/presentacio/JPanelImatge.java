@@ -1,9 +1,9 @@
 package prop.hex.presentacio;
 
-import java.awt.*;
 import javax.swing.*;
+import java.awt.*;
 
-public class JPanelImatge extends JPanel
+public final class JPanelImatge extends JPanel
 {
 
 	private Image fons;

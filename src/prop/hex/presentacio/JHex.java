@@ -7,6 +7,7 @@ public class JHex
 	{
 		javax.swing.SwingUtilities.invokeLater( new Runnable()
 		{
+
 			@Override
 			public void run()
 			{

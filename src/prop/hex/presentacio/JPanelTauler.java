@@ -9,9 +9,10 @@ import prop.hex.domini.models.enums.CombinacionsColors;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-public class JPanelTauler extends JPanel
+public final class JPanelTauler extends JPanel
 {
 
 	/**
@@ -55,7 +56,6 @@ public class JPanelTauler extends JPanel
 		tauler = ( TaulerHex ) PartidaCtrl.getInstancia().getPartidaActual().getTauler();
 		jugador_a = ( UsuariHex ) PartidaCtrl.getInstancia().getPartidaActual().getJugadorA();
 		jugador_b = ( UsuariHex ) PartidaCtrl.getInstancia().getPartidaActual().getJugadorB();
-
 
 		//Creem l'hexagon que dibuixarem despres.
 		int x[] = new int[6];
@@ -127,8 +127,8 @@ public class JPanelTauler extends JPanel
 	 */
 	private void mouIA()
 	{
-		if ( PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.NO_FINALITZADA && !PartidaCtrl
-				.getInstancia().esTornHuma() )
+		if ( PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.NO_FINALITZADA &&
+		     !PartidaCtrl.getInstancia().esTornHuma() )
 		{
 			PartidaCtrl.getInstancia().executaMovimentIA();
 		}
@@ -145,8 +145,8 @@ public class JPanelTauler extends JPanel
 	 */
 	private void clickHexagon( int i, int j )
 	{
-		if ( PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.NO_FINALITZADA && PartidaCtrl
-				.getInstancia().esTornHuma() )
+		if ( PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.NO_FINALITZADA &&
+		     PartidaCtrl.getInstancia().esTornHuma() )
 		{
 			try
 			{
@@ -191,7 +191,7 @@ public class JPanelTauler extends JPanel
 				g.translate( j * dx, 0 );
 
 				if ( i == tauler.getMida() / 2 && j == tauler.getMida() / 2 &&
-						PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats() == 0 )
+				     PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats() == 0 )
 				{
 					g.setColor( new Color( 0x333333 ) );
 				}
@@ -210,8 +210,8 @@ public class JPanelTauler extends JPanel
 		}
 
 		//Si és torn de la IA mostrem el botó Mou IA.
-		if ( !PartidaCtrl.getInstancia().esTornHuma() && PartidaCtrl.getInstancia().consultaEstatPartida() ==
-				EstatPartida.NO_FINALITZADA )
+		if ( !PartidaCtrl.getInstancia().esTornHuma() &&
+		     PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.NO_FINALITZADA )
 		{
 			if ( PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats() % 2 == 0 )
 			{
@@ -231,7 +231,6 @@ public class JPanelTauler extends JPanel
 				g.setColor( Color.white );
 				g.drawString( "Mou IA", 620, 175 );
 			}
-
 		}
 
 		//Mostrem el torn actual.
@@ -262,8 +261,9 @@ public class JPanelTauler extends JPanel
 		g.drawString( jugador_a.getNom(), -50, 310 );
 		g.drawString( "D'esquerra a dreta", -50, 330 );
 
-		g.drawString( "Temps: " + PartidaCtrl.getInstancia().getPartidaActual().getTempsDeJoc( jugador_a
-				.getIdentificadorUnic() ), -50, 350 );
+		g.drawString( "Temps: " +
+		              PartidaCtrl.getInstancia().getPartidaActual().getTempsDeJoc( jugador_a.getIdentificadorUnic() ),
+				-50, 350 );
 
 		//I algunes dades pel jugador B
 		g.setColor( jugador_a.getCombinacionsColors().getColorCasella( EstatCasella.JUGADOR_B ) );
@@ -274,13 +274,13 @@ public class JPanelTauler extends JPanel
 		g.drawString( jugador_b.getNom(), 580, 100 );
 		g.drawString( "De dalt a baix", 580, 120 );
 
-		g.drawString( "Temps: " + PartidaCtrl.getInstancia().getPartidaActual().getTempsDeJoc( jugador_b
-				.getIdentificadorUnic() ), 580, 140 );
+		g.drawString( "Temps: " +
+		              PartidaCtrl.getInstancia().getPartidaActual().getTempsDeJoc( jugador_b.getIdentificadorUnic() ),
+				580, 140 );
 
 		if ( jugador_a.getCombinacionsColors() == CombinacionsColors.VERMELL_BLAU )
 		{
-			g.drawImage( ( new ImageIcon( "img/tauler_vb.png" ) ).getImage(), -90, -80, getWidth(), getHeight(),
-					null );
+			g.drawImage( ( new ImageIcon( "img/tauler_vb.png" ) ).getImage(), -90, -80, getWidth(), getHeight(), null );
 		}
 		else
 		{

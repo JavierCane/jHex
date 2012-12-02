@@ -29,9 +29,9 @@ public class UsuariCtrl
 	 */
 	private UsuariHex usuari_actual;
 
-	private UsuariHex usuari_jugador_A;
+	private UsuariHex usuari_jugador_a;
 
-	private UsuariHex usuari_jugador_B;
+	private UsuariHex usuari_jugador_b;
 
 	/**
 	 * Instància del gestor d'usuaris en disc.
@@ -75,12 +75,12 @@ public class UsuariCtrl
 
 	public UsuariHex getUsuariJugadorA()
 	{
-		return usuari_jugador_A;
+		return usuari_jugador_a;
 	}
 
 	public UsuariHex getUsuariJugadorB()
 	{
-		return usuari_jugador_B;
+		return usuari_jugador_b;
 	}
 
 	/**
@@ -96,21 +96,21 @@ public class UsuariCtrl
 	 *                                  si conté caràcters il·legals o si es tracta d'un nom no permès.
 	 * @throws IOException              Si ha succeït un error d'entrada/sortida inesperat.
 	 */
-	public boolean creaUsuari( String nom, String contrasenya, TipusJugadors tipus_jugador ) throws
-			IllegalArgumentException, IOException
+	public boolean creaUsuari( String nom, String contrasenya, TipusJugadors tipus_jugador )
+			throws IllegalArgumentException, IOException
 	{
 		if ( tipus_jugador == TipusJugadors.JUGADOR )
 		{
 			if ( !nom.matches( UsuariHex.getCaractersPermesos() ) )
 			{
 				throw new IllegalArgumentException( "[KO]\tEl nom d'usuari conté caràcters il·legals. Només " +
-						"s'accepten caràcters alfanumèris (sense accents), espais i guions baixos." );
+				                                    "s'accepten caràcters alfanumèris (sense accents), espais i guions baixos." );
 			}
 
 			if ( UsuariHex.getNomsNoPermesos().contains( nom ) )
 			{
 				throw new IllegalArgumentException( "[KO]\tNo es permet utilitzar aquest nom d'usuari. Els noms no " +
-						"permesos són " + UsuariHex.getNomsNoPermesos().toString() );
+				                                    "permesos són " + UsuariHex.getNomsNoPermesos().toString() );
 			}
 
 			UsuariHex usuari_hex = new UsuariHex( nom, contrasenya );
@@ -179,8 +179,9 @@ public class UsuariCtrl
 	 * @throws ClassNotFoundException   Si hi ha un problema de classes quan es carrega l'usuari.
 	 * @throws NullPointerException     Es dona si el fitxer està buit.
 	 */
-	public boolean carregaUsuari( String nom, String contrasenya, TipusJugadors tipus_jugador ) throws
-			IllegalArgumentException, FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
+	public boolean carregaUsuari( String nom, String contrasenya, TipusJugadors tipus_jugador )
+			throws IllegalArgumentException, FileNotFoundException, IOException, ClassNotFoundException,
+			       NullPointerException
 	{
 		if ( !gestor_usuari.existeixElement( getIdentificadorUnic( nom ) ) )
 		{
@@ -205,42 +206,53 @@ public class UsuariCtrl
 		return true;
 	}
 
-	public boolean carregaJugadorsPartida( TipusJugadors jugador_A, String nom, String contrasenya,
-	                                       TipusJugadors jugador_B ) throws IllegalArgumentException,
-			FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
+	public boolean carregaJugadorsPartida( TipusJugadors jugador_a, String nom, String contrasenya,
+	                                       TipusJugadors jugador_b )
+			throws IllegalArgumentException, FileNotFoundException, IOException, ClassNotFoundException,
+			       NullPointerException
 	{
-		if ( jugador_A == TipusJugadors.JUGADOR )
+		if ( TipusJugadors.JUGADOR == jugador_a )
 		{
-			usuari_jugador_A = usuari_actual;
+			usuari_jugador_a = usuari_actual;
 		}
 		else
 		{
-			usuari_jugador_A = gestor_usuari.carregaElement( getIdentificadorUnic( jugador_A.getNomUsuari() ) );
+			usuari_jugador_a = gestor_usuari.carregaElement( getIdentificadorUnic( jugador_a.getNomUsuari() ) );
 		}
-		if ( jugador_B == TipusJugadors.JUGADOR )
+
+		if ( TipusJugadors.JUGADOR == jugador_b )
 		{
 			if ( !gestor_usuari.existeixElement( getIdentificadorUnic( nom ) ) )
 			{
-				throw new IllegalArgumentException( "[KO]\tL'usuari no existeix." );
+				throw new IllegalArgumentException( "L'usuari introduit com Jugador 2 no està registrat." );
 			}
 			else
 			{
 				UsuariHex usuari = gestor_usuari.carregaElement( getIdentificadorUnic( nom ) );
+
 				if ( UsuariHex.getNomsNoPermesos().contains( nom ) )
 				{
-					throw new IllegalArgumentException( "[KO]\tL'usuari demanat és intern del sistema." );
+					throw new IllegalArgumentException( "L'usuari introduit com Jugador 2 és intern del sistema." );
 				}
-				if ( !usuari.getContrasenya().equals( contrasenya ) )
+				else
 				{
-					throw new IllegalArgumentException( "[KO]\tLa contrasenya no és correcta." );
+					if ( !usuari.getContrasenya().equals( contrasenya ) )
+					{
+						throw new IllegalArgumentException(
+								"La contrasenya introduïda per al Jugador 2 no és correcta." );
+					}
+					else
+					{
+						usuari_jugador_b = usuari;
+					}
 				}
-				usuari_jugador_B = usuari;
 			}
 		}
 		else
 		{
-			usuari_jugador_B = gestor_usuari.carregaElement( getIdentificadorUnic( jugador_B.getNomUsuari() ) );
+			usuari_jugador_b = gestor_usuari.carregaElement( getIdentificadorUnic( jugador_b.getNomUsuari() ) );
 		}
+
 		return true;
 	}
 
@@ -266,13 +278,13 @@ public class UsuariCtrl
 	 * @throws IllegalArgumentException Si la contrasenya antiga passada com a paràmetre no coincideix amb la
 	 *                                  contrasenya de l'usuari.
 	 */
-	public boolean modificaContrasenya( String contrasenya_antiga, String contrasenya_nova ) throws
-			IllegalArgumentException
+	public boolean modificaContrasenya( String contrasenya_antiga, String contrasenya_nova )
+			throws IllegalArgumentException
 	{
 		if ( !usuari_actual.getContrasenya().equals( contrasenya_antiga ) )
 		{
 			throw new IllegalArgumentException( "[KO]\tLa contrasenya actual introduïda no correspon a l'actual de " +
-					"" + "l'usuari." );
+			                                    "" + "l'usuari." );
 		}
 		else
 		{
@@ -289,8 +301,7 @@ public class UsuariCtrl
 	 */
 	public boolean modificaPreferencies( ModesInici mode_inici, CombinacionsColors combinacio_colors )
 	{
-		return ( usuari_actual.setModeInici( mode_inici ) && usuari_actual.setCombinacionsColors( combinacio_colors
-		) );
+		return ( usuari_actual.setModeInici( mode_inici ) && usuari_actual.setCombinacionsColors( combinacio_colors ) );
 	}
 
 	public ModesInici obteModeInici()
@@ -311,7 +322,9 @@ public class UsuariCtrl
 	public Object[] obteEstadistiquesUsuari( UsuariHex usuari )
 	{
 		return new Object[] {
-				usuari.getNom(), usuari.getPartidesJugades(), usuari.getPartidesGuanyades(),
+				usuari.getNom(),
+				usuari.getPartidesJugades(),
+				usuari.getPartidesGuanyades(),
 				usuari.getPuntuacioGlobal()
 		};
 	}

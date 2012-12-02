@@ -4,7 +4,6 @@ import prop.cluster.domini.models.estats.EstatCasella;
 import prop.hex.domini.models.Casella;
 import prop.hex.domini.models.TaulerHex;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
 

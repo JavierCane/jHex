@@ -11,7 +11,6 @@ import prop.hex.domini.models.PartidaHex;
 import prop.hex.domini.models.TaulerHex;
 
 import java.util.HashMap;
-import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -116,7 +115,7 @@ public class IAHexSexSearch implements MouFitxaIA
 		int beta_2, puntuacio;
 		if ( cost >= pressupost || profunditat >= profunditat_max || estat_iteracio != EstatPartida.NO_FINALITZADA )
 		{
-			System.err.println("Cost: " + cost + "\nprofunditat: " + profunditat + "\n");
+			System.err.println( "Cost: " + cost + "\nprofunditat: " + profunditat + "\n" );
 			puntuacio = ia_avaluacio.funcioAvaluacio( tauler, estat_iteracio, profunditat, jugador );
 			taula_transposicio.put( tauler.hashCode(),
 					new ElementTaulaTransposicions( profunditat, FitesDePoda.VALOR_EXACTE, puntuacio, jugador ) );
