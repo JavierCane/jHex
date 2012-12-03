@@ -23,7 +23,7 @@ public final class PresentacioCtrl
 	private RegistraVista registra_vista;
 	private MenuPrincipalVista menu_principal_vista;
 	private PreferenciesVista preferencies_vista;
-	private IniciaPartidaVista inicia_partida_vista;
+	private ConfiguraPartidaVista inicia_partida_vista;
 	private RanquingVista ranquing_vista;
 	private CarregaPartidaVista carrega_partida_vista;
 	private PartidaVista partida_vista;
@@ -43,6 +43,11 @@ public final class PresentacioCtrl
 			       NullPointerException
 	{
 		UsuariCtrl.getInstancia().carregaUsuari( nom, contrasenya, TipusJugadors.JUGADOR );
+	}
+
+	public boolean getEsConvidat()
+	{
+		return es_convidat;
 	}
 
 	public void entraConvidat() throws IllegalArgumentException, IOException
@@ -188,7 +193,7 @@ public final class PresentacioCtrl
 	{
 		if ( inicia_partida_vista == null )
 		{
-			inicia_partida_vista = new IniciaPartidaVista( this, frame_principal );
+			inicia_partida_vista = new ConfiguraPartidaVista( this, frame_principal );
 		}
 		menu_principal_vista = null;
 		inicia_partida_vista.fesVisible();

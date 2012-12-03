@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-public final class IniciaPartidaVista extends BaseVista implements ItemListener
+public final class ConfiguraPartidaVista extends BaseVista implements ItemListener
 {
 
 	// Panells
@@ -24,34 +24,51 @@ public final class IniciaPartidaVista extends BaseVista implements ItemListener
 	private JButton descarta = new JButton( "Descarta" );
 
 	// Camps de tipus combos
-	private JComboBox combo_tipus_jugador_a = new JComboBox( new String[] {
-			"Convidat 1",
-			"Màquina"
-	} );
+	private JComboBox combo_tipus_jugador_a;
 	private JComboBox combo_tipus_maquina_a = new JComboBox( TipusJugadors.obteLlistatMaquines() );
 	private JComboBox combo_tipus_jugador_b = new JComboBox( new String[] {
-			"Usuari registrat",
-			"Convidat 2",
-			"Màquina"
+			"Màquina",
+			"Convidat",
+			"Usuari registrat"
 	} );
 	private JComboBox combo_tipus_maquina_b = new JComboBox( TipusJugadors.obteLlistatMaquines() );
 
 	// Camps de tipus text/contrasenya
+	private JTextField camp_nom_convidat_a = new JTextField();
+	private JTextField camp_nom_convidat_b = new JTextField();
 	private JTextField camp_nom_usuari_b = new JTextField();
 	private JPasswordField camp_contrasenya_usuari_b = new JPasswordField();
 
 	// Etiquetes de text
-	private JLabel nom_jugador_principal = new JLabel( "Nom d'usuari: " + presentacio_ctrl.obteNomJugadorPrincipal() );
+	private JLabel text_convidat_a = new JLabel( "Nom d'usuari convidat 1:" );
+	private JLabel text_convidat_b = new JLabel( "Nom d'usuari convidat 2:" );
 	private JLabel text_usuari = new JLabel( "Nom d'usuari:" );
 	private JLabel text_contrasenya = new JLabel( "Contrasenya:" );
 	private JLabel text_jugador_a = new JLabel( "Jugador 1:" );
 	private JLabel text_jugador_b = new JLabel( "Jugador 2:" );
 
-	public IniciaPartidaVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
+	public ConfiguraPartidaVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
 	{
 		super( presentacio_ctrl, frame_principal );
 
 		titol = new JLabel( "Juga una partida" );
+
+		// Si l'usuari ha iniciat sessió com a convidat, unicament mostro l'opció de jugar com convidat o màquina
+		if ( presentacio_ctrl.getEsConvidat() )
+		{
+			combo_tipus_jugador_a = new JComboBox( new String[] {
+					"Convidat",
+					"Màquina"
+			} );
+		}
+		else // Si ha iniciat sessió como a usuari registrat, mostro les 3 opcions
+		{
+			combo_tipus_jugador_a = new JComboBox( new String[] {
+					presentacio_ctrl.obteNomJugadorPrincipal(),
+					"Convidat",
+					"Màquina"
+			} );
+		}
 
 		inicialitzaVista();
 	}
@@ -63,77 +80,100 @@ public final class IniciaPartidaVista extends BaseVista implements ItemListener
 		panell_central.setLayout( new GridLayout( 2, 1, 10, 10 ) );
 		panell_central.setOpaque( false );
 
-		// Panell jugador 1
-		JPanel panell_jugador_1 = new JPanelImatge( "img/caixa.png" ); // Caixa i text "Jugador 1:"
-		panell_jugador_1.setBorder( BorderFactory.createRaisedBevelBorder() );
-		panell_jugador_1.setLayout( new BoxLayout( panell_jugador_1, BoxLayout.PAGE_AXIS ) );
-		panell_jugador_1.setOpaque( false );
+		// Panell jugador 1 -------------------------------------------------------------------------------------------
+		JPanel panell_jugador_a = new JPanelImatge( "img/caixa.png" ); // Caixa i text "Jugador 1:"
+		panell_jugador_a.setOpaque( false );
+		panell_jugador_a.setBorder( BorderFactory.createRaisedBevelBorder() );
+		panell_jugador_a.setLayout( new BoxLayout( panell_jugador_a, BoxLayout.PAGE_AXIS ) );
 		text_jugador_a.setAlignmentX( Component.CENTER_ALIGNMENT );
-		panell_jugador_1.add( text_jugador_a );
+		panell_jugador_a.add( text_jugador_a );
 
 		JPanel principal_jugador_1 = new JPanel();
+		principal_jugador_1.setOpaque( false );
 		principal_jugador_1.setLayout( new GridLayout( 1, 2, 10, 10 ) );
 		principal_jugador_1.setBorder( BorderFactory.createEmptyBorder( 10, 10, 10, 10 ) );
-		principal_jugador_1.setOpaque( false );
 
-		// Seleccionable Jugador 1, CardLayout (mostra un dels n JPanels afegits
+		// Layout de tipus CardLayout per canviar formulari en base a la selecció del tipus d'usuari
 		seleccio_jugador_a.setLayout( new CardLayout() );
 		seleccio_jugador_a.setOpaque( false );
 
-		JPanel text_usuari_registrat = new JPanel(); // Etiqueta de text nom Jugador 1
-		text_usuari_registrat.add( nom_jugador_principal );
-		text_usuari_registrat.setOpaque( false );
-		seleccio_jugador_a.add( text_usuari_registrat, "Usuari registrat" );
+		// Si l'usuari no ha iniciat sessió com a convidat, mostro l'opció de jugar com a registrat
+		if ( !presentacio_ctrl.getEsConvidat() )
+		{
+			JPanel text_usuari_registrat = new JPanel();
+			text_usuari_registrat.setOpaque( false );
+			seleccio_jugador_a.add( text_usuari_registrat, presentacio_ctrl.obteNomJugadorPrincipal() );
+		}
 
-		// Combo/seleccionable Jugador 1, Convidat 1, Màquina 1
-		JPanel opcions_maquina_seleccio_jugador_a = new JPanel();
-		opcions_maquina_seleccio_jugador_a.add( combo_tipus_maquina_a );
-		opcions_maquina_seleccio_jugador_a.setOpaque( false );
-		seleccio_jugador_a.add( opcions_maquina_seleccio_jugador_a, "Màquina" );
+		// Formulari nom convidat jugador 1 per quan a seleccionat jugar com convidat
+		JPanel formulari_nom_convidat_jugador_a = new JPanel();
+		formulari_nom_convidat_jugador_a.setLayout( new GridLayout( 2, 1 ) );
+		formulari_nom_convidat_jugador_a.setOpaque( false );
+		formulari_nom_convidat_jugador_a.add( text_convidat_a );
+		formulari_nom_convidat_jugador_a.add( camp_nom_convidat_a );
+		seleccio_jugador_a.add( formulari_nom_convidat_jugador_a, "Convidat" );
+
+		// Seleccionable tipus de màquina jugador 1 per quan a seleccionat jugar com una màquina
+		JPanel seleccio_tipus_maquina_jugador_a = new JPanel();
+		seleccio_tipus_maquina_jugador_a.setLayout( new GridLayout( 1, 1 ) );
+		seleccio_tipus_maquina_jugador_a.setOpaque( false );
+		seleccio_tipus_maquina_jugador_a.add( combo_tipus_maquina_a );
+		seleccio_jugador_a.add( seleccio_tipus_maquina_jugador_a, "Màquina" );
 
 		// Afegeixo a la vista el panell de selecció de tipus de jugador a
 		principal_jugador_1.add( combo_tipus_jugador_a );
 		principal_jugador_1.add( seleccio_jugador_a );
-		panell_jugador_1.add( principal_jugador_1 );
 
-		// Panell jugador 2
-		JPanel panell_jugador_2 = new JPanelImatge( "img/caixa.png" ); // Caixa i text "Jugador 2:"
-		panell_jugador_2.setBorder( BorderFactory.createRaisedBevelBorder() );
-		panell_jugador_2.setLayout( new BoxLayout( panell_jugador_2, BoxLayout.PAGE_AXIS ) );
-		panell_jugador_2.setOpaque( false );
+		panell_jugador_a.add( principal_jugador_1 );
+
+		// Panell jugador 2 -------------------------------------------------------------------------------------------
+		JPanel panell_jugador_b = new JPanelImatge( "img/caixa.png" ); // Caixa i text "Jugador 2:"
+		panell_jugador_b.setBorder( BorderFactory.createRaisedBevelBorder() );
+		panell_jugador_b.setLayout( new BoxLayout( panell_jugador_b, BoxLayout.PAGE_AXIS ) );
+		panell_jugador_b.setOpaque( false );
 		text_jugador_b.setAlignmentX( Component.CENTER_ALIGNMENT );
-		panell_jugador_2.add( text_jugador_b );
+		panell_jugador_b.add( text_jugador_b );
 
-		JPanel principal_jugador_2 = new JPanel();
-		principal_jugador_2.setLayout( new GridLayout( 1, 2, 10, 10 ) );
-		principal_jugador_2.setBorder( BorderFactory.createEmptyBorder( 10, 10, 10, 10 ) );
-		principal_jugador_2.setOpaque( false );
+		JPanel principal_jugador_b = new JPanel();
+		principal_jugador_b.setLayout( new GridLayout( 1, 2, 10, 10 ) );
+		principal_jugador_b.setBorder( BorderFactory.createEmptyBorder( 10, 10, 10, 10 ) );
+		principal_jugador_b.setOpaque( false );
 
-		JPanel maquina_jugador_2 = new JPanel(); // Combo/seleccionable Convidat 2, Màquina 2
-		maquina_jugador_2.add( combo_tipus_maquina_b );
-		maquina_jugador_2.setOpaque( false );
-
-		JPanel huma_jugador_2 = new JPanel(); // Etiqueta de text nom Jugador 2
-		huma_jugador_2.setLayout( new GridLayout( 2, 2, 10, 10 ) );
-		huma_jugador_2.setOpaque( false );
-
-		huma_jugador_2.add( text_usuari );
-		huma_jugador_2.add( camp_nom_usuari_b );
-		huma_jugador_2.add( text_contrasenya );
-		huma_jugador_2.add( camp_contrasenya_usuari_b );
-
+		// Layout de tipus CardLayout per canviar formulari en base a la selecció del tipus d'usuari
 		seleccio_jugador_b.setLayout( new CardLayout() );
 		seleccio_jugador_b.setOpaque( false );
-		seleccio_jugador_b.add( huma_jugador_2, "Humà" );
-		seleccio_jugador_b.add( maquina_jugador_2, "Màquina" );
 
-		principal_jugador_2.add( combo_tipus_jugador_b );
-		principal_jugador_2.add( seleccio_jugador_b );
-		panell_jugador_2.add( principal_jugador_2 );
+		JPanel seleccio_tipus_maquina_jugador_b = new JPanel(); // Seleccionable tipus de màquina jugador 2
+		seleccio_tipus_maquina_jugador_b.setOpaque( false );
+		seleccio_tipus_maquina_jugador_b.setLayout( new GridLayout( 1, 1 ) );
+		seleccio_tipus_maquina_jugador_b.add( combo_tipus_maquina_b );
+		seleccio_jugador_b.add( seleccio_tipus_maquina_jugador_b, "Màquina" );
+
+		JPanel formulari_nom_convidat_jugador_b = new JPanel(); // Formulari nom convidat jugador 2
+		formulari_nom_convidat_jugador_b.setLayout( new GridLayout( 2, 1 ) );
+		formulari_nom_convidat_jugador_b.setOpaque( false );
+		formulari_nom_convidat_jugador_b.add( text_convidat_b );
+		formulari_nom_convidat_jugador_b.add( camp_nom_convidat_b );
+		seleccio_jugador_b.add( formulari_nom_convidat_jugador_b, "Convidat" );
+
+		// Formulari inici sessió jugador 2 per quan a seleccionat iniciar sessió com usuari registrat
+		JPanel formulari_inici_sessio_jugador_b = new JPanel();
+		formulari_inici_sessio_jugador_b.setOpaque( false );
+		formulari_inici_sessio_jugador_b.setLayout( new GridLayout( 2, 2 ) );
+		formulari_inici_sessio_jugador_b.add( text_usuari );
+		formulari_inici_sessio_jugador_b.add( camp_nom_usuari_b );
+		formulari_inici_sessio_jugador_b.add( text_contrasenya );
+		formulari_inici_sessio_jugador_b.add( camp_contrasenya_usuari_b );
+		seleccio_jugador_b.add( formulari_inici_sessio_jugador_b, "Usuari registrat" );
+
+		principal_jugador_b.add( combo_tipus_jugador_b );
+		principal_jugador_b.add( seleccio_jugador_b );
+
+		panell_jugador_b.add( principal_jugador_b );
 
 		// Panel central
-		panell_central.add( panell_jugador_1 );
-		panell_central.add( panell_jugador_2 );
+		panell_central.add( panell_jugador_a );
+		panell_central.add( panell_jugador_b );
 	}
 
 	@Override
@@ -204,7 +244,7 @@ public final class IniciaPartidaVista extends BaseVista implements ItemListener
 
 		try
 		{
-			presentacio_ctrl.configuraUsuarisPartida( tipus_jugador_a, camp_nom_usuari_b.getText(),
+			presentacio_ctrl.configuraUsuarisPartida( tipus_jugador_a, camp_nom_convidat_b.getText(),
 					new String( camp_contrasenya_usuari_b.getPassword() ), tipus_jugador_b );
 
 			presentacio_ctrl.iniciaPartida( 7, "AAA" );
