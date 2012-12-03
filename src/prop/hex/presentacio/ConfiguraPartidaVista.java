@@ -74,6 +74,39 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 	}
 
 	@Override
+	protected void inicialitzaPanellPrincipal()
+	{
+		panell_principal.setLayout( new GridBagLayout() );
+		panell_principal.setBorder( BorderFactory.createEmptyBorder( 10, 10, 10, 10 ) );
+		GridBagConstraints propietats_panel = new GridBagConstraints();
+		propietats_panel.fill = GridBagConstraints.HORIZONTAL;
+		propietats_panel.anchor = GridBagConstraints.CENTER;
+		propietats_panel.gridx = 1;
+		propietats_panel.gridy = 0;
+		propietats_panel.weightx = 0.5;
+		propietats_panel.weighty = 0.2;
+		panell_principal.add( panell_titol, propietats_panel );
+		propietats_panel.gridx = 1;
+		propietats_panel.gridy = 1;
+		propietats_panel.weighty = 0.6;
+		panell_principal.add( panell_central, propietats_panel );
+		propietats_panel.gridy = 2;
+		propietats_panel.weighty = 0.2;
+		panell_principal.add( panell_botons, propietats_panel );
+		propietats_panel.fill = GridBagConstraints.NONE;
+		propietats_panel.gridx = 2;
+		propietats_panel.gridy = 2;
+		propietats_panel.weightx = 0.25;
+		propietats_panel.anchor = GridBagConstraints.SOUTHEAST;
+		panell_principal.add( panell_sortida, propietats_panel );
+		propietats_panel.gridx = 0;
+		propietats_panel.gridy = 2;
+		propietats_panel.weightx = 0.25;
+		propietats_panel.anchor = GridBagConstraints.SOUTHWEST;
+		panell_principal.add( titol_baix, propietats_panel );
+	}
+
+	@Override
 	protected void inicialitzaPanellCentral()
 	{
 		// Panell central
@@ -184,39 +217,6 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 		panell_botons.add( situacio_inicial );
 		panell_botons.add( descarta );
 		panell_botons.setOpaque( false );
-	}
-
-	@Override
-	protected void inicialitzaPanellPrincipal()
-	{
-		panell_principal.setLayout( new GridBagLayout() );
-		panell_principal.setBorder( BorderFactory.createEmptyBorder( 10, 10, 10, 10 ) );
-		GridBagConstraints propietats_panel = new GridBagConstraints();
-		propietats_panel.fill = GridBagConstraints.HORIZONTAL;
-		propietats_panel.anchor = GridBagConstraints.CENTER;
-		propietats_panel.gridx = 1;
-		propietats_panel.gridy = 0;
-		propietats_panel.weightx = 0.5;
-		propietats_panel.weighty = 0.2;
-		panell_principal.add( panell_titol, propietats_panel );
-		propietats_panel.gridx = 1;
-		propietats_panel.gridy = 1;
-		propietats_panel.weighty = 0.6;
-		panell_principal.add( panell_central, propietats_panel );
-		propietats_panel.gridy = 2;
-		propietats_panel.weighty = 0.2;
-		panell_principal.add( panell_botons, propietats_panel );
-		propietats_panel.fill = GridBagConstraints.NONE;
-		propietats_panel.gridx = 2;
-		propietats_panel.gridy = 2;
-		propietats_panel.weightx = 0.25;
-		propietats_panel.anchor = GridBagConstraints.SOUTHEAST;
-		panell_principal.add( panell_sortida, propietats_panel );
-		propietats_panel.gridx = 0;
-		propietats_panel.gridy = 2;
-		propietats_panel.weightx = 0.25;
-		propietats_panel.anchor = GridBagConstraints.SOUTHWEST;
-		panell_principal.add( titol_baix, propietats_panel );
 	}
 
 	public void accioBotoIniciaPartida( ActionEvent event )

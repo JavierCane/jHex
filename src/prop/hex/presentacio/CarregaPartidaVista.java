@@ -35,23 +35,6 @@ public final class CarregaPartidaVista extends BaseVista
 	}
 
 	@Override
-	protected void inicialitzaPanellCentral()
-	{
-		panell_central.add( new JScrollPane( taula_partides ) );
-		panell_central.setOpaque( false );
-		taula_partides.setFillsViewportHeight( true );
-		taula_partides.setEnabled( false );
-	}
-
-	@Override
-	protected void inicialitzaPanellPeu()
-	{
-		panell_botons.add( carrega );
-		panell_botons.add( descarta );
-		panell_botons.setOpaque( false );
-	}
-
-	@Override
 	protected void inicialitzaPanellPrincipal()
 	{
 		panell_principal.setLayout( new GridBagLayout() );
@@ -82,6 +65,23 @@ public final class CarregaPartidaVista extends BaseVista
 		propietats_panel.weightx = 0.25;
 		propietats_panel.anchor = GridBagConstraints.SOUTHWEST;
 		panell_principal.add( titol_baix, propietats_panel );
+	}
+
+	@Override
+	protected void inicialitzaPanellCentral()
+	{
+		panell_central.add( new JScrollPane( taula_partides ) );
+		panell_central.setOpaque( false );
+		taula_partides.setFillsViewportHeight( true );
+		taula_partides.setEnabled( false );
+	}
+
+	@Override
+	protected void inicialitzaPanellPeu()
+	{
+		panell_botons.add( carrega );
+		panell_botons.add( descarta );
+		panell_botons.setOpaque( false );
 	}
 
 	public void accioBotoCarrega( ActionEvent event )
