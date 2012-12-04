@@ -34,13 +34,9 @@ public class IAHexQueenBeeCtrl extends InteligenciaArtificial implements MouFitx
 	 */
 	private static int profunditat_maxima = 2;
 
-	IAHexQueenBeeCtrl()
+	public IAHexQueenBeeCtrl()
 	{
-
-		if ( memoria == null )
-		{
-			memoria = new HashMap<Integer, ElementTaulaTransposicions>();
-		}
+		memoria = new HashMap<Integer, ElementTaulaTransposicions>();
 	}
 
 	/**

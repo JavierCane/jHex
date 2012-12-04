@@ -28,7 +28,7 @@ public class IAHexSexSearch implements MouFitxaIA
 	private TaulerHex tauler;
 	private static int pressupost = 5;
 	private static int profunditat_max = 5;
-	private static HashMap<Integer, ElementTaulaTransposicions> taula_transposicio;
+	private HashMap<Integer, ElementTaulaTransposicions> taula_transposicio;
 	private IAHexQueenBeeCtrl ia_avaluacio;
 
 	/**
@@ -36,10 +36,7 @@ public class IAHexSexSearch implements MouFitxaIA
 	 */
 	public IAHexSexSearch()
 	{
-		if ( taula_transposicio == null )
-		{
-			taula_transposicio = new HashMap<Integer, ElementTaulaTransposicions>();
-		}
+		taula_transposicio = new HashMap<Integer, ElementTaulaTransposicions>();
 
 		ia_avaluacio = new IAHexQueenBeeCtrl();
 	}
@@ -115,17 +112,17 @@ public class IAHexSexSearch implements MouFitxaIA
 		int beta_2, puntuacio;
 		if ( cost >= pressupost || profunditat >= profunditat_max || estat_iteracio != EstatPartida.NO_FINALITZADA )
 		{
-			System.err.println( "Cost: " + cost + "\nprofunditat: " + profunditat + "\n" );
 			puntuacio = ia_avaluacio.funcioAvaluacio( tauler, estat_iteracio, profunditat, jugador );
 			taula_transposicio.put( tauler.hashCode(),
-					new ElementTaulaTransposicions( profunditat, FitesDePoda.VALOR_EXACTE, puntuacio, jugador ) );
+					new ElementTaulaTransposicions( partida.getTornsJugats() + profunditat, FitesDePoda.VALOR_EXACTE,
+							puntuacio, jugador ) );
 			return puntuacio;
 		}
 
 		if ( taula_transposicio.containsKey( tauler.hashCode() ) )
 		{
 			ElementTaulaTransposicions element = taula_transposicio.get( tauler.hashCode() );
-			if ( element.getProfunditat() >= profunditat )
+			if ( element.getProfunditat() >= partida.getTornsJugats() + profunditat )
 			{
 				switch ( element.getFita( jugador ) )
 				{
@@ -182,7 +179,8 @@ public class IAHexSexSearch implements MouFitxaIA
 				if ( alfa >= beta )
 				{
 					taula_transposicio.put( tauler.hashCode(),
-							new ElementTaulaTransposicions( profunditat, FitesDePoda.FITA_INFERIOR, alfa, jugador ) );
+							new ElementTaulaTransposicions( partida.getTornsJugats() + profunditat,
+									FitesDePoda.FITA_INFERIOR, alfa, jugador ) );
 					return alfa;
 				}
 
@@ -191,7 +189,8 @@ public class IAHexSexSearch implements MouFitxaIA
 			}
 		}
 
-		taula_transposicio.put( tauler.hashCode(), new ElementTaulaTransposicions( profunditat, fita, alfa, jugador ) );
+		taula_transposicio.put( tauler.hashCode(),
+				new ElementTaulaTransposicions( partida.getTornsJugats() + profunditat, fita, alfa, jugador ) );
 
 		return alfa;
 	}
