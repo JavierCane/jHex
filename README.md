@@ -1,4 +1,4 @@
-Joc de taula Hex
+jHex - Joc de Taula Hex
 ========
 
 Dades del projecte
@@ -8,6 +8,7 @@ Dades del projecte
 * Assignatura:	Projectes de Programació (PROP)
 * Facultat: 	Facultat d'Informàtica de Barcelona (FIB-UPC)
 * Curs:			2012-1013
+* Data entrega:	2012-12-18
 * Grup: 		7.3
 * Integrants:
 > * [Ferrer González, Javier](mailto:javier.ferrer.gonzalez@est.fib.upc.edu)
@@ -21,14 +22,20 @@ Com compilar i executar
 
 1. Moure'ns al directori arrel del projecte:
 > ``cd /path/absolut/del/projecte/jHex/``
-2. Eliminar possibles arxius de compilacions prèvies:
-> ``rm $(find ./src/* | grep .class$)``
+2.a. Si no hem fet compilacions prèvies, crear el directori de arxius binaris:
+> ``mkdir bin``
+2.b. Si hem fet compilacions prèvies, eliminar arxius binaris:
+> ``rm -rf bin/*``
 3. Moure'ns al directori arrel del codi font:
 > ``cd src/``
-4. Compilar incloent tots els fitxers dels drivers:
-> ``javac prop/hex/domini/controladors/drivers/*.java``
-5. Executar el driver principal:
-> ``java prop.hex.domini.controladors.drivers.PrincipalDrvr``
+4. Compilar incloent tots els fitxers java:
+> ``javac -d ../bin $(find ./* | grep .java$)``
+5. Moure'ns al directori arrel del del projecte:
+> ``cd ..``
+6.a Si volem executar el joc al complet amb interfície gràfica:
+> ``java -classpath ./bin prop.hex.presentacio.JHex``
+6.b Si volem fer testing via els drivers dels controladors mitjançant la consola:
+> ``java -classpath ./bin prop.hex.domini.controladors.drivers.PrincipalDrvr``
 
 Explicació PrincipalDrvr
 --------
@@ -40,7 +47,10 @@ drivers que hi hagi a la carpeta corresponent (carpeta_drivers) i llistar els se
 Estructura de fitxers
 --------
 
-* ``dat/``:		Dades del joc (persistència d'usuaris, partides, etc.).
+* ``bin/``:		Arxius binaris del projecte resultants de la compilació d'aquest.
+* ``dat/``:		Dades del joc (persistència a disc d'usuaris, partides i rànquing).
 * ``doc/``:		Documentació del codi, classes implementades per cadascú i diagrama estàtic del domini.
-* ``res/``:		Recursos diversos utilitzats al projecte (preferències del IDE IntelliJ, disseny de les pantalles, etc.)
+* ``img/``:		Imatges utilitzades a l'interfície gràfica.
+* ``res/``:		Recursos diversos utilitzats durant el desenvolupament del projecte (preferències del IDE IntelliJ,
+disseny de les pantalles i documentació d'algorismes per implementar les IAs)
 * ``src/``:		Codi font del projecte.
