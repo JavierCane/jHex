@@ -3,6 +3,7 @@ package prop.hex.domini.models;
 import prop.cluster.domini.models.Partida;
 import prop.cluster.domini.models.estats.EstatCasella;
 import prop.cluster.domini.models.estats.EstatPartida;
+import prop.hex.domini.controladors.MouFitxaIA;
 import prop.hex.domini.models.enums.CombinacionsColors;
 import prop.hex.domini.models.enums.ModesInici;
 
@@ -51,15 +52,42 @@ public class PartidaHex extends Partida implements Serializable
 	private CombinacionsColors combinacio_colors;
 
 	/**
+	 * Instant de temps en què es va efectuar el darrer moviment.
+	 */
+	private long instant_darrer_moviment;
+
+	/**
+	 * Instància de casella que conté la posició de la darrera fitxa.
+	 */
+	private Casella darrera_fitxa;
+
+	/**
+	 * Instàncies de les intel·ligències artificials per als jugadors no humans.
+	 */
+	private MouFitxaIA[] ia_jugadors = new MouFitxaIA[2];
+
+	/**
+	 * Tipus de fitxa de cada jugador.
+	 */
+	private static EstatCasella[] fitxes_jugadors = {
+			EstatCasella.JUGADOR_A,
+			EstatCasella.JUGADOR_B
+	};
+
+	/**
 	 * Constructora alternativa per partides que no han estat jugades
 	 *
 	 * @param jugador_a Usuari que farà de jugador A
 	 * @param jugador_b Usuari que farà de jugador B
 	 * @param tauler    Tauler on es desenvoluparà la partida
 	 * @param nom       Nom de la partida
+	 * @throws ClassNotFoundException Si no es pot carregar la classe de les intel·ligències artificials.
+	 * @throws InstantiationError     Si hi ha problemes amb la instanciació de les intel·ligències artificials.
+	 * @throws IllegalAccessError     Si s'intenta accedir a un lloc no permès quan es carreguen les intel·ligències
+	 *                                artificials.
 	 */
 	public PartidaHex( UsuariHex jugador_a, UsuariHex jugador_b, TaulerHex tauler, String nom )
-			throws IllegalArgumentException
+			throws ClassNotFoundException, InstantiationException, IllegalAccessException
 	{
 		super( jugador_a, jugador_b, tauler, nom );
 
@@ -73,6 +101,32 @@ public class PartidaHex extends Partida implements Serializable
 
 		mode_inici = jugador_a.getModeInici();
 		combinacio_colors = jugador_a.getCombinacionsColors();
+
+		instant_darrer_moviment = new Date().getTime() / 1000L;
+		darrera_fitxa = new Casella( 0, 0 );
+
+		inicialitzaIAJugadors();
+	}
+
+	/**
+	 * Inicialitza les estructures de control per a la partida actual.
+	 *
+	 * @throws ClassNotFoundException Si no es pot carregar la classe de les intel·ligències artificials.
+	 * @throws IllegalAccessError     Si s'intenta accedir a un lloc no permès quan es carreguen les intel·ligències
+	 *                                artificials.
+	 * @throws InstantiationError     Si hi ha problemes amb la instanciació de les intel·ligències artificials.
+	 */
+	private void inicialitzaIAJugadors() throws ClassNotFoundException, IllegalAccessException, InstantiationException
+	{
+		ia_jugadors[0] = ( MouFitxaIA ) Class.forName( "prop.hex.domini.controladors." +
+		                                               ( ( UsuariHex ) jugador_a ).getTipusJugador()
+				                                               .getClasseCorresponent() ).newInstance();
+		ia_jugadors[0].setPartida( this );
+
+		ia_jugadors[1] = ( MouFitxaIA ) Class.forName( "prop.hex.domini.controladors." +
+		                                               ( ( UsuariHex ) jugador_b ).getTipusJugador()
+				                                               .getClasseCorresponent() ).newInstance();
+		ia_jugadors[1].setPartida( this );
 	}
 
 	/**
@@ -349,5 +403,59 @@ public class PartidaHex extends Partida implements Serializable
 	public ModesInici getModeInici()
 	{
 		return mode_inici;
+	}
+
+	public long getInstantDarrerMoviment()
+	{
+		return instant_darrer_moviment;
+	}
+
+	public boolean setInstantDarrerMoviment( Long instant_darrer_moviment )
+	{
+		this.instant_darrer_moviment = instant_darrer_moviment;
+		return true;
+	}
+
+	public Casella getDarreraFitxa()
+	{
+		return darrera_fitxa;
+	}
+
+	public boolean setDarreraFitxa( Casella darrera_fitxa )
+	{
+		this.darrera_fitxa = darrera_fitxa;
+		return true;
+	}
+
+	/**
+	 * Mètode per obtenir la casella a la que mouria la IA del jugador del torn actual
+	 *
+	 * @return la casella a la que mouria la IA del jugador del torn actual
+	 */
+	public Casella getMovimentIATornActual()
+	{
+		return ia_jugadors[torns_jugats % 2].mouFitxa( fitxes_jugadors[torns_jugats % 2] );
+	}
+
+	public EstatCasella[] getFitxesJugadors()
+	{
+		return fitxes_jugadors;
+	}
+
+	public EstatCasella getFitxaJugadorTornActual()
+	{
+		return fitxes_jugadors[torns_jugats % 2];
+	}
+
+	public UsuariHex getUsuariTornActual()
+	{
+		if ( 0 == torns_jugats % 2 )
+		{
+			return ( UsuariHex ) getJugadorA();
+		}
+		else
+		{
+			return ( UsuariHex ) getJugadorB();
+		}
 	}
 }

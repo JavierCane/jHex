@@ -97,7 +97,7 @@ public final class IniciaSessioVista extends BaseVista
 	{
 		try
 		{
-			presentacio_ctrl.setJugadorPrincipal( usuari.getText(), new String( contrasenya.getPassword() ) );
+			presentacio_ctrl.setUsuariActual( usuari.getText(), new String( contrasenya.getPassword() ) );
 			presentacio_ctrl.vistaIniciaSessioAMenuPrincipal();
 		}
 		catch ( IllegalArgumentException excepcio )

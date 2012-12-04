@@ -35,14 +35,30 @@ public final class PresentacioCtrl
 		frame_principal.setResizable( false );
 		frame_principal.setLocationRelativeTo( null );
 		frame_principal.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+
+		try
+		{
+			PartidaCtrl.comprovaConsistenciaFitxersIDades();
+		}
+		catch ( Exception e )
+		{
+			VistaDialeg dialeg = new VistaDialeg();
+			String[] botons = { "Accepta" };
+			String valor_seleccionat = dialeg.setDialeg( "Error",
+					"Error inicialitzant les dades del joc.", botons,
+					JOptionPane.ERROR_MESSAGE );
+
+			e.printStackTrace(); // Imprimeixo l'error per consola per poder-ho debugar
+		}
+
 		inicia_sessio_vista.fesVisible();
 	}
 
-	public void setJugadorPrincipal( String nom, String contrasenya )
+	public void setUsuariActual( String nom, String contrasenya )
 			throws IllegalArgumentException, FileNotFoundException, IOException, ClassNotFoundException,
 			       NullPointerException
 	{
-		UsuariCtrl.getInstancia().carregaUsuari( nom, contrasenya, TipusJugadors.JUGADOR );
+		UsuariCtrl.getInstancia().setUsuariPrincipal( nom, contrasenya );
 	}
 
 	public boolean getEsConvidat()
@@ -86,7 +102,7 @@ public final class PresentacioCtrl
 
 	public CombinacionsColors obteCombinacioDeColorsJugadorPrincipal()
 	{
-		return UsuariCtrl.getInstancia().obteCombinacioDeColors();
+		return UsuariCtrl.getInstancia().obteCombinacioColors();
 	}
 
 	public void modificaPreferenciesJugadorPrincipal( ModesInici mode_inici, CombinacionsColors combinacio_colors )
@@ -99,20 +115,24 @@ public final class PresentacioCtrl
 		UsuariCtrl.getInstancia().reiniciaEstadistiques();
 	}
 
-	public void configuraUsuarisPartida( TipusJugadors jugador_a, String nom, String contrasenya,
-	                                     TipusJugadors jugador_b )
+	// Mètodes ConfiguraPartidaVista ----------------------------------------------------------------------------------
+
+	public void preInicialitzaUsuariPartida( int num_jugador, TipusJugadors tipus_jugador, String nom_usuari,
+	                                         String contrasenya_usuari )
 			throws IllegalArgumentException, FileNotFoundException, IOException, ClassNotFoundException,
 			       NullPointerException
 	{
-		UsuariCtrl.getInstancia().carregaJugadorsPartida( jugador_a, nom, contrasenya, jugador_b );
+		PartidaCtrl.getInstancia()
+				.preInicialitzaUsuariPartida( num_jugador, tipus_jugador, nom_usuari, contrasenya_usuari );
 	}
 
 	public void iniciaPartida( int mida_tauler, String nom_partida )
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException
 	{
-		PartidaCtrl.getInstancia().inicialitzaPartida( mida_tauler, UsuariCtrl.getInstancia().getUsuariJugadorA(),
-				UsuariCtrl.getInstancia().getUsuariJugadorB(), nom_partida );
+		PartidaCtrl.getInstancia().inicialitzaPartida( mida_tauler, nom_partida );
 	}
+
+	// Mètodes RanquingVista ------------------------------------------------------------------------------------------
 
 	public Object[][] obteLlistaRanquing()
 	{
@@ -127,6 +147,8 @@ public final class PresentacioCtrl
 		}
 		return llista;
 	}
+
+	// Mètodes per intercanviar vistes --------------------------------------------------------------------------------
 
 	public void vistaIniciaSessioARegistra()
 	{

@@ -7,6 +7,7 @@ import java.util.*;
  * La gràcia d'aquest enum es que es dinàmic i els paràmetres de cada una de les dificultats només figuren aquí,
  * fent així que el fet de modificar aquestes (afegint o cambiant el nombre de dificultats,
  * o modificant la cuantitat de punts que otorgar/restar) numés impliqui editar aquest fitxer.
+ * No es poden modificar les primeres dues posicions (Convidat i Jugador)
  * <p/>
  * L'ordre dels valors de l'array de paràmetres de cada una de les dificultats (valors de l'enum) es important y ha de
  * ser el seguent:
@@ -18,11 +19,12 @@ import java.util.*;
  */
 public enum TipusJugadors
 {
-	JUGADOR( 0, 5, 4, "IAHexFacilCtrl" ),
-	IA_FACIL( 1, 10, 3, "IAHexFacilCtrl", "Jose Antonio Camacho (MiniMax, nivell 0)" ),
-	IA_MONTESCOUT( 2, 15, 2, "IAHexNegaMonteScout", "Bill Clinton (MonteScout, nivell 1)" ),
-	IA_QUEENBEE( 3, 15, 2, "IAHexQueenBeeCtrl", "Hillary Clinton (QueenBee, nivell 1.5)" ),
-	IA_SEXQUEENBEE( 4, 20, 1, "IAHexSexSearch", "Monica Lewinsky (SexQueenBee, nivell 2)" );
+	CONVIDAT( 0, 0, 0, "IAHexSexSearch" ),
+	JUGADOR( 1, 5, 4, "IAHexSexSearch" ),
+	IA_FACIL( 2, 10, 3, "IAHexFacilCtrl", "Jose Antonio Camacho (MiniMax, nivell 0)" ),
+	IA_MONTESCOUT( 3, 15, 2, "IAHexNegaMonteScout", "Bill Clinton (MonteScout, nivell 1)" ),
+	IA_QUEENBEE( 4, 15, 2, "IAHexQueenBeeCtrl", "Hillary Clinton (QueenBee, nivell 1.5)" ),
+	IA_SEXQUEENBEE( 5, 20, 1, "IAHexSexSearch", "Monica Lewinsky (SexQueenBee, nivell 2)" );
 
 	/**
 	 * Nombre total de dificultats del joc.
@@ -177,6 +179,11 @@ public enum TipusJugadors
 	}
 
 	/**
+	 * Mètode públic per poder establir el nom de l'usuari.
+	 * Usat quan es creen usuaris de tipus convidat i jugador.
+	 *
+	 * @return true
+	/**
 	 * Obté un tipus de jugador de forma aleatòria garantitzant que serà de tipus màquina.
 	 * Funció útil per jugar contra una màquina desconeguda.
 	 *
@@ -186,7 +193,7 @@ public enum TipusJugadors
 	{
 		Random num_aleatori = new Random();
 
-		return tipus_jugadors.get( num_aleatori.nextInt( num_dificultats - 1 ) + 1 );
+		return tipus_jugadors.get( num_aleatori.nextInt( num_dificultats - 2 ) + 2 );
 	}
 
 	/**
@@ -203,7 +210,7 @@ public enum TipusJugadors
 			// Afegeixo tots els tipus de jugadors que siguin màquines (tingin nom de màquina)
 			for ( TipusJugadors tipus_jugador : values() )
 			{
-				if ( tipus_jugador.getNomUsuari() != null )
+				if ( tipus_jugador.posicio_dificultat != 0 && tipus_jugador.posicio_dificultat != 1 )
 				{
 					jugadors_maquina.add( tipus_jugador );
 				}

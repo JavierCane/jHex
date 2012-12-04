@@ -1,6 +1,7 @@
 package prop.hex.domini.controladors.drivers;
 
 import prop.hex.domini.models.UsuariHex;
+import prop.hex.domini.models.enums.TipusJugadors;
 import prop.hex.gestors.UsuariGstr;
 
 import java.io.FileNotFoundException;
@@ -30,7 +31,7 @@ public final class UsuariGstrDrvr
 
 		try
 		{
-			UsuariHex usuari_hex = new UsuariHex( nom, contrasenya );
+			UsuariHex usuari_hex = new UsuariHex( nom, contrasenya, TipusJugadors.JUGADOR );
 			System.out.println(
 					"[OK]\tS'ha instanciat correctament l'usuari. Les seves dades son:\n\t\t" + usuari_hex.toString() );
 			return usuari_hex;

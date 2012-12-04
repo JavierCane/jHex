@@ -1,11 +1,12 @@
 package prop.hex.domini.controladors;
 
-import prop.cluster.domini.models.estats.EstatCasella;
 import prop.cluster.domini.models.estats.EstatPartida;
 import prop.hex.domini.models.*;
 import prop.hex.domini.models.enums.ModesInici;
 import prop.hex.domini.models.enums.TipusJugadors;
 import prop.hex.gestors.PartidaHexGstr;
+import prop.hex.gestors.RanquingGstr;
+import prop.hex.gestors.UsuariGstr;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -41,32 +42,10 @@ public class PartidaCtrl
 	private PartidaHexGstr gestor_partida;
 
 	/**
-	 * Instàncies de les intel·ligències artificials per als jugadors no humans.
+	 * Conté els usuaris pre inicialitzats de la partida actual, únicament son útils avans de cridat a
+	 * inicialitzaPartida.
 	 */
-	private MouFitxaIA[] jugadors_ia;
-
-	/**
-	 * Tipus de fitxa de cada jugador.
-	 */
-	private static EstatCasella[] fitxes_jugadors = {
-			EstatCasella.JUGADOR_A,
-			EstatCasella.JUGADOR_B
-	};
-
-	/**
-	 * Conté els usuaris de la partida actual.
-	 */
-	private UsuariHex[] usuaris_partida;
-
-	/**
-	 * Instant de temps en què es va efectuar el darrer moviment.
-	 */
-	private long instant_darrer_moviment;
-
-	/**
-	 * Instància de casella que conté la posició de la darrera fitxa.
-	 */
-	private Casella darrera_fitxa;
+	private UsuariHex[] usuaris_preinicialitzats_partida = new UsuariHex[2];
 
 	/**
 	 * Constructor per defecte. Declarat privat perquè és una classe singleton
@@ -93,34 +72,137 @@ public class PartidaCtrl
 		return instancia;
 	}
 
+	public static void comprovaConsistenciaFitxersIDades() throws IOException, ClassNotFoundException
+	{
+		// Comprovo la consistència del rànquing (si no existeix a disc el creo, si ja existeix el carrego a memòria)
+		RanquingGstr ranquing_gestor = new RanquingGstr();
+
+		// Si no existeix el fitxer del rànquing, el creo
+		if ( !ranquing_gestor.existeixElement() )
+		{
+			ranquing_gestor.guardaElement();
+		}
+		else // Si el fitxer de rànquign ya existeix, el carrego a memòria
+		{
+			ranquing_gestor.carregaElement();
+		}
+
+		// Comprovo consistència de jugadors màquina (han de figurar tots els usuaris de tipus màquina a disc)
+		UsuariGstr usuari_gestor = new UsuariGstr();
+		for( TipusJugadors tipus_jugador_maquina : TipusJugadors.obteLlistatMaquines() )
+		{
+			if ( !usuari_gestor.existeixElement( tipus_jugador_maquina.getNomUsuari() ) )
+			{
+				UsuariHex usuari_maquina = new UsuariHex( tipus_jugador_maquina.getNomUsuari(), "",
+						tipus_jugador_maquina );
+
+				usuari_gestor.guardaElement( usuari_maquina, usuari_maquina.getIdentificadorUnic() );
+			}
+		}
+	}
+
+	/**
+	 * Preinicialitza els usuaris que disputarán la partida. Aixó vol dir que carrega l'usuari corresponent a el
+	 * tipus de jugador seleccionat comprovant les credencials en cas que toqui, carregant de disc la versió
+	 * corresponent de la IA o instanciant un usuari convidat temporal si es el cas.
+	 * Cal cridar a aquesta funció avans d'inicialitzar la partida mitjançant inicialitzaPartida.
+	 *
+	 * @param num_jugador
+	 * @param tipus_jugador
+	 * @param nom_usuari
+	 * @param contrasenya_usuari
+	 * @throws IllegalArgumentException
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @throws NullPointerException
+	 */
+	public void preInicialitzaUsuariPartida( int num_jugador, TipusJugadors tipus_jugador, String nom_usuari,
+	                                         String contrasenya_usuari )
+			throws IllegalArgumentException, FileNotFoundException, IOException, ClassNotFoundException,
+			       NullPointerException
+	{
+		UsuariCtrl usuari_ctrl = UsuariCtrl.getInstancia();
+
+		// Si l'usuari a establir es de tipus jugador, comprovaré si es tracta de l'usuari principal del joc,
+		// en aquest cas, simplement l'establiré, en cas que sigui el jugador secundari, comrpovaré les credencials
+		if ( TipusJugadors.JUGADOR == tipus_jugador )
+		{
+			if ( 0 == num_jugador )
+			{
+				usuaris_preinicialitzats_partida[num_jugador] = usuari_ctrl.getUsuariPrincipal();
+			}
+			else
+			{
+				usuaris_preinicialitzats_partida[num_jugador] =
+						usuari_ctrl.carregaUsuari( nom_usuari, contrasenya_usuari, tipus_jugador );
+			}
+		}
+		else if ( TipusJugadors.CONVIDAT == tipus_jugador )
+		{
+			// Si l'usuari a establir es de tipus convidat, crearé un UsuariHex temporal amb el nom donat
+			usuaris_preinicialitzats_partida[num_jugador] = new UsuariHex( nom_usuari, "", tipus_jugador );
+		}
+		else
+		{
+			// Si l'usuari a establir es de tipus màquina, simplement el carregaré de disc
+			usuaris_preinicialitzats_partida[num_jugador] =
+					usuari_ctrl.carregaUsuari( tipus_jugador.getNomUsuari(), "", tipus_jugador );
+		}
+	}
+
 	/**
 	 * Inicialitza una partida nova.
 	 *
 	 * @param mida_tauler Mida del tauler de la partida.
-	 * @param jugador_a   Usuari que fa de jugador A.
-	 * @param jugador_b   Usuari que fa de jugador B.
-	 * @param nom         Nom de la partida.
-	 * @return Cert si s'ha inicialitzat la partida correctament. Fals altrament.
+	 * @param nom_partida Nom de la partida.
+	 * @throws NullPointerException     Si no s'han preinicialitzat els usuaris de la partida previament.
+	 * @throws IllegalArgumentException Si no s'ha especificat un nom de partida o si ja existeix una partida amb
+	 *                                  aquest identificador
 	 * @throws ClassNotFoundException   Si no es pot carregar la classe de les intel·ligències artificials.
-	 * @throws IllegalAccessError       Si s'intenta accedir a un lloc no permès quan es carreguen les intel·ligències
-	 *                                  artificials.
-	 * @throws InstantiationError       Si hi ha problemes amb la instanciació de les intel·ligències artificials.
-	 * @throws IllegalArgumentException Si ja existeix una partida amb les dades donades creada en la mateixa data
+	 * @throws InstantiationException   Si hi ha problemes amb la instanciació de les intel·ligències artificials.
+	 * @throws IllegalAccessException   Si s'intenta accedir a un lloc no permès quan es carreguen les
+	 *                                  intel·ligències artificials.
 	 */
-	public boolean inicialitzaPartida( int mida_tauler, UsuariHex jugador_a, UsuariHex jugador_b, String nom )
-			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException
+	public void inicialitzaPartida( int mida_tauler, String nom_partida )
+			throws NullPointerException, IllegalArgumentException, ClassNotFoundException, InstantiationException,
+			       IllegalAccessException
 	{
-		TaulerHex tauler = new TaulerHex( mida_tauler );
-		partida_actual = new PartidaHex( jugador_a, jugador_b, tauler, nom );
-
-		if ( gestor_partida.existeixElement( partida_actual.getIdentificadorUnic() ) )
+		if ( null == usuaris_preinicialitzats_partida[0] || null == usuaris_preinicialitzats_partida[1] )
 		{
-			throw new IllegalArgumentException( "Ja existeix una partida amb aquestes dades per a la mateixa data!" );
+			throw new NullPointerException(
+					"No s'han preinicialitzat els usuaris de la partida avans d'intentar-la crear." );
 		}
+		else if ( nom_partida.isEmpty() )
+		{
+			throw new IllegalArgumentException( "S'ha de definir un nom per poder començar la partida." );
+		}
+		else
+		{
+			partida_actual = new PartidaHex( usuaris_preinicialitzats_partida[0], usuaris_preinicialitzats_partida[1],
+					new TaulerHex( mida_tauler ), nom_partida );
 
-		inicialitzaEstructuresControl( jugador_a, jugador_b );
+			if ( gestor_partida.existeixElement( partida_actual.getIdentificadorUnic() ) )
+			{
+				throw new IllegalArgumentException(
+						"Ja existeix una partida amb aquest nom i per aquests usuaris a " + "la mateixa data." );
+			}
+		}
+	}
 
-		return true;
+	/**
+	 * Carrega de memòria secundària la partida identificada per identificador_partida i la estableix com la partida
+	 * en joc
+	 *
+	 * @param identificador_partida
+	 * @throws ClassNotFoundException Si hi ha un problema de classes quan es carrega la partida o la
+	 *                                intel·ligència artificial.
+	 * @throws IOException            Si hi ha un error d'entrada/sortida al carregar la partida.
+	 */
+	public void carregaPartida( String identificador_partida ) throws ClassNotFoundException, IOException
+	{
+		partida_actual = gestor_partida.carregaElement( identificador_partida );
+		gestor_partida.eliminaElement( identificador_partida );
 	}
 
 	/**
@@ -173,87 +255,6 @@ public class PartidaCtrl
 	}
 
 	/**
-	 * Carrega de memòria secundària la partida identificada per identificador_partida i jugada pels usuaris
-	 * jugador_a i jugador_b. A més, esborra del disc la versió antiga de la partida.
-	 *
-	 * @param identificador_partida Identificador únic de la partida que es vol carregar.
-	 * @param jugador_a             Un dels usuaris que juga la partida.
-	 * @param jugador_b             L'altre dels usuaris que juga la partida.
-	 * @return Cert si s'ha carregat la partida. Fals altrament.
-	 * @throws IOException              Si hi ha un error d'entrada/sortida al carregar la partida.
-	 * @throws ClassNotFoundException   Si hi ha un problema de classes quan es carrega la partida o la
-	 *                                  intel·ligència artificial.
-	 * @throws FileNotFoundException    Si no es troba el fitxer de la partida que es vol carregar.
-	 * @throws IllegalAccessException   Si s'intenta accedir a un lloc no permès quan es carrega la intel·ligència
-	 *                                  artificial.
-	 * @throws InstantiationException   Si hi ha problemes quan s'intenta instanciar la partida o la intel·ligència
-	 *                                  artificial.
-	 * @throws IllegalArgumentException Si algun dels usuaris no juga a la partida.
-	 * @throws NullPointerException     Si el fitxer que conté les dades és buit.
-	 */
-	public boolean carregaPartida( String identificador_partida, UsuariHex jugador_a, UsuariHex jugador_b )
-			throws IOException, ClassNotFoundException, FileNotFoundException, IllegalAccessException,
-			       InstantiationException, IllegalArgumentException, NullPointerException
-	{
-		partida_actual = gestor_partida.carregaElement( identificador_partida );
-		gestor_partida.eliminaElement( identificador_partida );
-
-		UsuariHex jugador_a_partida = ( UsuariHex ) partida_actual.getJugadorA();
-		UsuariHex jugador_b_partida = ( UsuariHex ) partida_actual.getJugadorB();
-
-		// Aquí es comprova que els jugadors passats com a paràmetre són realment els de la partida.
-		if ( jugador_a_partida.equals( jugador_a ) && jugador_b_partida.equals( jugador_b ) )
-		{
-			inicialitzaEstructuresControl( jugador_a, jugador_b );
-		}
-		else if ( jugador_a_partida.equals( jugador_b ) && jugador_b_partida.equals( jugador_a ) )
-		{
-			inicialitzaEstructuresControl( jugador_b, jugador_a );
-		}
-		else
-		{
-			throw new IllegalAccessException( "Algun jugador no és d'aquesta partida" );
-		}
-
-		// Aquí ens assegurem que les instàncies dels usuaris de la partida siguin les més recents.
-		partida_actual.setJugadorA( usuaris_partida[0] );
-		partida_actual.setJugadorB( usuaris_partida[1] );
-
-		return true;
-	}
-
-	/**
-	 * Inicialitza les estructures de control per a la partida actual.
-	 *
-	 * @param jugador_a Usuari que actua com a jugador A.
-	 * @param jugador_b Usuari que actua com a jugador B.
-	 * @throws ClassNotFoundException Si no es pot carregar la classe de les intel·ligències artificials.
-	 * @throws IllegalAccessError     Si s'intenta accedir a un lloc no permès quan es carreguen les intel·ligències
-	 *                                artificials.
-	 * @throws InstantiationError     Si hi ha problemes amb la instanciació de les intel·ligències artificials.
-	 */
-	private void inicialitzaEstructuresControl( UsuariHex jugador_a, UsuariHex jugador_b )
-			throws ClassNotFoundException, IllegalAccessException, InstantiationException
-	{
-		usuaris_partida = new UsuariHex[2];
-		usuaris_partida[0] = jugador_a;
-		usuaris_partida[1] = jugador_b;
-
-		jugadors_ia = new MouFitxaIA[2];
-		jugadors_ia[0] = ( MouFitxaIA ) Class
-				.forName( "prop.hex.domini.controladors." + jugador_a.getTipusJugador().getClasseCorresponent() )
-				.newInstance();
-		jugadors_ia[0].setPartida( partida_actual );
-		jugadors_ia[1] = ( MouFitxaIA ) Class
-				.forName( "prop.hex.domini.controladors." + jugador_b.getTipusJugador().getClasseCorresponent() )
-				.newInstance();
-		jugadors_ia[1].setPartida( partida_actual );
-
-		darrera_fitxa = new Casella( 0, 0 );
-		instant_darrer_moviment = new Date().getTime() / 1000L;
-	}
-
-	/**
 	 * Guarda la partida actual.
 	 *
 	 * @return Cert si s'ha guardat correctament. Fals altrament.
@@ -277,37 +278,30 @@ public class PartidaCtrl
 	 *
 	 * @return Cert si s'ha tancat correctament. Fals altrament.
 	 */
-	public boolean tancaPartida()
+	public void tancaPartida()
 	{
 		EstatPartida estat_actual = consultaEstatPartida();
 		if ( estat_actual != EstatPartida.NO_FINALITZADA )
 		{
-			UsuariCtrl.getInstancia()
-					.actualitzaEstadistiques( usuaris_partida[0], estat_actual == EstatPartida.GUANYA_JUGADOR_A,
-							usuaris_partida[1].getTipusJugador(),
-							partida_actual.getTempsDeJoc( usuaris_partida[0].getIdentificadorUnic() ),
-							partida_actual.getTauler().getNumFitxesA() );
-			UsuariCtrl.getInstancia()
-					.actualitzaEstadistiques( usuaris_partida[1], estat_actual == EstatPartida.GUANYA_JUGADOR_B,
-							usuaris_partida[0].getTipusJugador(),
-							partida_actual.getTempsDeJoc( usuaris_partida[1].getIdentificadorUnic() ),
-							partida_actual.getTauler().getNumFitxesA() );
+			UsuariHex usuari_a = ( UsuariHex ) partida_actual.getJugadorA();
+			UsuariHex usuari_b = ( UsuariHex ) partida_actual.getJugadorA();
 
-			Ranquing ranquing = Ranquing.getInstancia();
-			for ( UsuariHex usuari : usuaris_partida )
-			{
-				ranquing.actualitzaUsuari( usuari );
-			}
+			UsuariCtrl.getInstancia().actualitzaEstadistiques( usuari_a, estat_actual == EstatPartida.GUANYA_JUGADOR_A,
+					usuari_b.getTipusJugador(), partida_actual.getTempsDeJoc( usuari_a.getIdentificadorUnic() ),
+					partida_actual.getTauler().getNumFitxesA() );
+
+			UsuariCtrl.getInstancia().actualitzaEstadistiques( usuari_b, estat_actual == EstatPartida.GUANYA_JUGADOR_B,
+					usuari_a.getTipusJugador(), partida_actual.getTempsDeJoc( usuari_b.getIdentificadorUnic() ),
+					partida_actual.getTauler().getNumFitxesA() );
+
+			Ranquing.getInstancia().actualitzaUsuari( usuari_a );
+			Ranquing.getInstancia().actualitzaUsuari( usuari_b );
 
 			gestor_partida.eliminaElement( partida_actual.getIdentificadorUnic() );
 		}
 
-		darrera_fitxa = null;
 		partida_actual = null;
-		usuaris_partida = null;
-		jugadors_ia = null;
-
-		return true;
+		usuaris_preinicialitzats_partida = null;
 	}
 
 	/**
@@ -315,21 +309,10 @@ public class PartidaCtrl
 	 *
 	 * @return Cert si s'ha tancat correctament. Fals altrament.
 	 */
-	public boolean tancaIEliminaPartida()
+	public void tancaIEliminaPartida()
 	{
 		gestor_partida.eliminaElement( partida_actual.getIdentificadorUnic() );
-		return tancaPartida();
-	}
-
-	/**
-	 * Calcula un moviment d'una intel·ligència artificial. Cal que sigui el seu torn.
-	 *
-	 * @return La casella resultat dels càlculs del moviment.
-	 */
-	private Casella movimentIA()
-	{
-		return jugadors_ia[partida_actual.getTornsJugats() % 2]
-				.mouFitxa( fitxes_jugadors[partida_actual.getTornsJugats() % 2] );
+		tancaPartida();
 	}
 
 	/**
@@ -339,7 +322,7 @@ public class PartidaCtrl
 	 */
 	public Casella obtePista()
 	{
-		return movimentIA();
+		return partida_actual.getMovimentIATornActual();
 	}
 
 	/**
@@ -349,8 +332,7 @@ public class PartidaCtrl
 	 */
 	public Casella executaMovimentIA()
 	{
-		instant_darrer_moviment = new Date().getTime() / 1000L;
-		Casella resultat_moviment = movimentIA();
+		Casella resultat_moviment = partida_actual.getMovimentIATornActual();
 		mouFitxa( resultat_moviment.getFila(), resultat_moviment.getColumna() );
 
 		return resultat_moviment;
@@ -366,40 +348,41 @@ public class PartidaCtrl
 	 */
 	public boolean mouFitxa( int fila, int columna ) throws UnsupportedOperationException
 	{
-		long instant_actual = new Date().getTime() / 1000L;
-
 		if ( partida_actual.estaFinalitzada() )
 		{
 			throw new UnsupportedOperationException( "La partida ja ha finalitzat" );
 		}
-
-		if ( !partida_actual.getTauler()
-				.esMovimentValid( fitxes_jugadors[partida_actual.getTornsJugats() % 2], fila, columna ) )
-		{
-			return false;
-		}
 		else
 		{
-			if ( partida_actual.getTauler()
-					.mouFitxa( fitxes_jugadors[partida_actual.getTornsJugats() % 2], fila, columna ) )
+			if ( !partida_actual.getTauler()
+					.esMovimentValid( partida_actual.getFitxaJugadorTornActual(), fila, columna ) )
 			{
-				darrera_fitxa = new Casella( fila, columna );
-
-				partida_actual.incrementaTempsDeJoc(
-						usuaris_partida[partida_actual.getTornsJugats() % 2].getIdentificadorUnic(),
-						instant_actual - instant_darrer_moviment );
-				partida_actual.incrementaTornsJugats( 1 );
-
-				// Per actualitzar l'estat de la partida en el controlador.
-				consultaEstatPartida();
-
-				instant_darrer_moviment = new Date().getTime() / 1000L;
-
-				return true;
+				return false;
 			}
 			else
 			{
-				return false;
+				if ( partida_actual.getTauler().mouFitxa( partida_actual.getFitxaJugadorTornActual(), fila, columna ) )
+				{
+					partida_actual.setDarreraFitxa( new Casella( fila, columna ) );
+
+					long instant_actual = new Date().getTime() / 1000L;
+
+					partida_actual.incrementaTempsDeJoc( partida_actual.getUsuariTornActual().getIdentificadorUnic(),
+							instant_actual - partida_actual.getInstantDarrerMoviment() );
+
+					partida_actual.incrementaTornsJugats( 1 );
+
+					// Per actualitzar l'estat de la partida en el controlador.
+					consultaEstatPartida();
+
+					partida_actual.setInstantDarrerMoviment( instant_actual );
+
+					return true;
+				}
+				else
+				{
+					return false;
+				}
 			}
 		}
 	}
@@ -412,7 +395,10 @@ public class PartidaCtrl
 	 */
 	public boolean esTornHuma()
 	{
-		return ( usuaris_partida[partida_actual.getTornsJugats() % 2].getTipusJugador() == TipusJugadors.JUGADOR );
+		TipusJugadors tipus_jugador_actual =
+				usuaris_preinicialitzats_partida[partida_actual.getTornsJugats() % 2].getTipusJugador();
+
+		return ( TipusJugadors.JUGADOR == tipus_jugador_actual || TipusJugadors.CONVIDAT == tipus_jugador_actual );
 	}
 
 	/**
@@ -422,8 +408,8 @@ public class PartidaCtrl
 	 */
 	public EstatPartida consultaEstatPartida()
 	{
-		EstatPartida estat_partida =
-				partida_actual.comprovaEstatPartida( darrera_fitxa.getFila(), darrera_fitxa.getColumna() );
+		EstatPartida estat_partida = partida_actual.comprovaEstatPartida( partida_actual.getDarreraFitxa().getFila(),
+				partida_actual.getDarreraFitxa().getColumna() );
 
 		partida_actual.setFinalitzada( estat_partida != EstatPartida.NO_FINALITZADA );
 
@@ -437,7 +423,8 @@ public class PartidaCtrl
 	 */
 	public boolean intercanviaDarreraFitxa()
 	{
-		if ( partida_actual.getTauler().intercanviaFitxa( darrera_fitxa.getFila(), darrera_fitxa.getColumna() ) )
+		if ( partida_actual.getTauler().intercanviaFitxa( partida_actual.getDarreraFitxa().getFila(),
+				partida_actual.getDarreraFitxa().getColumna() ) )
 		{
 			return partida_actual.incrementaTornsJugats( 1 );
 		}

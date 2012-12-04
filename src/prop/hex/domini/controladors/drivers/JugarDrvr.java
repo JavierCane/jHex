@@ -9,6 +9,7 @@ import prop.hex.presentacio.VisualitzadorPartida;
 import javax.swing.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Vector;
 
 /**
  * Permet jugar una partida de prova escollint els tipus d'oponent.
@@ -16,9 +17,9 @@ import java.io.IOException;
 public class JugarDrvr
 {
 
-	static UsuariHex usuari_A;
-	static UsuariHex usuari_B;
-	static TipusJugadors[] tipus_jugadors = TipusJugadors.values();
+	static UsuariHex usuari_a;
+	static UsuariHex usuari_b;
+	static Vector<TipusJugadors> tipus_jugadors = TipusJugadors.obteLlistatMaquines();
 
 	/**
 	 * Demana un jugador d'intel·ligència artificial a l'usuari
@@ -29,12 +30,15 @@ public class JugarDrvr
 	private static TipusJugadors demanaTipusJugadorIA( String missatge )
 	{
 		System.out.println( "Jugadors d'intel·ligència artificial:" );
-		for ( int i = 1; i < tipus_jugadors.length; i++ )
+
+		int i = 1;
+		for ( TipusJugadors tipus_jugador : tipus_jugadors )
 		{
-			System.out.println( i + ".- " + tipus_jugadors[i].getNomUsuari() );
+			System.out.println( i + ".- " + tipus_jugador.getNomUsuari() );
+			i++;
 		}
 
-		return tipus_jugadors[UtilsDrvr.llegeixEnter( missatge )];
+		return tipus_jugadors.get( UtilsDrvr.llegeixEnter( missatge ) - 1 );
 	}
 
 	/**
@@ -54,14 +58,12 @@ public class JugarDrvr
 		try
 		{
 			UsuariCtrl.getInstancia().creaUsuari( nom, "contrasenya", tipus_jugador );
-			UsuariCtrl.getInstancia().carregaUsuari( nom, "contrasenya", tipus_jugador );
+			return UsuariCtrl.getInstancia().carregaUsuari( nom, "contrasenya", tipus_jugador );
 		}
 		catch ( Exception e )
 		{
-			UsuariCtrl.getInstancia().carregaUsuari( nom, "contrasenya", tipus_jugador );
+			return UsuariCtrl.getInstancia().carregaUsuari( nom, "contrasenya", tipus_jugador );
 		}
-
-		return UsuariCtrl.getInstancia().getUsuariActual();
 	}
 
 	/**
@@ -71,12 +73,17 @@ public class JugarDrvr
 	{
 		try
 		{
-			PartidaCtrl.getInstancia().inicialitzaPartida( 7, usuari_A, usuari_B, "Partida de Prova" );
+			PartidaCtrl.getInstancia().preInicialitzaUsuariPartida( 0, usuari_a.getTipusJugador(), usuari_a.getNom(),
+					usuari_a.getContrasenya() );
+			PartidaCtrl.getInstancia().preInicialitzaUsuariPartida( 1, usuari_b.getTipusJugador(), usuari_b.getNom(),
+					usuari_b.getContrasenya() );
+			PartidaCtrl.getInstancia().inicialitzaPartida( 7, "Partida de Prova" );
 			instanciaFinestra();
 		}
 		catch ( Exception e )
 		{
 			System.out.println( "Excepció al inicialitzar la partida: " + e.getMessage() );
+			e.printStackTrace();
 		}
 	}
 
@@ -93,8 +100,8 @@ public class JugarDrvr
 			throws FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
 	{
 		TipusJugadors tipus_IA = demanaTipusJugadorIA( "Escriu el número del tipus d'intel·ligència contrincant" );
-		usuari_A = agafaUsuari( tipus_IA.getNomUsuari(), tipus_IA );
-		usuari_B = agafaUsuari( "Huma", TipusJugadors.JUGADOR );
+		usuari_a = agafaUsuari( tipus_IA.getNomUsuari(), tipus_IA );
+		usuari_b = agafaUsuari( "Huma", TipusJugadors.JUGADOR );
 
 		creaIVisualitzaPartida();
 	}
@@ -112,8 +119,8 @@ public class JugarDrvr
 			throws FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
 	{
 		TipusJugadors tipus_IA = demanaTipusJugadorIA( "Escriu el número del tipus d'intel·ligència contrincant" );
-		usuari_A = agafaUsuari( "Huma", TipusJugadors.JUGADOR );
-		usuari_B = agafaUsuari( tipus_IA.getNomUsuari(), tipus_IA );
+		usuari_a = agafaUsuari( "Huma", TipusJugadors.JUGADOR );
+		usuari_b = agafaUsuari( tipus_IA.getNomUsuari(), tipus_IA );
 
 		creaIVisualitzaPartida();
 	}
@@ -130,8 +137,8 @@ public class JugarDrvr
 	public static void HumaVsHuma()
 			throws FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
 	{
-		usuari_A = agafaUsuari( "Huma 1", TipusJugadors.JUGADOR );
-		usuari_B = agafaUsuari( "Huma 2", TipusJugadors.JUGADOR );
+		usuari_a = agafaUsuari( "Huma 1", TipusJugadors.JUGADOR );
+		usuari_b = agafaUsuari( "Huma 2", TipusJugadors.JUGADOR );
 
 		creaIVisualitzaPartida();
 	}
@@ -149,8 +156,8 @@ public class JugarDrvr
 	{
 		TipusJugadors tipus_IA_A = demanaTipusJugadorIA( "Escriu el número del tipus d'intel·ligència principal" );
 		TipusJugadors tipus_IA_B = demanaTipusJugadorIA( "Escriu el número del tipus d'intel·ligència contrincant" );
-		usuari_A = agafaUsuari( tipus_IA_A.getNomUsuari(), tipus_IA_A );
-		usuari_B = agafaUsuari( tipus_IA_B.getNomUsuari(), tipus_IA_B );
+		usuari_a = agafaUsuari( tipus_IA_A.getNomUsuari(), tipus_IA_A );
+		usuari_b = agafaUsuari( tipus_IA_B.getNomUsuari(), tipus_IA_B );
 
 		creaIVisualitzaPartida();
 	}

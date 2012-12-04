@@ -83,14 +83,15 @@ public class UsuariHex extends Usuari implements Serializable, Comparable<Usuari
 	 * Constructora per defecte, tot i que utilitzem la constructora de la classe pare,
 	 * es sobreescriu amb la finalitat de poder comprovar que el nom d'usuari no es tracta d'un nom no permès.
 	 *
-	 * @param nom         Nom de l'usuari
-	 * @param contrasenya Contrasenya de l'usuari
+	 * @param nom           Nom de l'usuari
+	 * @param contrasenya   Contrasenya de l'usuari
+	 * @param tipus_jugador Tipus de jugador (CONVIDAT o JUGADOR)
 	 */
-	public UsuariHex( String nom, String contrasenya )
+	public UsuariHex( String nom, String contrasenya, TipusJugadors tipus_jugador )
 	{
 		super( nom, contrasenya, TipusJugadors.getNumDificultats() );
 
-		tipus_jugador = TipusJugadors.JUGADOR;
+		this.tipus_jugador = tipus_jugador;
 		mode_inici = ModesInici.ESTANDARD;
 		combinacio_colors = CombinacionsColors.VERMELL_BLAU;
 		temps_minim = Long.MAX_VALUE;
@@ -260,12 +261,15 @@ public class UsuariHex extends Usuari implements Serializable, Comparable<Usuari
 	/**
 	 * Recalcula les dades de l'usuari en base a una partida finalitzada.
 	 * Unicament actualitza les dades d'estadístiques si es tracta d'un usuari de tipus humà o si es tracta d'usuaris
-	 * de tipus IA amb nivells de dificultats diferents.
+	 * de tipus IA amb nivells de dificultats diferents. Unicament actualitzarem estadístiques si el contrincant
+	 * contra el que s'ha jugat no era un convidat.
 	 */
 	public void recalculaDadesUsuariPartidaFinalitzada( boolean ha_guanyat, TipusJugadors tipus_jugador_contrari,
 	                                                    Long temps_emprat, Integer fitxes_usades )
 	{
-		if ( tipus_jugador == TipusJugadors.JUGADOR || tipus_jugador != tipus_jugador_contrari )
+		if ( tipus_jugador_contrari != TipusJugadors.CONVIDAT &&
+		     ( tipus_jugador == TipusJugadors.JUGADOR || tipus_jugador != tipus_jugador_contrari )
+			)
 		{
 			if ( ha_guanyat )
 			{

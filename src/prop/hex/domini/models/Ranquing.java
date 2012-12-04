@@ -117,16 +117,6 @@ public final class Ranquing implements Serializable
 	}
 
 	/**
-	 * Consulta l'identificador del rànquing. Utilitzada per guardar a disc el fitxer corresponent.
-	 *
-	 * @return L'identificador únic del rànquing.
-	 */
-	public String getIdentificadorUnic()
-	{
-		return "clasificacio";
-	}
-
-	/**
 	 * Consulta la llista d'usuaris amb puntuacions globals més altes
 	 *
 	 * @return La llista d'usuaris amb puntuacions globals més altes.
@@ -193,9 +183,12 @@ public final class Ranquing implements Serializable
 	{
 		ois.defaultReadObject();
 
-		synchronized ( instancia )
+		if ( instancia != null )
 		{
-			instancia = this;
+			synchronized ( instancia )
+			{
+				instancia = this;
+			}
 		}
 	}
 

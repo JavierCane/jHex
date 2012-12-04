@@ -13,6 +13,7 @@ public final class JPanelImatge extends JPanel
 		fons = ( new ImageIcon( img ) ).getImage();
 	}
 
+	@Override
 	public void paintComponent( Graphics g )
 	{
 		g.drawImage( fons, 0, 0, getWidth(), getHeight(), null );

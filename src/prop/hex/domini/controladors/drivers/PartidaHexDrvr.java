@@ -5,6 +5,7 @@ import prop.cluster.domini.models.estats.EstatPartida;
 import prop.hex.domini.models.PartidaHex;
 import prop.hex.domini.models.TaulerHex;
 import prop.hex.domini.models.UsuariHex;
+import prop.hex.domini.models.enums.TipusJugadors;
 
 import java.util.ArrayList;
 
@@ -30,16 +31,16 @@ public final class PartidaHexDrvr
 	/**
 	 * Fa una nova instància de PartidaHex amb la mida i el nom especificats. Canvia la partida actual a la nova.
 	 */
-	public static void testInstanciaPartida()
-	{
-		int mida = llegeixEnter( "Introdueix la mida del tauler a utilitzar en la partida:" );
-		String nom = llegeixParaula( "Introdueix el nom de la partida:" );
-		partides.add( new PartidaHex( new UsuariHex( "Nom_jugador_a", "Contrasenya_jugador_a" ),
-				new UsuariHex( "Nom_jugador_b", "Contrasenya_jugador_b" ), new TaulerHex( mida ), nom ) );
-		actual = partides.size() - 1;
-		System.out.println( "[OK]\tS'ha instanciat la partida amb èxit.\n\tLa partida actual és: " + actual + "" +
-		                    ".\n\tLes seves característiques són:\n" + partides.get( actual ).toString() );
-	}
+//	public static void testInstanciaPartida()
+//	{
+//		int mida = llegeixEnter( "Introdueix la mida del tauler a utilitzar en la partida:" );
+//		String nom = llegeixParaula( "Introdueix el nom de la partida:" );
+//		partides.add( new PartidaHex( new UsuariHex( "Nom_jugador_a", "Contrasenya_jugador_a", TipusJugadors.JUGADOR ),
+//				new UsuariHex( "Nom_jugador_b", "Contrasenya_jugador_b", TipusJugadors.JUGADOR ), new TaulerHex( mida ), nom ) );
+//		actual = partides.size() - 1;
+//		System.out.println( "[OK]\tS'ha instanciat la partida amb èxit.\n\tLa partida actual és: " + actual + "" +
+//		                    ".\n\tLes seves característiques són:\n" + partides.get( actual ).toString() );
+//	}
 
 	/**
 	 * Canvia el valor de l'índex de la partida a un altre

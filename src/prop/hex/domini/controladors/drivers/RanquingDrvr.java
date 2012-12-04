@@ -18,16 +18,16 @@ public final class RanquingDrvr
 	 * Usuaris de prova. Declarats con atributs de classe per poder anar-los actualitzant cada cop que s'executi el
 	 * test "testModificaRanquing".
 	 */
-	private static UsuariHex usuari_0 = new UsuariHex( "Sin partidas", "Contraseña" );
-	private static UsuariHex usuari_1 = new UsuariHex( "Derrotado 1", "Contraseña" );
-	private static UsuariHex usuari_2 = new UsuariHex( "Derrotado 2", "Contraseña" );
-	private static UsuariHex usuari_3 = new UsuariHex( "Derrotado 3", "Contraseña" );
-	private static UsuariHex usuari_4 = new UsuariHex( "Ganador 1", "Contraseña" );
-	private static UsuariHex usuari_5 = new UsuariHex( "Ganador 2", "Contraseña" );
-	private static UsuariHex usuari_6 = new UsuariHex( "Ganador 3", "Contraseña" );
-	private static UsuariHex usuari_7 = new UsuariHex( "Derrotado-Ganador 1", "Contraseña" );
-	private static UsuariHex usuari_8 = new UsuariHex( "Derrotado-Ganador 2", "Contraseña" );
-	private static UsuariHex usuari_9 = new UsuariHex( "Derrotado-Ganador 2", "Contraseña" );
+	private static UsuariHex usuari_0 = new UsuariHex( "Sin partidas", "Contraseña", TipusJugadors.JUGADOR );
+	private static UsuariHex usuari_1 = new UsuariHex( "Derrotado 1", "Contraseña", TipusJugadors.JUGADOR );
+	private static UsuariHex usuari_2 = new UsuariHex( "Derrotado 2", "Contraseña", TipusJugadors.JUGADOR );
+	private static UsuariHex usuari_3 = new UsuariHex( "Derrotado 3", "Contraseña", TipusJugadors.JUGADOR );
+	private static UsuariHex usuari_4 = new UsuariHex( "Ganador 1", "Contraseña", TipusJugadors.JUGADOR );
+	private static UsuariHex usuari_5 = new UsuariHex( "Ganador 2", "Contraseña", TipusJugadors.JUGADOR );
+	private static UsuariHex usuari_6 = new UsuariHex( "Ganador 3", "Contraseña", TipusJugadors.JUGADOR );
+	private static UsuariHex usuari_7 = new UsuariHex( "Derrotado-Ganador 1", "Contraseña", TipusJugadors.JUGADOR );
+	private static UsuariHex usuari_8 = new UsuariHex( "Derrotado-Ganador 2", "Contraseña", TipusJugadors.JUGADOR );
+	private static UsuariHex usuari_9 = new UsuariHex( "Derrotado-Ganador 2", "Contraseña", TipusJugadors.JUGADOR );
 
 	/**
 	 * Mostra el rànquing actual
@@ -115,11 +115,9 @@ public final class RanquingDrvr
 	{
 		RanquingGstr gestor_ranquing = new RanquingGstr();
 
-		Ranquing ranquing = Ranquing.getInstancia();
-
 		try
 		{
-			if ( gestor_ranquing.guardaElement( ranquing, ranquing.getIdentificadorUnic() ) )
+			if ( gestor_ranquing.guardaElement() )
 			{
 				System.out.println( "[OK]\tS'ha guardat correctament el fitxer del rànquing." );
 			}
@@ -144,7 +142,7 @@ public final class RanquingDrvr
 
 		try
 		{
-			Ranquing ranquing = gestor_ranquing.carregaElement( Ranquing.getInstancia().getIdentificadorUnic() );
+			Ranquing ranquing = gestor_ranquing.carregaElement();
 
 			System.out.println( "[OK]\tS'ha carregat correctament el fitxer del rànquing." );
 
@@ -173,7 +171,7 @@ public final class RanquingDrvr
 	{
 		RanquingGstr gestor_ranquing = new RanquingGstr();
 
-		if ( gestor_ranquing.eliminaElement( Ranquing.getInstancia().getIdentificadorUnic() ) )
+		if ( gestor_ranquing.eliminaElement( ) )
 		{
 			System.out.println( "[OK]\tS'ha eliminat correctament el fitxer del rànquing." );
 		}
