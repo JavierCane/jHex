@@ -171,7 +171,7 @@ public final class RanquingDrvr
 	{
 		RanquingGstr gestor_ranquing = new RanquingGstr();
 
-		if ( gestor_ranquing.eliminaElement( ) )
+		if ( gestor_ranquing.eliminaElement() )
 		{
 			System.out.println( "[OK]\tS'ha eliminat correctament el fitxer del rànquing." );
 		}

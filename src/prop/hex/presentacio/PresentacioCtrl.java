@@ -44,8 +44,7 @@ public final class PresentacioCtrl
 		{
 			VistaDialeg dialeg = new VistaDialeg();
 			String[] botons = { "Accepta" };
-			String valor_seleccionat = dialeg.setDialeg( "Error",
-					"Error inicialitzant les dades del joc.", botons,
+			String valor_seleccionat = dialeg.setDialeg( "Error", "Error inicialitzant les dades del joc.", botons,
 					JOptionPane.ERROR_MESSAGE );
 
 			e.printStackTrace(); // Imprimeixo l'error per consola per poder-ho debugar

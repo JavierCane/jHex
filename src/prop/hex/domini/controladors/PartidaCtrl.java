@@ -89,12 +89,12 @@ public class PartidaCtrl
 
 		// Comprovo consistència de jugadors màquina (han de figurar tots els usuaris de tipus màquina a disc)
 		UsuariGstr usuari_gestor = new UsuariGstr();
-		for( TipusJugadors tipus_jugador_maquina : TipusJugadors.obteLlistatMaquines() )
+		for ( TipusJugadors tipus_jugador_maquina : TipusJugadors.obteLlistatMaquines() )
 		{
 			if ( !usuari_gestor.existeixElement( tipus_jugador_maquina.getNomUsuari() ) )
 			{
-				UsuariHex usuari_maquina = new UsuariHex( tipus_jugador_maquina.getNomUsuari(), "",
-						tipus_jugador_maquina );
+				UsuariHex usuari_maquina =
+						new UsuariHex( tipus_jugador_maquina.getNomUsuari(), "", tipus_jugador_maquina );
 
 				usuari_gestor.guardaElement( usuari_maquina, usuari_maquina.getIdentificadorUnic() );
 			}

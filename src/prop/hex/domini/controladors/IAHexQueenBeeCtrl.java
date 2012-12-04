@@ -68,45 +68,45 @@ public class IAHexQueenBeeCtrl extends InteligenciaArtificial implements MouFitx
 		}
 		else
 		{*/
-			if ( estat_moviment == EstatPartida.GUANYA_JUGADOR_A )
-			{
-				if ( fitxa_jugador == EstatCasella.JUGADOR_A )
-				{
-					return 1000000;
-				}
-				else
-				{
-					return -1000000;
-				}
-			}
-			else if ( estat_moviment == EstatPartida.GUANYA_JUGADOR_B )
-			{
-				if ( fitxa_jugador == EstatCasella.JUGADOR_B )
-				{
-					return 1000000;
-				}
-				else
-				{
-					return -1000000;
-				}
-			}
-
-			TwoDistance distancia_a = new TwoDistance( ( TaulerHex ) tauler, EstatCasella.JUGADOR_A );
-			TwoDistance distancia_b = new TwoDistance( ( TaulerHex ) tauler, EstatCasella.JUGADOR_B );
-			int potencial_a = distancia_a.getPotencial();
-			int potencial_b = distancia_b.getPotencial();
-
+		if ( estat_moviment == EstatPartida.GUANYA_JUGADOR_A )
+		{
 			if ( fitxa_jugador == EstatCasella.JUGADOR_A )
 			{
-				retorn = potencial_b - potencial_a;
+				return 1000000;
 			}
 			else
 			{
-				retorn = potencial_a - potencial_b;
+				return -1000000;
 			}
-	//		memoria.put( ( ( TaulerHex ) tauler ).hashCode(), new ElementTaulaTransposicions( retorn,
-	//		fitxa_jugador ) );
-	//	}
+		}
+		else if ( estat_moviment == EstatPartida.GUANYA_JUGADOR_B )
+		{
+			if ( fitxa_jugador == EstatCasella.JUGADOR_B )
+			{
+				return 1000000;
+			}
+			else
+			{
+				return -1000000;
+			}
+		}
+
+		TwoDistance distancia_a = new TwoDistance( ( TaulerHex ) tauler, EstatCasella.JUGADOR_A );
+		TwoDistance distancia_b = new TwoDistance( ( TaulerHex ) tauler, EstatCasella.JUGADOR_B );
+		int potencial_a = distancia_a.getPotencial();
+		int potencial_b = distancia_b.getPotencial();
+
+		if ( fitxa_jugador == EstatCasella.JUGADOR_A )
+		{
+			retorn = potencial_b - potencial_a;
+		}
+		else
+		{
+			retorn = potencial_a - potencial_b;
+		}
+		//		memoria.put( ( ( TaulerHex ) tauler ).hashCode(), new ElementTaulaTransposicions( retorn,
+		//		fitxa_jugador ) );
+		//	}
 
 		return retorn;
 	}

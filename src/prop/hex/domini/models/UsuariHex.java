@@ -268,8 +268,7 @@ public class UsuariHex extends Usuari implements Serializable, Comparable<Usuari
 	                                                    Long temps_emprat, Integer fitxes_usades )
 	{
 		if ( tipus_jugador_contrari != TipusJugadors.CONVIDAT &&
-		     ( tipus_jugador == TipusJugadors.JUGADOR || tipus_jugador != tipus_jugador_contrari )
-			)
+		     ( tipus_jugador == TipusJugadors.JUGADOR || tipus_jugador != tipus_jugador_contrari ) )
 		{
 			if ( ha_guanyat )
 			{

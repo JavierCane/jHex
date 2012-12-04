@@ -4,8 +4,6 @@ import prop.cluster.domini.models.estats.EstatCasella;
 import prop.cluster.domini.models.estats.EstatPartida;
 import prop.hex.domini.models.PartidaHex;
 import prop.hex.domini.models.TaulerHex;
-import prop.hex.domini.models.UsuariHex;
-import prop.hex.domini.models.enums.TipusJugadors;
 
 import java.util.ArrayList;
 

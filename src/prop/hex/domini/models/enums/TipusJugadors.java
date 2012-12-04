@@ -179,11 +179,6 @@ public enum TipusJugadors
 	}
 
 	/**
-	 * Mètode públic per poder establir el nom de l'usuari.
-	 * Usat quan es creen usuaris de tipus convidat i jugador.
-	 *
-	 * @return true
-	/**
 	 * Obté un tipus de jugador de forma aleatòria garantitzant que serà de tipus màquina.
 	 * Funció útil per jugar contra una màquina desconeguda.
 	 *
