@@ -20,22 +20,29 @@ Dades del projecte
 Com compilar i executar
 --------
 
-1. Moure'ns al directori arrel del projecte:
-> ``cd /path/absolut/del/projecte/jHex/``
-2.a. Si no hem fet compilacions prèvies, crear el directori de arxius binaris:
-> ``mkdir bin``
-2.b. Si hem fet compilacions prèvies, eliminar arxius binaris:
-> ``rm -rf bin/*``
-3. Moure'ns al directori arrel del codi font:
-> ``cd src/``
-4. Compilar incloent tots els fitxers java:
-> ``javac -d ../bin $(find ./* | grep .java$)``
-5. Moure'ns al directori arrel del del projecte:
-> ``cd ..``
-6.a Si volem executar el joc al complet amb interfície gràfica:
-> ``java -classpath ./bin prop.hex.presentacio.JHex``
-6.b Si volem fer testing via els drivers dels controladors mitjançant la consola:
-> ``java -classpath ./bin prop.hex.domini.controladors.drivers.PrincipalDrvr``
+> 1- Moure'ns al directori arrel del projecte:
+> > ``cd /path/absolut/del/projecte/jHex/``
+>
+> 2a- Si no hem fet compilacions prèvies, crear el directori de arxius binaris:
+> > ``mkdir bin``
+>
+> 2b- Si hem fet compilacions prèvies, eliminar arxius binaris:
+> > ``rm -rf bin/*``
+>
+> 3- Moure'ns al directori arrel del codi font:
+> > ``cd src/``
+>
+> 4- Compilar incloent tots els fitxers java:
+> > ``javac -d ../bin $(find ./* | grep .java$)``
+>
+> 5- Moure'ns al directori arrel del del projecte:
+> > ``cd ..``
+>
+> 6a- Si volem executar el joc al complet amb interfície gràfica:
+> > ``java -classpath ./bin prop.hex.presentacio.JHex``
+>
+> 6b- Si volem fer testing via els drivers dels controladors mitjançant la consola:
+> > ``java -classpath ./bin prop.hex.domini.controladors.drivers.PrincipalDrvr``
 
 Explicació PrincipalDrvr
 --------
