@@ -31,12 +31,14 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 	private JComboBox combo_tipus_maquina_b;
 
 	// Camps de tipus text/contrasenya
+	private JTextField camp_nom_partida;
 	private JTextField camp_nom_convidat_a;
 	private JTextField camp_nom_convidat_b;
 	private JTextField camp_nom_usuari_b;
 	private JPasswordField camp_contrasenya_usuari_b;
 
 	// Etiquetes de text
+	private JLabel text_nom_partida;
 	private JLabel text_convidat_a;
 	private JLabel text_convidat_b;
 	private JLabel text_usuari;
@@ -71,12 +73,14 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 		combo_tipus_maquina_b = new JComboBox( TipusJugadors.obteLlistatMaquines() );
 
 		// Camps de tipus text/contrasenya
+		camp_nom_partida = new JTextField();
 		camp_nom_convidat_a = new JTextField();
 		camp_nom_convidat_b = new JTextField();
 		camp_nom_usuari_b = new JTextField();
 		camp_contrasenya_usuari_b = new JPasswordField();
 
 		// Etiquetes de text
+		text_nom_partida = new JLabel( "Nom de la partida:" );
 		text_convidat_a = new JLabel( "Nom d'usuari convidat 1:" );
 		text_convidat_b = new JLabel( "Nom d'usuari convidat 2:" );
 		text_usuari = new JLabel( "Nom d'usuari:" );
@@ -140,9 +144,17 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 	@Override
 	protected void inicialitzaPanellCentral()
 	{
-		// Panell central
-		panell_central.setLayout( new GridLayout( 2, 1, 10, 10 ) );
+		// Panell central ---------------------------------------------------------------------------------------------
+		panell_central.setLayout( new GridLayout( 3, 1, 10, 10 ) );
 		panell_central.setOpaque( false );
+
+		// Panell nom partida -----------------------------------------------------------------------------------------
+		JPanel panell_nom_partida = new JPanel();
+		panell_nom_partida.setLayout( new GridLayout( 1, 2, 0, 0 ) );
+		panell_nom_partida.setOpaque( false );
+		panell_nom_partida.add( text_nom_partida );
+		panell_nom_partida.add( camp_nom_partida);
+		panell_central.add( panell_nom_partida );
 
 		// Panell jugador 1 -------------------------------------------------------------------------------------------
 		JPanel panell_jugador_a = new JPanelImatge( "img/caixa.png" ); // Caixa i text "Jugador 1:"
@@ -189,6 +201,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 		principal_jugador_1.add( seleccio_jugador_a );
 
 		panell_jugador_a.add( principal_jugador_1 );
+		panell_central.add( panell_jugador_a );
 
 		// Panell jugador 2 -------------------------------------------------------------------------------------------
 		JPanel panell_jugador_b = new JPanelImatge( "img/caixa.png" ); // Caixa i text "Jugador 2:"
@@ -234,9 +247,6 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 		principal_jugador_b.add( seleccio_jugador_b );
 
 		panell_jugador_b.add( principal_jugador_b );
-
-		// Panel central
-		panell_central.add( panell_jugador_a );
 		panell_central.add( panell_jugador_b );
 	}
 
@@ -386,7 +396,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 
 		try
 		{
-			presentacio_ctrl.iniciaPartida( 7, "AAA" );
+			presentacio_ctrl.iniciaPartida( 7, camp_nom_partida.getText() );
 			presentacio_ctrl.vistaIniciaPartidaAPartida();
 		}
 		catch ( Exception excepcio )
@@ -401,10 +411,6 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 	public void accioBotoDescarta( ActionEvent event )
 	{
 		presentacio_ctrl.vistaIniciaPartidaAMenuPrincipal();
-	}
-
-	public void accioSeleccionaTipusJugador1( ActionEvent event )
-	{
 	}
 
 	/**
