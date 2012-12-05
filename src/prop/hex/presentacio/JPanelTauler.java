@@ -51,19 +51,20 @@ public final class JPanelTauler extends JPanel
 	private int iniciX = 90;
 	private int iniciY = 80;
 
-	private JButton abandona = new JButton( "Abandona la partida" );
+	private boolean partida_en_curs;
 
 	/**
 	 * Constructora, obté el taulell i els jugadors, construeix un poligon hexagonal i
 	 * afegeix el listener del ratoli pel cas del click.
 	 */
-	public JPanelTauler()
+	public JPanelTauler( boolean partida_en_curs )
 	{
 		tauler = ( TaulerHex ) PartidaCtrl.getInstancia().getPartidaActual().getTauler();
 		jugador_a = ( UsuariHex ) PartidaCtrl.getInstancia().getPartidaActual().getJugadorA();
 		jugador_b = ( UsuariHex ) PartidaCtrl.getInstancia().getPartidaActual().getJugadorB();
 		ultima_pista = new Casella( 0, 0 );
 		pista_valida = false;
+		this.partida_en_curs = partida_en_curs;
 
 		//Creem l'hexagon que dibuixarem despres.
 		int x[] = new int[6];
@@ -104,9 +105,10 @@ public final class JPanelTauler extends JPanel
 		int rx = iniciX;
 		int ry = iniciY;
 
-		if ( ( PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats() % 2 == 0 && ( x < 170 && x > -50 && y
-				< 480 && y > 360 ) ) || ( PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats() % 2 != 0
-						                          && ( x < 800 && x > 580 && y < 270 && y > 150 ) ) )
+		if ( partida_en_curs && ( ( PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats() % 2 == 0 &&
+				                ( x < 170 && x > -50 && y < 480 && y > 360 ) ) ||
+								( PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats() % 2 != 0 &&
+								( x < 800 && x > 580 && y < 270 && y > 150 ) ) ) )
 		{
 			mouIAOMostraPista();
 		}
@@ -161,8 +163,8 @@ public final class JPanelTauler extends JPanel
 	 */
 	private void clickHexagon( int i, int j )
 	{
-		if ( PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.NO_FINALITZADA && PartidaCtrl
-				.getInstancia().esTornHuma() )
+		if ( PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.NO_FINALITZADA && (PartidaCtrl
+				.getInstancia().esTornHuma() || !partida_en_curs) )
 		{
 			try
 			{
@@ -240,8 +242,8 @@ public final class JPanelTauler extends JPanel
 		}
 
 		//Si és torn de la IA mostrem el botó Mou IA.
-		if ( !PartidaCtrl.getInstancia().esTornHuma() && PartidaCtrl.getInstancia().consultaEstatPartida() ==
-				EstatPartida.NO_FINALITZADA )
+		if ( partida_en_curs && !PartidaCtrl.getInstancia().esTornHuma()
+			 && PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.NO_FINALITZADA )
 		{
 			if ( PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats() % 2 == 0 )
 			{
@@ -264,7 +266,7 @@ public final class JPanelTauler extends JPanel
 		}
 
 		//Si és torn d'un humà i té pistes per utilitzar mostrem el botó Demana Pista
-		if ( !pista_valida && PartidaCtrl.getInstancia().esTornHuma() && PartidaCtrl.getInstancia()
+		if ( partida_en_curs && !pista_valida && PartidaCtrl.getInstancia().esTornHuma() && PartidaCtrl.getInstancia()
 				.consultaEstatPartida() == EstatPartida.NO_FINALITZADA )
 		{
 			if ( PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats() % 2 == 0 )

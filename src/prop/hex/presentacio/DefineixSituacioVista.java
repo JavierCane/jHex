@@ -5,23 +5,37 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public final class PartidaVista extends BaseVista
+public class DefineixSituacioVista extends BaseVista
 {
 
 	private JPanelTauler panell_central;
 	private JPanel panell_botons;
+	private JButton inicia_partida;
 	private JButton abandona;
 
-	public PartidaVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
+	public DefineixSituacioVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
 	{
 		super( presentacio_ctrl, frame_principal );
 
 		titol = new JLabel( "jHex" );
-		panell_central = new JPanelTauler( true );
+		panell_central = new JPanelTauler( false );
 		panell_botons = new JPanel();
+		inicia_partida = new JButton( "Inicia la partida" );
 		abandona = new JButton( "Abandona la partida" );
 
 		inicialitzaVista();
+	}
+
+	protected void inicialitzaVista()
+	{
+		inicialitzaPanellPrincipal(); // Mètode abstracte, a implementar a cada classe
+		inicialitzaPanellTitol(); // Mètode comú a totes les vistes
+
+		inicialitzaPanellCentral(); // Mètode abstracte, a implementar a cada classe
+		inicialitzaPanellPeu(); // Mètode abstracte, a implementar a cada classe
+
+		inicialitzaPanellSortida(); // Mètode comú a totes les vistes
+		assignaListeners(); // Mètode comú a totes les vistes
 	}
 
 	@Override
@@ -40,8 +54,9 @@ public final class PartidaVista extends BaseVista
 	@Override
 	protected void inicialitzaPanellPeu()
 	{
-		panell_botons.setLayout( new FlowLayout( FlowLayout.CENTER, 240, 0 ) );
+		panell_botons.setLayout( new FlowLayout( FlowLayout.CENTER, 120, 0 ) );
 		panell_botons.add( titol_baix );
+		panell_botons.add( inicia_partida );
 		panell_botons.add( abandona );
 		panell_botons.add( panell_sortida );
 		panell_botons.setOpaque( false );
@@ -55,13 +70,28 @@ public final class PartidaVista extends BaseVista
 
 	public void accioBotoAbandona( ActionEvent event )
 	{
-		presentacio_ctrl.vistaPartidaAMenuPrincipal();
+		presentacio_ctrl.vistaDefineixSituacioAMenuPrincipal();
+	}
+
+	public void accioBotoIniciaPartida( ActionEvent event )
+	{
+		presentacio_ctrl.vistaDefineixSituacioAPartida();
 	}
 
 	@Override
 	protected void assignaListeners()
 	{
 		super.assignaListeners();
+
+		inicia_partida.addActionListener( new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed( ActionEvent event )
+			{
+				accioBotoIniciaPartida( event );
+			}
+		} );
 
 		abandona.addActionListener( new ActionListener()
 		{

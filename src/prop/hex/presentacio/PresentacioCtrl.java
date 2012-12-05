@@ -26,6 +26,7 @@ public final class PresentacioCtrl
 	private ConfiguraPartidaVista inicia_partida_vista;
 	private RanquingVista ranquing_vista;
 	private CarregaPartidaVista carrega_partida_vista;
+	private DefineixSituacioVista defineix_situacio_vista;
 	private PartidaVista partida_vista;
 	private CanviaContrasenyaVista canvia_contrasenya_vista;
 
@@ -329,6 +330,16 @@ public final class PresentacioCtrl
 		partida_vista.fesVisible();
 	}
 
+	public void vistaIniciaPartidaADefineixSituacio()
+	{
+		if ( defineix_situacio_vista == null )
+		{
+			defineix_situacio_vista = new DefineixSituacioVista( this, frame_principal );
+		}
+		inicia_partida_vista = null;
+		defineix_situacio_vista.fesVisible();
+	}
+
 	public void vistaPartidaAMenuPrincipal()
 	{
 		if ( menu_principal_vista == null )
@@ -336,6 +347,26 @@ public final class PresentacioCtrl
 			menu_principal_vista = new MenuPrincipalVista( this, frame_principal );
 		}
 		partida_vista = null;
+		menu_principal_vista.fesVisible();
+	}
+
+	public void vistaDefineixSituacioAPartida()
+	{
+		if ( partida_vista == null )
+		{
+			partida_vista = new PartidaVista( this, frame_principal );
+		}
+		defineix_situacio_vista = null;
+		partida_vista.fesVisible();
+	}
+
+	public void vistaDefineixSituacioAMenuPrincipal()
+	{
+		if ( menu_principal_vista == null )
+		{
+			menu_principal_vista = new MenuPrincipalVista( this, frame_principal );
+		}
+		defineix_situacio_vista = null;
 		menu_principal_vista.fesVisible();
 	}
 }

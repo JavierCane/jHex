@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 public abstract class BaseVista
 {
@@ -97,6 +98,16 @@ public abstract class BaseVista
 				accioBotoSurt( event );
 			}
 		} );
+
+		ajuda.addActionListener( new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed( ActionEvent event )
+			{
+				accioBotoAjuda( event );
+			}
+		} );
 	}
 
 	public void accioBotoSurt( ActionEvent event )
@@ -108,11 +119,32 @@ public abstract class BaseVista
 		};
 
 		String valor_seleccionat = dialeg.setDialeg( "Confirmació de la sortida", "Estàs segur que vols sortir del " +
-				"programa?", botons, JOptionPane.QUESTION_MESSAGE );
+				"" + "programa?", botons, JOptionPane.QUESTION_MESSAGE );
 
 		if ( "Sí" == valor_seleccionat )
 		{
 			System.exit( 0 );
+		}
+	}
+
+	public void accioBotoAjuda( ActionEvent event )
+	{
+		try
+		{
+			Desktop desktop = null;
+			if ( Desktop.isDesktopSupported() )
+			{
+				desktop = Desktop.getDesktop();
+			}
+
+			desktop.open( new File( "doc/ajuda.pdf" ) );
+		}
+		catch ( Exception e )
+		{
+			VistaDialeg dialeg = new VistaDialeg();
+			String[] botons = { "Accepta" };
+			String valor_seleccionat = dialeg.setDialeg( "Error", "Error al obrir el fitxer d'ajuda.", botons,
+					JOptionPane.ERROR_MESSAGE );
 		}
 	}
 }
