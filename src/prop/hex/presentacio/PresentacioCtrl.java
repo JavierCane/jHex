@@ -35,6 +35,7 @@ public final class PresentacioCtrl
 		frame_principal.setResizable( false );
 		frame_principal.setLocationRelativeTo( null );
 		frame_principal.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		frame_principal.setIconImage( new ImageIcon( "img/icona.png" ).getImage() );
 
 		try
 		{
@@ -53,9 +54,8 @@ public final class PresentacioCtrl
 		inicia_sessio_vista.fesVisible();
 	}
 
-	public void setUsuariActual( String nom, String contrasenya )
-			throws IllegalArgumentException, FileNotFoundException, IOException, ClassNotFoundException,
-			       NullPointerException
+	public void setUsuariActual( String nom, String contrasenya ) throws IllegalArgumentException,
+			FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
 	{
 		UsuariCtrl.getInstancia().setUsuariPrincipal( nom, contrasenya );
 	}
@@ -114,24 +114,25 @@ public final class PresentacioCtrl
 		UsuariCtrl.getInstancia().reiniciaEstadistiques();
 	}
 
-	// Mètodes ConfiguraPartidaVista ----------------------------------------------------------------------------------
+	// Mètodes ConfiguraPartidaVista
+	// ----------------------------------------------------------------------------------
 
 	public void preInicialitzaUsuariPartida( int num_jugador, TipusJugadors tipus_jugador, String nom_usuari,
-	                                         String contrasenya_usuari )
-			throws IllegalArgumentException, FileNotFoundException, IOException, ClassNotFoundException,
-			       NullPointerException
+	                                         String contrasenya_usuari ) throws IllegalArgumentException,
+			FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
 	{
-		PartidaCtrl.getInstancia()
-				.preInicialitzaUsuariPartida( num_jugador, tipus_jugador, nom_usuari, contrasenya_usuari );
+		PartidaCtrl.getInstancia().preInicialitzaUsuariPartida( num_jugador, tipus_jugador, nom_usuari,
+				contrasenya_usuari );
 	}
 
-	public void iniciaPartida( int mida_tauler, String nom_partida )
-			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException
+	public void iniciaPartida( int mida_tauler, String nom_partida ) throws ClassNotFoundException,
+			InstantiationException, IllegalAccessException, IllegalArgumentException
 	{
 		PartidaCtrl.getInstancia().inicialitzaPartida( mida_tauler, nom_partida );
 	}
 
-	// Mètodes RanquingVista ------------------------------------------------------------------------------------------
+	// Mètodes RanquingVista
+	// ------------------------------------------------------------------------------------------
 
 	public Object[][] obteLlistaRanquing()
 	{
@@ -147,7 +148,8 @@ public final class PresentacioCtrl
 		return llista;
 	}
 
-	// Mètodes per intercanviar vistes --------------------------------------------------------------------------------
+	// Mètodes per intercanviar vistes
+	// --------------------------------------------------------------------------------
 
 	public void vistaIniciaSessioARegistra()
 	{
@@ -167,6 +169,16 @@ public final class PresentacioCtrl
 		}
 		registra_vista = null;
 		inicia_sessio_vista.fesVisible();
+	}
+
+	public void vistaRegistraAMenuPrincipal()
+	{
+		if ( menu_principal_vista == null )
+		{
+			menu_principal_vista = new MenuPrincipalVista( this, frame_principal );
+		}
+		registra_vista = null;
+		menu_principal_vista.fesVisible();
 	}
 
 	public void vistaIniciaSessioAMenuPrincipal()

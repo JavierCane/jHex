@@ -8,21 +8,30 @@ import java.awt.event.ActionListener;
 public final class RegistraVista extends BaseVista
 {
 
-	private JPanel panell_dades = new JPanelImatge( "img/caixa.png" );
-	private JButton accepta = new JButton( "Accepta" );
-	private JButton descarta = new JButton( "Descarta" );
-	private JTextField usuari = new JTextField();
-	private JPasswordField contrasenya = new JPasswordField();
-	private JPasswordField confirma_contrasenya = new JPasswordField();
-	private JLabel text_usuari = new JLabel( "Nom d'usuari:" );
-	private JLabel text_contrasenya = new JLabel( "Contrasenya:" );
-	private JLabel text_confirma_contrasenya = new JLabel( "Confirma la contrasenya:" );
+	private JPanel panell_dades;
+	private JButton accepta;
+	private JButton descarta;
+	private JTextField usuari;
+	private JPasswordField contrasenya;
+	private JPasswordField confirma_contrasenya;
+	private JLabel text_usuari;
+	private JLabel text_contrasenya;
+	private JLabel text_confirma_contrasenya;
 
 	public RegistraVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
 	{
 		super( presentacio_ctrl, frame_principal );
 
 		titol = new JLabel( "Registra't" );
+		panell_dades = new JPanelImatge( "img/caixa.png" );
+		accepta = new JButton( "Accepta" );
+		descarta = new JButton( "Descarta" );
+		usuari = new JTextField();
+		contrasenya = new JPasswordField();
+		confirma_contrasenya = new JPasswordField();
+		text_usuari = new JLabel( "Nom d'usuari:" );
+		text_contrasenya = new JLabel( "Contrasenya:" );
+		text_confirma_contrasenya = new JLabel( "Confirma la contrasenya:" );
 
 		inicialitzaVista();
 	}
@@ -103,7 +112,8 @@ public final class RegistraVista extends BaseVista
 			else
 			{
 				presentacio_ctrl.registraUsuari( usuari.getText(), contrasenya_introduida );
-				presentacio_ctrl.vistaRegistraAIniciaSessio();
+				presentacio_ctrl.setUsuariActual( usuari.getText(), contrasenya_introduida );
+				presentacio_ctrl.vistaRegistraAMenuPrincipal();
 			}
 		}
 		catch ( IllegalArgumentException excepcio )

@@ -8,21 +8,30 @@ import java.awt.event.ActionListener;
 public final class IniciaSessioVista extends BaseVista
 {
 
-	private static JPanel panell_dades = new JPanelImatge( "img/caixa.png" );
-	private static JPanel panell_botons = new JPanel();
-	private static JButton accepta = new JButton( "Accepta" );
-	private static JButton registra = new JButton( "Registra't" );
-	private static JButton convidat = new JButton( "Entra com a convidat" );
-	private static JTextField usuari = new JTextField();
-	private static JPasswordField contrasenya = new JPasswordField();
-	private static JLabel text_usuari = new JLabel( "Nom d'usuari:" );
-	private static JLabel text_contrasenya = new JLabel( "Contrasenya:" );
+	private JPanel panell_dades;
+	private JPanel panell_botons;
+	private JButton accepta;
+	private JButton registra;
+	private JButton convidat;
+	private JTextField usuari;
+	private JPasswordField contrasenya;
+	private JLabel text_usuari;
+	private JLabel text_contrasenya;
 
 	public IniciaSessioVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
 	{
 		super( presentacio_ctrl, frame_principal );
 
 		titol = new JLabel( "Inicia sessió" );
+		panell_dades = new JPanelImatge( "img/caixa.png" );
+		panell_botons = new JPanel();
+		accepta = new JButton( "Accepta" );
+		registra = new JButton( "Registra't" );
+		convidat = new JButton( "Entra com a convidat" );
+		usuari = new JTextField();
+		contrasenya = new JPasswordField();
+		text_usuari = new JLabel( "Nom d'usuari:" );
+		text_contrasenya = new JLabel( "Contrasenya:" );
 
 		inicialitzaVista();
 	}
@@ -104,15 +113,15 @@ public final class IniciaSessioVista extends BaseVista
 		{
 			VistaDialeg dialeg = new VistaDialeg();
 			String[] botons = { "Accepta" };
-			String valor_seleccionat = dialeg.setDialeg( "Error", "Nom d'usuari o contrasenya incorrectes.", botons,
-					JOptionPane.WARNING_MESSAGE );
+			String valor_seleccionat = dialeg.setDialeg( "Error", "Nom d'usuari o contrasenya incorrectes.",
+					botons, JOptionPane.WARNING_MESSAGE );
 		}
 		catch ( Exception excepcio )
 		{
 			VistaDialeg dialeg = new VistaDialeg();
 			String[] botons = { "Accepta" };
-			String valor_seleccionat =
-					dialeg.setDialeg( "Error", "Error inesperat.", botons, JOptionPane.ERROR_MESSAGE );
+			String valor_seleccionat = dialeg.setDialeg( "Error", "Error inesperat.", botons,
+					JOptionPane.ERROR_MESSAGE );
 		}
 	}
 
@@ -127,15 +136,15 @@ public final class IniciaSessioVista extends BaseVista
 		{
 			VistaDialeg dialeg = new VistaDialeg();
 			String[] botons = { "Accepta" };
-			String valor_seleccionat = dialeg.setDialeg( "Error", "Nom d'usuari o contrasenya incorrectes.", botons,
-					JOptionPane.WARNING_MESSAGE );
+			String valor_seleccionat = dialeg.setDialeg( "Error", "Nom d'usuari o contrasenya incorrectes.",
+					botons, JOptionPane.WARNING_MESSAGE );
 		}
 		catch ( Exception excepcio )
 		{
 			VistaDialeg dialeg = new VistaDialeg();
 			String[] botons = { "Accepta" };
-			String valor_seleccionat =
-					dialeg.setDialeg( "Error", "Error inesperat.", botons, JOptionPane.ERROR_MESSAGE );
+			String valor_seleccionat = dialeg.setDialeg( "Error", "Error inesperat.", botons,
+					JOptionPane.ERROR_MESSAGE );
 		}
 	}
 

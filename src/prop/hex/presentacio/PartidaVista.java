@@ -8,15 +8,18 @@ import java.awt.event.ActionListener;
 public final class PartidaVista extends BaseVista
 {
 
-	private JPanelTauler panell_central = new JPanelTauler();
-	private JPanel panell_botons = new JPanel();
-	private JButton abandona = new JButton( "Abandona la partida" );
+	private JPanelTauler panell_central;
+	private JPanel panell_botons;
+	private JButton abandona;
 
 	public PartidaVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
 	{
 		super( presentacio_ctrl, frame_principal );
 
 		titol = new JLabel( "jHex" );
+		panell_central = new JPanelTauler();
+		panell_botons = new JPanel();
+		abandona = new JButton( "Abandona la partida" );
 
 		inicialitzaVista();
 	}

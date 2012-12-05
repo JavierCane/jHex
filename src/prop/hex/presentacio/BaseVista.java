@@ -13,9 +13,9 @@ public abstract class BaseVista
 	protected JPanelImatge panell_principal = new JPanelImatge( "img/fons.png" ); // Si ho posem com static, UI peta
 	protected JPanel panell_titol = new JPanel();
 	protected JPanel panell_sortida = new JPanel();
-	protected JButton ajuda = new JButton( "", new ImageIcon( "img/ajuda.png" ) );
-	protected JButton surt = new JButton( "", new ImageIcon( "img/surt.png" ) );
-	protected JLabel titol_baix = new JLabel( "jHex v1.0" );
+	protected JButton ajuda;
+	protected JButton surt;
+	protected JLabel titol_baix;
 
 	// Atribut per sobreescriure
 	protected static JLabel titol;
@@ -24,6 +24,12 @@ public abstract class BaseVista
 	{
 		this.presentacio_ctrl = presentacio_ctrl;
 		this.frame_vista = frame_vista;
+		panell_principal = new JPanelImatge( "img/fons.png" );
+		panell_titol = new JPanel();
+		panell_sortida = new JPanel();
+		ajuda = new JButton( "", new ImageIcon( "img/ajuda.png" ) );
+		surt = new JButton( "", new ImageIcon( "img/surt.png" ) );
+		titol_baix = new JLabel( "jHex v1.0" );
 	}
 
 	public void fesVisible()
@@ -98,13 +104,11 @@ public abstract class BaseVista
 		VistaDialeg dialeg = new VistaDialeg();
 
 		String[] botons = {
-				"Sí",
-				"No"
+				"Sí", "No"
 		};
 
-		String valor_seleccionat =
-				dialeg.setDialeg( "Confirmació de la sortida", "Estàs segur que vols sortir del programa?", botons,
-						JOptionPane.QUESTION_MESSAGE );
+		String valor_seleccionat = dialeg.setDialeg( "Confirmació de la sortida", "Estàs segur que vols sortir del " +
+				"programa?", botons, JOptionPane.QUESTION_MESSAGE );
 
 		if ( "Sí" == valor_seleccionat )
 		{

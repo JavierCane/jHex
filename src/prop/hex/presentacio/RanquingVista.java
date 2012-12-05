@@ -8,42 +8,36 @@ import java.awt.event.ActionListener;
 public final class RanquingVista extends BaseVista
 {
 
-	private JPanel panell_central = new JPanel();
-	private JPanel panell_botons = new JPanel();
-	private JButton torna = new JButton( "Torna al menú principal" );
-	private Object[][] dades_taula = presentacio_ctrl.obteLlistaRanquing();
-	private Object[][] dades_hall_of_fame = new Object[][] {
-			{
-					"Test",
-					"Test",
-					"Test",
-					"Test"
-			},
-			{
-					"27 s",
-					"10",
-					"10",
-					"10"
-			}
-	};
-	private JTable taula_ranquing = new JTable( dades_taula, new String[] {
-			"Nom d'usuari",
-			"Partides jugades",
-			"Partides guanyades",
-			"Puntuació global"
-	} );
-	private JTable taula_hall_of_fame = new JTable( dades_hall_of_fame, new String[] {
-			"Victòria amb temps mínim",
-			"Victòria amb més fitxes",
-			"Més partides jugades",
-			"Més victòries"
-	} );
+	private JPanel panell_central;
+	private JPanel panell_botons;
+	private JButton torna;
+	private Object[][] dades_taula;
+	private Object[][] dades_hall_of_fame;
+	private JTable taula_ranquing;
+	private JTable taula_hall_of_fame;
 
 	public RanquingVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
 	{
 		super( presentacio_ctrl, frame_principal );
 
 		titol = new JLabel( "Rànquing" );
+		panell_central = new JPanel();
+		panell_botons = new JPanel();
+		torna = new JButton( "Torna al menú principal" );
+		dades_taula = presentacio_ctrl.obteLlistaRanquing();
+		dades_hall_of_fame = new Object[][] {
+				{
+						"Test", "Test", "Test", "Test"
+				}, {
+				"27 s", "10", "10", "10"
+		}
+		};
+		taula_ranquing = new JTable( dades_taula, new String[] {
+				"Nom d'usuari", "Partides jugades", "Partides guanyades", "Puntuació global"
+		} );
+		taula_hall_of_fame = new JTable( dades_hall_of_fame, new String[] {
+				"Victòria amb temps mínim", "Victòria amb més fitxes", "Més partides jugades", "Més victòries"
+		} );
 
 		inicialitzaVista();
 	}

@@ -14,45 +14,75 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 {
 
 	// Panells
-	private JPanel panell_central = new JPanel();
-	private JPanel panell_botons = new JPanel();
-	private JPanel seleccio_jugador_a = new JPanel(); // Panell de tipus CardLayout (intercanviable)
-	private JPanel seleccio_jugador_b = new JPanel(); // Panell de tipus CardLayout (intercanviable)
+	private JPanel panell_central;
+	private JPanel panell_botons;
+	private JPanel seleccio_jugador_a; // Panell de tipus CardLayout (intercanviable)
+	private JPanel seleccio_jugador_b; // Panell de tipus CardLayout (intercanviable)
 
 	// Botons
-	private JButton inicia_partida = new JButton( "Inicia la partida" );
-	private JButton situacio_inicial = new JButton( "Defineix la situació inicial" );
-	private JButton descarta = new JButton( "Descarta" );
+	private JButton inicia_partida;
+	private JButton situacio_inicial;
+	private JButton descarta;
 
 	// Camps de tipus combos
 	private JComboBox combo_tipus_jugador_a;
-	private JComboBox combo_tipus_maquina_a = new JComboBox( TipusJugadors.obteLlistatMaquines() );
-	private JComboBox combo_tipus_jugador_b = new JComboBox( new String[] {
-			"Màquina",
-			"Convidat",
-			"Usuari registrat"
-	} );
-	private JComboBox combo_tipus_maquina_b = new JComboBox( TipusJugadors.obteLlistatMaquines() );
+	private JComboBox combo_tipus_maquina_a;
+	private JComboBox combo_tipus_jugador_b;
+	private JComboBox combo_tipus_maquina_b;
 
 	// Camps de tipus text/contrasenya
-	private JTextField camp_nom_convidat_a = new JTextField();
-	private JTextField camp_nom_convidat_b = new JTextField();
-	private JTextField camp_nom_usuari_b = new JTextField();
-	private JPasswordField camp_contrasenya_usuari_b = new JPasswordField();
+	private JTextField camp_nom_convidat_a;
+	private JTextField camp_nom_convidat_b;
+	private JTextField camp_nom_usuari_b;
+	private JPasswordField camp_contrasenya_usuari_b;
 
 	// Etiquetes de text
-	private JLabel text_convidat_a = new JLabel( "Nom d'usuari convidat 1:" );
-	private JLabel text_convidat_b = new JLabel( "Nom d'usuari convidat 2:" );
-	private JLabel text_usuari = new JLabel( "Nom d'usuari:" );
-	private JLabel text_contrasenya = new JLabel( "Contrasenya:" );
-	private JLabel text_jugador_a = new JLabel( "Jugador 1:" );
-	private JLabel text_jugador_b = new JLabel( "Jugador 2:" );
+	private JLabel text_convidat_a;
+	private JLabel text_convidat_b;
+	private JLabel text_usuari;
+	private JLabel text_contrasenya;
+	private JLabel text_jugador_a;
+	private JLabel text_jugador_b;
 
 	public ConfiguraPartidaVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
 	{
 		super( presentacio_ctrl, frame_principal );
 
 		titol = new JLabel( "Juga una partida" );
+
+		// Panells
+		panell_central = new JPanel();
+		panell_botons = new JPanel();
+		seleccio_jugador_a = new JPanel(); // Panell de tipus CardLayout (intercanviable)
+		seleccio_jugador_b = new JPanel(); // Panell de tipus CardLayout (intercanviable)
+
+		// Botons
+		inicia_partida = new JButton( "Inicia la partida" );
+		situacio_inicial = new JButton( "Defineix la situació inicial" );
+		descarta = new JButton( "Descarta" );
+
+		// Camps de tipus combos
+		combo_tipus_maquina_a = new JComboBox( TipusJugadors.obteLlistatMaquines() );
+		combo_tipus_jugador_b = new JComboBox( new String[] {
+				"Màquina",
+				"Convidat",
+				"Usuari registrat"
+		} );
+		combo_tipus_maquina_b = new JComboBox( TipusJugadors.obteLlistatMaquines() );
+
+		// Camps de tipus text/contrasenya
+		camp_nom_convidat_a = new JTextField();
+		camp_nom_convidat_b = new JTextField();
+		camp_nom_usuari_b = new JTextField();
+		camp_contrasenya_usuari_b = new JPasswordField();
+
+		// Etiquetes de text
+		text_convidat_a = new JLabel( "Nom d'usuari convidat 1:" );
+		text_convidat_b = new JLabel( "Nom d'usuari convidat 2:" );
+		text_usuari = new JLabel( "Nom d'usuari:" );
+		text_contrasenya = new JLabel( "Contrasenya:" );
+		text_jugador_a = new JLabel( "Jugador 1:" );
+		text_jugador_b = new JLabel( "Jugador 2:" );
 
 		// Si l'usuari ha iniciat sessió com a convidat, unicament mostro l'opció de jugar com convidat o màquina
 		if ( presentacio_ctrl.getEsConvidat() )

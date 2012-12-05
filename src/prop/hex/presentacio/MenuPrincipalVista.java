@@ -8,20 +8,27 @@ import java.awt.event.ActionListener;
 public final class MenuPrincipalVista extends BaseVista
 {
 
-	private JPanel panell_botons = new JPanel();
-	private JPanel panell_tanca_sessio = new JPanel();
+	private JPanel panell_botons;
+	private JPanel panell_tanca_sessio;
 	private JLabel nom_jugador_principal;
-	private JButton tanca_sessio = new JButton( "Tanca la sessió" );
-	private JButton juga = new JButton( "Juga una partida" );
-	private JButton carrega = new JButton( "Carrega una partida" );
-	private JButton preferencies = new JButton( "Preferències" );
-	private JButton ranquing = new JButton( "Rànquing" );
+	private JButton tanca_sessio;
+	private JButton juga;
+	private JButton carrega;
+	private JButton preferencies;
+	private JButton ranquing;
 
 	public MenuPrincipalVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
 	{
 		super( presentacio_ctrl, frame_principal );
 
 		titol = new JLabel( "Menú principal" );
+		panell_botons = new JPanel();
+		panell_tanca_sessio = new JPanel();
+		tanca_sessio = new JButton( "Tanca la sessió" );
+		juga = new JButton( "Juga una partida" );
+		carrega = new JButton( "Carrega una partida" );
+		preferencies = new JButton( "Preferències" );
+		ranquing = new JButton( "Rànquing" );
 
 		inicialitzaVista();
 	}
@@ -74,7 +81,8 @@ public final class MenuPrincipalVista extends BaseVista
 	@Override
 	protected void inicialitzaPanellPeu()
 	{
-		nom_jugador_principal = new JLabel( "Has iniciat sessió com a " + presentacio_ctrl.obteNomJugadorPrincipal() );
+		nom_jugador_principal = new JLabel( "Has iniciat sessió com a " + presentacio_ctrl.obteNomJugadorPrincipal
+				() );
 		panell_tanca_sessio.add( nom_jugador_principal );
 		panell_tanca_sessio.add( tanca_sessio );
 		panell_tanca_sessio.setOpaque( false );

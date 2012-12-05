@@ -8,28 +8,30 @@ import java.awt.event.ActionListener;
 public final class CarregaPartidaVista extends BaseVista
 {
 
-	private static JPanel panell_central = new JPanel();
-	private static JPanel panell_botons = new JPanel();
-	private static JButton carrega = new JButton( "Carrega" );
-	private static JButton descarta = new JButton( "Descarta" );
-	private static Object[][] dades_taula = new Object[][] {
-			{
-					"Partida de prova",
-					"Test",
-					"25/11/2012 20:45"
-			}
-	};
-	private static JTable taula_partides = new JTable( dades_taula, new String[] {
-			"Nom de la partida",
-			"Oponent",
-			"Data i hora"
-	} );
+	private JPanel panell_central;
+	private JPanel panell_botons;
+	private JButton carrega;
+	private JButton descarta;
+	private Object[][] dades_taula;
+	private JTable taula_partides;
 
 	public CarregaPartidaVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
 	{
 		super( presentacio_ctrl, frame_principal );
 
 		titol = new JLabel( "Carrega una partida" );
+		panell_central = new JPanel();
+		panell_botons = new JPanel();
+		carrega = new JButton( "Carrega" );
+		descarta = new JButton( "Descarta" );
+		dades_taula = new Object[][] {
+				{
+						"Partida de prova", "Test", "25/11/2012 20:45"
+				}
+		};
+		taula_partides = new JTable( dades_taula, new String[] {
+				"Nom de la partida", "Oponent", "Data i hora"
+		} );
 
 		inicialitzaVista();
 	}

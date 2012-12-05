@@ -11,26 +11,40 @@ import java.awt.event.ActionListener;
 public final class PreferenciesVista extends BaseVista
 {
 
-	private JPanel panell_central = new JPanel();
-	private JPanel panell_botons = new JPanel();
-	private JRadioButton colors_vermell_blau = new JRadioButton( "Vermell/Blau" );
-	private JRadioButton colors_negre_blanc = new JRadioButton( "Negre/Blanc" );
-	private JRadioButton mode_inici_estandard = new JRadioButton( "Estàndard" );
-	private JRadioButton mode_inici_pastis = new JRadioButton( "Regla del pastís" );
-	private ButtonGroup grup_colors = new ButtonGroup();
-	private ButtonGroup grup_modes_inici = new ButtonGroup();
-	private JLabel colors = new JLabel( "Combinació de colors:" );
-	private JLabel modes_inici = new JLabel( "Mode d'inici de la partida:" );
-	private JButton reinicia_estadistiques = new JButton( "Reinicia les estadístiques" );
-	private JButton canvia_contrasenya = new JButton( "Canvia la contrasenya" );
-	private JButton accepta = new JButton( "Accepta" );
-	private JButton descarta = new JButton( "Descarta" );
+	private JPanel panell_central;
+	private JPanel panell_botons;
+	private JRadioButton colors_vermell_blau;
+	private JRadioButton colors_negre_blanc;
+	private JRadioButton mode_inici_estandard;
+	private JRadioButton mode_inici_pastis;
+	private ButtonGroup grup_colors;
+	private ButtonGroup grup_modes_inici;
+	private JLabel colors;
+	private JLabel modes_inici;
+	private JButton reinicia_estadistiques;
+	private JButton canvia_contrasenya;
+	private JButton accepta;
+	private JButton descarta;
 
 	public PreferenciesVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
 	{
 		super( presentacio_ctrl, frame_principal );
 
 		titol = new JLabel( "Preferències" );
+		panell_central = new JPanel();
+		panell_botons = new JPanel();
+		colors_vermell_blau = new JRadioButton( "Vermell/Blau" );
+		colors_negre_blanc = new JRadioButton( "Negre/Blanc" );
+		mode_inici_estandard = new JRadioButton( "Estàndard" );
+		mode_inici_pastis = new JRadioButton( "Regla del pastís" );
+		grup_colors = new ButtonGroup();
+		grup_modes_inici = new ButtonGroup();
+		colors = new JLabel( "Combinació de colors:" );
+		modes_inici = new JLabel( "Mode d'inici de la partida:" );
+		reinicia_estadistiques = new JButton( "Reinicia les estadístiques" );
+		canvia_contrasenya = new JButton( "Canvia la contrasenya" );
+		accepta = new JButton( "Accepta" );
+		descarta = new JButton( "Descarta" );
 
 		inicialitzaVista();
 	}
@@ -136,12 +150,11 @@ public final class PreferenciesVista extends BaseVista
 	{
 		VistaDialeg dialeg = new VistaDialeg();
 		String[] botons = {
-				"Sí",
-				"No"
+				"Sí", "No"
 		};
-		String valor_seleccionat = dialeg.setDialeg( "Reinicia les estadístiques",
-				"Estàs segur que vols reiniciar " + "les teves estadístiques? Aquesta acció no es podrà desfer.",
-				botons, JOptionPane.WARNING_MESSAGE );
+		String valor_seleccionat = dialeg.setDialeg( "Reinicia les estadístiques", "Estàs segur que vols reiniciar " +
+				"" + "les teves estadístiques? Aquesta acció no es podrà desfer.", botons,
+				JOptionPane.WARNING_MESSAGE );
 		if ( valor_seleccionat == "Sí" )
 		{
 			presentacio_ctrl.reiniciaEstadistiquesJugadorPrincipal();
