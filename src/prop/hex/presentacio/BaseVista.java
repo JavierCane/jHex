@@ -10,9 +10,9 @@ public abstract class BaseVista
 
 	protected static PresentacioCtrl presentacio_ctrl;
 	protected JFrame frame_vista;
-	protected JPanelImatge panell_principal = new JPanelImatge( "img/fons.png" ); // Si ho posem com static, UI peta
-	protected JPanel panell_titol = new JPanel();
-	protected JPanel panell_sortida = new JPanel();
+	protected JPanelImatge panell_principal; // Si ho posem com static, UI peta
+	protected JPanel panell_titol;
+	protected JPanel panell_sortida;
 	protected JButton ajuda;
 	protected JButton surt;
 	protected JLabel titol_baix;
