@@ -25,6 +25,7 @@ public final class PreferenciesVista extends BaseVista
 	private JButton canvia_contrasenya;
 	private JButton accepta;
 	private JButton descarta;
+	private JDialog dialeg_canvi_contrasenya;
 
 	public PreferenciesVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
 	{
@@ -45,6 +46,7 @@ public final class PreferenciesVista extends BaseVista
 		canvia_contrasenya = new JButton( "Canvia la contrasenya" );
 		accepta = new JButton( "Accepta" );
 		descarta = new JButton( "Descarta" );
+		dialeg_canvi_contrasenya = new JDialog( new JFrame(), "Canvia la contrasenya" );
 
 		inicialitzaVista();
 	}
@@ -163,6 +165,17 @@ public final class PreferenciesVista extends BaseVista
 
 	public void accioBotoCanviaContrasenya( ActionEvent event )
 	{
+		if ( presentacio_ctrl.getEsConvidat() )
+		{
+			VistaDialeg dialeg = new VistaDialeg();
+			String[] botons = { "Accepta" };
+			String valor_seleccionat = dialeg.setDialeg( "Error", "Els usuaris convidats no tenen contrasenya.",
+					botons, JOptionPane.WARNING_MESSAGE );
+		}
+		else
+		{
+			presentacio_ctrl.vistaPreferenciesACanviaContrasenya();
+		}
 	}
 
 	public void accioBotoAccepta( ActionEvent event )

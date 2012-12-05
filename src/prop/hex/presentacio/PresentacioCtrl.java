@@ -27,6 +27,7 @@ public final class PresentacioCtrl
 	private RanquingVista ranquing_vista;
 	private CarregaPartidaVista carrega_partida_vista;
 	private PartidaVista partida_vista;
+	private CanviaContrasenyaVista canvia_contrasenya_vista;
 
 	public void inicialitzaPresentacio()
 	{
@@ -112,6 +113,12 @@ public final class PresentacioCtrl
 	public void reiniciaEstadistiquesJugadorPrincipal()
 	{
 		UsuariCtrl.getInstancia().reiniciaEstadistiques();
+	}
+
+	public void canviaContrasenyaJugadorPrincipal( String contrasenya_actual, String contrasenya_nova ) throws
+			IllegalArgumentException
+	{
+		UsuariCtrl.getInstancia().modificaContrasenya( contrasenya_actual, contrasenya_nova );
 	}
 
 	// Mètodes ConfiguraPartidaVista
@@ -220,6 +227,25 @@ public final class PresentacioCtrl
 		}
 		preferencies_vista = null;
 		menu_principal_vista.fesVisible();
+	}
+
+	public void vistaCanviaContrasenyaAPreferencies()
+	{
+		if ( preferencies_vista == null )
+		{
+			preferencies_vista = new PreferenciesVista( this, frame_principal );
+		}
+		canvia_contrasenya_vista = null;
+		preferencies_vista.fesVisible();
+	}
+
+	public void vistaPreferenciesACanviaContrasenya()
+	{
+		if ( canvia_contrasenya_vista == null )
+		{
+			canvia_contrasenya_vista = new CanviaContrasenyaVista( this, frame_principal );
+		}
+		canvia_contrasenya_vista.fesVisible();
 	}
 
 	public void vistaMenuPrincipalAIniciaPartida()
