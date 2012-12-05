@@ -153,7 +153,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 		panell_nom_partida.setLayout( new GridLayout( 1, 2, 0, 0 ) );
 		panell_nom_partida.setOpaque( false );
 		panell_nom_partida.add( text_nom_partida );
-		panell_nom_partida.add( camp_nom_partida);
+		panell_nom_partida.add( camp_nom_partida );
 		panell_central.add( panell_nom_partida );
 
 		// Panell jugador 1 -------------------------------------------------------------------------------------------
@@ -394,17 +394,29 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 		preInicialitzaUsuariPartida( 1, combo_tipus_jugador_b, camp_nom_convidat_b, combo_tipus_maquina_b,
 				camp_nom_usuari_b.getText(), new String( camp_contrasenya_usuari_b.getPassword() ) );
 
-		try
-		{
-			presentacio_ctrl.iniciaPartida( 7, camp_nom_partida.getText() );
-			presentacio_ctrl.vistaIniciaPartidaAPartida();
-		}
-		catch ( Exception excepcio )
+		if ( camp_nom_partida.getText().isEmpty() )
 		{
 			VistaDialeg dialeg = new VistaDialeg();
 			String[] botons = { "Accepta" };
-			String valor_seleccionat =
-					dialeg.setDialeg( "Error", "Error inesperat.", botons, JOptionPane.ERROR_MESSAGE );
+			String valor_seleccionat = dialeg.setDialeg( "Error",
+					"Has de definir un nom de partida, aixó servirà per identificarla quan per exemple la guardis i " +
+					"la vulguis tornar a carregar.", botons, JOptionPane.ERROR_MESSAGE );
+		}
+		else
+		{
+			try
+			{
+				presentacio_ctrl.iniciaPartida( 7, camp_nom_partida.getText() );
+				presentacio_ctrl.vistaIniciaPartidaAPartida();
+			}
+			catch ( Exception excepcio )
+			{
+				VistaDialeg dialeg = new VistaDialeg();
+				String[] botons = { "Accepta" };
+				String valor_seleccionat =
+						dialeg.setDialeg( "Error", "Error inesperat intentant iniciar la partida.", botons,
+								JOptionPane.ERROR_MESSAGE );
+			}
 		}
 	}
 
