@@ -219,7 +219,7 @@ public final class JPanelTauler extends JPanel
 				g.fillRoundRect( -50, 360, 120, 40, 8, 8 );
 				g.setColor( Color.black );
 				g.drawRoundRect( -50, 360, 120, 40, 8, 8 );
-				g.setColor( Color.white );
+				g.setColor( jugador_a.getCombinacionsColors().getColorTextMouFitxaIA( EstatCasella.JUGADOR_A ) );
 				g.drawString( "Mou IA", -10, 385 );
 			}
 			else
@@ -228,32 +228,32 @@ public final class JPanelTauler extends JPanel
 				g.fillRoundRect( 580, 150, 120, 40, 8, 8 );
 				g.setColor( Color.black );
 				g.drawRoundRect( 580, 150, 120, 40, 8, 8 );
-				g.setColor( Color.white );
+				g.setColor( jugador_a.getCombinacionsColors().getColorTextMouFitxaIA( EstatCasella.JUGADOR_B ) );
 				g.drawString( "Mou IA", 620, 175 );
 			}
 		}
 
 		//Mostrem el torn actual.
-		g.setColor( Color.black );
+		g.setColor( jugador_a.getCombinacionsColors().getColorTextInformacio( EstatCasella.BUIDA ) );
 		g.drawString( "Torn: " + PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats(), -50, 210 );
 		g.drawString( "Torn: " + PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats(), 580, 0 );
 
 		//Si ha guanyat un jugador, mostrem el resultat.
 		if ( PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_A )
 		{
-			g.setColor( jugador_a.getCombinacionsColors().getColorCasella( EstatCasella.JUGADOR_A ) );
+			g.setColor( jugador_a.getCombinacionsColors().getColorTextInformacio( EstatCasella.JUGADOR_A ) );
 			g.drawString( "Guanya " + jugador_a.getNom(), -50, 230 );
 			g.drawString( "Guanya " + jugador_a.getNom(), 580, 20 );
 		}
 		else if ( PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_B )
 		{
-			g.setColor( jugador_a.getCombinacionsColors().getColorCasella( EstatCasella.JUGADOR_B ) );
+			g.setColor( jugador_a.getCombinacionsColors().getColorTextInformacio( EstatCasella.JUGADOR_B ) );
 			g.drawString( "Guanya " + jugador_b.getNom(), -50, 230 );
 			g.drawString( "Guanya " + jugador_b.getNom(), 580, 20 );
 		}
 
 		//Mostrem algunes dades pel jugador A
-		g.setColor( jugador_a.getCombinacionsColors().getColorCasella( EstatCasella.JUGADOR_A ) );
+		g.setColor( jugador_a.getCombinacionsColors().getColorTextInformacio( EstatCasella.JUGADOR_A ) );
 		if ( PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats() % 2 == 0 )
 		{
 			g.drawString( "Té el torn", -50, 290 );
@@ -266,7 +266,7 @@ public final class JPanelTauler extends JPanel
 				-50, 350 );
 
 		//I algunes dades pel jugador B
-		g.setColor( jugador_a.getCombinacionsColors().getColorCasella( EstatCasella.JUGADOR_B ) );
+		g.setColor( jugador_a.getCombinacionsColors().getColorTextInformacio( EstatCasella.JUGADOR_B ) );
 		if ( PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats() % 2 == 1 )
 		{
 			g.drawString( "Té el torn", 580, 80 );
