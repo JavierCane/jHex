@@ -113,7 +113,8 @@ public class CanviaContrasenyaVista extends BaseVista
 			{
 				presentacio_ctrl.canviaContrasenyaJugadorPrincipal( new String( contrasenya_actual.getPassword() ),
 						contrasenya_nova_introduida );
-				presentacio_ctrl.vistaCanviaContrasenyaAPreferencies();
+				presentacio_ctrl.guardaJugadorPrincipal();
+				presentacio_ctrl.vistaCanviaContrasenyaAMenuPrincipal();
 
 			}
 		}
@@ -123,6 +124,13 @@ public class CanviaContrasenyaVista extends BaseVista
 			String[] botons = { "Accepta" };
 			String valor_seleccionat = dialeg.setDialeg( "Error", "La contrasenya actual de l'usuari no coincideix " +
 					"" + "amb la introduïda.", botons, JOptionPane.WARNING_MESSAGE );
+		}
+		catch ( Exception e )
+		{
+			VistaDialeg dialeg = new VistaDialeg();
+			String[] botons = { "Accepta" };
+			String valor_seleccionat = dialeg.setDialeg( "Error", "Error al guardar el fitxer d'usuari.", botons,
+					JOptionPane.ERROR_MESSAGE );
 		}
 	}
 

@@ -32,7 +32,7 @@ public enum CombinacionsColors
 
 	NEGRE_BLANC( new Color[] {
 			new Color( 0x000000 ), new Color( 0xFFFFFF ), new Color( 0x00AAAA ), new Color( 0x007777 ),
-			new Color( 0x000000 ), new Color( 0x000000 ), new Color( 0x000000 ), new Color( 0xFFFFFF ),
+			new Color( 0x000000 ), new Color( 0x000000 ), new Color( 0xFFFFFF ), new Color( 0xFFFFFF ),
 			new Color( 0x000000 ), new Color( 0x000000 )
 	} );
 

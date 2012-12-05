@@ -3,6 +3,8 @@ package prop.hex.presentacio;
 import prop.cluster.domini.models.estats.EstatCasella;
 import prop.cluster.domini.models.estats.EstatPartida;
 import prop.hex.domini.controladors.PartidaCtrl;
+import prop.hex.domini.models.Casella;
+import prop.hex.domini.models.PartidaHex;
 import prop.hex.domini.models.TaulerHex;
 import prop.hex.domini.models.UsuariHex;
 import prop.hex.domini.models.enums.CombinacionsColors;
@@ -27,6 +29,10 @@ public final class JPanelTauler extends JPanel
 	 * Jugador B
 	 */
 	private UsuariHex jugador_b;
+
+	private Casella ultima_pista;
+
+	private boolean pista_valida;
 	/**
 	 * Poligon que s'utilitza per dibuixar a pantalla.
 	 */
@@ -56,6 +62,8 @@ public final class JPanelTauler extends JPanel
 		tauler = ( TaulerHex ) PartidaCtrl.getInstancia().getPartidaActual().getTauler();
 		jugador_a = ( UsuariHex ) PartidaCtrl.getInstancia().getPartidaActual().getJugadorA();
 		jugador_b = ( UsuariHex ) PartidaCtrl.getInstancia().getPartidaActual().getJugadorB();
+		ultima_pista = new Casella( 0, 0 );
+		pista_valida = false;
 
 		//Creem l'hexagon que dibuixarem despres.
 		int x[] = new int[6];
@@ -96,9 +104,11 @@ public final class JPanelTauler extends JPanel
 		int rx = iniciX;
 		int ry = iniciY;
 
-		if ( ( x < 170 && x > -50 && y < 480 && y > 360 ) || ( x < 800 && x > 580 && y < 270 && y > 150 ) )
+		if ( ( PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats() % 2 == 0 && ( x < 170 && x > -50 && y
+				< 480 && y > 360 ) ) || ( PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats() % 2 != 0
+						                          && ( x < 800 && x > 580 && y < 270 && y > 150 ) ) )
 		{
-			mouIA();
+			mouIAOMostraPista();
 		}
 		else
 		{
@@ -125,12 +135,18 @@ public final class JPanelTauler extends JPanel
 	 * Si la partida no està finalitzada i es torn de una IA, crida PartidaCtrl a executar moviment IA.
 	 * Torna a pintar l'escena.
 	 */
-	private void mouIA()
+	private void mouIAOMostraPista()
 	{
-		if ( PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.NO_FINALITZADA &&
-		     !PartidaCtrl.getInstancia().esTornHuma() )
+		if ( PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.NO_FINALITZADA && !PartidaCtrl
+				.getInstancia().esTornHuma() )
 		{
 			PartidaCtrl.getInstancia().executaMovimentIA();
+		}
+		else if ( PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.NO_FINALITZADA && PartidaCtrl
+				.getInstancia().esTornHuma() )
+		{
+			ultima_pista = PartidaCtrl.getInstancia().obtePista();
+			pista_valida = true;
 		}
 
 		repaint();
@@ -145,13 +161,14 @@ public final class JPanelTauler extends JPanel
 	 */
 	private void clickHexagon( int i, int j )
 	{
-		if ( PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.NO_FINALITZADA &&
-		     PartidaCtrl.getInstancia().esTornHuma() )
+		if ( PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.NO_FINALITZADA && PartidaCtrl
+				.getInstancia().esTornHuma() )
 		{
 			try
 			{
 				//No ens cal comprovar si el moviment es fa o no (si retorna true o false).
 				PartidaCtrl.getInstancia().mouFitxa( i, j );
+				pista_valida = false;
 			}
 			catch ( UnsupportedOperationException exepcio )
 			{
@@ -181,6 +198,8 @@ public final class JPanelTauler extends JPanel
 	{
 		super.paintComponent( g );
 
+		int max_num_pistes = PartidaHex.getMaxNumPistes();
+
 		//Dibuixem el tauler, pintant cada hexagon del color que toca.
 		g.translate( iniciX, iniciY );
 		for ( int i = 0; i < tauler.getMida(); i++ )
@@ -191,13 +210,24 @@ public final class JPanelTauler extends JPanel
 				g.translate( j * dx, 0 );
 
 				if ( i == tauler.getMida() / 2 && j == tauler.getMida() / 2 &&
-				     PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats() == 0 )
+						PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats() == 0 )
 				{
 					g.setColor( new Color( 0x333333 ) );
 				}
 				else
 				{
-					g.setColor( jugador_a.getCombinacionsColors().getColorCasella( tauler.getEstatCasella( i, j ) ) );
+					// Puc utilitzar-ho directament?
+					if ( pista_valida && ( ultima_pista.getFila() == i && ultima_pista.getColumna() == j ) )
+					{
+						g.setColor( new Color( 0x333333 ) );
+						ultima_pista.setColumna( 0 );
+						ultima_pista.setFila( 0 );
+					}
+					else
+					{
+						g.setColor( jugador_a.getCombinacionsColors().getColorCasella( tauler.getEstatCasella( i,
+								j ) ) );
+					}
 				}
 				g.fillPolygon( hexagon );
 
@@ -210,8 +240,8 @@ public final class JPanelTauler extends JPanel
 		}
 
 		//Si és torn de la IA mostrem el botó Mou IA.
-		if ( !PartidaCtrl.getInstancia().esTornHuma() &&
-		     PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.NO_FINALITZADA )
+		if ( !PartidaCtrl.getInstancia().esTornHuma() && PartidaCtrl.getInstancia().consultaEstatPartida() ==
+				EstatPartida.NO_FINALITZADA )
 		{
 			if ( PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats() % 2 == 0 )
 			{
@@ -230,6 +260,40 @@ public final class JPanelTauler extends JPanel
 				g.drawRoundRect( 580, 150, 120, 40, 8, 8 );
 				g.setColor( jugador_a.getCombinacionsColors().getColorTextMouFitxaIA( EstatCasella.JUGADOR_B ) );
 				g.drawString( "Mou IA", 620, 175 );
+			}
+		}
+
+		//Si és torn d'un humà i té pistes per utilitzar mostrem el botó Demana Pista
+		if ( !pista_valida && PartidaCtrl.getInstancia().esTornHuma() && PartidaCtrl.getInstancia()
+				.consultaEstatPartida() == EstatPartida.NO_FINALITZADA )
+		{
+			if ( PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats() % 2 == 0 )
+			{
+				// Com ho fem per carregar el valor màxim de pistes, que està a una classe del domini?
+				if ( PartidaCtrl.getInstancia().getPartidaActual().getPistesUsades( jugador_a.getIdentificadorUnic
+						() ) < max_num_pistes )
+				{
+					g.setColor( jugador_a.getCombinacionsColors().getColorCasella( EstatCasella.JUGADOR_A ) );
+					g.fillRoundRect( -50, 360, 120, 40, 8, 8 );
+					g.setColor( Color.black );
+					g.drawRoundRect( -50, 360, 120, 40, 8, 8 );
+					g.setColor( jugador_a.getCombinacionsColors().getColorTextMouFitxaIA( EstatCasella.JUGADOR_A ) );
+					g.drawString( "Demana pista", -30, 385 );
+				}
+			}
+			else
+			{
+				// Com ho fem per carregar el valor màxim de pistes, que està a una classe del domini?
+				if ( PartidaCtrl.getInstancia().getPartidaActual().getPistesUsades( jugador_b.getIdentificadorUnic
+						() ) < max_num_pistes )
+				{
+					g.setColor( jugador_a.getCombinacionsColors().getColorCasella( EstatCasella.JUGADOR_B ) );
+					g.fillRoundRect( 580, 150, 120, 40, 8, 8 );
+					g.setColor( Color.black );
+					g.drawRoundRect( 580, 150, 120, 40, 8, 8 );
+					g.setColor( jugador_a.getCombinacionsColors().getColorTextMouFitxaIA( EstatCasella.JUGADOR_B ) );
+					g.drawString( "Demana pista", 600, 175 );
+				}
 			}
 		}
 
@@ -256,31 +320,35 @@ public final class JPanelTauler extends JPanel
 		g.setColor( jugador_a.getCombinacionsColors().getColorTextInformacio( EstatCasella.JUGADOR_A ) );
 		if ( PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats() % 2 == 0 )
 		{
-			g.drawString( "Té el torn", -50, 290 );
+			g.drawString( "Té el torn", -50, 270 );
 		}
-		g.drawString( jugador_a.getNom(), -50, 310 );
-		g.drawString( "D'esquerra a dreta", -50, 330 );
+		g.drawString( jugador_a.getNom(), -50, 290 );
+		g.drawString( "D'esquerra a dreta", -50, 310 );
 
-		g.drawString( "Temps: " +
-		              PartidaCtrl.getInstancia().getPartidaActual().getTempsDeJoc( jugador_a.getIdentificadorUnic() ),
-				-50, 350 );
+		g.drawString( "Temps: " + PartidaCtrl.getInstancia().getPartidaActual().getTempsDeJoc( jugador_a
+				.getIdentificadorUnic() ), -50, 330 );
+		g.drawString( "Pistes disponibles: " + ( max_num_pistes - PartidaCtrl.getInstancia().getPartidaActual()
+				.getPistesUsades( jugador_a.getIdentificadorUnic() ) ), -50, 350 );
+
 
 		//I algunes dades pel jugador B
 		g.setColor( jugador_a.getCombinacionsColors().getColorTextInformacio( EstatCasella.JUGADOR_B ) );
 		if ( PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats() % 2 == 1 )
 		{
-			g.drawString( "Té el torn", 580, 80 );
+			g.drawString( "Té el torn", 580, 60 );
 		}
-		g.drawString( jugador_b.getNom(), 580, 100 );
-		g.drawString( "De dalt a baix", 580, 120 );
+		g.drawString( jugador_b.getNom(), 580, 80 );
+		g.drawString( "De dalt a baix", 580, 100 );
 
-		g.drawString( "Temps: " +
-		              PartidaCtrl.getInstancia().getPartidaActual().getTempsDeJoc( jugador_b.getIdentificadorUnic() ),
-				580, 140 );
+		g.drawString( "Temps: " + PartidaCtrl.getInstancia().getPartidaActual().getTempsDeJoc( jugador_b
+				.getIdentificadorUnic() ), 580, 120 );
+		g.drawString( "Pistes disponibles: " + ( max_num_pistes - PartidaCtrl.getInstancia().getPartidaActual()
+				.getPistesUsades( jugador_b.getIdentificadorUnic() ) ), 580, 140 );
 
 		if ( jugador_a.getCombinacionsColors() == CombinacionsColors.VERMELL_BLAU )
 		{
-			g.drawImage( ( new ImageIcon( "img/tauler_vb.png" ) ).getImage(), -90, -80, getWidth(), getHeight(), null );
+			g.drawImage( ( new ImageIcon( "img/tauler_vb.png" ) ).getImage(), -90, -80, getWidth(), getHeight(),
+					null );
 		}
 		else
 		{

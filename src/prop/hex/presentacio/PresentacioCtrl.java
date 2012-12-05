@@ -239,12 +239,23 @@ public final class PresentacioCtrl
 		preferencies_vista.fesVisible();
 	}
 
+	public void vistaCanviaContrasenyaAMenuPrincipal()
+	{
+		if ( menu_principal_vista == null )
+		{
+			menu_principal_vista = new MenuPrincipalVista( this, frame_principal );
+		}
+		canvia_contrasenya_vista = null;
+		menu_principal_vista.fesVisible();
+	}
+
 	public void vistaPreferenciesACanviaContrasenya()
 	{
 		if ( canvia_contrasenya_vista == null )
 		{
 			canvia_contrasenya_vista = new CanviaContrasenyaVista( this, frame_principal );
 		}
+		preferencies_vista = null;
 		canvia_contrasenya_vista.fesVisible();
 	}
 
