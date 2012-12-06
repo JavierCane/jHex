@@ -1,12 +1,18 @@
 package prop.hex.domini.models;
 
+import java.io.Serializable;
+
 /**
  * Representa una casella del tauler, guarda al fila i columna i implementa equals per a poder usar
  * algunes estructures de dades i fer cerques.
  */
-public class Casella implements Comparable<Casella>
+public final class Casella implements Comparable<Casella>, Serializable
 {
 
+	/**
+	 * ID de serialització
+	 */
+	private static final long serialVersionUID = 9092406054529927888L;
 	/**
 	 * Fila de la casella
 	 */

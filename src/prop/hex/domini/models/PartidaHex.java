@@ -15,11 +15,10 @@ import java.util.*;
  */
 public class PartidaHex extends Partida implements Serializable
 {
-
 	/**
 	 * ID de serialització
 	 */
-	private static final long serialVersionUID = -3193881780232604048L;
+	private static final long serialVersionUID = 2627134177791902081L;
 
 	/**
 	 * Màxim de pistes permeses per jugador.
@@ -75,18 +74,25 @@ public class PartidaHex extends Partida implements Serializable
 	};
 
 	/**
+	 * Indica si la partida tenia una situació inicial predefinida.
+	 */
+	private boolean situacio_inicial;
+
+	/**
 	 * Constructora alternativa per partides que no han estat jugades
 	 *
-	 * @param jugador_a Usuari que farà de jugador A
-	 * @param jugador_b Usuari que farà de jugador B
-	 * @param tauler    Tauler on es desenvoluparà la partida
-	 * @param nom       Nom de la partida
+	 * @param jugador_a        Usuari que farà de jugador A
+	 * @param jugador_b        Usuari que farà de jugador B
+	 * @param tauler           Tauler on es desenvoluparà la partida
+	 * @param nom              Nom de la partida
+	 * @param situacio_inicial Indica si la partida està definida amb una situació inicial
 	 * @throws ClassNotFoundException Si no es pot carregar la classe de les intel·ligències artificials.
 	 * @throws InstantiationError     Si hi ha problemes amb la instanciació de les intel·ligències artificials.
 	 * @throws IllegalAccessError     Si s'intenta accedir a un lloc no permès quan es carreguen les intel·ligències
 	 *                                artificials.
 	 */
-	public PartidaHex( UsuariHex jugador_a, UsuariHex jugador_b, TaulerHex tauler, String nom )
+	public PartidaHex( UsuariHex jugador_a, UsuariHex jugador_b, TaulerHex tauler, String nom,
+	                   boolean situacio_inicial )
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException
 	{
 		super( jugador_a, jugador_b, tauler, nom );
@@ -100,12 +106,25 @@ public class PartidaHex extends Partida implements Serializable
 		temps_de_joc.put( jugador_b.getIdentificadorUnic(), 0L );
 
 		mode_inici = jugador_a.getModeInici();
+		tauler.setModeIniciPartida( mode_inici );
 		combinacio_colors = jugador_a.getCombinacionsColors();
 
 		instant_darrer_moviment = new Date().getTime() / 1000L;
 		darrera_fitxa = new Casella( 0, 0 );
 
+		this.situacio_inicial = situacio_inicial;
+
 		inicialitzaIAJugadors();
+	}
+
+	/**
+	 * Comprova si una partida tenia una situació inicial
+	 *
+	 * @return Cert si tenia situació inicial. Fals altrament.
+	 */
+	public boolean esPartidaAmbSituacioInicial()
+	{
+		return situacio_inicial;
 	}
 
 	/**

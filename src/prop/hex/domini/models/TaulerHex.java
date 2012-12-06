@@ -2,6 +2,7 @@ package prop.hex.domini.models;
 
 import prop.cluster.domini.models.Tauler;
 import prop.cluster.domini.models.estats.EstatCasella;
+import prop.hex.domini.models.enums.ModesInici;
 
 import java.io.Serializable;
 import java.util.*;
@@ -16,7 +17,7 @@ public class TaulerHex extends Tauler implements Serializable
 	/**
 	 * ID de serialització
 	 */
-	private static final long serialVersionUID = 1451699733261138732L;
+	private static final long serialVersionUID = -9106084993427149334L;
 
 	/**
 	 * Codis hash de cada moviment en concret. Estan indexats considerant el tauler com un array unidimensional.
@@ -29,6 +30,11 @@ public class TaulerHex extends Tauler implements Serializable
 	private int codi_hash;
 
 	/**
+	 * Mode d'inici de la partida que juga amb el tauler.
+	 */
+	private ModesInici mode_inici_partida;
+
+	/**
 	 * Constructor del tauler. Crea un tauler de la mida desitjada amb totes les caselles buides (EstatCasella.BUIDA).
 	 *
 	 * @param mida Les dimensions que tindrà el tauler
@@ -37,6 +43,7 @@ public class TaulerHex extends Tauler implements Serializable
 	{
 		super( mida );
 		generaCodiHashTaulerBuit();
+		mode_inici_partida = ModesInici.ESTANDARD;
 	}
 
 	/**
@@ -61,6 +68,8 @@ public class TaulerHex extends Tauler implements Serializable
 				codi_hash ^= getCodiHashMoviment( caselles[fila][columna], fila, columna );
 			}
 		}
+
+		mode_inici_partida = ModesInici.ESTANDARD;
 	}
 
 	/**
@@ -73,6 +82,30 @@ public class TaulerHex extends Tauler implements Serializable
 		super( original );
 		codi_hash = original.codi_hash;
 		codis_hash_moviments = original.codis_hash_moviments;
+		mode_inici_partida = original.getModeIniciPartida();
+	}
+
+	/**
+	 * Comprova el mode d'inici de la partida del tauler
+	 *
+	 * @return El mode d'inici de la partida que juga amb el tauler
+	 */
+	public ModesInici getModeIniciPartida()
+	{
+		return mode_inici_partida;
+	}
+
+	/**
+	 * Canvia el mode d'inici de la partida del tauler.
+	 *
+	 * @param mode_inici El mode d'inici de la partida.
+	 * @return Cert si s'ha canviat.
+	 */
+	public boolean setModeIniciPartida( ModesInici mode_inici )
+	{
+		mode_inici_partida = mode_inici;
+
+		return true;
 	}
 
 	/**
@@ -132,14 +165,13 @@ public class TaulerHex extends Tauler implements Serializable
 		{
 			throw new IllegalArgumentException( "La fitxa no és de cap jugador" );
 		}
-		else
+		else if ( mode_inici_partida == ModesInici.ESTANDARD && num_fitxes_a + num_fitxes_b == 0 && fila == mida / 2 &&
+		          columna == mida / 2 )
 		{
-			/*if ( num_fitxes_a + num_fitxes_b == 0 && fila == mida / 2 && columna == mida / 2 )
-			{
-				return false;
-			}*/
-			return true;
+			return false;
 		}
+
+		return true;
 	}
 
 	/**

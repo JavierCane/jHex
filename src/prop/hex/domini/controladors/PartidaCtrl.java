@@ -154,8 +154,9 @@ public class PartidaCtrl
 	/**
 	 * Inicialitza una partida nova.
 	 *
-	 * @param mida_tauler Mida del tauler de la partida.
-	 * @param nom_partida Nom de la partida.
+	 * @param mida_tauler      Mida del tauler de la partida.
+	 * @param nom_partida      Nom de la partida.
+	 * @param situacio_inicial Indica si la partida vé definida amb una situació inicial
 	 * @throws NullPointerException     Si no s'han preinicialitzat els usuaris de la partida previament.
 	 * @throws IllegalArgumentException Si no s'ha especificat un nom de partida o si ja existeix una partida amb
 	 *                                  aquest identificador
@@ -164,14 +165,14 @@ public class PartidaCtrl
 	 * @throws IllegalAccessException   Si s'intenta accedir a un lloc no permès quan es carreguen les
 	 *                                  intel·ligències artificials.
 	 */
-	public void inicialitzaPartida( int mida_tauler, String nom_partida )
+	public void inicialitzaPartida( int mida_tauler, String nom_partida, boolean situacio_inicial )
 			throws NullPointerException, IllegalArgumentException, ClassNotFoundException, InstantiationException,
 			       IllegalAccessException
 	{
 		if ( null == usuaris_preinicialitzats_partida[0] || null == usuaris_preinicialitzats_partida[1] )
 		{
 			throw new NullPointerException(
-					"No s'han preinicialitzat els usuaris de la partida avans d'intentar-la crear." );
+					"No s'han preinicialitzat els usuaris de la partida abans d'intentar-la crear." );
 		}
 		else if ( nom_partida.isEmpty() )
 		{
@@ -180,12 +181,12 @@ public class PartidaCtrl
 		else
 		{
 			partida_actual = new PartidaHex( usuaris_preinicialitzats_partida[0], usuaris_preinicialitzats_partida[1],
-					new TaulerHex( mida_tauler ), nom_partida );
+					new TaulerHex( mida_tauler ), nom_partida, situacio_inicial );
 
 			if ( gestor_partida.existeixElement( partida_actual.getIdentificadorUnic() ) )
 			{
 				throw new IllegalArgumentException(
-						"Ja existeix una partida amb aquest nom i per aquests usuaris a " + "la mateixa data." );
+						"Ja existeix una partida amb aquest nom i per aquests usuaris a la mateixa data." );
 			}
 		}
 	}
@@ -268,6 +269,12 @@ public class PartidaCtrl
 		{
 			throw new UnsupportedOperationException( "La partida ja ha finalitzat" );
 		}
+		else if ( usuaris_preinicialitzats_partida[0].getTipusJugador() != TipusJugadors.JUGADOR &&
+		          usuaris_preinicialitzats_partida[1].getTipusJugador() != TipusJugadors.JUGADOR )
+		{
+			throw new UnsupportedOperationException(
+					"Per guardar la partida cal que algun dels jugadors estigui registrat!" );
+		}
 
 		return gestor_partida.guardaElement( partida_actual, partida_actual.getIdentificadorUnic() );
 	}
@@ -283,21 +290,28 @@ public class PartidaCtrl
 		EstatPartida estat_actual = consultaEstatPartida();
 		if ( estat_actual != EstatPartida.NO_FINALITZADA )
 		{
-			UsuariHex usuari_a = ( UsuariHex ) partida_actual.getJugadorA();
-			UsuariHex usuari_b = ( UsuariHex ) partida_actual.getJugadorA();
+			if ( !partida_actual.esPartidaAmbSituacioInicial() )
+			{
+				UsuariHex usuari_a = ( UsuariHex ) partida_actual.getJugadorA();
+				UsuariHex usuari_b = ( UsuariHex ) partida_actual.getJugadorA();
 
-			UsuariCtrl.getInstancia().actualitzaEstadistiques( usuari_a, estat_actual == EstatPartida.GUANYA_JUGADOR_A,
-					usuari_b.getTipusJugador(), partida_actual.getTempsDeJoc( usuari_a.getIdentificadorUnic() ),
-					partida_actual.getTauler().getNumFitxesA() );
+				UsuariCtrl.getInstancia()
+						.actualitzaEstadistiques( usuari_a, estat_actual == EstatPartida.GUANYA_JUGADOR_A,
+								usuari_b.getTipusJugador(),
+								partida_actual.getTempsDeJoc( usuari_a.getIdentificadorUnic() ),
+								partida_actual.getTauler().getNumFitxesA() );
 
-			UsuariCtrl.getInstancia().actualitzaEstadistiques( usuari_b, estat_actual == EstatPartida.GUANYA_JUGADOR_B,
-					usuari_a.getTipusJugador(), partida_actual.getTempsDeJoc( usuari_b.getIdentificadorUnic() ),
-					partida_actual.getTauler().getNumFitxesA() );
+				UsuariCtrl.getInstancia()
+						.actualitzaEstadistiques( usuari_b, estat_actual == EstatPartida.GUANYA_JUGADOR_B,
+								usuari_a.getTipusJugador(),
+								partida_actual.getTempsDeJoc( usuari_b.getIdentificadorUnic() ),
+								partida_actual.getTauler().getNumFitxesA() );
 
-			Ranquing.getInstancia().actualitzaUsuari( usuari_a );
-			Ranquing.getInstancia().actualitzaUsuari( usuari_b );
+				Ranquing.getInstancia().actualitzaUsuari( usuari_a );
+				Ranquing.getInstancia().actualitzaUsuari( usuari_b );
 
-			gestor_partida.eliminaElement( partida_actual.getIdentificadorUnic() );
+				gestor_partida.eliminaElement( partida_actual.getIdentificadorUnic() );
+			}
 		}
 
 		partida_actual = null;
@@ -309,10 +323,10 @@ public class PartidaCtrl
 	 *
 	 * @return Cert si s'ha tancat correctament. Fals altrament.
 	 */
-	public void tancaIEliminaPartida()
+	public void tancaIEliminaPartida() throws IOException
 	{
-		gestor_partida.eliminaElement( partida_actual.getIdentificadorUnic() );
 		tancaPartida();
+		gestor_partida.eliminaElement( partida_actual.getIdentificadorUnic() );
 	}
 
 	/**

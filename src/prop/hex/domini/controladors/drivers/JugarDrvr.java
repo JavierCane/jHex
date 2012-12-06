@@ -77,7 +77,7 @@ public class JugarDrvr
 					usuari_a.getContrasenya() );
 			PartidaCtrl.getInstancia().preInicialitzaUsuariPartida( 1, usuari_b.getTipusJugador(), usuari_b.getNom(),
 					usuari_b.getContrasenya() );
-			PartidaCtrl.getInstancia().inicialitzaPartida( 7, "Partida de Prova" );
+			PartidaCtrl.getInstancia().inicialitzaPartida( 7, "Partida de Prova", false );
 			instanciaFinestra();
 		}
 		catch ( Exception e )

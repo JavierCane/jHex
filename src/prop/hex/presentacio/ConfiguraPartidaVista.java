@@ -402,14 +402,14 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 			VistaDialeg dialeg = new VistaDialeg();
 			String[] botons = { "Accepta" };
 			String valor_seleccionat = dialeg.setDialeg( "Error", "Has de definir un nom de partida, " +
-					"aixó servirà per identificarla quan per exemple la guardis i " + "la vulguis tornar a carregar" +
+					"això servirà per identificar-la quan per exemple la guardis i la vulguis tornar a carregar" +
 					".", botons, JOptionPane.ERROR_MESSAGE );
 		}
 		else
 		{
 			try
 			{
-				presentacio_ctrl.iniciaPartida( 7, camp_nom_partida.getText() );
+				presentacio_ctrl.iniciaPartida( 7, camp_nom_partida.getText(), false );
 				presentacio_ctrl.vistaIniciaPartidaAPartida();
 			}
 			catch ( Exception excepcio )
@@ -434,14 +434,14 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 			VistaDialeg dialeg = new VistaDialeg();
 			String[] botons = { "Accepta" };
 			String valor_seleccionat = dialeg.setDialeg( "Error", "Has de definir un nom de partida, " +
-					"aixó servirà per identificarla quan per exemple la guardis i " + "la vulguis tornar a carregar" +
+					"això servirà per identificar-la quan per exemple la guardis i " + "la vulguis tornar a carregar" +
 					".", botons, JOptionPane.ERROR_MESSAGE );
 		}
 		else
 		{
 			try
 			{
-				presentacio_ctrl.iniciaPartida( 7, camp_nom_partida.getText() );
+				presentacio_ctrl.iniciaPartida( 7, camp_nom_partida.getText(), true );
 				presentacio_ctrl.vistaIniciaPartidaADefineixSituacio();
 			}
 			catch ( Exception excepcio )

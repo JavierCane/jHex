@@ -55,6 +55,8 @@ public final class PartidaVista extends BaseVista
 
 	public void accioBotoAbandona( ActionEvent event )
 	{
+		presentacio_ctrl.tancaPartida();
+
 		presentacio_ctrl.vistaPartidaAMenuPrincipal();
 	}
 
