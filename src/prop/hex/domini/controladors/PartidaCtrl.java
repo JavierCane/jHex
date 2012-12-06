@@ -156,7 +156,7 @@ public class PartidaCtrl
 	 *
 	 * @param mida_tauler      Mida del tauler de la partida.
 	 * @param nom_partida      Nom de la partida.
-	 * @param situacio_inicial Indica si la partida vé definida amb una situació inicial
+	 * @param situacio_inicial Indica si la partida ve definida amb una situació inicial
 	 * @throws NullPointerException     Si no s'han preinicialitzat els usuaris de la partida previament.
 	 * @throws IllegalArgumentException Si no s'ha especificat un nom de partida o si ja existeix una partida amb
 	 *                                  aquest identificador
