@@ -80,7 +80,7 @@ public class PartidaCtrl
 		{
 			ranquing_gestor.guardaElement();
 		}
-		else // Si el fitxer de rànquign ya existeix, el carrego a memòria
+		else // Si el fitxer de rànquing ja existeix, el carrego a memòria
 		{
 			ranquing_gestor.carregaElement();
 		}
@@ -294,7 +294,7 @@ public class PartidaCtrl
 	 *
 	 * @return Cert si s'ha tancat correctament. Fals altrament.
 	 */
-	public void tancaPartida()
+	public void tancaPartida() throws IOException
 	{
 		EstatPartida estat_actual = consultaEstatPartida();
 		if ( estat_actual != EstatPartida.NO_FINALITZADA )
@@ -325,6 +325,13 @@ public class PartidaCtrl
 
 		partida_actual = null;
 		usuaris_preinicialitzats_partida[1] = null;
+		try {
+			new RanquingGstr().guardaElement();
+		}
+		catch (IOException excepcio)
+		{
+			throw new IOException( "No s'ha pogut desar el ranquing" );
+		}
 	}
 
 	/**

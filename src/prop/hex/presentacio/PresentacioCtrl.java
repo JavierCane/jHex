@@ -169,7 +169,7 @@ public final class PresentacioCtrl
 	// Mètodes PartidaVista
 	// --------------------------------------------------------------------
 
-	public void tancaPartida()
+	public void tancaPartida() throws Exception
 	{
 		PartidaCtrl.getInstancia().tancaPartida();
 	}

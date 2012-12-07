@@ -55,7 +55,16 @@ public final class PartidaVista extends BaseVista
 
 	public void accioBotoAbandona( ActionEvent event )
 	{
-		presentacio_ctrl.tancaPartida();
+		try {
+			presentacio_ctrl.tancaPartida();
+		}
+		catch ( Exception excepcio )
+		{
+			VistaDialeg dialeg = new VistaDialeg();
+			String[] botons = { "Accepta" };
+			String valor_seleccionat = dialeg.setDialeg( "Error", excepcio.getMessage(),
+					botons, JOptionPane.WARNING_MESSAGE );
+		}
 
 		presentacio_ctrl.vistaPartidaAMenuPrincipal();
 	}

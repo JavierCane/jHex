@@ -183,13 +183,13 @@ public final class Ranquing implements Serializable
 	{
 		ois.defaultReadObject();
 
-		if ( instancia != null )
-		{
-			synchronized ( instancia )
-			{
+		// if ( instancia != null )
+		//{
+		//	synchronized ( instancia )
+		//	{
 				instancia = this;
-			}
-		}
+		//	}
+		//}
 	}
 
 	/**
