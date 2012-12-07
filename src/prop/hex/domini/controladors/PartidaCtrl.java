@@ -10,9 +10,7 @@ import prop.hex.gestors.UsuariGstr;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Set;
 
 /**
@@ -207,32 +205,43 @@ public class PartidaCtrl
 	}
 
 	/**
-	 * Consulta les partides jugades per un usuari.
+	 * Consulta les partides de l'usuari principal
 	 *
-	 * @param id_usuari Identificador únic de l'usuari
-	 * @return Una llista amb les dades de les partides.
+	 * @return Una llista amb les dades de les partides. Dins de cada element de la llista, els elements són
+	 *         - 0: Identificador únic de la partida
+	 *         - 1: Nom de la partida
+	 *         - 2: Nom d'usuari de l'oponent (contra qui juga l'usuari principal de la sessió, no de la partida)
+	 *         - 3: String formatat amb la data i hora d'inici de la partida
 	 */
-	public ArrayList<HashMap<String, String>> llistaPartidesUsuari( String id_usuari )
+	public String[][] llistaPartidesUsuari()
 	{
-		ArrayList<HashMap<String, String>> llista_partides = new ArrayList<HashMap<String, String>>();
+		String id_usuari = UsuariCtrl.getInstancia().getUsuariPrincipal().getIdentificadorUnic();
 		Set<String> id_partides = gestor_partida.llistaPartidesUsuari( id_usuari );
+		String[][] llista_partides = new String[id_partides.size()][4];
+		int i = 0;
 		for ( String id_partida : id_partides )
 		{
-			HashMap<String, String> info_partida = new HashMap<String, String>();
-			String[] camps = id_partida.replace( '-', ' ' ).split( "@" );
+			String[] info_partida = new String[4];
+			String[] camps = id_partida.split( "@" );
 
 			// L'identificador s'inclou perquè el controlador de presentació pugui demanar la partida concreta.
-			info_partida.put( "identificador", id_partida );
+			info_partida[0] = id_partida;
 
 			// Es formaten la data i l'hora perquè no ho hagi de fer la vista.
-			info_partida
-					.put( "data_hora", String.format( "%1$td/%1$tm/%1$tY %1$tR", Long.valueOf( camps[0] ) * 1000L ) );
+			info_partida[3] = String.format( "%1$td/%1$tm/%1$tY %1$tR", Long.valueOf( camps[0] ) * 1000L );
 
-			info_partida.put( "nom", camps[2] );
-			info_partida.put( "jugador_a", camps[3] );
-			info_partida.put( "jugador_b", camps[4] );
+			info_partida[1] = camps[1].replace( '-', ' ' );
+			if ( id_usuari.equals( camps[2] ) )
+			{
+				info_partida[2] = camps[3].replace( '-', ' ' );
+			}
+			else
+			{
+				info_partida[2] = camps[2].replace( '-', ' ' );
+			}
 
-			llista_partides.add( info_partida );
+			llista_partides[i] = info_partida;
+			i++;
 		}
 
 		return llista_partides;
@@ -437,15 +446,9 @@ public class PartidaCtrl
 	 */
 	public boolean intercanviaDarreraFitxa()
 	{
-		if ( partida_actual.getTauler().intercanviaFitxa( partida_actual.getDarreraFitxa().getFila(),
-				partida_actual.getDarreraFitxa().getColumna() ) )
-		{
-			return partida_actual.incrementaTornsJugats( 1 );
-		}
-		else
-		{
-			return false;
-		}
+		return esPotIntercanviarDarreraFitxa() &&
+		       ( ( TaulerHex ) partida_actual.getTauler() ).intercanviaFitxa( partida_actual.getDarreraFitxa() ) &&
+		       partida_actual.incrementaTornsJugats( 1 );
 	}
 
 	/**

@@ -13,6 +13,7 @@ public final class CarregaPartidaVista extends BaseVista
 	private JButton carrega;
 	private JButton descarta;
 	private Object[][] dades_taula;
+	private String[] id_partides;
 	private JTable taula_partides;
 
 	public CarregaPartidaVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
@@ -24,13 +25,18 @@ public final class CarregaPartidaVista extends BaseVista
 		panell_botons = new JPanel();
 		carrega = new JButton( "Carrega" );
 		descarta = new JButton( "Descarta" );
-		dades_taula = new Object[][] {
-				{
-						"Partida de prova", "Test", "25/11/2012 20:45"
-				}
-		};
+		String[][] dades = presentacio_ctrl.obteLlistaPartides();
+		dades_taula = new String[dades.length][3];
+		id_partides = new String[dades.length];
+		for ( int i = 0; i < dades.length; i++ )
+		{
+			id_partides[i] = dades[i][0];
+			System.arraycopy( dades[i], 1, dades_taula[i], 0, 3 );
+		}
 		taula_partides = new JTable( dades_taula, new String[] {
-				"Nom de la partida", "Oponent", "Data i hora"
+				"Nom de la partida",
+				"Oponent",
+				"Data i hora"
 		} );
 
 		inicialitzaVista();

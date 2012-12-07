@@ -158,6 +158,22 @@ public final class PresentacioCtrl
 		return llista;
 	}
 
+	// Mètodes CarregaPartidaVista
+	// --------------------------------------------------------------------
+
+	public String[][] obteLlistaPartides()
+	{
+		return PartidaCtrl.getInstancia().llistaPartidesUsuari();
+	}
+
+	// Mètodes PartidaVista
+	// --------------------------------------------------------------------
+
+	public void tancaPartida()
+	{
+		PartidaCtrl.getInstancia().tancaPartida();
+	}
+
 	// Mètodes per intercanviar vistes
 	// --------------------------------------------------------------------------------
 
@@ -370,10 +386,5 @@ public final class PresentacioCtrl
 		}
 		defineix_situacio_vista = null;
 		menu_principal_vista.fesVisible();
-	}
-
-	public void tancaPartida()
-	{
-		PartidaCtrl.getInstancia().tancaPartida();
 	}
 }
