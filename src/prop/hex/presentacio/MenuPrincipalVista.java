@@ -72,6 +72,10 @@ public final class MenuPrincipalVista extends BaseVista
 	{
 		panell_botons.setLayout( new GridLayout( 4, 1, 20, 20 ) );
 		panell_botons.add( juga );
+		if ( presentacio_ctrl.getEsConvidat() )
+		{
+			carrega.setEnabled( false );
+		}
 		panell_botons.add( carrega );
 		panell_botons.add( preferencies );
 		panell_botons.add( ranquing );

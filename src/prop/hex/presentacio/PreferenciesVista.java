@@ -132,6 +132,11 @@ public final class PreferenciesVista extends BaseVista
 		panell_central.add( panell_colors );
 		panell_central.add( panell_modes_inici );
 		JPanel panell_botons_opcions = new JPanel();
+		if ( presentacio_ctrl.getEsConvidat() )
+		{
+			reinicia_estadistiques.setEnabled( false );
+			canvia_contrasenya.setEnabled( false );
+		}
 		panell_botons_opcions.add( reinicia_estadistiques );
 		panell_botons_opcions.add( canvia_contrasenya );
 		panell_botons_opcions.setOpaque( false );
