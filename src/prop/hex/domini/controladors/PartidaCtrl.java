@@ -91,10 +91,7 @@ public class PartidaCtrl
 		{
 			if ( !usuari_gestor.existeixElement( tipus_jugador_maquina.getNomUsuari() ) )
 			{
-				UsuariHex usuari_maquina =
-						new UsuariHex( tipus_jugador_maquina.getNomUsuari(), "", tipus_jugador_maquina );
-
-				usuari_gestor.guardaElement( usuari_maquina, usuari_maquina.getIdentificadorUnic() );
+				UsuariCtrl.getInstancia().creaUsuari( tipus_jugador_maquina.getNomUsuari(), "", tipus_jugador_maquina );
 			}
 		}
 	}

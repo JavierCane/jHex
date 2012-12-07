@@ -110,6 +110,7 @@ public class UsuariCtrl
 					throw new IOException( "[KO]\tNo s'ha pogut guardar el jugador." );
 				}
 			}
+			Ranquing.getInstancia().actualitzaUsuari( usuari_hex );
 		}
 		else
 		{
@@ -118,6 +119,7 @@ public class UsuariCtrl
 			{
 				throw new IOException( "No s'ha pogut guardar el jugador." );
 			}
+			Ranquing.getInstancia().actualitzaUsuari( usuari_ia );
 		}
 		return true;
 	}
