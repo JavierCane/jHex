@@ -1,5 +1,6 @@
 package prop.hex.presentacio;
 
+import com.apple.eawt.Application;
 import prop.hex.domini.controladors.PartidaCtrl;
 import prop.hex.domini.controladors.UsuariCtrl;
 import prop.hex.domini.models.Ranquing;
@@ -38,7 +39,8 @@ public final class PresentacioCtrl
 		frame_principal.setResizable( false );
 		frame_principal.setLocationRelativeTo( null );
 		frame_principal.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-		frame_principal.setIconImage( new ImageIcon( "img/icona.png" ).getImage() );
+		frame_principal.setIconImage( new ImageIcon( "img/logo-36_36.png" ).getImage() ); // Icona finestra windows
+		Application.getApplication().setDockIconImage( new ImageIcon( "img/logo-120_120.png" ).getImage() ); // Icona dock Mac
 
 		try
 		{
