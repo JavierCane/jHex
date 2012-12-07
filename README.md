@@ -39,10 +39,10 @@ Com compilar i executar
 > > ``cd ..``
 >
 > 6a- Si volem executar el joc al complet amb interfície gràfica:
-> > ``java -classpath ./bin prop.hex.presentacio.JHex``
+> > ``java -Dfile.encoding=UTF-8 -classpath ./bin prop.hex.presentacio.JHex``
 >
 > 6b- Si volem fer testing via els drivers dels controladors mitjançant la consola:
-> > ``java -classpath ./bin prop.hex.domini.controladors.drivers.PrincipalDrvr``
+> > ``java -Dfile.encoding=UTF-8 -classpath ./bin prop.hex.domini.controladors.drivers.PrincipalDrvr``
 
 Explicació PrincipalDrvr
 --------
