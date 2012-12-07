@@ -25,7 +25,7 @@ import java.util.List;
  * per cada casella mira la les caselles evaluades anteriorment i en treu la resistencia en paral·lel.
  * Calcular la resistencia globla bé és massa costos i aquesta aproximació funciona correctament.
  */
-public class ResistenciaTauler
+public final class ResistenciaTauler
 {
 
 	/**

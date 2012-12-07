@@ -18,7 +18,7 @@ import java.util.Random;
  * Time: 10:19
  * To change this template use File | Settings | File Templates.
  */
-public class IAHexNegaMonteScout implements MouFitxaIA
+public final class IAHexNegaMonteScout implements MouFitxaIA
 {
 
 	private PartidaHex partida;

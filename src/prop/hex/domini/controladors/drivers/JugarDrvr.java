@@ -14,7 +14,7 @@ import java.util.Vector;
 /**
  * Permet jugar una partida de prova escollint els tipus d'oponent.
  */
-public class JugarDrvr
+public final class JugarDrvr
 {
 
 	static UsuariHex usuari_a;

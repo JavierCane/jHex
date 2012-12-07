@@ -11,7 +11,7 @@ import java.util.PriorityQueue;
  * Busca el camí de cost mínim per arribar d'una punta a una altra del tauler,
  * horitzontal o verticalment depenent de quin jugador sigui (resistencia mínima del tauler).
  */
-public class CamiMinim
+public final class CamiMinim
 {
 
 	/**

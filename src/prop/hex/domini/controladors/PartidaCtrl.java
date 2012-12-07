@@ -21,7 +21,7 @@ import java.util.Set;
  * Internament, els jugadors estan indexats per posició en un array; el jugador A es troba en la posició 0 i el B en
  * la posició 1.
  */
-public class PartidaCtrl
+public final class PartidaCtrl
 {
 
 	/**

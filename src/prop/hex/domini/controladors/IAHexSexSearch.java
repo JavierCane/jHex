@@ -21,7 +21,7 @@ import java.util.TreeSet;
  * Time: 17:45
  * To change this template use File | Settings | File Templates.
  */
-public class IAHexSexSearch implements MouFitxaIA
+public final class IAHexSexSearch implements MouFitxaIA
 {
 
 	private PartidaHex partida;

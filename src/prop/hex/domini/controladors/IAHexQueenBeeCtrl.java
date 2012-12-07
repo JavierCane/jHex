@@ -19,7 +19,7 @@ import java.util.HashMap;
  * Time: 16:24
  * To change this template use File | Settings | File Templates.
  */
-public class IAHexQueenBeeCtrl extends InteligenciaArtificial implements MouFitxaIA
+public final class IAHexQueenBeeCtrl extends InteligenciaArtificial implements MouFitxaIA
 {
 
 	/**

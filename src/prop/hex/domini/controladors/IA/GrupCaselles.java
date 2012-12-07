@@ -12,7 +12,7 @@ import java.util.List;
  * Busquem grups de caselles contigues, tenint en compte les cantonades.
  * El JugadorA va d'est a oest, el JugadorB de nord a sud.
  */
-public class GrupCaselles
+public final class GrupCaselles
 {
 
 	/**

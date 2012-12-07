@@ -7,7 +7,7 @@ import prop.hex.domini.models.TaulerHex;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class TwoDistance
+public final class TwoDistance
 {
 
 	private TaulerHex tauler;

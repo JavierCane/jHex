@@ -10,7 +10,7 @@ import java.util.Set;
  * Classe per la gestió de la persistència de PartidaHex en disc, com s'estén de BaseGstr,
  * únicament fa falta especificar la subcarpeta on guardar les dades de les partides.
  */
-public class PartidaHexGstr extends BaseGstr<PartidaHex>
+public final class PartidaHexGstr extends BaseGstr<PartidaHex>
 {
 
 	/**

@@ -8,7 +8,7 @@ import prop.hex.domini.controladors.IA.enums.FitesDePoda;
  *
  * @author Isaac Sánchez Barrera
  */
-public class ElementTaulaTransposicions
+public final class ElementTaulaTransposicions
 {
 
 	private int profunditat;

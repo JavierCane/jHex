@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * que es poden connectar col·locant una fitxa indepentdentment del que faci l'usuari contrari (connexió virtual)
  * o que l'usuari contrari ens pot bloquejar (connexió semivirtual).
  */
-public class ConnexionsVirtuals
+public final class ConnexionsVirtuals
 {
 
 	/**

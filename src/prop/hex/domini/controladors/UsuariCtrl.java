@@ -15,7 +15,7 @@ import java.io.IOException;
  * Gestiona totes les operacions relacionades amb la creació i modificació, a més de la càrrega i l'emmagatzemament a
  * memòria secundària.
  */
-public class UsuariCtrl
+public final class UsuariCtrl
 {
 
 	/**
