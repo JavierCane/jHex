@@ -14,7 +14,10 @@ import java.io.IOException;
  * Controlador d'usuaris per al joc Hex.
  * Gestiona totes les operacions relacionades amb la creació i modificació, a més de la càrrega i l'emmagatzemament a
  * memòria secundària.
+ *
+ *  @author Guillermo Girona San Miguel (Grup 7.3, Hex)
  */
+
 public final class UsuariCtrl
 {
 
@@ -41,6 +44,12 @@ public final class UsuariCtrl
 		gestor_usuari = new UsuariGstr();
 	}
 
+	/**
+	 * Obté l'identificador únic del nom d'un jugador que es passa com a paràmetre.
+	 *
+	 * @param nom Nom del jugador del que es vol obtenir l'identificador únic.
+	 * @return L'identificador únic corresponent al jugador.
+	 */
 	private String getIdentificadorUnic( String nom )
 	{
 		return nom.replace( ' ', '-' );
@@ -63,6 +72,11 @@ public final class UsuariCtrl
 		return instancia;
 	}
 
+	/**
+	 * Consultora de l'usuari identificat actualment al joc.
+	 *
+	 * @return L'UsuariHex corresponent a l'usuari identificat actualment al joc.
+	 */
 	public UsuariHex getUsuariPrincipal()
 	{
 		return usuari_principal;
@@ -70,13 +84,13 @@ public final class UsuariCtrl
 
 	/**
 	 * Guarda a memòria secundària el fitxer associat a l'UsuariHex d'un jugador amb el nom d'usuari i la
-	 * contrasenya donats o un
-	 * usuari de la IA, sempre i quan no existeixi ja un usuari amb el mateix identificador al sistema.
+	 * contrasenya donats o un usuari de la IA, sempre i quan no existeixi ja un usuari amb el mateix identificador al
+	 * sistema. A més, introdueix el jugador en el rànquing.
 	 *
 	 * @param nom           Nom de l'usuari nou que es vol instanciar.
 	 * @param contrasenya   Contrasenya de l'usuari nou que es vol instanciar.
 	 * @param tipus_jugador Tipus de l'usuari que es vol instanciar.
-	 * @return Cert, si s'ha creat correctament l'usuari. Fals, altrament.
+	 * @return Cert, si s'ha guardat correctament l'usuari a memòria secundària. Fals, altrament.
 	 * @throws IllegalArgumentException Si el nom d'usuari ja existeix al sistema,
 	 *                                  si conté caràcters il·legals o si es tracta d'un nom no permès.
 	 * @throws IOException              Si ha succeït un error d'entrada/sortida inesperat.
@@ -88,26 +102,26 @@ public final class UsuariCtrl
 		{
 			if ( !nom.matches( UsuariHex.getCaractersPermesos() ) )
 			{
-				throw new IllegalArgumentException( "[KO]\tEl nom d'usuari conté caràcters il·legals. Només " +
+				throw new IllegalArgumentException( "El nom d'usuari conté caràcters il·legals. Només " +
 				                                    "s'accepten caràcters alfanumèris (sense accents), espais i guions baixos." );
 			}
 
 			if ( UsuariHex.getNomsNoPermesos().contains( nom ) )
 			{
-				throw new IllegalArgumentException( "[KO]\tNo es permet utilitzar aquest nom d'usuari. Els noms no " +
+				throw new IllegalArgumentException( "No es permet utilitzar aquest nom d'usuari. Els noms no " +
 				                                    "permesos són " + UsuariHex.getNomsNoPermesos().toString() );
 			}
 
 			UsuariHex usuari_hex = new UsuariHex( nom, contrasenya, TipusJugadors.JUGADOR );
 			if ( gestor_usuari.existeixElement( usuari_hex.getIdentificadorUnic() ) )
 			{
-				throw new IllegalArgumentException( "[KO]\tEl nom d'usuari ja existeix." );
+				throw new IllegalArgumentException( "El nom d'usuari ja existeix." );
 			}
 			else
 			{
 				if ( !gestor_usuari.guardaElement( usuari_hex, usuari_hex.getIdentificadorUnic() ) )
 				{
-					throw new IOException( "[KO]\tNo s'ha pogut guardar el jugador." );
+					throw new IOException( "No s'ha pogut guardar el jugador." );
 				}
 			}
 			Ranquing.getInstancia().actualitzaUsuari( usuari_hex );
@@ -124,6 +138,11 @@ public final class UsuariCtrl
 		return true;
 	}
 
+	/**
+	 * Identifica un usuari convidat al sistema.
+	 *
+	 * @return Cert, si s'ha establert correctament un convidat com a usuari identificat al sistema. Fals, altrament.
+	 */
 	public boolean entraConvidat()
 	{
 		usuari_principal = new UsuariHex( "Convidat", "", TipusJugadors.CONVIDAT );
@@ -154,9 +173,9 @@ public final class UsuariCtrl
 	/**
 	 * Estableix l'usuari principal del joc com l'usuari que li passem carregant-lo de disc.
 	 *
-	 * @param nom
-	 * @param contrasenya
-	 * @return true
+	 * @param nom Nom de l'usuari que es vol carregar.
+	 * @param contrasenya Contrasenya de l'usuari que es vol carregar.
+	 * @return Cert, si l'usuari es carrega correctament. Fals, altrament.
 	 * @throws IllegalArgumentException Si l'usuari identificat pel nom no existeix
 	 *                                  i, si es vol carregar un jugador, si la contrasenya no coincideix amb
 	 *                                  l'usuari.
@@ -180,7 +199,7 @@ public final class UsuariCtrl
 	 * @param nom           Nom de l'usuari que es vol carregar.
 	 * @param contrasenya   Contrasenya de l'usuari que es vol carregar.
 	 * @param tipus_jugador Tipus del jugador que es vol carregar.
-	 * @return UsuariHex usuari carregat del sistema.
+	 * @return Un UsuariHex corresponent a l'usuari carregat del sistema.
 	 * @throws IllegalArgumentException Si l'usuari identificat pel nom no existeix
 	 *                                  i, si es vol carregar un jugador, si la contrasenya no coincideix amb
 	 *                                  l'usuari.
@@ -266,16 +285,31 @@ public final class UsuariCtrl
 		         usuari_principal.setCombinacionsColors( combinacio_colors ) );
 	}
 
+	/**
+	 * Consultora del mode d'inici de l'usuari identificat al sistema.
+	 *
+	 * @return El mode d'inici de l'usuari identificat al sistema.
+	 */
 	public ModesInici obteModeInici()
 	{
 		return usuari_principal.getModeInici();
 	}
 
+	/**
+	 * Consultora de la combinació de colors de l'usuari identificat al sistema.
+	 *
+	 * @return La combinació de colors de l'usuari identificat al sistema.
+	 */
 	public CombinacionsColors obteCombinacioColors()
 	{
 		return usuari_principal.getCombinacionsColors();
 	}
 
+	/**
+	 * Consultora del nom de l'usuari identificat al sistema.
+	 *
+	 * @return El nom de l'usuari identificat al sistema.
+	 */
 	public String obteNom()
 	{
 		return usuari_principal.getNom();

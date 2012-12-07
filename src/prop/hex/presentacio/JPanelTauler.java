@@ -8,6 +8,7 @@ import prop.hex.domini.models.PartidaHex;
 import prop.hex.domini.models.TaulerHex;
 import prop.hex.domini.models.UsuariHex;
 import prop.hex.domini.models.enums.CombinacionsColors;
+import prop.hex.domini.models.enums.TipusJugadors;
 
 import javax.swing.*;
 import java.awt.*;
@@ -53,6 +54,8 @@ public final class JPanelTauler extends JPanel
 
 	private boolean partida_en_curs;
 
+	private boolean partida_ia;
+
 	/**
 	 * Constructora, obté el taulell i els jugadors, construeix un poligon hexagonal i
 	 * afegeix el listener del ratoli pel cas del click.
@@ -65,6 +68,10 @@ public final class JPanelTauler extends JPanel
 		ultima_pista = new Casella( 0, 0 );
 		pista_valida = false;
 		this.partida_en_curs = partida_en_curs;
+		partida_ia = jugador_a.getTipusJugador() != TipusJugadors.JUGADOR &&
+				jugador_a.getTipusJugador() != TipusJugadors.CONVIDAT &&
+				jugador_b.getTipusJugador() != TipusJugadors.JUGADOR &&
+				jugador_b.getTipusJugador() != TipusJugadors.CONVIDAT;
 
 		//Creem l'hexagon que dibuixarem despres.
 		int x[] = new int[6];
@@ -171,6 +178,8 @@ public final class JPanelTauler extends JPanel
 				//No ens cal comprovar si el moviment es fa o no (si retorna true o false).
 				PartidaCtrl.getInstancia().mouFitxa( i, j );
 				pista_valida = false;
+				paintImmediately(0, 0, 800, 500);
+				mouIAOMostraPista();
 			}
 			catch ( UnsupportedOperationException exepcio )
 			{
@@ -241,8 +250,8 @@ public final class JPanelTauler extends JPanel
 			g.translate( -i * dx / 2, -i * dy );
 		}
 
-		//Si és torn de la IA mostrem el botó Mou IA.
-		if ( partida_en_curs && !PartidaCtrl.getInstancia().esTornHuma()
+		//Si és torn de la IA mostrem el botó Mou IA, només si a la partida només juga la IA.
+		if ( partida_en_curs && partida_ia && !PartidaCtrl.getInstancia().esTornHuma()
 			 && PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.NO_FINALITZADA )
 		{
 			if ( PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats() % 2 == 0 )
