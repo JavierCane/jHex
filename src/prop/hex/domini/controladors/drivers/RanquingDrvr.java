@@ -98,7 +98,7 @@ public final class RanquingDrvr
 
 		ranquing.netejaRanquing();
 
-		if ( ranquing.getClasificacio().isEmpty() )
+		if ( ranquing.getClassificacio().isEmpty() )
 		{
 			System.out.println( "[OK]\tS'ha netejat correctament el rànquing." );
 		}

@@ -24,7 +24,7 @@ public final class RanquingVista extends BaseVista
 		panell_central = new JPanel();
 		panell_botons = new JPanel();
 		torna = new JButton( "Torna al menú principal" );
-		dades_taula = presentacio_ctrl.obteLlistaRanquing();
+		dades_taula = presentacio_ctrl.getClassificacioFormatejada();
 		dades_hall_of_fame = new Object[][] {
 				{
 						"Test", "Test", "Test", "Test"

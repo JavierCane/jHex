@@ -281,16 +281,6 @@ public final class UsuariCtrl
 		return usuari_principal.getNom();
 	}
 
-	public Object[] obteEstadistiquesUsuari( UsuariHex usuari )
-	{
-		return new Object[] {
-				usuari.getNom(),
-				usuari.getPartidesJugades(),
-				usuari.getPartidesGuanyades(),
-				usuari.getPuntuacioGlobal()
-		};
-	}
-
 	/**
 	 * Actualitza les estadístiques d'un usuari després de jugar una partida.
 	 *

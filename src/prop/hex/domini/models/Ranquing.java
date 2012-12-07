@@ -28,7 +28,7 @@ public final class Ranquing implements Serializable
 	/**
 	 * Llista d'usuaris ordenada per les seves puntuacions globals
 	 */
-	private List<UsuariHex> clasificacio;
+	private List<UsuariHex> classificacio;
 
 	/**
 	 * Identificador de l'usuari que hagi aconseguit guanyar una partida en el menor temps
@@ -76,7 +76,7 @@ public final class Ranquing implements Serializable
 	 */
 	private Ranquing()
 	{
-		clasificacio = new ArrayList<UsuariHex>();
+		classificacio = new ArrayList<UsuariHex>();
 
 		inicialitzaRecords();
 	}
@@ -107,13 +107,13 @@ public final class Ranquing implements Serializable
 	@Override
 	public String toString()
 	{
-		return "[Clasificació: " + clasificacio.toString() + ", " +
-		       "usuari temps minim: " + usuari_temps_minim +
-		       ", temps minim: " + temps_minim + ", usuari fitxes minimes: " + usuari_fitxes_minimes +
-		       ", fitxes minimes: " + fitxes_minimes + ", usuari mes partides guanyades: " +
-		       usuari_mes_partides_guanyades + ", mes partides guanyades: " + mes_partides_guanyades +
-		       ", usuari mes partides jugades: " + usuari_mes_partides_jugades + ", mes partides jugades: " +
-		       mes_partides_jugades + "]";
+		return "[Classificació: " + classificacio.toString() + ", " +
+				"usuari temps minim: " + usuari_temps_minim +
+				", temps minim: " + temps_minim + ", usuari fitxes minimes: " + usuari_fitxes_minimes +
+				", fitxes minimes: " + fitxes_minimes + ", usuari mes partides guanyades: " +
+				usuari_mes_partides_guanyades + ", mes partides guanyades: " + mes_partides_guanyades +
+				", usuari mes partides jugades: " + usuari_mes_partides_jugades + ", mes partides jugades: " +
+				mes_partides_jugades + "]";
 	}
 
 	/**
@@ -121,9 +121,9 @@ public final class Ranquing implements Serializable
 	 *
 	 * @return La llista d'usuaris amb puntuacions globals més altes.
 	 */
-	public List<UsuariHex> getClasificacio()
+	public List<UsuariHex> getClassificacio()
 	{
-		return clasificacio;
+		return classificacio;
 	}
 
 	/**
@@ -134,19 +134,19 @@ public final class Ranquing implements Serializable
 	 */
 	public void actualitzaUsuari( UsuariHex usuari )
 	{
-		int posicio_usuari_ranquing = clasificacio.indexOf( usuari );
+		int posicio_usuari_ranquing = classificacio.indexOf( usuari );
 
 		// Si l'usuari ja està insertat al rànquing actualitzo les seves dades
 		if ( posicio_usuari_ranquing != -1 )
 		{
-			clasificacio.set( posicio_usuari_ranquing, usuari );
+			classificacio.set( posicio_usuari_ranquing, usuari );
 		}
 		else // Si l'usuari no està al rànquing el fico
 		{
-			clasificacio.add( usuari );
+			classificacio.add( usuari );
 		}
 
-		Collections.sort( clasificacio ); // Actualitzo l'ordre del rànquing
+		Collections.sort( classificacio ); // Actualitzo l'ordre del rànquing
 		comprovaRecords( usuari ); // Comprovo si els rècords son millors que els de l'usuari que estic actualitzant
 	}
 
@@ -157,7 +157,7 @@ public final class Ranquing implements Serializable
 	 */
 	public void eliminaUsuari( UsuariHex usuari )
 	{
-		clasificacio.remove( usuari );
+		classificacio.remove( usuari );
 	}
 
 	/**
@@ -165,7 +165,7 @@ public final class Ranquing implements Serializable
 	 */
 	public void netejaRanquing()
 	{
-		clasificacio.clear();
+		classificacio.clear();
 		inicialitzaRecords();
 	}
 

@@ -12,7 +12,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Iterator;
+import java.util.*;
+import java.util.List;
 
 public final class PresentacioCtrl
 {
@@ -144,18 +145,23 @@ public final class PresentacioCtrl
 	// Mètodes RanquingVista
 	// ------------------------------------------------------------------------------------------
 
-	public Object[][] obteLlistaRanquing()
+	public Object[][] getClassificacioFormatejada()
 	{
-		Ranquing.getInstancia().toString();
-		Object[][] llista = new Object[Ranquing.getInstancia().getClasificacio().size()][4];
-		Iterator iterador = Ranquing.getInstancia().getClasificacio().listIterator();
+		List<UsuariHex> classificacio = Ranquing.getInstancia().getClassificacio();
+
+		Object[][] classificacio_formatejada = new Object[classificacio.size()][4];
+
 		int i = 0;
-		while ( iterador.hasNext() )
+		for ( UsuariHex usuari_classificat : classificacio )
 		{
-			llista[i] = UsuariCtrl.getInstancia().obteEstadistiquesUsuari( ( UsuariHex ) iterador.next() );
-			++i;
+			classificacio_formatejada[i][0] = usuari_classificat.getNom();
+			classificacio_formatejada[i][1] = usuari_classificat.getPartidesJugades();
+			classificacio_formatejada[i][2] = usuari_classificat.getPartidesGuanyades();
+			classificacio_formatejada[i][3] = usuari_classificat.getPuntuacioGlobal();
+			i++;
 		}
-		return llista;
+
+		return classificacio_formatejada;
 	}
 
 	// Mètodes CarregaPartidaVista
