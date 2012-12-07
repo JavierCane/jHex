@@ -75,7 +75,7 @@ public final class TwoDistance
 			{
 				Casella actual = new Casella( i, j );
 				//Si la distancia es infinit (casella no chequejada) i la casella esta buida, l'afegim a pendents.
-				if ( distancia[i][j] >= infinit && tauler.getEstatCasella( actual ) == EstatCasella.BUIDA )
+				if ( distancia[i][j] >= infinit && tauler.esMovimentValid( jugador, actual ) )
 				{
 					pendents.add( actual );
 				}
