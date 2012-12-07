@@ -324,7 +324,7 @@ public class PartidaCtrl
 		}
 
 		partida_actual = null;
-		usuaris_preinicialitzats_partida = null;
+		usuaris_preinicialitzats_partida[1] = null;
 	}
 
 	/**
