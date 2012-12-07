@@ -272,8 +272,7 @@ public final class JPanelTauler extends JPanel
 			if ( PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats() % 2 == 0 )
 			{
 				// Com ho fem per carregar el valor màxim de pistes, que està a una classe del domini?
-				if ( PartidaCtrl.getInstancia().getPartidaActual().getPistesUsades( jugador_a.getIdentificadorUnic
-						() ) < max_num_pistes )
+				if ( PartidaCtrl.getInstancia().getPartidaActual().getPistesUsades( 0 ) < max_num_pistes )
 				{
 					g.setColor( jugador_a.getCombinacionsColors().getColorCasella( EstatCasella.JUGADOR_A ) );
 					g.fillRoundRect( -50, 360, 120, 40, 8, 8 );
@@ -286,8 +285,7 @@ public final class JPanelTauler extends JPanel
 			else
 			{
 				// Com ho fem per carregar el valor màxim de pistes, que està a una classe del domini?
-				if ( PartidaCtrl.getInstancia().getPartidaActual().getPistesUsades( jugador_b.getIdentificadorUnic
-						() ) < max_num_pistes )
+				if ( PartidaCtrl.getInstancia().getPartidaActual().getPistesUsades( 1 ) < max_num_pistes )
 				{
 					g.setColor( jugador_a.getCombinacionsColors().getColorCasella( EstatCasella.JUGADOR_B ) );
 					g.fillRoundRect( 580, 150, 120, 40, 8, 8 );
@@ -327,10 +325,9 @@ public final class JPanelTauler extends JPanel
 		g.drawString( jugador_a.getNom(), -50, 290 );
 		g.drawString( "D'esquerra a dreta", -50, 310 );
 
-		g.drawString( "Temps: " + PartidaCtrl.getInstancia().getPartidaActual().getTempsDeJoc( jugador_a
-				.getIdentificadorUnic() ), -50, 330 );
+		g.drawString( "Temps: " + PartidaCtrl.getInstancia().getPartidaActual().getTempsDeJoc( 0 ), -50, 330 );
 		g.drawString( "Pistes disponibles: " + ( max_num_pistes - PartidaCtrl.getInstancia().getPartidaActual()
-				.getPistesUsades( jugador_a.getIdentificadorUnic() ) ), -50, 350 );
+				.getPistesUsades( 0 ) ), -50, 350 );
 
 
 		//I algunes dades pel jugador B
@@ -342,10 +339,9 @@ public final class JPanelTauler extends JPanel
 		g.drawString( jugador_b.getNom(), 580, 80 );
 		g.drawString( "De dalt a baix", 580, 100 );
 
-		g.drawString( "Temps: " + PartidaCtrl.getInstancia().getPartidaActual().getTempsDeJoc( jugador_b
-				.getIdentificadorUnic() ), 580, 120 );
+		g.drawString( "Temps: " + PartidaCtrl.getInstancia().getPartidaActual().getTempsDeJoc( 1 ), 580, 120 );
 		g.drawString( "Pistes disponibles: " + ( max_num_pistes - PartidaCtrl.getInstancia().getPartidaActual()
-				.getPistesUsades( jugador_b.getIdentificadorUnic() ) ), 580, 140 );
+				.getPistesUsades( 1 ) ), 580, 140 );
 
 		if ( jugador_a.getCombinacionsColors() == CombinacionsColors.VERMELL_BLAU )
 		{

@@ -225,8 +225,8 @@ public final class PartidaHexDrvr
 			System.out.println( "La combinació de colores de la partida és " +
 			                    partides.get( actual ).getCombinacioColors().toString() + " i el mode d'inici és " +
 			                    partides.get( actual ).getModeInici().toString() + "." );
-			String jugador = llegeixParaula(
-					"Escriu l'identificador únic del jugador al que vols modificar els " + "paràmetres:" );
+			int jugador = llegeixEnter(
+					"Escriu el número del jugador al que vols modificar els " + "paràmetres:" );
 			int pistes = llegeixEnter( "Escriu la quantitat de pistes que vols donar al jugador:" );
 			try
 			{

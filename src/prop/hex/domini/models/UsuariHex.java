@@ -77,7 +77,7 @@ public class UsuariHex extends Usuari implements Serializable, Comparable<Usuari
 	/**
 	 * Expressió regular amb els caràcters permesos.
 	 */
-	private static final String caracters_permesos = "^[A-Za-z0-9_ ]+$";
+	private static final String caracters_permesos = "^[A-Za-z0-9,_ ]+$";
 
 	/**
 	 * Constructora per defecte, tot i que utilitzem la constructora de la classe pare,

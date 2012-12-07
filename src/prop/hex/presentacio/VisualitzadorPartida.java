@@ -257,17 +257,13 @@ public final class VisualitzadorPartida extends JPanel
 		g.drawString( jugador_a.getNom(), 10, 460 );
 		g.drawString( "D'esquerra a dreta", 10, 480 );
 
-		g.drawString( "Temps: " +
-		              PartidaCtrl.getInstancia().getPartidaActual().getTempsDeJoc( jugador_a.getIdentificadorUnic() ),
-				10, 500 );
+		g.drawString( "Temps: " + PartidaCtrl.getInstancia().getPartidaActual().getTempsDeJoc( 0 ), 10, 500 );
 
 		//I algunes dades pel jugador B
 		g.setColor( jugador_a.getCombinacionsColors().getColorCasella( EstatCasella.JUGADOR_B ) );
 		g.drawString( jugador_b.getNom(), 300, 460 );
 		g.drawString( "De dalt a baix", 300, 480 );
 
-		g.drawString( "Temps: " +
-		              PartidaCtrl.getInstancia().getPartidaActual().getTempsDeJoc( jugador_b.getIdentificadorUnic() ),
-				300, 500 );
+		g.drawString( "Temps: " + PartidaCtrl.getInstancia().getPartidaActual().getTempsDeJoc( 1 ), 300, 500 );
 	}
 }

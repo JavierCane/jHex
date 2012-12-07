@@ -3,7 +3,6 @@ package prop.hex.domini.models;
 import prop.cluster.domini.models.Partida;
 import prop.cluster.domini.models.estats.EstatCasella;
 import prop.cluster.domini.models.estats.EstatPartida;
-import prop.hex.domini.controladors.MouFitxaIA;
 import prop.hex.domini.models.enums.CombinacionsColors;
 import prop.hex.domini.models.enums.ModesInici;
 
@@ -15,6 +14,7 @@ import java.util.*;
  */
 public class PartidaHex extends Partida implements Serializable
 {
+
 	/**
 	 * ID de serialització
 	 */
@@ -26,19 +26,19 @@ public class PartidaHex extends Partida implements Serializable
 	private final static int max_num_pistes = 3;
 
 	/**
-	 * Diccionari que relaciona els identificadors del usuaris amb la quantitat de pistes usades.
+	 * Diccionari que relaciona els usuaris amb la quantitat de pistes usades.
 	 */
-	private HashMap<String, Integer> pistes_usades;
+	private int[] pistes_usades;
 
 	/**
-	 * Diccionari que relaciona els identificadors dels usuaris amb el seu temps jugat.
+	 * Diccionari que relaciona els usuaris amb el seu temps jugat en dècimes de segon.
 	 */
-	private HashMap<String, Long> temps_de_joc;
+	private long[] temps_de_joc;
 
 	/**
 	 * Expressió regular amb els caràcters permesos.
 	 */
-	private static final String caracters_permesos = "^[A-Za-z0-9_ ]+$";
+	private static final String caracters_permesos = "^[A-Za-z0-9,_ ]+$";
 
 	/**
 	 * Mode d'inici de la partida
@@ -59,11 +59,6 @@ public class PartidaHex extends Partida implements Serializable
 	 * Instància de casella que conté la posició de la darrera fitxa.
 	 */
 	private Casella darrera_fitxa;
-
-	/**
-	 * Instàncies de les intel·ligències artificials per als jugadors no humans.
-	 */
-	private MouFitxaIA[] ia_jugadors = new MouFitxaIA[2];
 
 	/**
 	 * Tipus de fitxa de cada jugador.
@@ -97,13 +92,15 @@ public class PartidaHex extends Partida implements Serializable
 	{
 		super( jugador_a, jugador_b, tauler, nom );
 
-		pistes_usades = new HashMap<String, Integer>();
-		pistes_usades.put( jugador_a.getIdentificadorUnic(), 0 );
-		pistes_usades.put( jugador_b.getIdentificadorUnic(), 0 );
+		pistes_usades = new int[] {
+				0,
+				0
+		};
 
-		temps_de_joc = new HashMap<String, Long>();
-		temps_de_joc.put( jugador_a.getIdentificadorUnic(), 0L );
-		temps_de_joc.put( jugador_b.getIdentificadorUnic(), 0L );
+		temps_de_joc = new long[] {
+				0L,
+				0L
+		};
 
 		mode_inici = jugador_a.getModeInici();
 		tauler.setModeIniciPartida( mode_inici );
@@ -113,8 +110,6 @@ public class PartidaHex extends Partida implements Serializable
 		darrera_fitxa = new Casella( 0, 0 );
 
 		this.situacio_inicial = situacio_inicial;
-
-		inicialitzaIAJugadors();
 	}
 
 	/**
@@ -125,27 +120,6 @@ public class PartidaHex extends Partida implements Serializable
 	public boolean esPartidaAmbSituacioInicial()
 	{
 		return situacio_inicial;
-	}
-
-	/**
-	 * Inicialitza les estructures de control per a la partida actual.
-	 *
-	 * @throws ClassNotFoundException Si no es pot carregar la classe de les intel·ligències artificials.
-	 * @throws IllegalAccessError     Si s'intenta accedir a un lloc no permès quan es carreguen les intel·ligències
-	 *                                artificials.
-	 * @throws InstantiationError     Si hi ha problemes amb la instanciació de les intel·ligències artificials.
-	 */
-	private void inicialitzaIAJugadors() throws ClassNotFoundException, IllegalAccessException, InstantiationException
-	{
-		ia_jugadors[0] = ( MouFitxaIA ) Class.forName( "prop.hex.domini.controladors." +
-		                                               ( ( UsuariHex ) jugador_a ).getTipusJugador()
-				                                               .getClasseCorresponent() ).newInstance();
-		ia_jugadors[0].setPartida( this );
-
-		ia_jugadors[1] = ( MouFitxaIA ) Class.forName( "prop.hex.domini.controladors." +
-		                                               ( ( UsuariHex ) jugador_b ).getTipusJugador()
-				                                               .getClasseCorresponent() ).newInstance();
-		ia_jugadors[1].setPartida( this );
 	}
 
 	/**
@@ -212,9 +186,8 @@ public class PartidaHex extends Partida implements Serializable
 				Casella actual = cua_bfs.remove();
 				List<Casella> veins = ( ( TaulerHex ) tauler ).getVeins( actual.getFila(), actual.getColumna() );
 
-				for ( int i = 0; i < veins.size(); i++ )
+				for ( Casella veina : veins )
 				{
-					Casella veina = veins.get( i );
 					if ( !visitats[veina.getFila()][veina.getColumna()] &&
 					     tauler.getEstatCasella( veina.getFila(), veina.getColumna() ) == estat )
 					{
@@ -290,118 +263,122 @@ public class PartidaHex extends Partida implements Serializable
 		return max_num_pistes;
 	}
 
+	public TaulerHex getTauler()
+	{
+		return ( TaulerHex ) tauler;
+	}
+
 	/**
-	 * Consulta el nombre de pistes usades de l'usuari amb id_jugador.
+	 * Consulta el nombre de pistes usades d'un jugador
 	 *
-	 * @param id_jugador Identificador únic del jugador.
+	 * @param jugador Número del jugador (0 és A, 1 és B)
 	 * @return El nombre de pistes utilitzades pel jugador.
-	 * @throws IllegalArgumentException Si el jugador amb l'identificador únic passat com a paràmetre no juga la
-	 *                                  partida.
+	 * @throws IndexOutOfBoundsException Si jugador < 0 o bé jugador > 1.
 	 */
-	public int getPistesUsades( String id_jugador ) throws IllegalArgumentException
+	public int getPistesUsades( int jugador ) throws IndexOutOfBoundsException
 	{
-		if ( !pistes_usades.containsKey( id_jugador ) )
+		if ( jugador < 0 || jugador > 1 )
 		{
-			throw new IllegalArgumentException( "El jugador no juga la partida." );
+			throw new IndexOutOfBoundsException( "No hi ha cap jugador amb aquest número!" );
 		}
-		else
-		{
-			return pistes_usades.get( id_jugador );
-		}
+
+		return pistes_usades[jugador];
 	}
 
 	/**
-	 * Consulta el temps de joc de l'usuari amb id_jugador.
+	 * Consulta el temps de joc d'un jugador
 	 *
-	 * @param id_jugador Identificador únic del jugador.
+	 * @param jugador Número del jugador (0 és A, 1 és B)
 	 * @return El temps de joc que el jugador ha utilitzat a la partida.
-	 * @throws IllegalArgumentException Si el jugador amb l'identificador únic passat com a paràmetre no juga la
-	 *                                  partida.
+	 * @throws IndexOutOfBoundsException Si jugador < 0 o bé jugador > 1.
 	 */
-	public long getTempsDeJoc( String id_jugador ) throws IllegalArgumentException
+	public long getTempsDeJoc( int jugador ) throws IndexOutOfBoundsException
 	{
-		if ( !temps_de_joc.containsKey( id_jugador ) )
+		if ( jugador < 0 || jugador > 1 )
 		{
-			throw new IllegalArgumentException( "El jugador no juga la partida." );
+			throw new IndexOutOfBoundsException( "No hi ha cap jugador amb aquest número!" );
 		}
-		else
-		{
-			return temps_de_joc.get( id_jugador );
-		}
+
+		return temps_de_joc[jugador];
 	}
 
 	/**
-	 * Modifica les pistes usades per l'usuari amb id_jugador.
+	 * Modifica les pistes usades d'un jugador
 	 *
-	 * @param id_jugador Identificador únic del jugador.
+	 * @param jugador    Número del jugador (0 és A, 1 és B)
 	 * @param num_pistes Número de pistes usades pel jugador.
 	 * @return Cert si es modifiquen les pistes. Fals altrament.
-	 * @throws IllegalArgumentException Si el jugador amb l'identificador únic passat com a paràmetre no juga la
-	 *                                  partida, o si el nombre de pistes és negatiu.
+	 * @throws IndexOutOfBoundsException Si jugador < 0 o bé jugador > 1.
+	 * @throws IllegalArgumentException  Si el nombre de pistes és negatiu.
 	 */
-	public boolean setPistesUsades( String id_jugador, int num_pistes ) throws IllegalArgumentException
+	public boolean setPistesUsades( int jugador, int num_pistes )
+			throws IndexOutOfBoundsException, IllegalArgumentException
 	{
-		if ( !pistes_usades.containsKey( id_jugador ) )
+		if ( jugador < 0 || jugador > 1 )
 		{
-			throw new IllegalArgumentException( "El jugador no juga la partida." );
+			throw new IndexOutOfBoundsException( "No hi ha cap jugador amb aquest número!" );
 		}
 		if ( num_pistes < 0 )
 		{
 			throw new IllegalArgumentException( "El nombre de pistes no pot ser negatiu." );
 		}
-		pistes_usades.put( id_jugador, num_pistes );
+		pistes_usades[jugador] = num_pistes;
 		return true;
 	}
 
 	/**
-	 * Incrementa les pistes usades per l'usuari amb id_jugador.
+	 * Incrementa les pistes usades per un jugador.
 	 *
-	 * @param id_jugador Identificador únic del jugador.
-	 * @param quantitat  Quantitat en la que incrementar el nombre actual de pistes usades.
+	 * @param jugador   Número del jugador (0 és A, 1 és B)
+	 * @param quantitat Quantitat en la que incrementar el nombre actual de pistes usades.
 	 * @return Cert si es modifiquen les pistes. Fals altrament.
-	 * @throws IllegalArgumentException Si el jugador amb l'identificador únic passat com a paràmetre no juga la
-	 *                                  partida, o si el nombre de pistes resultant és negatiu.
+	 * @throws IndexOutOfBoundsException Si jugador < 0 o bé jugador > 1.
+	 * @throws IllegalArgumentException  Si el nombre de pistes resultant és negatiu.
 	 */
-	public boolean incrementaPistesUsades( String id_jugador, int quantitat ) throws IllegalArgumentException
+	public boolean incrementaPistesUsades( int jugador, int quantitat )
+			throws IndexOutOfBoundsException, IllegalArgumentException
 	{
-		return setPistesUsades( id_jugador, getPistesUsades( id_jugador ) + quantitat );
+		return setPistesUsades( jugador, getPistesUsades( jugador ) + quantitat );
 	}
 
 	/**
-	 * Modifica el temps de joc de l'usuari amb id_jugador.
+	 * Modifica el temps de joc d'un jugador
 	 *
-	 * @param id_jugador Identificador únic del jugador.
-	 * @param temps      Temps de joc del jugador.
+	 * @param jugador Número del jugador (0 és A, 1 és B)
+	 * @param temps   Temps de joc del jugador.
 	 * @return Cert si es modifica el temps de joc. Fals altrament.
-	 * @throws IllegalArgumentException Si el jugador amb l'identificador únic passat com a paràmetre no juga la
-	 *                                  partida, o si el temps de joc és negatiu.
+	 * @throws IndexOutOfBoundsException Si jugador < 0 o bé jugador > 1.
+	 * @throws IllegalArgumentException  Si el temps de joc és negatiu.
 	 */
-	public boolean setTempsDeJoc( String id_jugador, long temps ) throws IllegalArgumentException
+	public boolean setTempsDeJoc( int jugador, long temps ) throws IndexOutOfBoundsException, IllegalArgumentException
 	{
-		if ( !temps_de_joc.containsKey( id_jugador ) )
+		if ( jugador < 0 || jugador > 1 )
 		{
-			throw new IllegalArgumentException( "El jugador no juga la partida." );
+			throw new IndexOutOfBoundsException( "No hi ha cap jugador amb aquest número!" );
 		}
-		if ( temps < 0 )
+		else if ( temps < 0 )
 		{
 			throw new IllegalArgumentException( "El temps de joc no pot ser negatiu." );
 		}
-		temps_de_joc.put( id_jugador, temps );
+
+		temps_de_joc[jugador] = temps;
+
 		return true;
 	}
 
 	/**
-	 * Incrementa el temps de joc de l'usuari amb id_jugador
+	 * Incrementa el temps de joc d'un jugador
 	 *
-	 * @param id_jugador Identificador únic del jugador.
-	 * @param temps      Temps de joc del jugador.
+	 * @param jugador Número del jugador (0 és A, 1 és B)
+	 * @param temps   Temps de joc del jugador.
 	 * @return Cert si es modifica el temps de joc. Fals altrament.
-	 * @throws IllegalArgumentException Si el jugador amb l'identificador únic passat com a paràmetre no juga la
-	 *                                  partida, o si el temps de joc resultant és negatiu.
+	 * @throws IndexOutOfBoundsException Si jugador < 0 o bé jugador > 1.
+	 * @throws IllegalArgumentException  Si el temps de joc resultant és negatiu.
 	 */
-	public boolean incrementaTempsDeJoc( String id_jugador, long temps ) throws IllegalArgumentException
+	public boolean incrementaTempsDeJoc( int jugador, long temps )
+			throws IndexOutOfBoundsException, IllegalArgumentException
 	{
-		return setTempsDeJoc( id_jugador, getTempsDeJoc( id_jugador ) + temps );
+		return setTempsDeJoc( jugador, getTempsDeJoc( jugador ) + temps );
 	}
 
 	/**
@@ -446,16 +423,6 @@ public class PartidaHex extends Partida implements Serializable
 		return true;
 	}
 
-	/**
-	 * Mètode per obtenir la casella a la que mouria la IA del jugador del torn actual
-	 *
-	 * @return la casella a la que mouria la IA del jugador del torn actual
-	 */
-	public Casella getMovimentIATornActual()
-	{
-		return ia_jugadors[torns_jugats % 2].mouFitxa( fitxes_jugadors[torns_jugats % 2] );
-	}
-
 	public EstatCasella[] getFitxesJugadors()
 	{
 		return fitxes_jugadors;
@@ -476,5 +443,10 @@ public class PartidaHex extends Partida implements Serializable
 		{
 			return ( UsuariHex ) getJugadorB();
 		}
+	}
+
+	public int getNumJugadorTornActual()
+	{
+		return torns_jugats % 2;
 	}
 }

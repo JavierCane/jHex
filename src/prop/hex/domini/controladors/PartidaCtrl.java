@@ -40,10 +40,15 @@ public final class PartidaCtrl
 	private PartidaHexGstr gestor_partida;
 
 	/**
-	 * Conté els usuaris pre inicialitzats de la partida actual, únicament son útils avans de cridat a
-	 * inicialitzaPartida.
+	 * Conté els usuaris pre inicialitzats de la partida actual, únicament son útils abans d'inicialitzar una partida
+	 * o carregar-la de disc.
 	 */
 	private UsuariHex[] usuaris_preinicialitzats_partida = new UsuariHex[2];
+
+	/**
+	 * Instàncies de les intel·ligències artificials per als jugadors no humans.
+	 */
+	private MouFitxaIA[] ia_jugadors = new MouFitxaIA[2];
 
 	/**
 	 * Constructor per defecte. Declarat privat perquè és una classe singleton
@@ -147,6 +152,27 @@ public final class PartidaCtrl
 	}
 
 	/**
+	 * Inicialitza les estructures de control per a la partida actual.
+	 *
+	 * @throws ClassNotFoundException Si no es pot carregar la classe de les intel·ligències artificials.
+	 * @throws IllegalAccessError     Si s'intenta accedir a un lloc no permès quan es carreguen les intel·ligències
+	 *                                artificials.
+	 * @throws InstantiationError     Si hi ha problemes amb la instanciació de les intel·ligències artificials.
+	 */
+	private void inicialitzaIAJugadors() throws ClassNotFoundException, IllegalAccessException, InstantiationException
+	{
+		ia_jugadors[0] = ( MouFitxaIA ) Class.forName( "prop.hex.domini.controladors." +
+		                                               ( ( UsuariHex ) partida_actual.getJugadorA() ).getTipusJugador()
+				                                               .getClasseCorresponent() ).newInstance();
+		ia_jugadors[0].setPartida( partida_actual );
+
+		ia_jugadors[1] = ( MouFitxaIA ) Class.forName( "prop.hex.domini.controladors." +
+		                                               ( ( UsuariHex ) partida_actual.getJugadorB() ).getTipusJugador()
+				                                               .getClasseCorresponent() ).newInstance();
+		ia_jugadors[1].setPartida( partida_actual );
+	}
+
+	/**
 	 * Inicialitza una partida nova.
 	 *
 	 * @param mida_tauler      Mida del tauler de la partida.
@@ -183,6 +209,8 @@ public final class PartidaCtrl
 				throw new IllegalArgumentException(
 						"Ja existeix una partida amb aquest nom i per aquests usuaris a la mateixa data." );
 			}
+
+			inicialitzaIAJugadors();
 		}
 	}
 
@@ -198,6 +226,7 @@ public final class PartidaCtrl
 	public void carregaPartida( String identificador_partida ) throws ClassNotFoundException, IOException
 	{
 		partida_actual = gestor_partida.carregaElement( identificador_partida );
+
 		gestor_partida.eliminaElement( identificador_partida );
 	}
 
@@ -299,18 +328,16 @@ public final class PartidaCtrl
 			if ( !partida_actual.esPartidaAmbSituacioInicial() )
 			{
 				UsuariHex usuari_a = ( UsuariHex ) partida_actual.getJugadorA();
-				UsuariHex usuari_b = ( UsuariHex ) partida_actual.getJugadorA();
+				UsuariHex usuari_b = ( UsuariHex ) partida_actual.getJugadorB();
 
 				UsuariCtrl.getInstancia()
 						.actualitzaEstadistiques( usuari_a, estat_actual == EstatPartida.GUANYA_JUGADOR_A,
-								usuari_b.getTipusJugador(),
-								partida_actual.getTempsDeJoc( usuari_a.getIdentificadorUnic() ),
+								usuari_b.getTipusJugador(), partida_actual.getTempsDeJoc( 0 ),
 								partida_actual.getTauler().getNumFitxesA() );
 
 				UsuariCtrl.getInstancia()
 						.actualitzaEstadistiques( usuari_b, estat_actual == EstatPartida.GUANYA_JUGADOR_B,
-								usuari_a.getTipusJugador(),
-								partida_actual.getTempsDeJoc( usuari_b.getIdentificadorUnic() ),
+								usuari_a.getTipusJugador(), partida_actual.getTempsDeJoc( 1 ),
 								partida_actual.getTauler().getNumFitxesA() );
 
 				Ranquing.getInstancia().actualitzaUsuari( usuari_a );
@@ -322,10 +349,11 @@ public final class PartidaCtrl
 
 		partida_actual = null;
 		usuaris_preinicialitzats_partida[1] = null;
-		try {
+		try
+		{
 			new RanquingGstr().guardaElement();
 		}
-		catch (IOException excepcio)
+		catch ( IOException excepcio )
 		{
 			throw new IOException( "No s'ha pogut desar el ranquing" );
 		}
@@ -342,6 +370,12 @@ public final class PartidaCtrl
 		gestor_partida.eliminaElement( partida_actual.getIdentificadorUnic() );
 	}
 
+	private Casella getMovimentIATornActual()
+	{
+		return ia_jugadors[partida_actual.getNumJugadorTornActual()]
+				.mouFitxa( partida_actual.getFitxaJugadorTornActual() );
+	}
+
 	/**
 	 * Consulta una pista per al jugador que la demana.
 	 *
@@ -349,7 +383,7 @@ public final class PartidaCtrl
 	 */
 	public Casella obtePista()
 	{
-		return partida_actual.getMovimentIATornActual();
+		return getMovimentIATornActual();
 	}
 
 	/**
@@ -359,7 +393,7 @@ public final class PartidaCtrl
 	 */
 	public Casella executaMovimentIA()
 	{
-		Casella resultat_moviment = partida_actual.getMovimentIATornActual();
+		Casella resultat_moviment = getMovimentIATornActual();
 		mouFitxa( resultat_moviment.getFila(), resultat_moviment.getColumna() );
 
 		return resultat_moviment;
@@ -394,7 +428,7 @@ public final class PartidaCtrl
 
 					long instant_actual = new Date().getTime() / 1000L;
 
-					partida_actual.incrementaTempsDeJoc( partida_actual.getUsuariTornActual().getIdentificadorUnic(),
+					partida_actual.incrementaTempsDeJoc( partida_actual.getNumJugadorTornActual(),
 							instant_actual - partida_actual.getInstantDarrerMoviment() );
 
 					partida_actual.incrementaTornsJugats( 1 );
