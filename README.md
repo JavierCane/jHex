@@ -33,9 +33,9 @@ Com compilar i executar
 > > ``cd src/``
 >
 > 4- Compilar incloent tots els fitxers java:
-> > ``javac -d ../bin $(find ./* | grep .java$)``
+> > ``javac -encoding UTF-8 -d ../bin $(find ./* | grep .java$)``
 >
-> 5- Moure'ns al directori arrel del del projecte:
+> 5- Moure'ns al directori arrel del projecte:
 > > ``cd ..``
 >
 > 6a- Si volem executar el joc al complet amb interfície gràfica:
