@@ -12,7 +12,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.*;
+import java.lang.reflect.Method;
 import java.util.List;
 
 public final class PresentacioCtrl
@@ -39,6 +39,17 @@ public final class PresentacioCtrl
 		frame_principal.setLocationRelativeTo( null );
 		frame_principal.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		frame_principal.setIconImage( new ImageIcon( "img/logo-36_36.png" ).getImage() ); // Icona finestra windows
+		try // Icona dock Mac
+		{
+			Method metode = Class.forName( "com.apple.eawt.Application" ).getMethod( "getApplication" );
+			Object aplicacio = metode.invoke( null );
+			aplicacio.getClass().getMethod( "setDockIconImage", Image.class )
+					.invoke( aplicacio, new ImageIcon( "img/logo-120_120.png" ).getImage() );
+		}
+		catch ( Exception excepcio )
+		{
+			// no estem a Mac OS X.
+		}
 
 		try
 		{
