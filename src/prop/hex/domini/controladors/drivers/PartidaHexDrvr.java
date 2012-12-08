@@ -172,7 +172,7 @@ public final class PartidaHexDrvr
 						break;
 				}
 				System.out.println( "[OK]\tS'ha modificat correctament el tauler de la partida. El tauler actual " +
-				                    "és:\n" + ( ( TaulerHex ) ( partides.get( actual ).getTauler() ) ).toString() );
+				                    "és:\n" + ( ( partides.get( actual ).getTauler() ) ).toString() );
 			}
 			;
 		}

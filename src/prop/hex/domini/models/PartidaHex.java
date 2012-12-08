@@ -265,7 +265,7 @@ public class PartidaHex extends Partida implements Serializable
 
 	public TaulerHex getTauler()
 	{
-		return ( TaulerHex ) tauler;
+		return ( TaulerHex ) super.getTauler();
 	}
 
 	/**
@@ -448,5 +448,15 @@ public class PartidaHex extends Partida implements Serializable
 	public int getNumJugadorTornActual()
 	{
 		return torns_jugats % 2;
+	}
+
+	public UsuariHex getJugadorA()
+	{
+		return ( UsuariHex ) super.getJugadorA();
+	}
+
+	public UsuariHex getJugadorB()
+	{
+		return ( UsuariHex ) super.getJugadorB();
 	}
 }

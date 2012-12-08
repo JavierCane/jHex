@@ -56,9 +56,9 @@ public final class VisualitzadorPartida extends JPanel
 	 */
 	public VisualitzadorPartida()
 	{
-		tauler = ( TaulerHex ) PartidaCtrl.getInstancia().getPartidaActual().getTauler();
-		jugador_a = ( UsuariHex ) PartidaCtrl.getInstancia().getPartidaActual().getJugadorA();
-		jugador_b = ( UsuariHex ) PartidaCtrl.getInstancia().getPartidaActual().getJugadorB();
+		tauler = PartidaCtrl.getInstancia().getPartidaActual().getTauler();
+		jugador_a = PartidaCtrl.getInstancia().getPartidaActual().getJugadorA();
+		jugador_b = PartidaCtrl.getInstancia().getPartidaActual().getJugadorB();
 
 		//Creem l'exagon que dibuixarem despres.
 		int x[] = new int[6];

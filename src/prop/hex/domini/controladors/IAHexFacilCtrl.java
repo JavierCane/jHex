@@ -267,7 +267,7 @@ public final class IAHexFacilCtrl extends InteligenciaArtificial implements MouF
 	 */
 	private Casella posicioCentral()
 	{
-		TaulerHex tauler = ( TaulerHex ) partida.getTauler();
+		TaulerHex tauler = partida.getTauler();
 
 		for ( int fila = 0; fila < tauler.getMida() / 2; fila++ )
 		{
@@ -366,12 +366,12 @@ public final class IAHexFacilCtrl extends InteligenciaArtificial implements MouF
 		int distancia_enemic;
 		if ( fitxa == EstatCasella.JUGADOR_A )
 		{
-			CamiMinim cami_minim_B = new CamiMinim( ( TaulerHex ) partida.getTauler(), EstatCasella.JUGADOR_B );
+			CamiMinim cami_minim_B = new CamiMinim( partida.getTauler(), EstatCasella.JUGADOR_B );
 			distancia_enemic = cami_minim_B.evalua();
 		}
 		else
 		{
-			CamiMinim cami_minim_A = new CamiMinim( ( TaulerHex ) partida.getTauler(), EstatCasella.JUGADOR_A );
+			CamiMinim cami_minim_A = new CamiMinim( partida.getTauler(), EstatCasella.JUGADOR_A );
 			distancia_enemic = cami_minim_A.evalua();
 		}
 		if ( distancia_enemic <= 4 )

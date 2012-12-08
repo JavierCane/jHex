@@ -102,10 +102,10 @@ public final class PartidaCtrl
 	}
 
 	/**
-	 * Preinicialitza els usuaris que disputarán la partida. Aixó vol dir que carrega l'usuari corresponent a el
+	 * Preinicialitza els usuaris que disputaran la partida. Aixo vol dir que carrega l'usuari corresponent a el
 	 * tipus de jugador seleccionat comprovant les credencials en cas que toqui, carregant de disc la versió
-	 * corresponent de la IA o instanciant un usuari convidat temporal si es el cas.
-	 * Cal cridar a aquesta funció avans d'inicialitzar la partida mitjançant inicialitzaPartida.
+	 * corresponent de la IA o instanciant un usuari convidat temporal si és el cas.
+	 * Cal cridar a aquesta funció abans d'inicialitzar la partida mitjançant inicialitzaPartida.
 	 *
 	 * @param num_jugador
 	 * @param tipus_jugador
@@ -162,12 +162,12 @@ public final class PartidaCtrl
 	private void inicialitzaIAJugadors() throws ClassNotFoundException, IllegalAccessException, InstantiationException
 	{
 		ia_jugadors[0] = ( MouFitxaIA ) Class.forName( "prop.hex.domini.controladors." +
-		                                               ( ( UsuariHex ) partida_actual.getJugadorA() ).getTipusJugador()
+		                                               ( partida_actual.getJugadorA() ).getTipusJugador()
 				                                               .getClasseCorresponent() ).newInstance();
 		ia_jugadors[0].setPartida( partida_actual );
 
 		ia_jugadors[1] = ( MouFitxaIA ) Class.forName( "prop.hex.domini.controladors." +
-		                                               ( ( UsuariHex ) partida_actual.getJugadorB() ).getTipusJugador()
+		                                               ( partida_actual.getJugadorB() ).getTipusJugador()
 				                                               .getClasseCorresponent() ).newInstance();
 		ia_jugadors[1].setPartida( partida_actual );
 	}
@@ -290,6 +290,13 @@ public final class PartidaCtrl
 		return true;
 	}
 
+	public boolean esPotGuardarPartida()
+	{
+		return ( consultaEstatPartida() == EstatPartida.NO_FINALITZADA &&
+		         ( partida_actual.getJugadorA().getTipusJugador() == TipusJugadors.JUGADOR ||
+		           partida_actual.getJugadorB().getTipusJugador() == TipusJugadors.JUGADOR ) );
+	}
+
 	/**
 	 * Guarda la partida actual.
 	 *
@@ -327,8 +334,8 @@ public final class PartidaCtrl
 		{
 			if ( !partida_actual.esPartidaAmbSituacioInicial() )
 			{
-				UsuariHex usuari_a = ( UsuariHex ) partida_actual.getJugadorA();
-				UsuariHex usuari_b = ( UsuariHex ) partida_actual.getJugadorB();
+				UsuariHex usuari_a = partida_actual.getJugadorA();
+				UsuariHex usuari_b = partida_actual.getJugadorB();
 
 				UsuariCtrl.getInstancia()
 						.actualitzaEstadistiques( usuari_a, estat_actual == EstatPartida.GUANYA_JUGADOR_A,
@@ -485,7 +492,7 @@ public final class PartidaCtrl
 	public boolean intercanviaDarreraFitxa()
 	{
 		return esPotIntercanviarDarreraFitxa() &&
-		       ( ( TaulerHex ) partida_actual.getTauler() ).intercanviaFitxa( partida_actual.getDarreraFitxa() ) &&
+		       ( partida_actual.getTauler() ).intercanviaFitxa( partida_actual.getDarreraFitxa() ) &&
 		       partida_actual.incrementaTornsJugats( 1 );
 	}
 

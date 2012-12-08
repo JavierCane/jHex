@@ -62,9 +62,9 @@ public final class JPanelTauler extends JPanel
 	 */
 	public JPanelTauler( boolean partida_en_curs )
 	{
-		tauler = ( TaulerHex ) PartidaCtrl.getInstancia().getPartidaActual().getTauler();
-		jugador_a = ( UsuariHex ) PartidaCtrl.getInstancia().getPartidaActual().getJugadorA();
-		jugador_b = ( UsuariHex ) PartidaCtrl.getInstancia().getPartidaActual().getJugadorB();
+		tauler = PartidaCtrl.getInstancia().getPartidaActual().getTauler();
+		jugador_a = PartidaCtrl.getInstancia().getPartidaActual().getJugadorA();
+		jugador_b = PartidaCtrl.getInstancia().getPartidaActual().getJugadorB();
 		ultima_pista = new Casella( 0, 0 );
 		pista_valida = false;
 		this.partida_en_curs = partida_en_curs;

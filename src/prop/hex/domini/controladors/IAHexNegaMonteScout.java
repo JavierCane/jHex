@@ -195,7 +195,7 @@ public final class IAHexNegaMonteScout implements MouFitxaIA
 	 */
 	public Casella mouFitxa( EstatCasella fitxa )
 	{
-		tauler = ( TaulerHex ) partida.getTauler();
+		tauler = partida.getTauler();
 
 		int puntuacio_millor = Integer.MIN_VALUE + 1;
 		Casella millor_moviment = null;
