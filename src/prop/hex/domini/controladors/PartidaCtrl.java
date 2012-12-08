@@ -229,16 +229,68 @@ public final class PartidaCtrl
 	 * Carrega de memòria secundària la partida identificada per identificador_partida i la estableix com la partida
 	 * en joc
 	 *
-	 * @param identificador_partida
+	 * @param id_partida              Identificador de la partida que es vol carregar
+	 * @param contrasenya_contrincant Contrasenya de l'usuari contrincant
 	 * @throws ClassNotFoundException Si hi ha un problema de classes quan es carrega la partida o la
 	 *                                intel·ligència artificial.
 	 * @throws IOException            Si hi ha un error d'entrada/sortida al carregar la partida.
 	 */
-	public void carregaPartida( String identificador_partida ) throws ClassNotFoundException, IOException
+	public void carregaPartida( String id_partida, String contrasenya_contrincant )
+			throws ClassNotFoundException, IOException
 	{
-		partida_actual = gestor_partida.carregaElement( identificador_partida );
+		partida_actual = gestor_partida.carregaElement( id_partida );
+		String nom_usuari_contrincant;
+		TipusJugadors tipus_jugador_contrincant;
+		if ( !partida_actual.getJugadorA().equals( UsuariCtrl.getInstancia().getUsuariPrincipal() ) )
+		{
+			nom_usuari_contrincant = partida_actual.getJugadorA().getNom();
+			tipus_jugador_contrincant = partida_actual.getJugadorA().getTipusJugador();
 
-		gestor_partida.eliminaElement( identificador_partida );
+			partida_actual.setJugadorB( UsuariCtrl.getInstancia().getUsuariPrincipal() );
+		}
+		else
+		{
+			nom_usuari_contrincant = partida_actual.getJugadorB().getNom();
+			tipus_jugador_contrincant = partida_actual.getJugadorB().getTipusJugador();
+
+			partida_actual.setJugadorA( UsuariCtrl.getInstancia().getUsuariPrincipal() );
+		}
+		UsuariCtrl.getInstancia()
+				.carregaUsuari( nom_usuari_contrincant, contrasenya_contrincant, tipus_jugador_contrincant );
+
+		gestor_partida.eliminaElement( id_partida );
+	}
+
+	/**
+	 * Consulta quin usuari no ha iniciat sessió (si és el cas) per poder jugar a la partida actual.
+	 *
+	 * @param id_partida Identificador únic de la partida
+	 * @return El nom de l'usuari que no ha iniciat sessió (si és el cas). Si no n'hi ha, retorna null.
+	 * @throws IOException            Si no es pot carregar la partida
+	 * @throws ClassNotFoundException Si no existeix la classe PartidaHex.
+	 * @throws IllegalAccessError     Si hi ha un problema d'accés al fitxer amb la partida
+	 * @throws InstantiationError     Si hi ha un problema de classes a la instanciació de la partida que es consultar
+	 */
+	public String usuariSenseAutenticarAPartida( String id_partida )
+			throws IOException, ClassNotFoundException, IllegalAccessError, InstantiationError
+	{
+		String nom_usuari = null;
+
+		PartidaHex partida_futura = gestor_partida.carregaElement( id_partida );
+		if ( !partida_futura.getJugadorA().equals( UsuariCtrl.getInstancia().getUsuariPrincipal() ) &&
+		     partida_futura.getJugadorA().getTipusJugador() == TipusJugadors.JUGADOR )
+		{
+			nom_usuari = partida_futura.getJugadorA().getNom();
+		}
+		else if ( !partida_futura.getJugadorB().equals( UsuariCtrl.getInstancia().getUsuariPrincipal() ) &&
+		          partida_futura.getJugadorB().getTipusJugador() == TipusJugadors.JUGADOR )
+		{
+			nom_usuari = partida_futura.getJugadorB().getNom();
+		}
+
+		inicialitzaIAJugadors();
+
+		return nom_usuari;
 	}
 
 	/**
