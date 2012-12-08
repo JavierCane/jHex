@@ -351,4 +351,9 @@ public final class UsuariCtrl
 		Ranquing.getInstancia().actualitzaUsuari( usuari_principal );
 		return true;
 	}
+
+	public boolean existeixUsuari( String nom )
+	{
+		return gestor_usuari.existeixElement( getIdentificadorUnic( nom ) );
+	}
 }

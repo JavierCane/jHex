@@ -217,6 +217,11 @@ public final class PresentacioCtrl
 		PartidaCtrl.getInstancia().inicialitzaPartida( mida_tauler, nom_partida, situacio_inicial );
 	}
 
+	public boolean existeixUsuari( String nom )
+	{
+		return UsuariCtrl.getInstancia().existeixUsuari( nom );
+	}
+
 	// Mètodes RanquingVista
 	// ----------------------------------------------------------------------------------------------------------------
 
