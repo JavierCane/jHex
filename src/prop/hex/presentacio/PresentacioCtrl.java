@@ -15,22 +15,80 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.List;
 
+/**
+ * Controlador de presentació del joc Hex.
+ * Inicialitza totes les estructures relacionades amb la interfície i s'encarrega de la comunicació entre les vistes
+ * i la capa de domini.
+ *
+ * @author Guillermo Girona San Miguel (Grup 7.3, Hex)
+ */
+
 public final class PresentacioCtrl
 {
 
+	/**
+	 * Frame principal de la interfície del joc.
+	 */
 	private JFrame frame_principal = new JFrame( "jHex - Joc de Taula Hex" );
+
+	/**
+	 * Indica si l'usuari identificat al sistema és o no un convidat.
+	 */
 	private boolean es_convidat = false;
+
+	/**
+	 * Vista d'inici de sessió.
+	 */
 	private IniciaSessioVista inicia_sessio_vista = new IniciaSessioVista( this, frame_principal );
+
+	/**
+	 * Vista de registre d'un usuari.
+	 */
 	private RegistraVista registra_vista;
+
+	/**
+	 * Vista del menú principal.
+	 */
 	private MenuPrincipalVista menu_principal_vista;
+
+	/**
+	 * Vista de les preferències de l'usuari.
+	 */
 	private PreferenciesVista preferencies_vista;
-	private ConfiguraPartidaVista inicia_partida_vista;
+
+	/**
+	 * Vista del menú de configuració d'una nova partida.
+	 */
+	private ConfiguraPartidaVista configura_partida_vista;
+
+	/**
+	 * Vista del rànquing.
+	 */
 	private RanquingVista ranquing_vista;
+
+	/**
+	 * Vista de la pantalla de carregar una partida guardada.
+	 */
 	private CarregaPartidaVista carrega_partida_vista;
+
+	/**
+	 * Vista de la pantalla de definició d'una situació inicial.
+	 */
 	private DefineixSituacioVista defineix_situacio_vista;
+
+	/**
+	 * Vista del visualitzador de partides.
+	 */
 	private PartidaVista partida_vista;
+
+	/**
+	 * Vista del menú de canvi de la contrasenya.
+	 */
 	private CanviaContrasenyaVista canvia_contrasenya_vista;
 
+	/**
+	 * Inicialitza el controlador de presentació, establint la mida de la finestra, la icona, i la primera vista a mostrar.
+	 */
 	public void inicialitzaPresentacio()
 	{
 		frame_principal.setMinimumSize( new Dimension( 800, 600 ) );
@@ -43,8 +101,8 @@ public final class PresentacioCtrl
 		{
 			Method metode = Class.forName( "com.apple.eawt.Application" ).getMethod( "getApplication" );
 			Object aplicacio = metode.invoke( null );
-			aplicacio.getClass().getMethod( "setDockIconImage", Image.class )
-					.invoke( aplicacio, new ImageIcon( "img/logo-120_120.png" ).getImage() );
+			aplicacio.getClass().getMethod( "setDockIconImage", Image.class ).invoke( aplicacio,
+					new ImageIcon( "img/logo-120_120.png" ).getImage() );
 		}
 		catch ( Exception excepcio )
 		{
@@ -68,9 +126,8 @@ public final class PresentacioCtrl
 		inicia_sessio_vista.fesVisible();
 	}
 
-	public void setUsuariActual( String nom, String contrasenya )
-			throws IllegalArgumentException, FileNotFoundException, IOException, ClassNotFoundException,
-			       NullPointerException
+	public void setUsuariActual( String nom, String contrasenya ) throws IllegalArgumentException,
+			FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
 	{
 		UsuariCtrl.getInstancia().setUsuariPrincipal( nom, contrasenya );
 	}
@@ -129,8 +186,8 @@ public final class PresentacioCtrl
 		UsuariCtrl.getInstancia().reiniciaEstadistiques();
 	}
 
-	public void canviaContrasenyaJugadorPrincipal( String contrasenya_actual, String contrasenya_nova )
-			throws IllegalArgumentException
+	public void canviaContrasenyaJugadorPrincipal( String contrasenya_actual, String contrasenya_nova ) throws
+			IllegalArgumentException
 	{
 		UsuariCtrl.getInstancia().modificaContrasenya( contrasenya_actual, contrasenya_nova );
 	}
@@ -139,16 +196,15 @@ public final class PresentacioCtrl
 	// ----------------------------------------------------------------------------------
 
 	public void preInicialitzaUsuariPartida( int num_jugador, TipusJugadors tipus_jugador, String nom_usuari,
-	                                         String contrasenya_usuari )
-			throws IllegalArgumentException, FileNotFoundException, IOException, ClassNotFoundException,
-			       NullPointerException
+	                                         String contrasenya_usuari ) throws IllegalArgumentException,
+			FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
 	{
-		PartidaCtrl.getInstancia()
-				.preInicialitzaUsuariPartida( num_jugador, tipus_jugador, nom_usuari, contrasenya_usuari );
+		PartidaCtrl.getInstancia().preInicialitzaUsuariPartida( num_jugador, tipus_jugador, nom_usuari,
+				contrasenya_usuari );
 	}
 
-	public void iniciaPartida( int mida_tauler, String nom_partida, boolean situacio_inicial )
-			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException
+	public void iniciaPartida( int mida_tauler, String nom_partida, boolean situacio_inicial ) throws
+			ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException
 	{
 		PartidaCtrl.getInstancia().inicialitzaPartida( mida_tauler, nom_partida, situacio_inicial );
 	}
@@ -295,23 +351,23 @@ public final class PresentacioCtrl
 		canvia_contrasenya_vista.fesVisible();
 	}
 
-	public void vistaMenuPrincipalAIniciaPartida()
+	public void vistaMenuPrincipalAConfiguraPartida()
 	{
-		if ( inicia_partida_vista == null )
+		if ( configura_partida_vista == null )
 		{
-			inicia_partida_vista = new ConfiguraPartidaVista( this, frame_principal );
+			configura_partida_vista = new ConfiguraPartidaVista( this, frame_principal );
 		}
 		menu_principal_vista = null;
-		inicia_partida_vista.fesVisible();
+		configura_partida_vista.fesVisible();
 	}
 
-	public void vistaIniciaPartidaAMenuPrincipal()
+	public void vistaConfiguraPartidaAMenuPrincipal()
 	{
 		if ( menu_principal_vista == null )
 		{
 			menu_principal_vista = new MenuPrincipalVista( this, frame_principal );
 		}
-		inicia_partida_vista = null;
+		configura_partida_vista = null;
 		menu_principal_vista.fesVisible();
 	}
 
@@ -355,23 +411,23 @@ public final class PresentacioCtrl
 		menu_principal_vista.fesVisible();
 	}
 
-	public void vistaIniciaPartidaAPartida()
+	public void vistaConfiguraPartidaAPartida()
 	{
 		if ( partida_vista == null )
 		{
 			partida_vista = new PartidaVista( this, frame_principal );
 		}
-		inicia_partida_vista = null;
+		configura_partida_vista = null;
 		partida_vista.fesVisible();
 	}
 
-	public void vistaIniciaPartidaADefineixSituacio()
+	public void vistaConfiguraPartidaADefineixSituacio()
 	{
 		if ( defineix_situacio_vista == null )
 		{
 			defineix_situacio_vista = new DefineixSituacioVista( this, frame_principal );
 		}
-		inicia_partida_vista = null;
+		configura_partida_vista = null;
 		defineix_situacio_vista.fesVisible();
 	}
 

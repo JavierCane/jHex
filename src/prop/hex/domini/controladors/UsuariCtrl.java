@@ -15,7 +15,7 @@ import java.io.IOException;
  * Gestiona totes les operacions relacionades amb la creació i modificació, a més de la càrrega i l'emmagatzemament a
  * memòria secundària.
  *
- *  @author Guillermo Girona San Miguel (Grup 7.3, Hex)
+ * @author Guillermo Girona San Miguel (Grup 7.3, Hex)
  */
 
 public final class UsuariCtrl
@@ -95,21 +95,21 @@ public final class UsuariCtrl
 	 *                                  si conté caràcters il·legals o si es tracta d'un nom no permès.
 	 * @throws IOException              Si ha succeït un error d'entrada/sortida inesperat.
 	 */
-	public boolean creaUsuari( String nom, String contrasenya, TipusJugadors tipus_jugador )
-			throws IllegalArgumentException, IOException
+	public boolean creaUsuari( String nom, String contrasenya, TipusJugadors tipus_jugador ) throws
+			IllegalArgumentException, IOException
 	{
 		if ( tipus_jugador == TipusJugadors.JUGADOR )
 		{
 			if ( !nom.matches( UsuariHex.getCaractersPermesos() ) )
 			{
 				throw new IllegalArgumentException( "El nom d'usuari conté caràcters il·legals. Només " +
-				                                    "s'accepten caràcters alfanumèris (sense accents), espais i guions baixos." );
+						"s'accepten caràcters alfanumèrics (sense accents), espais i guions baixos." );
 			}
 
 			if ( UsuariHex.getNomsNoPermesos().contains( nom ) )
 			{
 				throw new IllegalArgumentException( "No es permet utilitzar aquest nom d'usuari. Els noms no " +
-				                                    "permesos són " + UsuariHex.getNomsNoPermesos().toString() );
+						"permesos són " + UsuariHex.getNomsNoPermesos().toString() );
 			}
 
 			UsuariHex usuari_hex = new UsuariHex( nom, contrasenya, TipusJugadors.JUGADOR );
@@ -173,7 +173,7 @@ public final class UsuariCtrl
 	/**
 	 * Estableix l'usuari principal del joc com l'usuari que li passem carregant-lo de disc.
 	 *
-	 * @param nom Nom de l'usuari que es vol carregar.
+	 * @param nom         Nom de l'usuari que es vol carregar.
 	 * @param contrasenya Contrasenya de l'usuari que es vol carregar.
 	 * @return Cert, si l'usuari es carrega correctament. Fals, altrament.
 	 * @throws IllegalArgumentException Si l'usuari identificat pel nom no existeix
@@ -184,9 +184,8 @@ public final class UsuariCtrl
 	 * @throws ClassNotFoundException   Si hi ha un problema de classes quan es carrega l'usuari.
 	 * @throws NullPointerException     Es dona si el fitxer està buit.
 	 */
-	public boolean setUsuariPrincipal( String nom, String contrasenya )
-			throws IllegalArgumentException, FileNotFoundException, IOException, ClassNotFoundException,
-			       NullPointerException
+	public boolean setUsuariPrincipal( String nom, String contrasenya ) throws IllegalArgumentException,
+			FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
 	{
 		usuari_principal = carregaUsuari( nom, contrasenya, TipusJugadors.JUGADOR );
 		return true;
@@ -208,9 +207,8 @@ public final class UsuariCtrl
 	 * @throws ClassNotFoundException   Si hi ha un problema de classes quan es carrega l'usuari.
 	 * @throws NullPointerException     Es dona si el fitxer està buit.
 	 */
-	public UsuariHex carregaUsuari( String nom, String contrasenya, TipusJugadors tipus_jugador )
-			throws IllegalArgumentException, FileNotFoundException, IOException, ClassNotFoundException,
-			       NullPointerException
+	public UsuariHex carregaUsuari( String nom, String contrasenya, TipusJugadors tipus_jugador ) throws
+			IllegalArgumentException, FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
 	{
 		if ( !gestor_usuari.existeixElement( getIdentificadorUnic( nom ) ) )
 		{
@@ -258,13 +256,13 @@ public final class UsuariCtrl
 	 * @throws IllegalArgumentException Si la contrasenya antiga passada com a paràmetre no coincideix amb la
 	 *                                  contrasenya de l'usuari.
 	 */
-	public boolean modificaContrasenya( String contrasenya_antiga, String contrasenya_nova )
-			throws IllegalArgumentException
+	public boolean modificaContrasenya( String contrasenya_antiga, String contrasenya_nova ) throws
+			IllegalArgumentException
 	{
 		if ( !usuari_principal.getContrasenya().equals( contrasenya_antiga ) )
 		{
 			throw new IllegalArgumentException( "[KO]\tLa contrasenya actual introduïda no correspon a l'actual de " +
-			                                    "" + "l'usuari." );
+					"" + "l'usuari." );
 		}
 		else
 		{
@@ -281,8 +279,8 @@ public final class UsuariCtrl
 	 */
 	public boolean modificaPreferencies( ModesInici mode_inici, CombinacionsColors combinacio_colors )
 	{
-		return ( usuari_principal.setModeInici( mode_inici ) &&
-		         usuari_principal.setCombinacionsColors( combinacio_colors ) );
+		return ( usuari_principal.setModeInici( mode_inici ) && usuari_principal.setCombinacionsColors(
+				combinacio_colors ) );
 	}
 
 	/**

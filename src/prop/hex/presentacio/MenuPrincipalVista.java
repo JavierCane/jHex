@@ -94,7 +94,7 @@ public final class MenuPrincipalVista extends BaseVista
 
 	public void accioBotoJuga( ActionEvent event )
 	{
-		presentacio_ctrl.vistaMenuPrincipalAIniciaPartida();
+		presentacio_ctrl.vistaMenuPrincipalAConfiguraPartida();
 	}
 
 	public void accioBotoCarrega( ActionEvent event )

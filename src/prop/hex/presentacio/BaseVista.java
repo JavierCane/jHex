@@ -6,21 +6,66 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+/**
+ * Vista base del joc Hex.
+ * Conté l'estructura bàsica de totes les vistes: imatge de fons, títol, botó de sortida...
+ * És una classe abstracta, les vistes hauran de ser herència d'aqeusta, redefinint algunes operacions.
+ *
+ * @author Guillermo Girona San Miguel (Grup 7.3, Hex)
+ */
+
 public abstract class BaseVista
 {
 
 	protected static PresentacioCtrl presentacio_ctrl;
+
+	/**
+	 * Frame principal de la vista.
+	 */
 	protected JFrame frame_vista;
-	protected JPanelImatge panell_principal; // Si ho posem com static, UI peta
+
+	/**
+	 * Panell principal de la vista.
+	 */
+	protected JPanelImatge panell_principal;
+
+	/**
+	 * Panell superior de la vista, pensat per a contenir el títol.
+	 */
 	protected JPanel panell_titol;
+
+	/**
+	 * Panell inferior de la vista, pensat per a contenir els botons de sortida i ajuda.
+	 */
 	protected JPanel panell_sortida;
+
+	/**
+	 * Botó d'ajuda.
+	 */
 	protected JButton ajuda;
+
+	/**
+	 * Botó de sortida.
+	 */
 	protected JButton surt;
+
+	/**
+	 * Títol inferior amb el nom i versió del joc.
+	 */
 	protected JLabel titol_baix;
 
-	// Atribut per sobreescriure
+	/**
+	 * Títol de la vista.
+	 */
 	protected static JLabel titol;
 
+	/**
+	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
+	 * controlador de presentació al qual haurà de demanar certes operations.
+	 *
+	 * @param presentacio_ctrl Controlador de presentació.
+	 * @param frame_vista      Frame principal sobre el que s'hauran d'afegir els diferents components.
+	 */
 	public BaseVista( PresentacioCtrl presentacio_ctrl, JFrame frame_vista )
 	{
 		this.presentacio_ctrl = presentacio_ctrl;
@@ -33,6 +78,9 @@ public abstract class BaseVista
 		titol_baix = new JLabel( "jHex v1.0" );
 	}
 
+	/**
+	 * Fa visible la vista al frame.
+	 */
 	public void fesVisible()
 	{
 		frame_vista.setContentPane( panell_principal );
@@ -40,21 +88,33 @@ public abstract class BaseVista
 		frame_vista.setVisible( true );
 	}
 
+	/**
+	 * Fa que la vista deixi de ser visible al frame.
+	 */
 	public void fesInvisible()
 	{
 		frame_vista.setVisible( false );
 	}
 
+	/**
+	 * Activa la vista.
+	 */
 	public void activa()
 	{
 		frame_vista.setEnabled( true );
 	}
 
+	/**
+	 * Desactiva la vista.
+	 */
 	public void desactiva()
 	{
 		frame_vista.setEnabled( false );
 	}
 
+	/**
+	 * Inicialitza els diferents components de les vistes.
+	 */
 	protected void inicialitzaVista()
 	{
 		inicialitzaPanellPrincipal(); // Mètode abstracte, a implementar a cada classe
@@ -67,18 +127,36 @@ public abstract class BaseVista
 		assignaListeners(); // Mètode comú a totes les vistes
 	}
 
+	/**
+	 * Inicialitza el panell principal de les vistes. Cada classe l'haurà d'implementar,
+	 * ja que depèn del contingut de la vista.
+	 */
 	protected abstract void inicialitzaPanellPrincipal();
 
+	/**
+	 * Inicialitza el panell del títol.
+	 */
 	protected void inicialitzaPanellTitol()
 	{
 		panell_titol.add( titol );
 		panell_titol.setOpaque( false );
 	}
 
+	/**
+	 * Inicialitza el panell central de les vistes. Cada classe l'haurà d'implementar,
+	 * ja que depèn del contingut de la vista.
+	 */
 	protected abstract void inicialitzaPanellCentral();
 
+	/**
+	 * Inicialitza el panell inferior de les vistes. Cada classe l'haurà d'implementar,
+	 * ja que depèn del contingut de la vista.
+	 */
 	protected abstract void inicialitzaPanellPeu();
 
+	/**
+	 * Inicialitza el panell amb els botons de sortida i ajuda de les vistes.
+	 */
 	protected void inicialitzaPanellSortida()
 	{
 		panell_sortida.setLayout( new GridLayout( 2, 1, 10, 10 ) );
@@ -87,6 +165,9 @@ public abstract class BaseVista
 		panell_sortida.setOpaque( false );
 	}
 
+	/**
+	 * Assigna els listeners als diferents botons.
+	 */
 	protected void assignaListeners()
 	{
 		surt.addActionListener( new ActionListener()
@@ -110,6 +191,11 @@ public abstract class BaseVista
 		} );
 	}
 
+	/**
+	 * Defineix el comportament del botó de sortida quan sigui pitjat.
+	 *
+	 * @param event Event que activarà el botó.
+	 */
 	public void accioBotoSurt( ActionEvent event )
 	{
 		VistaDialeg dialeg = new VistaDialeg();
@@ -127,6 +213,11 @@ public abstract class BaseVista
 		}
 	}
 
+	/**
+	 * Defineix el comportament del botó d'ajuda quan sigui pitjat.
+	 *
+	 * @param event Event que activarà el botó.
+	 */
 	public void accioBotoAjuda( ActionEvent event )
 	{
 		try

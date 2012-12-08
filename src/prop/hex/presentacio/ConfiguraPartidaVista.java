@@ -410,7 +410,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 			try
 			{
 				presentacio_ctrl.iniciaPartida( 7, camp_nom_partida.getText(), false );
-				presentacio_ctrl.vistaIniciaPartidaAPartida();
+				presentacio_ctrl.vistaConfiguraPartidaAPartida();
 			}
 			catch ( Exception excepcio )
 			{
@@ -442,7 +442,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 			try
 			{
 				presentacio_ctrl.iniciaPartida( 7, camp_nom_partida.getText(), true );
-				presentacio_ctrl.vistaIniciaPartidaADefineixSituacio();
+				presentacio_ctrl.vistaConfiguraPartidaADefineixSituacio();
 			}
 			catch ( Exception excepcio )
 			{
@@ -456,7 +456,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 
 	public void accioBotoDescarta( ActionEvent event )
 	{
-		presentacio_ctrl.vistaIniciaPartidaAMenuPrincipal();
+		presentacio_ctrl.vistaConfiguraPartidaAMenuPrincipal();
 	}
 
 	/**
