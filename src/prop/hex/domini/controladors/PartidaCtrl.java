@@ -265,6 +265,8 @@ public final class PartidaCtrl
 		inicialitzaIAJugadors();
 
 		gestor_partida.eliminaElement( id_partida );
+
+		partida_actual.setInstantDarrerMoviment( new Date().getTime() );
 	}
 
 	/**

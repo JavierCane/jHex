@@ -174,12 +174,7 @@ public final class JPanelTauler extends JPanel
 				pista_valida = false;
 				paintImmediately( 0, 0, 800, 500 );
 				// De moment sembla que falla, ja ho mirarem.
-				/*if ( presentacio_ctrl.esPartidaAmbSituacioInicial() &&
-				     presentacio_ctrl.esPartidaAmbSituacioInicialAcabadaDeDefinir() )
-				{
-					mouIAOMostraPista();
-				}*/
-				if ( partida_en_curs )
+				if ( partida_en_curs && !presentacio_ctrl.esTornHuma() )
 				{
 					mouIAOMostraPista();
 				}
