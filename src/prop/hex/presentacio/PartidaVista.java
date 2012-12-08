@@ -17,7 +17,7 @@ public final class PartidaVista extends BaseVista
 		super( presentacio_ctrl, frame_principal );
 
 		titol = new JLabel( "jHex" );
-		panell_central = new JPanelTauler( true );
+		panell_central = new JPanelTauler( true, presentacio_ctrl );
 		panell_botons = new JPanel();
 		abandona = new JButton( "Abandona la partida" );
 

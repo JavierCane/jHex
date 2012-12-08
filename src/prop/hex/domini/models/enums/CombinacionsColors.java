@@ -14,11 +14,13 @@ import java.awt.*;
  * Color de les caselles del jugador_b,
  * Color de les caselles buides,
  * Color del fons de la finestra del joc,
- * Color de la vora de les caselles
- * Color del text de la informació del jugador_a
- * Color del text de Mou Fitxa IA del jugador_a
- * Color del text de la informació del jugador_b
- * Color del text de Mou Fitxa IA del jugador_b
+ * Color de la vora de les caselles,
+ * Color de les caselles pista,
+ * Color de les caselles inhabilitades,
+ * Color del text de la informació del jugador_a,
+ * Color del text de Mou Fitxa IA del jugador_a,
+ * Color del text de la informació del jugador_b,
+ * Color del text de Mou Fitxa IA del jugador_b,
  * Color de la resta de textos
  */
 public enum CombinacionsColors
@@ -26,14 +28,14 @@ public enum CombinacionsColors
 
 	VERMELL_BLAU( new Color[] {
 			new Color( 0xAA0000 ), new Color( 0x0000AA ), new Color( 0xCCCCCC ), new Color( 0xFFFFFF ),
-			new Color( 0x000000 ), new Color( 0xAA0000 ), new Color( 0xFFFFFF ), new Color( 0x0000AA ),
-			new Color( 0xFFFFFF ), new Color( 0x000000 )
+			new Color( 0x000000 ), new Color( 0x666666 ), new Color( 0x333333 ), new Color( 0xAA0000 ),
+			new Color( 0xFFFFFF ), new Color( 0x0000AA ), new Color( 0xFFFFFF ), new Color( 0x000000 )
 	} ),
 
 	NEGRE_BLANC( new Color[] {
 			new Color( 0x000000 ), new Color( 0xFFFFFF ), new Color( 0x00AAAA ), new Color( 0x007777 ),
-			new Color( 0x000000 ), new Color( 0x000000 ), new Color( 0xFFFFFF ), new Color( 0xFFFFFF ),
-			new Color( 0x000000 ), new Color( 0x000000 )
+			new Color( 0x000000 ), new Color( 0x005E5E ), new Color( 0x002E2E ), new Color( 0x000000 ),
+			new Color( 0xFFFFFF ), new Color( 0xFFFFFF ), new Color( 0x000000 ), new Color( 0x000000 )
 	} );
 
 	/**
@@ -62,6 +64,18 @@ public enum CombinacionsColors
 	 * buides
 	 */
 	private Color color_vora_caselles;
+
+	/**
+	 * Atribut que, un cop inicialitzada la constructora de l'enum, contindrà el color de les caselles marcades al
+	 * demanar una pista.
+	 */
+	private Color color_caselles_pista;
+
+	/**
+	 * Atribut que, un cop inicialitzada la constructora de l'enum, contindrà el color de les caselles que estiguin
+	 * inhabilitades.
+	 */
+	private Color color_caselles_inhabilitades;
 
 	/**
 	 * Atribut que, un cop inicialitzada la constructora de l'enum, contindrà el color del text amb la informació
@@ -106,11 +120,13 @@ public enum CombinacionsColors
 		color_caselles_buides = colors[2];
 		color_fons_finestra = colors[3];
 		color_vora_caselles = colors[4];
-		color_text_informacio_jugador_a = colors[5];
-		color_text_mou_ia_jugador_a = colors[6];
-		color_text_informacio_jugador_b = colors[7];
-		color_text_mou_ia_jugador_b = colors[8];
-		color_text_generic = colors[9];
+		color_caselles_pista = colors[5];
+		color_caselles_inhabilitades = colors[6];
+		color_text_informacio_jugador_a = colors[7];
+		color_text_mou_ia_jugador_a = colors[8];
+		color_text_informacio_jugador_b = colors[9];
+		color_text_mou_ia_jugador_b = colors[10];
+		color_text_generic = colors[11];
 
 	}
 
@@ -160,6 +176,25 @@ public enum CombinacionsColors
 		return color_vora_caselles;
 	}
 
+	/**
+	 * Mètode públic per poder obtenir el color de les caselles que es marquen al demanar una pista.
+	 *
+	 * @return El color de les caselles marcades per una pista.
+	 */
+	public Color getColorCasellesPista()
+	{
+		return color_caselles_pista;
+	}
+
+	/**
+	 * Mètode públic per poder obtenir el color de les caselles inhabilitades.
+	 *
+	 * @return El color de les caselles inhabilitades.
+	 */
+	public Color getColorCasellesInhabilitades()
+	{
+		return color_caselles_inhabilitades;
+	}
 
 	/**
 	 * Mètode públic per poder obtenir el color del text d'un jugador de l'enum de possibles estats de les

@@ -1,7 +1,10 @@
 package prop.hex.presentacio;
 
+import prop.cluster.domini.models.estats.EstatCasella;
+import prop.cluster.domini.models.estats.EstatPartida;
 import prop.hex.domini.controladors.PartidaCtrl;
 import prop.hex.domini.controladors.UsuariCtrl;
+import prop.hex.domini.models.Casella;
 import prop.hex.domini.models.Ranquing;
 import prop.hex.domini.models.UsuariHex;
 import prop.hex.domini.models.enums.CombinacionsColors;
@@ -239,10 +242,63 @@ public final class PresentacioCtrl
 		return PartidaCtrl.getInstancia().llistaPartidesUsuari();
 	}
 
-	// Mètodes PartidaVista
-	// --------------------------------------------------------------------
+	// Metodes JPanelTauler
+	// --------------------------------------------------------------------------------
 
-	public void tancaPartida() throws Exception
+	public EstatPartida consultaEstatPartida()
+	{
+		return PartidaCtrl.getInstancia().consultaEstatPartida();
+	}
+
+	public void mouFitxa( int fila, int columna ) throws UnsupportedOperationException
+	{
+		PartidaCtrl.getInstancia().mouFitxa(fila, columna);
+	}
+
+	public EstatCasella getEstatCasella( int fila, int columna )
+	{
+		return PartidaCtrl.getInstancia().getEstatCasella(fila, columna);
+	}
+
+	public boolean esPartidaAmbSituacioInicial()
+	{
+		return PartidaCtrl.getInstancia().esPartidaAmbSituacioInicial();
+	}
+
+	public boolean esPartidaAmbSituacioInicialAcabadaDeDefinir()
+	{
+		return PartidaCtrl.getInstancia().esPartidaAmbSituacioInicialAcabadaDeDefinir();
+	}
+
+	public void executaMovimentIA()
+	{
+		PartidaCtrl.getInstancia().executaMovimentIA();
+	}
+
+	public boolean esTornHuma()
+	{
+		return PartidaCtrl.getInstancia().esTornHuma();
+	}
+
+	public Casella obtePista()
+	{
+		return PartidaCtrl.getInstancia().obtePista();
+	}
+
+	public int[] getElementsDeControlPartida()
+	{
+		return PartidaCtrl.getInstancia().getElementsDeControlPartida();
+	}
+
+	public Object[][] getElementsDeControlJugadors()
+	{
+		return PartidaCtrl.getInstancia().getElementsDeControlJugadors();
+	}
+
+	// Mètodes PartidaVista
+	// --------------------------------------------------------------------------------
+
+	public void tancaPartida() throws IOException
 	{
 		PartidaCtrl.getInstancia().tancaPartida();
 	}

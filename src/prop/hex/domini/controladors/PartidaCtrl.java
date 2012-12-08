@@ -1,5 +1,6 @@
 package prop.hex.domini.controladors;
 
+import prop.cluster.domini.models.estats.EstatCasella;
 import prop.cluster.domini.models.estats.EstatPartida;
 import prop.hex.domini.models.*;
 import prop.hex.domini.models.enums.ModesInici;
@@ -562,5 +563,35 @@ public final class PartidaCtrl
 	public PartidaHex getPartidaActual()
 	{
 		return partida_actual;
+	}
+
+	public EstatCasella getEstatCasella(int fila, int columna)
+	{
+		return partida_actual.getTauler().getEstatCasella(fila, columna);
+	}
+
+	public int[] getElementsDeControlPartida()
+	{
+		int[] elements_de_control = new int[3];
+		elements_de_control[0] = PartidaHex.getMaxNumPistes();
+		elements_de_control[1] = partida_actual.getTauler().getMida();
+		elements_de_control[2] = partida_actual.getTornsJugats();
+		return elements_de_control;
+	}
+
+	public Object[][] getElementsDeControlJugadors()
+	{
+		Object[][] elements_de_control = new Object[5][2];
+		elements_de_control[0][0] = partida_actual.getJugadorA().getTipusJugador();
+		elements_de_control[1][0] = partida_actual.getJugadorA().getCombinacionsColors();
+		elements_de_control[2][0] = partida_actual.getPistesUsades( 0 );
+		elements_de_control[3][0] = partida_actual.getTempsDeJoc( 0 );
+		elements_de_control[4][0] = partida_actual.getJugadorA().getNom();
+		elements_de_control[0][1] = partida_actual.getJugadorB().getTipusJugador();
+		elements_de_control[1][1] = partida_actual.getJugadorB().getCombinacionsColors();
+		elements_de_control[2][1] = partida_actual.getPistesUsades( 1 );
+		elements_de_control[3][1] = partida_actual.getTempsDeJoc( 1 );
+		elements_de_control[4][1] = partida_actual.getJugadorB().getNom();
+		return elements_de_control;
 	}
 }

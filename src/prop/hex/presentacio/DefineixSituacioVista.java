@@ -18,7 +18,7 @@ public class DefineixSituacioVista extends BaseVista
 		super( presentacio_ctrl, frame_principal );
 
 		titol = new JLabel( "jHex" );
-		panell_central = new JPanelTauler( false );
+		panell_central = new JPanelTauler( false, presentacio_ctrl );
 		panell_botons = new JPanel();
 		inicia_partida = new JButton( "Inicia la partida" );
 		abandona = new JButton( "Abandona la partida" );
