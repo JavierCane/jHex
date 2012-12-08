@@ -321,18 +321,31 @@ public final class PartidaCtrl
 		return gestor_partida.guardaElement( partida_actual, partida_actual.getIdentificadorUnic() );
 	}
 
+	public boolean esPartidaAmbSituacioInicial()
+	{
+		return partida_actual.teSituacioInicial();
+	}
+
+	public boolean esPartidaAmbSituacioInicialAcabadaDeDefinir()
+	{
+		return partida_actual.teSituacioInicialAcabadaDeDefinir();
+	}
+
+	public void acabaDeDefinirSituacioInicial()
+	{
+		partida_actual.setSituacioInicialAcabadaDeDefinir();
+	}
+
 	/**
 	 * Tanca la partida actual. Actualitza les estadístiques i esborra el fitxer de partida si la partida ja ha
 	 * finalitzat.
-	 *
-	 * @return Cert si s'ha tancat correctament. Fals altrament.
 	 */
 	public void tancaPartida() throws IOException
 	{
 		EstatPartida estat_actual = consultaEstatPartida();
 		if ( estat_actual != EstatPartida.NO_FINALITZADA )
 		{
-			if ( !partida_actual.esPartidaAmbSituacioInicial() )
+			if ( !partida_actual.teSituacioInicial() )
 			{
 				UsuariHex usuari_a = partida_actual.getJugadorA();
 				UsuariHex usuari_b = partida_actual.getJugadorB();

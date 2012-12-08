@@ -448,6 +448,8 @@ public final class PresentacioCtrl
 			partida_vista = new PartidaVista( this, frame_principal );
 		}
 		defineix_situacio_vista = null;
+
+		PartidaCtrl.getInstancia().acabaDeDefinirSituacioInicial();
 		partida_vista.fesVisible();
 	}
 

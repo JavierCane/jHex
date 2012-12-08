@@ -69,9 +69,9 @@ public final class JPanelTauler extends JPanel
 		pista_valida = false;
 		this.partida_en_curs = partida_en_curs;
 		partida_ia = jugador_a.getTipusJugador() != TipusJugadors.JUGADOR &&
-				jugador_a.getTipusJugador() != TipusJugadors.CONVIDAT &&
-				jugador_b.getTipusJugador() != TipusJugadors.JUGADOR &&
-				jugador_b.getTipusJugador() != TipusJugadors.CONVIDAT;
+		             jugador_a.getTipusJugador() != TipusJugadors.CONVIDAT &&
+		             jugador_b.getTipusJugador() != TipusJugadors.JUGADOR &&
+		             jugador_b.getTipusJugador() != TipusJugadors.CONVIDAT;
 
 		//Creem l'hexagon que dibuixarem despres.
 		int x[] = new int[6];
@@ -113,9 +113,9 @@ public final class JPanelTauler extends JPanel
 		int ry = iniciY;
 
 		if ( partida_en_curs && ( ( PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats() % 2 == 0 &&
-				                ( x < 170 && x > -50 && y < 480 && y > 360 ) ) ||
-								( PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats() % 2 != 0 &&
-								( x < 800 && x > 580 && y < 270 && y > 150 ) ) ) )
+		                            ( x < 170 && x > -50 && y < 480 && y > 360 ) ) ||
+		                          ( PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats() % 2 != 0 &&
+		                            ( x < 800 && x > 580 && y < 270 && y > 150 ) ) ) )
 		{
 			mouIAOMostraPista();
 		}
@@ -146,13 +146,13 @@ public final class JPanelTauler extends JPanel
 	 */
 	private void mouIAOMostraPista()
 	{
-		if ( PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.NO_FINALITZADA && !PartidaCtrl
-				.getInstancia().esTornHuma() )
+		if ( PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.NO_FINALITZADA &&
+		     !PartidaCtrl.getInstancia().esTornHuma() )
 		{
 			PartidaCtrl.getInstancia().executaMovimentIA();
 		}
-		else if ( PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.NO_FINALITZADA && PartidaCtrl
-				.getInstancia().esTornHuma() )
+		else if ( PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.NO_FINALITZADA &&
+		          PartidaCtrl.getInstancia().esTornHuma() )
 		{
 			ultima_pista = PartidaCtrl.getInstancia().obtePista();
 			pista_valida = true;
@@ -170,16 +170,20 @@ public final class JPanelTauler extends JPanel
 	 */
 	private void clickHexagon( int i, int j )
 	{
-		if ( PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.NO_FINALITZADA && (PartidaCtrl
-				.getInstancia().esTornHuma() || !partida_en_curs) )
+		if ( PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.NO_FINALITZADA &&
+		     ( PartidaCtrl.getInstancia().esTornHuma() || !partida_en_curs ) )
 		{
 			try
 			{
 				//No ens cal comprovar si el moviment es fa o no (si retorna true o false).
 				PartidaCtrl.getInstancia().mouFitxa( i, j );
 				pista_valida = false;
-				paintImmediately(0, 0, 800, 500);
-				mouIAOMostraPista();
+				paintImmediately( 0, 0, 800, 500 );
+				if ( PartidaCtrl.getInstancia().esPartidaAmbSituacioInicial() &&
+				     PartidaCtrl.getInstancia().esPartidaAmbSituacioInicialAcabadaDeDefinir() )
+				{
+					mouIAOMostraPista();
+				}
 			}
 			catch ( UnsupportedOperationException exepcio )
 			{
@@ -221,7 +225,7 @@ public final class JPanelTauler extends JPanel
 				g.translate( j * dx, 0 );
 
 				if ( i == tauler.getMida() / 2 && j == tauler.getMida() / 2 &&
-						PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats() == 0 )
+				     PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats() == 0 )
 				{
 					g.setColor( new Color( 0x333333 ) );
 				}
@@ -236,8 +240,8 @@ public final class JPanelTauler extends JPanel
 					}
 					else
 					{
-						g.setColor( jugador_a.getCombinacionsColors().getColorCasella( tauler.getEstatCasella( i,
-								j ) ) );
+						g.setColor(
+								jugador_a.getCombinacionsColors().getColorCasella( tauler.getEstatCasella( i, j ) ) );
 					}
 				}
 				g.fillPolygon( hexagon );
@@ -251,8 +255,8 @@ public final class JPanelTauler extends JPanel
 		}
 
 		//Si és torn de la IA mostrem el botó Mou IA, només si a la partida només juga la IA.
-		if ( partida_en_curs && partida_ia && !PartidaCtrl.getInstancia().esTornHuma()
-			 && PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.NO_FINALITZADA )
+		if ( partida_en_curs && partida_ia && !PartidaCtrl.getInstancia().esTornHuma() &&
+		     PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.NO_FINALITZADA )
 		{
 			if ( PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats() % 2 == 0 )
 			{
@@ -275,8 +279,8 @@ public final class JPanelTauler extends JPanel
 		}
 
 		//Si és torn d'un humà i té pistes per utilitzar mostrem el botó Demana Pista
-		if ( partida_en_curs && !pista_valida && PartidaCtrl.getInstancia().esTornHuma() && PartidaCtrl.getInstancia()
-				.consultaEstatPartida() == EstatPartida.NO_FINALITZADA )
+		if ( partida_en_curs && !pista_valida && PartidaCtrl.getInstancia().esTornHuma() &&
+		     PartidaCtrl.getInstancia().consultaEstatPartida() == EstatPartida.NO_FINALITZADA )
 		{
 			if ( PartidaCtrl.getInstancia().getPartidaActual().getTornsJugats() % 2 == 0 )
 			{
@@ -335,9 +339,9 @@ public final class JPanelTauler extends JPanel
 		g.drawString( "D'esquerra a dreta", -50, 310 );
 
 		g.drawString( "Temps: " + PartidaCtrl.getInstancia().getPartidaActual().getTempsDeJoc( 0 ), -50, 330 );
-		g.drawString( "Pistes disponibles: " + ( max_num_pistes - PartidaCtrl.getInstancia().getPartidaActual()
-				.getPistesUsades( 0 ) ), -50, 350 );
-
+		g.drawString( "Pistes disponibles: " +
+		              ( max_num_pistes - PartidaCtrl.getInstancia().getPartidaActual().getPistesUsades( 0 ) ), -50,
+				350 );
 
 		//I algunes dades pel jugador B
 		g.setColor( jugador_a.getCombinacionsColors().getColorTextInformacio( EstatCasella.JUGADOR_B ) );
@@ -349,13 +353,13 @@ public final class JPanelTauler extends JPanel
 		g.drawString( "De dalt a baix", 580, 100 );
 
 		g.drawString( "Temps: " + PartidaCtrl.getInstancia().getPartidaActual().getTempsDeJoc( 1 ), 580, 120 );
-		g.drawString( "Pistes disponibles: " + ( max_num_pistes - PartidaCtrl.getInstancia().getPartidaActual()
-				.getPistesUsades( 1 ) ), 580, 140 );
+		g.drawString( "Pistes disponibles: " +
+		              ( max_num_pistes - PartidaCtrl.getInstancia().getPartidaActual().getPistesUsades( 1 ) ), 580,
+				140 );
 
 		if ( jugador_a.getCombinacionsColors() == CombinacionsColors.VERMELL_BLAU )
 		{
-			g.drawImage( ( new ImageIcon( "img/tauler_vb.png" ) ).getImage(), -90, -80, getWidth(), getHeight(),
-					null );
+			g.drawImage( ( new ImageIcon( "img/tauler_vb.png" ) ).getImage(), -90, -80, getWidth(), getHeight(), null );
 		}
 		else
 		{

@@ -74,6 +74,11 @@ public class PartidaHex extends Partida implements Serializable
 	private boolean situacio_inicial;
 
 	/**
+	 * Indica si la situació inicial està acabada de definir
+	 */
+	private boolean situacio_inicial_acabada;
+
+	/**
 	 * Constructora alternativa per partides que no han estat jugades
 	 *
 	 * @param jugador_a        Usuari que farà de jugador A
@@ -110,6 +115,7 @@ public class PartidaHex extends Partida implements Serializable
 		darrera_fitxa = new Casella( 0, 0 );
 
 		this.situacio_inicial = situacio_inicial;
+		situacio_inicial_acabada = false;
 	}
 
 	/**
@@ -117,9 +123,21 @@ public class PartidaHex extends Partida implements Serializable
 	 *
 	 * @return Cert si tenia situació inicial. Fals altrament.
 	 */
-	public boolean esPartidaAmbSituacioInicial()
+	public boolean teSituacioInicial()
 	{
 		return situacio_inicial;
+	}
+
+	public boolean teSituacioInicialAcabadaDeDefinir()
+	{
+		return situacio_inicial_acabada;
+	}
+
+	public boolean setSituacioInicialAcabadaDeDefinir()
+	{
+		situacio_inicial_acabada = true;
+
+		return true;
 	}
 
 	/**
