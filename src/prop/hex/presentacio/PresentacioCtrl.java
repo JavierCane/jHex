@@ -303,7 +303,7 @@ public final class PresentacioCtrl
 		PartidaCtrl.getInstancia().finalitzaPartida();
 	}
 
-	public void guardaPartida() throws IOException
+	public void guardaPartida() throws IOException, UnsupportedOperationException
 	{
 		PartidaCtrl.getInstancia().guardaPartida();
 	}

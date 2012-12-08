@@ -308,7 +308,7 @@ public final class PartidaCtrl
 	 * @throws IOException                   Si hi ha un error d'entrada/sortida
 	 * @throws UnsupportedOperationException Si es vol guardar una partida ja finalitzada.
 	 */
-	public boolean guardaPartida() throws FileNotFoundException, IOException, UnsupportedOperationException
+	public boolean guardaPartida() throws IOException, UnsupportedOperationException
 	{
 		if ( partida_actual.estaFinalitzada() )
 		{
@@ -318,7 +318,7 @@ public final class PartidaCtrl
 		          partida_actual.getJugadorB().getTipusJugador() != TipusJugadors.JUGADOR )
 		{
 			throw new UnsupportedOperationException(
-					"Per guardar la partida cal que algun dels jugadors estigui registrat" );
+					"Per guardar la partida cal que un dels jugadors estigui registrat" );
 		}
 		else
 		{
@@ -377,18 +377,26 @@ public final class PartidaCtrl
 				UsuariHex usuari_a = partida_actual.getJugadorA();
 				UsuariHex usuari_b = partida_actual.getJugadorB();
 
-				UsuariCtrl.getInstancia()
-						.actualitzaEstadistiques( usuari_a, estat_actual == EstatPartida.GUANYA_JUGADOR_A,
-								usuari_b.getTipusJugador(), partida_actual.getTempsDeJoc( 0 ),
-								partida_actual.getTauler().getNumFitxesA() );
+				if ( usuari_a.getTipusJugador() != TipusJugadors.CONVIDAT )
+				{
+					UsuariCtrl.getInstancia()
+							.actualitzaEstadistiques( usuari_a, estat_actual == EstatPartida.GUANYA_JUGADOR_A,
+									usuari_b.getTipusJugador(), partida_actual.getTempsDeJoc( 0 ),
+									partida_actual.getTauler().getNumFitxesA() );
 
-				UsuariCtrl.getInstancia()
-						.actualitzaEstadistiques( usuari_b, estat_actual == EstatPartida.GUANYA_JUGADOR_B,
-								usuari_a.getTipusJugador(), partida_actual.getTempsDeJoc( 1 ),
-								partida_actual.getTauler().getNumFitxesA() );
+					Ranquing.getInstancia().actualitzaUsuari( usuari_a );
+				}
 
-				Ranquing.getInstancia().actualitzaUsuari( usuari_a );
-				Ranquing.getInstancia().actualitzaUsuari( usuari_b );
+				if ( usuari_b.getTipusJugador() != TipusJugadors.CONVIDAT )
+				{
+					UsuariCtrl.getInstancia()
+							.actualitzaEstadistiques( usuari_b, estat_actual == EstatPartida.GUANYA_JUGADOR_B,
+									usuari_a.getTipusJugador(), partida_actual.getTempsDeJoc( 1 ),
+									partida_actual.getTauler().getNumFitxesA() );
+
+					Ranquing.getInstancia().actualitzaUsuari( usuari_b );
+				}
+
 			}
 		}
 

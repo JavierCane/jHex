@@ -78,6 +78,13 @@ public final class PartidaVista extends BaseVista
 				dialeg_error_guardant.setDialeg( "Error", excepcio.getMessage(),
 						botons_error_guardant, JOptionPane.WARNING_MESSAGE );
 			}
+			catch ( UnsupportedOperationException excepcio )
+			{
+				VistaDialeg dialeg_error_guardant = new VistaDialeg();
+				String[] botons_error_guardant = { "Accepta" };
+				dialeg_error_guardant.setDialeg( "Error", excepcio.getMessage(),
+						botons_error_guardant, JOptionPane.WARNING_MESSAGE );
+			}
 
 			presentacio_ctrl.netejaParametresPartidaActual();
 			presentacio_ctrl.vistaPartidaAMenuPrincipal();
