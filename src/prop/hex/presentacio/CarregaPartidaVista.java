@@ -81,7 +81,7 @@ public final class CarregaPartidaVista extends BaseVista
 		panell_central.add( new JScrollPane( taula_partides ) );
 		panell_central.setOpaque( false );
 		taula_partides.setFillsViewportHeight( true );
-		taula_partides.setEnabled( false );
+
 	}
 
 	@Override
@@ -94,6 +94,24 @@ public final class CarregaPartidaVista extends BaseVista
 
 	public void accioBotoCarrega( ActionEvent event )
 	{
+		if (taula_partides.getSelectedRowCount() == 0)
+		{
+			VistaDialeg dialeg_error = new VistaDialeg();
+			String[] botons_error = { "Accepta" };
+			dialeg_error.setDialeg( "Error", "Has de seleccionar almenys una partida.",
+					botons_error, JOptionPane.WARNING_MESSAGE );
+		}
+		else if (taula_partides.getSelectedRowCount() > 1)
+		{
+			VistaDialeg dialeg_error = new VistaDialeg();
+			String[] botons_error = { "Accepta" };
+			dialeg_error.setDialeg( "Error", "No pots seleccionar més d'una partida.",
+					botons_error, JOptionPane.WARNING_MESSAGE );
+		}
+		else
+		{
+			int fila_seleccionada = taula_partides.getSelectedRow();
+		}
 	}
 
 	public void accioBotoDescarta( ActionEvent event )

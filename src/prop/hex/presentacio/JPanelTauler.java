@@ -344,21 +344,6 @@ public final class JPanelTauler extends JPanel
 		g.drawString( "Torn: " + elements_de_control_partida[2], -50, 210 );
 		g.drawString( "Torn: " + elements_de_control_partida[2], 580, 0 );
 
-		//Si ha guanyat un jugador, mostrem el resultat.
-		if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_A )
-		{
-			g.setColor( ( ( CombinacionsColors ) elements_de_control_jugadors[1][0] ).getColorTextInformacio(
-					EstatCasella.JUGADOR_A ) );
-			g.drawString( "Guanya " + ( ( String ) elements_de_control_jugadors[4][0] ), -50, 230 );
-			g.drawString( "Guanya " + ( ( String ) elements_de_control_jugadors[4][0] ), 580, 20 );
-		}
-		else if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_B )
-		{
-			g.setColor( ( ( CombinacionsColors ) elements_de_control_jugadors[1][0] ).getColorTextInformacio(
-					EstatCasella.JUGADOR_B ) );
-			g.drawString( "Guanya " + ( ( String ) elements_de_control_jugadors[4][1] ), -50, 230 );
-			g.drawString( "Guanya " + ( ( String ) elements_de_control_jugadors[4][1] ), 580, 20 );
-		}
 
 		//Mostrem algunes dades pel jugador A
 		g.setColor( ( ( CombinacionsColors ) elements_de_control_jugadors[1][0] ).getColorTextInformacio(
@@ -393,6 +378,34 @@ public final class JPanelTauler extends JPanel
 		else
 		{
 			g.drawImage( ( new ImageIcon( "img/tauler_nb.png" ) ).getImage(), -iniciX, -iniciY, getWidth(), getHeight(), null );
+		}
+
+		//Si ha guanyat un jugador, mostrem el resultat.
+		if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_A )
+		{
+			g.setColor( new Color( 0x66CCFF ) );
+			g.fillRoundRect( 150, 0, 300, 200, 16, 16 );
+			g.setColor( Color.black );
+			g.drawRoundRect( 150, 0, 300, 200, 16, 16 );
+			g.drawString( "Partida finalitzada.", 160, 30 );
+			g.drawString( "Guanya " + ( ( String ) elements_de_control_jugadors[4][0] ), 160, 50 );
+			g.drawString( "amb un temps de " + ( ( Long ) elements_de_control_jugadors[3][0] )/1000 + " s,", 160, 70 );
+			g.drawString( "col·locant un total de " + "-" + " fitxes,", 160, 90 );
+			g.drawString( "i utilitzant " + ( ( Integer )  elements_de_control_jugadors[2][0] )  + " pistes.", 160, 110 );
+			g.drawString( "Per a continuar, pitja el botó Abandona partida.", 160, 150);
+		}
+		else if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_B )
+		{
+			g.setColor( new Color( 0x66CCFF ) );
+			g.fillRoundRect( 150, 0, 300, 200, 16, 16 );
+			g.setColor( Color.black );
+			g.drawRoundRect( 150, 0, 300, 200, 16, 16 );
+			g.drawString( "Partida finalitzada.", 160, 30 );
+			g.drawString( "Guanya " + ( ( String ) elements_de_control_jugadors[4][1] ), 160, 50 );
+			g.drawString( "amb un temps de " + ( ( Long ) elements_de_control_jugadors[3][1] )/1000 + " s,", 160, 70 );
+			g.drawString( "col·locant un total de " + "-" + " fitxes,", 160, 90 );
+			g.drawString( "i utilitzant " + ( ( Integer )  elements_de_control_jugadors[2][1] )  + " pistes.", 160, 110 );
+			g.drawString( "Per a continuar, pitja el botó Abandona partida.", 160, 150);
 		}
 	}
 }
