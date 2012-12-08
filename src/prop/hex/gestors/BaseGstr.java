@@ -108,7 +108,7 @@ public abstract class BaseGstr<T>
 	 * nom_element.extensio_fitxers
 	 *
 	 * @param nom_element Nom de l'element que es vol eliminar.
-	 * @return boolean true si s'ha pogut eliminar correctament o el fixer no hi existia false altrament
+	 * @return boolean true si s'ha pogut eliminar correctament o el fixer no hi existia, false altrament
 	 */
 	public final boolean eliminaElement( String nom_element )
 	{

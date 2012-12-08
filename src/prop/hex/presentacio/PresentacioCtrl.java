@@ -196,7 +196,7 @@ public final class PresentacioCtrl
 	}
 
 	// Mètodes ConfiguraPartidaVista
-	// ----------------------------------------------------------------------------------
+	// ----------------------------------------------------------------------------------------------------------------
 
 	public void preInicialitzaUsuariPartida( int num_jugador, TipusJugadors tipus_jugador, String nom_usuari,
 	                                         String contrasenya_usuari ) throws IllegalArgumentException,
@@ -213,7 +213,7 @@ public final class PresentacioCtrl
 	}
 
 	// Mètodes RanquingVista
-	// ------------------------------------------------------------------------------------------
+	// ----------------------------------------------------------------------------------------------------------------
 
 	public Object[][] getClassificacioFormatejada()
 	{
@@ -235,7 +235,7 @@ public final class PresentacioCtrl
 	}
 
 	// Mètodes CarregaPartidaVista
-	// --------------------------------------------------------------------
+	// ----------------------------------------------------------------------------------------------------------------
 
 	public String[][] obteLlistaPartides()
 	{
@@ -296,15 +296,25 @@ public final class PresentacioCtrl
 	}
 
 	// Mètodes PartidaVista
-	// --------------------------------------------------------------------------------
+	// ----------------------------------------------------------------------------------------------------------------
 
-	public void tancaPartida() throws IOException
+	public void finalitzaPartida() throws IOException
 	{
-		PartidaCtrl.getInstancia().tancaPartida();
+		PartidaCtrl.getInstancia().finalitzaPartida();
+	}
+
+	public void guardaPartida() throws IOException
+	{
+		PartidaCtrl.getInstancia().guardaPartida();
+	}
+
+	public void netejaParametresPartidaActual()
+	{
+		PartidaCtrl.getInstancia().netejaParametresPartidaActual();
 	}
 
 	// Mètodes per intercanviar vistes
-	// --------------------------------------------------------------------------------
+	// ----------------------------------------------------------------------------------------------------------------
 
 	public void vistaIniciaSessioARegistra()
 	{

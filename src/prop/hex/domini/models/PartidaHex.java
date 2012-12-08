@@ -445,31 +445,9 @@ public class PartidaHex extends Partida implements Serializable
 		return true;
 	}
 
-	public EstatCasella[] getFitxesJugadors()
+	public EstatCasella getTipusFitxesJugador( int jugador )
 	{
-		return fitxes_jugadors;
-	}
-
-	public EstatCasella getFitxaJugadorTornActual()
-	{
-		return fitxes_jugadors[torns_jugats % 2];
-	}
-
-	public UsuariHex getUsuariTornActual()
-	{
-		if ( 0 == torns_jugats % 2 )
-		{
-			return getJugadorA();
-		}
-		else
-		{
-			return getJugadorB();
-		}
-	}
-
-	public int getNumJugadorTornActual()
-	{
-		return torns_jugats % 2;
+		return fitxes_jugadors[jugador];
 	}
 
 	public UsuariHex getJugadorA()

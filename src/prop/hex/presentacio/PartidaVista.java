@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public final class PartidaVista extends BaseVista
 {
@@ -55,18 +56,41 @@ public final class PartidaVista extends BaseVista
 
 	public void accioBotoAbandona( ActionEvent event )
 	{
-		try {
-			presentacio_ctrl.tancaPartida();
-		}
-		catch ( Exception excepcio )
-		{
-			VistaDialeg dialeg = new VistaDialeg();
-			String[] botons = { "Accepta" };
-			String valor_seleccionat = dialeg.setDialeg( "Error", excepcio.getMessage(),
-					botons, JOptionPane.WARNING_MESSAGE );
-		}
+		// Primer preguntem si vol guardar la partida a disc abans de sortir
+		VistaDialeg dialeg_guardar_partida = new VistaDialeg();
+		String[] botons_guardar_partida = { "Si", "No", "Cancel·la" };
 
-		presentacio_ctrl.vistaPartidaAMenuPrincipal();
+		String valor_seleccionat = dialeg_guardar_partida.setDialeg( "Guardar abans de sortir?",
+				"Vols guardar la partida abans de sortir per poder-la carregar després?",
+				botons_guardar_partida, JOptionPane.QUESTION_MESSAGE );
+
+		// Si vol guardar la partida, la guardem a disc i sortim al menú principal
+		if ( "Si" == valor_seleccionat )
+		{
+			try
+			{
+				presentacio_ctrl.guardaPartida();
+			}
+			catch ( IOException excepcio )
+			{
+				VistaDialeg dialeg_error_guardant = new VistaDialeg();
+				String[] botons_error_guardant = { "Accepta" };
+				dialeg_error_guardant.setDialeg( "Error", excepcio.getMessage(),
+						botons_error_guardant, JOptionPane.WARNING_MESSAGE );
+			}
+
+			presentacio_ctrl.netejaParametresPartidaActual();
+			presentacio_ctrl.vistaPartidaAMenuPrincipal();
+
+		}
+		else if ( "No" == valor_seleccionat )
+		{
+			// Si no vol guardar la partida, retornem a menu principal reinicialitzant els paràmetres de la partida
+			// en joc a valors buits
+			presentacio_ctrl.netejaParametresPartidaActual();
+			presentacio_ctrl.vistaPartidaAMenuPrincipal();
+		}
+		// Si selecciona l'opció de cancel·lar la sortida, simplement no fem res :)
 	}
 
 	@Override

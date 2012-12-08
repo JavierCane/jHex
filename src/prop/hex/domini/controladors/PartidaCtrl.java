@@ -44,19 +44,27 @@ public final class PartidaCtrl
 	 * Conté els usuaris pre inicialitzats de la partida actual, únicament son útils abans d'inicialitzar una partida
 	 * o carregar-la de disc.
 	 */
-	private UsuariHex[] usuaris_preinicialitzats_partida = new UsuariHex[2];
+	private UsuariHex[] usuaris_preinicialitzats_partida;
 
 	/**
 	 * Instàncies de les intel·ligències artificials per als jugadors no humans.
 	 */
-	private MouFitxaIA[] ia_jugadors = new MouFitxaIA[2];
+	private MouFitxaIA[] ia_jugadors;
 
 	/**
 	 * Constructor per defecte. Declarat privat perquè és una classe singleton
 	 */
 	private PartidaCtrl()
 	{
+		netejaParametresPartidaActual();
+	}
+
+	public final void netejaParametresPartidaActual()
+	{
+		partida_actual = null;
 		gestor_partida = new PartidaHexGstr();
+		usuaris_preinicialitzats_partida = new UsuariHex[2];
+		ia_jugadors = new MouFitxaIA[2];
 	}
 
 	/**
@@ -283,24 +291,13 @@ public final class PartidaCtrl
 	public boolean esborraPartidesUsuari( String id_usuari )
 	{
 		Set<String> id_partides = gestor_partida.llistaPartidesUsuari( id_usuari );
+
 		for ( String id_partida : id_partides )
 		{
 			gestor_partida.eliminaElement( id_partida );
 		}
 
 		return true;
-	}
-
-	/**
-	 * Consulta si la partida en curs es pot guardar.
-	 *
-	 * @return Cert si es pot guardar. Fals altrament.
-	 */
-	public boolean esPotGuardarPartida()
-	{
-		return ( consultaEstatPartida() == EstatPartida.NO_FINALITZADA &&
-		         ( partida_actual.getJugadorA().getTipusJugador() == TipusJugadors.JUGADOR ||
-		           partida_actual.getJugadorB().getTipusJugador() == TipusJugadors.JUGADOR ) );
 	}
 
 	/**
@@ -358,15 +355,24 @@ public final class PartidaCtrl
 	}
 
 	/**
-	 * Tanca la partida actual. Actualitza les estadístiques i esborra el fitxer de partida si la partida ja ha
-	 * finalitzat.
+	 * Finalitza la partida actual.
+	 *
+	 * Actualitza les estadístiques dels usuaris si la partida ja ha finalitzat i no ha començat
+	 * definint una situació inicial.
 	 */
-	public void tancaPartida() throws IOException
+	public void finalitzaPartida() throws IOException
 	{
 		EstatPartida estat_actual = consultaEstatPartida();
+
+		// Si la partida ha finalitzat i no ha començat definint una situació inicial,
+		// actualitzo estadístiques d'usuari
 		if ( estat_actual != EstatPartida.NO_FINALITZADA )
 		{
-			if ( !partida_actual.teSituacioInicial() )
+			// En cas de que la partida estigués guardada, l'elimino
+			gestor_partida.eliminaElement( partida_actual.getIdentificadorUnic() );
+
+			// Si no ha començat definint situació inicial, actualitzo estadístiques d'usuari
+			if ( !partida_actual.teSituacioInicial()  )
 			{
 				UsuariHex usuari_a = partida_actual.getJugadorA();
 				UsuariHex usuari_b = partida_actual.getJugadorB();
@@ -383,14 +389,10 @@ public final class PartidaCtrl
 
 				Ranquing.getInstancia().actualitzaUsuari( usuari_a );
 				Ranquing.getInstancia().actualitzaUsuari( usuari_b );
-
-				gestor_partida.eliminaElement( partida_actual.getIdentificadorUnic() );
 			}
 		}
 
-		partida_actual = null;
-		usuaris_preinicialitzats_partida[0] = null;
-		usuaris_preinicialitzats_partida[1] = null;
+		// Guardo el rànquing a disc.
 		try
 		{
 			new RanquingGstr().guardaElement();
@@ -399,12 +401,14 @@ public final class PartidaCtrl
 		{
 			throw new IOException( "No s'ha pogut desar el ranquing" );
 		}
+
+		// Reinicialitzo els paràmetres del controlador de partides pero netejar valors anteriors.
+		netejaParametresPartidaActual();
 	}
 
 	private Casella getMovimentIATornActual()
 	{
-		return ia_jugadors[partida_actual.getNumJugadorTornActual()]
-				.mouFitxa( partida_actual.getFitxaJugadorTornActual() );
+		return ia_jugadors[getNumJugadorTornActual()].mouFitxa( getTipusFitxesJugadorTornActual() );
 	}
 
 	/**
@@ -447,20 +451,19 @@ public final class PartidaCtrl
 		}
 		else
 		{
-			if ( !partida_actual.getTauler()
-					.esMovimentValid( partida_actual.getFitxaJugadorTornActual(), fila, columna ) )
+			if ( !partida_actual.getTauler().esMovimentValid( getTipusFitxesJugadorTornActual(), fila, columna ) )
 			{
 				return false;
 			}
 			else
 			{
-				if ( partida_actual.getTauler().mouFitxa( partida_actual.getFitxaJugadorTornActual(), fila, columna ) )
+				if ( partida_actual.getTauler().mouFitxa( getTipusFitxesJugadorTornActual(), fila, columna ) )
 				{
 					partida_actual.setDarreraFitxa( new Casella( fila, columna ) );
 
 					long instant_actual = new Date().getTime();
 
-					partida_actual.incrementaTempsDeJoc( partida_actual.getNumJugadorTornActual(),
+					partida_actual.incrementaTempsDeJoc( getNumJugadorTornActual(),
 							instant_actual - partida_actual.getInstantDarrerMoviment() );
 
 					partida_actual.incrementaTornsJugats( 1 );
@@ -478,36 +481,6 @@ public final class PartidaCtrl
 				}
 			}
 		}
-	}
-
-	/**
-	 * Retorna el jugador A o B depenent del torn que s'hagin jugat
-	 *
-	 * @return jugador A o B depenent del torn que s'hagin jugat
-	 */
-	private UsuariHex obteJugadorTornActual()
-	{
-		if ( 0 == partida_actual.getTornsJugats() % 2 )
-		{
-			return partida_actual.getJugadorA();
-		}
-		else
-		{
-			return partida_actual.getJugadorB();
-		}
-	}
-
-	/**
-	 * Consulta si és un torn humà. Necessari perquè el controlador de presentació sàpiga si demanar un moviment
-	 * d'intel·ligència artificial al controlador o esperar que l'usuari esculli una casella.
-	 *
-	 * @return Cert si el jugador és humà. Fals altrament.
-	 */
-	public boolean esTornHuma()
-	{
-		TipusJugadors tipus_jugador_actual = obteJugadorTornActual().getTipusJugador();
-
-		return ( TipusJugadors.JUGADOR == tipus_jugador_actual || TipusJugadors.CONVIDAT == tipus_jugador_actual );
 	}
 
 	/**
@@ -565,23 +538,72 @@ public final class PartidaCtrl
 		return partida_actual;
 	}
 
-	public EstatCasella getEstatCasella(int fila, int columna)
+	// Métodes auxiliars depenents del torn actual
+	// ----------------------------------------------------------------------------------------------------------------
+
+	private int getNumJugadorTornActual()
 	{
-		return partida_actual.getTauler().getEstatCasella(fila, columna);
+		return partida_actual.getTornsJugats() % 2;
+	}
+
+	/**
+	 * Retorna el jugador A o B depenent del torn que s'hagin jugat
+	 *
+	 * @return jugador A o B depenent del torn que s'hagin jugat
+	 */
+	private UsuariHex obteJugadorTornActual()
+	{
+		if ( 0 == getNumJugadorTornActual() )
+		{
+			return partida_actual.getJugadorA();
+		}
+		else
+		{
+			return partida_actual.getJugadorB();
+		}
+	}
+
+	/**
+	 * Consulta si és un torn humà. Necessari perquè el controlador de presentació sàpiga si demanar un moviment
+	 * d'intel·ligència artificial al controlador o esperar que l'usuari esculli una casella.
+	 *
+	 * @return Cert si el jugador és humà. Fals altrament.
+	 */
+	public boolean esTornHuma()
+	{
+		TipusJugadors tipus_jugador_actual = obteJugadorTornActual().getTipusJugador();
+
+		return ( TipusJugadors.JUGADOR == tipus_jugador_actual || TipusJugadors.CONVIDAT == tipus_jugador_actual );
+	}
+
+	private EstatCasella getTipusFitxesJugadorTornActual()
+	{
+		return partida_actual.getTipusFitxesJugador( getNumJugadorTornActual() );
+	}
+
+	// Métodes auxiliars per les vistes
+	// ----------------------------------------------------------------------------------------------------------------
+
+	public EstatCasella getEstatCasella( int fila, int columna )
+	{
+		return partida_actual.getTauler().getEstatCasella( fila, columna );
 	}
 
 	public int[] getElementsDeControlPartida()
 	{
 		int[] elements_de_control = new int[3];
+
 		elements_de_control[0] = PartidaHex.getMaxNumPistes();
 		elements_de_control[1] = partida_actual.getTauler().getMida();
 		elements_de_control[2] = partida_actual.getTornsJugats();
+
 		return elements_de_control;
 	}
 
 	public Object[][] getElementsDeControlJugadors()
 	{
 		Object[][] elements_de_control = new Object[5][2];
+
 		elements_de_control[0][0] = partida_actual.getJugadorA().getTipusJugador();
 		elements_de_control[1][0] = partida_actual.getJugadorA().getCombinacionsColors();
 		elements_de_control[2][0] = partida_actual.getPistesUsades( 0 );
@@ -592,6 +614,7 @@ public final class PartidaCtrl
 		elements_de_control[2][1] = partida_actual.getPistesUsades( 1 );
 		elements_de_control[3][1] = partida_actual.getTempsDeJoc( 1 );
 		elements_de_control[4][1] = partida_actual.getJugadorB().getNom();
+
 		return elements_de_control;
 	}
 }
