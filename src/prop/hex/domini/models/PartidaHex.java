@@ -31,7 +31,7 @@ public class PartidaHex extends Partida implements Serializable
 	private int[] pistes_usades;
 
 	/**
-	 * Diccionari que relaciona els usuaris amb el seu temps jugat en dècimes de segon.
+	 * Diccionari que relaciona els usuaris amb el seu temps jugat en mil·lèssimes de segon.
 	 */
 	private long[] temps_de_joc;
 
@@ -111,7 +111,7 @@ public class PartidaHex extends Partida implements Serializable
 		tauler.setModeIniciPartida( mode_inici );
 		combinacio_colors = jugador_a.getCombinacionsColors();
 
-		instant_darrer_moviment = new Date().getTime() / 1000L;
+		instant_darrer_moviment = new Date().getTime();
 		darrera_fitxa = new Casella( 0, 0 );
 
 		this.situacio_inicial = situacio_inicial;
@@ -148,8 +148,7 @@ public class PartidaHex extends Partida implements Serializable
 	public String getIdentificadorUnic()
 	{
 		return Long.toString( data_creacio.getTime() / 1000L ) + "@" + nom.replace( " ", "-" ) + "@" +
-		       ( ( UsuariHex ) jugador_a ).getIdentificadorUnic() + "@" +
-		       ( ( UsuariHex ) jugador_b ).getIdentificadorUnic();
+		       getJugadorA().getIdentificadorUnic() + "@" + getJugadorB().getIdentificadorUnic();
 	}
 
 	/**
@@ -269,6 +268,11 @@ public class PartidaHex extends Partida implements Serializable
 				return EstatPartida.NO_FINALITZADA;
 			}
 		}
+	}
+
+	public EstatPartida comprovaEstatPartida()
+	{
+		return comprovaEstatPartida( darrera_fitxa.getFila(), darrera_fitxa.getColumna() );
 	}
 
 	/**
@@ -455,11 +459,11 @@ public class PartidaHex extends Partida implements Serializable
 	{
 		if ( 0 == torns_jugats % 2 )
 		{
-			return ( UsuariHex ) getJugadorA();
+			return getJugadorA();
 		}
 		else
 		{
-			return ( UsuariHex ) getJugadorB();
+			return getJugadorB();
 		}
 	}
 

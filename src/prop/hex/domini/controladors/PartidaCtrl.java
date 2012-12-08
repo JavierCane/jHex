@@ -290,6 +290,11 @@ public final class PartidaCtrl
 		return true;
 	}
 
+	/**
+	 * Consulta si la partida en curs es pot guardar.
+	 *
+	 * @return Cert si es pot guardar. Fals altrament.
+	 */
 	public boolean esPotGuardarPartida()
 	{
 		return ( consultaEstatPartida() == EstatPartida.NO_FINALITZADA &&
@@ -321,16 +326,29 @@ public final class PartidaCtrl
 		return gestor_partida.guardaElement( partida_actual, partida_actual.getIdentificadorUnic() );
 	}
 
+	/**
+	 * Comprova si la partida actual té situació inicial
+	 *
+	 * @return Cert si la partida actual té situació inicial. Fals altrament.
+	 */
 	public boolean esPartidaAmbSituacioInicial()
 	{
 		return partida_actual.teSituacioInicial();
 	}
 
+	/**
+	 * Comprova si la partida actual té situació inicial i està acabada de definir
+	 *
+	 * @return Cert si la partida actual té situació inicial i està acabada de definr. Fals altrament.
+	 */
 	public boolean esPartidaAmbSituacioInicialAcabadaDeDefinir()
 	{
 		return partida_actual.teSituacioInicialAcabadaDeDefinir();
 	}
 
+	/**
+	 * Per una partida que té situació inicial, estableix que aquesta ja està acabada de definir.
+	 */
 	public void acabaDeDefinirSituacioInicial()
 	{
 		partida_actual.setSituacioInicialAcabadaDeDefinir();
@@ -413,6 +431,7 @@ public final class PartidaCtrl
 	 */
 	public Casella executaMovimentIA()
 	{
+		partida_actual.setInstantDarrerMoviment( new Date().getTime() );
 		Casella resultat_moviment = getMovimentIATornActual();
 		mouFitxa( resultat_moviment.getFila(), resultat_moviment.getColumna() );
 
@@ -446,7 +465,7 @@ public final class PartidaCtrl
 				{
 					partida_actual.setDarreraFitxa( new Casella( fila, columna ) );
 
-					long instant_actual = new Date().getTime() / 1000L;
+					long instant_actual = new Date().getTime();
 
 					partida_actual.incrementaTempsDeJoc( partida_actual.getNumJugadorTornActual(),
 							instant_actual - partida_actual.getInstantDarrerMoviment() );
@@ -489,9 +508,7 @@ public final class PartidaCtrl
 	 */
 	public EstatPartida consultaEstatPartida()
 	{
-		EstatPartida estat_partida = partida_actual.comprovaEstatPartida( partida_actual.getDarreraFitxa().getFila(),
-				partida_actual.getDarreraFitxa().getColumna() );
-
+		EstatPartida estat_partida = partida_actual.comprovaEstatPartida();
 		partida_actual.setFinalitzada( estat_partida != EstatPartida.NO_FINALITZADA );
 
 		return estat_partida;
