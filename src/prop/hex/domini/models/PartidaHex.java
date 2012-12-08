@@ -81,18 +81,20 @@ public class PartidaHex extends Partida implements Serializable
 	/**
 	 * Constructora alternativa per partides que no han estat jugades
 	 *
-	 * @param jugador_a        Usuari que farà de jugador A
-	 * @param jugador_b        Usuari que farà de jugador B
-	 * @param tauler           Tauler on es desenvoluparà la partida
-	 * @param nom              Nom de la partida
-	 * @param situacio_inicial Indica si la partida està definida amb una situació inicial
+	 * @param jugador_a         Usuari que farà de jugador A
+	 * @param jugador_b         Usuari que farà de jugador B
+	 * @param tauler            Tauler on es desenvoluparà la partida
+	 * @param nom               Nom de la partida
+	 * @param mode_inici        Mode d'inici de la partida
+	 * @param combinacio_colors Combinació de colors de la partida
+	 * @param situacio_inicial  Indica si la partida està definida amb una situació inicial
 	 * @throws ClassNotFoundException Si no es pot carregar la classe de les intel·ligències artificials.
 	 * @throws InstantiationError     Si hi ha problemes amb la instanciació de les intel·ligències artificials.
 	 * @throws IllegalAccessError     Si s'intenta accedir a un lloc no permès quan es carreguen les intel·ligències
 	 *                                artificials.
 	 */
-	public PartidaHex( UsuariHex jugador_a, UsuariHex jugador_b, TaulerHex tauler, String nom,
-	                   boolean situacio_inicial )
+	public PartidaHex( UsuariHex jugador_a, UsuariHex jugador_b, TaulerHex tauler, String nom, ModesInici mode_inici,
+	                   CombinacionsColors combinacio_colors, boolean situacio_inicial )
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException
 	{
 		super( jugador_a, jugador_b, tauler, nom );
@@ -107,9 +109,9 @@ public class PartidaHex extends Partida implements Serializable
 				0L
 		};
 
-		mode_inici = jugador_a.getModeInici();
+		this.mode_inici = mode_inici;
 		tauler.setModeIniciPartida( mode_inici );
-		combinacio_colors = jugador_a.getCombinacionsColors();
+		this.combinacio_colors = combinacio_colors;
 
 		instant_darrer_moviment = new Date().getTime();
 		darrera_fitxa = new Casella( 0, 0 );

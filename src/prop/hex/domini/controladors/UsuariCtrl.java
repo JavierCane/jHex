@@ -150,7 +150,7 @@ public final class UsuariCtrl
 	}
 
 	/**
-	 * Elimina un usuari existent al sistema.
+	 * Elimina un usuari existent al sistema. També elimina les partides que pugui estar jugant.
 	 *
 	 * @param usuari Usuari que es vol eliminar.
 	 * @return Cert, si s'ha pogut eliminar l'usuari del sistema. Fals, altrament.
@@ -160,12 +160,13 @@ public final class UsuariCtrl
 	{
 		if ( !gestor_usuari.existeixElement( usuari.getIdentificadorUnic() ) )
 		{
-			throw new IllegalArgumentException( "[KO]\tL'usuari no existeix." );
+			throw new IllegalArgumentException( "L'usuari no existeix." );
 		}
 
 		if ( gestor_usuari.eliminaElement( usuari.getIdentificadorUnic() ) )
 		{
 			Ranquing.getInstancia().eliminaUsuari( usuari );
+			PartidaCtrl.getInstancia().esborraPartidesUsuari( usuari.getIdentificadorUnic() );
 
 			return true;
 		}

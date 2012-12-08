@@ -211,7 +211,9 @@ public final class PartidaCtrl
 		else
 		{
 			partida_actual = new PartidaHex( usuaris_preinicialitzats_partida[0], usuaris_preinicialitzats_partida[1],
-					new TaulerHex( mida_tauler ), nom_partida, situacio_inicial );
+					new TaulerHex( mida_tauler ), nom_partida,
+					UsuariCtrl.getInstancia().getUsuariPrincipal().getModeInici(),
+					UsuariCtrl.getInstancia().obteCombinacioColors(), situacio_inicial );
 
 			if ( gestor_partida.existeixElement( partida_actual.getIdentificadorUnic() ) )
 			{
@@ -356,7 +358,7 @@ public final class PartidaCtrl
 
 	/**
 	 * Finalitza la partida actual.
-	 *
+	 * <p/>
 	 * Actualitza les estadístiques dels usuaris si la partida ja ha finalitzat i no ha començat
 	 * definint una situació inicial.
 	 */
@@ -372,7 +374,7 @@ public final class PartidaCtrl
 			gestor_partida.eliminaElement( partida_actual.getIdentificadorUnic() );
 
 			// Si no ha començat definint situació inicial, actualitzo estadístiques d'usuari
-			if ( !partida_actual.teSituacioInicial()  )
+			if ( !partida_actual.teSituacioInicial() )
 			{
 				UsuariHex usuari_a = partida_actual.getJugadorA();
 				UsuariHex usuari_b = partida_actual.getJugadorB();
@@ -396,7 +398,6 @@ public final class PartidaCtrl
 
 					Ranquing.getInstancia().actualitzaUsuari( usuari_b );
 				}
-
 			}
 		}
 
