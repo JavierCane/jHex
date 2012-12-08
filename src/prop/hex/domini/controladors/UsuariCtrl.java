@@ -95,21 +95,21 @@ public final class UsuariCtrl
 	 *                                  si conté caràcters il·legals o si es tracta d'un nom no permès.
 	 * @throws IOException              Si ha succeït un error d'entrada/sortida inesperat.
 	 */
-	public boolean creaUsuari( String nom, String contrasenya, TipusJugadors tipus_jugador ) throws
-			IllegalArgumentException, IOException
+	public boolean creaUsuari( String nom, String contrasenya, TipusJugadors tipus_jugador )
+			throws IllegalArgumentException, IOException
 	{
 		if ( tipus_jugador == TipusJugadors.JUGADOR )
 		{
 			if ( !nom.matches( UsuariHex.getCaractersPermesos() ) )
 			{
 				throw new IllegalArgumentException( "El nom d'usuari conté caràcters il·legals. Només " +
-						"s'accepten caràcters alfanumèrics (sense accents), espais i guions baixos." );
+				                                    "s'accepten caràcters alfanumèrics (sense accents), espais i guions baixos." );
 			}
 
 			if ( UsuariHex.getNomsNoPermesos().contains( nom ) )
 			{
 				throw new IllegalArgumentException( "No es permet utilitzar aquest nom d'usuari. Els noms no " +
-						"permesos són " + UsuariHex.getNomsNoPermesos().toString() );
+				                                    "permesos són " + UsuariHex.getNomsNoPermesos().toString() );
 			}
 
 			UsuariHex usuari_hex = new UsuariHex( nom, contrasenya, TipusJugadors.JUGADOR );
@@ -190,8 +190,9 @@ public final class UsuariCtrl
 	 * @throws ClassNotFoundException   Si hi ha un problema de classes quan es carrega l'usuari.
 	 * @throws NullPointerException     Es dona si el fitxer està buit.
 	 */
-	public boolean setUsuariPrincipal( String nom, String contrasenya ) throws IllegalArgumentException,
-			FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
+	public boolean setUsuariPrincipal( String nom, String contrasenya )
+			throws IllegalArgumentException, FileNotFoundException, IOException, ClassNotFoundException,
+			       NullPointerException
 	{
 		usuari_principal = carregaUsuari( nom, contrasenya, TipusJugadors.JUGADOR );
 		return true;
@@ -213,8 +214,9 @@ public final class UsuariCtrl
 	 * @throws ClassNotFoundException   Si hi ha un problema de classes quan es carrega l'usuari.
 	 * @throws NullPointerException     Es dona si el fitxer està buit.
 	 */
-	public UsuariHex carregaUsuari( String nom, String contrasenya, TipusJugadors tipus_jugador ) throws
-			IllegalArgumentException, FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
+	public UsuariHex carregaUsuari( String nom, String contrasenya, TipusJugadors tipus_jugador )
+			throws IllegalArgumentException, FileNotFoundException, IOException, ClassNotFoundException,
+			       NullPointerException
 	{
 		if ( !gestor_usuari.existeixElement( getIdentificadorUnic( nom ) ) )
 		{
@@ -262,13 +264,13 @@ public final class UsuariCtrl
 	 * @throws IllegalArgumentException Si la contrasenya antiga passada com a paràmetre no coincideix amb la
 	 *                                  contrasenya de l'usuari.
 	 */
-	public boolean modificaContrasenya( String contrasenya_antiga, String contrasenya_nova ) throws
-			IllegalArgumentException
+	public boolean modificaContrasenya( String contrasenya_antiga, String contrasenya_nova )
+			throws IllegalArgumentException
 	{
 		if ( !usuari_principal.getContrasenya().equals( contrasenya_antiga ) )
 		{
 			throw new IllegalArgumentException( "[KO]\tLa contrasenya actual introduïda no correspon a l'actual de " +
-					"" + "l'usuari." );
+			                                    "" + "l'usuari." );
 		}
 		else
 		{
@@ -285,8 +287,8 @@ public final class UsuariCtrl
 	 */
 	public boolean modificaPreferencies( ModesInici mode_inici, CombinacionsColors combinacio_colors )
 	{
-		return ( usuari_principal.setModeInici( mode_inici ) && usuari_principal.setCombinacionsColors(
-				combinacio_colors ) );
+		return ( usuari_principal.setModeInici( mode_inici ) &&
+		         usuari_principal.setCombinacionsColors( combinacio_colors ) );
 	}
 
 	/**
@@ -329,9 +331,13 @@ public final class UsuariCtrl
 	 * @param fitxes_usades    Fitxes utilitzades per l'usuari a la partida.
 	 */
 	public void actualitzaEstadistiques( UsuariHex usuari, boolean ha_guanyat, TipusJugadors jugador_contrari,
-	                                     Long temps_emprat, Integer fitxes_usades )
+	                                     long temps_emprat, int fitxes_usades ) throws IOException
 	{
 		usuari.recalculaDadesUsuariPartidaFinalitzada( ha_guanyat, jugador_contrari, temps_emprat, fitxes_usades );
+		if ( usuari.getTipusJugador() != TipusJugadors.CONVIDAT )
+		{
+			gestor_usuari.guardaElement( usuari );
+		}
 	}
 
 	/**

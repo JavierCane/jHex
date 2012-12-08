@@ -46,6 +46,7 @@ public final class JPanelTauler extends JPanel
 	private int iniciY = 80;
 
 	private boolean partida_en_curs;
+	private boolean partida_finalitzada;
 
 	private boolean partida_ia;
 
@@ -61,10 +62,11 @@ public final class JPanelTauler extends JPanel
 		ultima_pista = new Casella( 0, 0 );
 		pista_valida = false;
 		this.partida_en_curs = partida_en_curs;
+		partida_finalitzada = false;
 		partida_ia = ( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) != TipusJugadors.JUGADOR &&
-				( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) != TipusJugadors.CONVIDAT &&
-				( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) != TipusJugadors.JUGADOR &&
-				( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) != TipusJugadors.CONVIDAT;
+		             ( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) != TipusJugadors.CONVIDAT &&
+		             ( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) != TipusJugadors.JUGADOR &&
+		             ( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) != TipusJugadors.CONVIDAT;
 
 		//Creem l'hexàgon que dibuixarem després.
 		int x[] = new int[6];
@@ -100,36 +102,39 @@ public final class JPanelTauler extends JPanel
 	 */
 	private void comprovaClick( int x, int y )
 	{
-		int rx = iniciX;
-		int ry = iniciY;
-
-		elements_de_control_partida = presentacio_ctrl.getElementsDeControlPartida();
-		elements_de_control_jugadors = presentacio_ctrl.getElementsDeControlJugadors();
-
-		if ( partida_en_curs && ( ( (Integer) elements_de_control_partida[2] % 2 == 0 &&
-	                            ( x < 170 && x > -50 && y < 480 && y > 360 ) ) ||
-	                          ( (Integer) elements_de_control_partida[2] % 2 != 0 &&
-	                            ( x < 800 && x > 580 && y < 270 && y > 150 ) ) ) )
+		if ( !partida_finalitzada )
 		{
-			mouIAOMostraPista();
-		}
-		else
-		{
-			for ( int i = 0; i < (Integer) elements_de_control_partida[1]; i++ )
+			int rx = iniciX;
+			int ry = iniciY;
+
+			elements_de_control_partida = presentacio_ctrl.getElementsDeControlPartida();
+			elements_de_control_jugadors = presentacio_ctrl.getElementsDeControlJugadors();
+
+			if ( partida_en_curs && ( ( ( Integer ) elements_de_control_partida[2] % 2 == 0 &&
+			                            ( x < 170 && x > -50 && y < 480 && y > 360 ) ) ||
+			                          ( ( Integer ) elements_de_control_partida[2] % 2 != 0 &&
+			                            ( x < 800 && x > 580 && y < 270 && y > 150 ) ) ) )
 			{
-				rx += i * dx / 2;
-				ry += i * dy;
-				for ( int j = 0; j < (Integer) elements_de_control_partida[1]; j++ )
+				mouIAOMostraPista();
+			}
+			else
+			{
+				for ( int i = 0; i < ( Integer ) elements_de_control_partida[1]; i++ )
 				{
-					rx += j * dx;
-					if ( hexagon.contains( x - rx, y - ry ) )
+					rx += i * dx / 2;
+					ry += i * dy;
+					for ( int j = 0; j < ( Integer ) elements_de_control_partida[1]; j++ )
 					{
-						clickHexagon( i, j );
+						rx += j * dx;
+						if ( hexagon.contains( x - rx, y - ry ) )
+						{
+							clickHexagon( i, j );
+						}
+						rx -= j * dx;
 					}
-					rx -= j * dx;
+					rx -= i * dx / 2;
+					ry -= i * dy;
 				}
-				rx -= i * dx / 2;
-				ry -= i * dy;
 			}
 		}
 	}
@@ -140,13 +145,12 @@ public final class JPanelTauler extends JPanel
 	 */
 	private void mouIAOMostraPista()
 	{
-		if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA && !presentacio_ctrl.esTornHuma
-				() )
+		if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA && !presentacio_ctrl.esTornHuma() )
 		{
 			presentacio_ctrl.executaMovimentIA();
 		}
-		else if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA && presentacio_ctrl
-				.esTornHuma() )
+		else if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA &&
+		          presentacio_ctrl.esTornHuma() )
 		{
 			ultima_pista = presentacio_ctrl.obtePista();
 			pista_valida = true;
@@ -165,7 +169,7 @@ public final class JPanelTauler extends JPanel
 	private void clickHexagon( int i, int j )
 	{
 		if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA &&
-			( presentacio_ctrl.esTornHuma() || !partida_en_curs ) )
+		     ( presentacio_ctrl.esTornHuma() || !partida_en_curs ) )
 		{
 			try
 			{
@@ -174,7 +178,7 @@ public final class JPanelTauler extends JPanel
 				pista_valida = false;
 				paintImmediately( 0, 0, 800, 500 );
 				// De moment sembla que falla, ja ho mirarem.
-				if ( partida_en_curs && !presentacio_ctrl.esTornHuma() )
+				if ( !partida_finalitzada && partida_en_curs && !presentacio_ctrl.esTornHuma() )
 				{
 					mouIAOMostraPista();
 				}
@@ -185,7 +189,10 @@ public final class JPanelTauler extends JPanel
 			}
 		}
 
-		repaint();
+		if ( !partida_finalitzada )
+		{
+			repaint();
+		}
 	}
 
 	/**
@@ -212,32 +219,32 @@ public final class JPanelTauler extends JPanel
 
 		//Dibuixem el tauler, pintant cada hexagon del color que toca.
 		g.translate( iniciX, iniciY );
-		for ( int i = 0; i < (Integer) elements_de_control_partida[1]; i++ )
+		for ( int i = 0; i < ( Integer ) elements_de_control_partida[1]; i++ )
 		{
 			g.translate( i * dx / 2, i * dy );
-			for ( int j = 0; j < (Integer) elements_de_control_partida[1]; j++ )
+			for ( int j = 0; j < ( Integer ) elements_de_control_partida[1]; j++ )
 			{
 				g.translate( j * dx, 0 );
 
-				if ( i == (Integer) elements_de_control_partida[1] / 2 && j == (Integer) elements_de_control_partida[1] / 2 &&
-						(Integer) elements_de_control_partida[2] == 0 )
+				if ( i == ( Integer ) elements_de_control_partida[1] / 2 &&
+				     j == ( Integer ) elements_de_control_partida[1] / 2 &&
+				     ( Integer ) elements_de_control_partida[2] == 0 )
 				{
-					g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
-							.getColorCasellesInhabilitades() );
+					g.setColor(
+							( ( CombinacionsColors ) elements_de_control_partida[3] ).getColorCasellesInhabilitades() );
 				}
 				else
 				{
 					if ( pista_valida && ( ultima_pista.getFila() == i && ultima_pista.getColumna() == j ) )
 					{
-						g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
-								.getColorCasellesPista() );
+						g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] ).getColorCasellesPista() );
 						ultima_pista.setColumna( 0 );
 						ultima_pista.setFila( 0 );
 					}
 					else
 					{
-						g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] ).getColorCasella(
-								presentacio_ctrl.getEstatCasella( i, j ) ) );
+						g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
+								.getColorCasella( presentacio_ctrl.getEstatCasella( i, j ) ) );
 					}
 				}
 				g.fillPolygon( hexagon );
@@ -251,62 +258,63 @@ public final class JPanelTauler extends JPanel
 		}
 
 		// Si és torn de la IA mostrem el botó Mou IA, només si a la partida només juga la IA.
-		if ( partida_en_curs && ( partida_ia || (Integer) elements_de_control_partida[2] == 0 ||
-            presentacio_ctrl.esPartidaAmbSituacioInicialAcabadaDeDefinir()) && !presentacio_ctrl.esTornHuma()
-			&& presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA )
+		if ( partida_en_curs && ( partida_ia || ( Integer ) elements_de_control_partida[2] == 0 ||
+		                          presentacio_ctrl.esPartidaAmbSituacioInicialAcabadaDeDefinir() ) &&
+		     !presentacio_ctrl.esTornHuma() &&
+		     presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA )
 		{
-			if ( (Integer) elements_de_control_partida[2] % 2 == 0 )
+			if ( ( Integer ) elements_de_control_partida[2] % 2 == 0 )
 			{
-				g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] ).getColorCasella(
-						EstatCasella.JUGADOR_A ) );
+				g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
+						.getColorCasella( EstatCasella.JUGADOR_A ) );
 				g.fillRoundRect( -50, 360, 120, 40, 8, 8 );
 				g.setColor( Color.black );
 				g.drawRoundRect( -50, 360, 120, 40, 8, 8 );
-				g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] ).getColorTextMouFitxaIA(
-						EstatCasella.JUGADOR_A ) );
+				g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
+						.getColorTextMouFitxaIA( EstatCasella.JUGADOR_A ) );
 				g.drawString( "Mou IA", -10, 385 );
 			}
 			else
 			{
-				g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] ).getColorCasella(
-						EstatCasella.JUGADOR_B ) );
+				g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
+						.getColorCasella( EstatCasella.JUGADOR_B ) );
 				g.fillRoundRect( 580, 150, 120, 40, 8, 8 );
 				g.setColor( Color.black );
 				g.drawRoundRect( 580, 150, 120, 40, 8, 8 );
-				g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] ).getColorTextMouFitxaIA(
-						EstatCasella.JUGADOR_B ) );
+				g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
+						.getColorTextMouFitxaIA( EstatCasella.JUGADOR_B ) );
 				g.drawString( "Mou IA", 620, 175 );
 			}
 		}
 
 		// Si és torn de la IA i a la partida juga algun humà,
 		if ( partida_en_curs && !partida_ia && !presentacio_ctrl.esTornHuma() &&
-				presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA )
+		     presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA )
 		{
-			if ( (Integer) elements_de_control_partida[2] % 2 == 0 )
+			if ( ( Integer ) elements_de_control_partida[2] % 2 == 0 )
 			{
-				g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] ).getColorCasella(
-						EstatCasella.JUGADOR_A ) );
+				g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
+						.getColorCasella( EstatCasella.JUGADOR_A ) );
 				g.drawString( "Pensant moviment...", -50, 370 );
 			}
 			else
 			{
-				g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] ).getColorCasella(
-						EstatCasella.JUGADOR_B ) );
+				g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
+						.getColorCasella( EstatCasella.JUGADOR_B ) );
 				g.drawString( "Pensant moviment...", 580, 160 );
 			}
 		}
 
 		// Si és torn d'un humà i té pistes per utilitzar mostrem el botó Demana Pista
 		if ( partida_en_curs && !pista_valida && presentacio_ctrl.esTornHuma() &&
-				presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA )
+		     presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA )
 		{
-			if ( (Integer) elements_de_control_partida[2] % 2 == 0 )
+			if ( ( Integer ) elements_de_control_partida[2] % 2 == 0 )
 			{
-				if ( ( ( Integer ) elements_de_control_jugadors[1][0] ) < (Integer) elements_de_control_partida[0] )
+				if ( ( ( Integer ) elements_de_control_jugadors[1][0] ) < ( Integer ) elements_de_control_partida[0] )
 				{
-					g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] ).getColorCasella(
-							EstatCasella.JUGADOR_A ) );
+					g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
+							.getColorCasella( EstatCasella.JUGADOR_A ) );
 					g.fillRoundRect( -50, 360, 120, 40, 8, 8 );
 					g.setColor( Color.black );
 					g.drawRoundRect( -50, 360, 120, 40, 8, 8 );
@@ -318,10 +326,10 @@ public final class JPanelTauler extends JPanel
 			else
 			{
 				// Com ho fem per carregar el valor màxim de pistes, que està a una classe del domini?
-				if ( ( ( Integer ) elements_de_control_jugadors[1][1] ) < (Integer) elements_de_control_partida[0] )
+				if ( ( ( Integer ) elements_de_control_jugadors[1][1] ) < ( Integer ) elements_de_control_partida[0] )
 				{
-					g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] ).getColorCasella(
-							EstatCasella.JUGADOR_B ) );
+					g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
+							.getColorCasella( EstatCasella.JUGADOR_B ) );
 					g.fillRoundRect( 580, 150, 120, 40, 8, 8 );
 					g.setColor( Color.black );
 					g.drawRoundRect( 580, 150, 120, 40, 8, 8 );
@@ -333,16 +341,15 @@ public final class JPanelTauler extends JPanel
 		}
 
 		//Mostrem el torn actual.
-		g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] ).getColorTextInformacio(
-				EstatCasella.BUIDA ) );
+		g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
+				.getColorTextInformacio( EstatCasella.BUIDA ) );
 		g.drawString( "Torn: " + elements_de_control_partida[2], -50, 210 );
 		g.drawString( "Torn: " + elements_de_control_partida[2], 580, 0 );
 
-
 		//Mostrem algunes dades pel jugador A
-		g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] ).getColorTextInformacio(
-				EstatCasella.JUGADOR_A ) );
-		if ( (Integer) elements_de_control_partida[2] % 2 == 0 )
+		g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
+				.getColorTextInformacio( EstatCasella.JUGADOR_A ) );
+		if ( ( Integer ) elements_de_control_partida[2] % 2 == 0 )
 		{
 			g.drawString( "Té el torn", -50, 270 );
 		}
@@ -350,12 +357,13 @@ public final class JPanelTauler extends JPanel
 		g.drawString( "D'esquerra a dreta", -50, 310 );
 
 		g.drawString( "Temps: " + ( String ) elements_de_control_jugadors[2][0], -50, 330 );
-		g.drawString( "Pistes disponibles: " + ( (Integer) elements_de_control_partida[0] -
-                     ( ( Integer )  elements_de_control_jugadors[1][0] ) ), -50, 350 );
+		g.drawString( "Pistes disponibles: " + ( ( Integer ) elements_de_control_partida[0] -
+		                                         ( ( Integer ) elements_de_control_jugadors[1][0] ) ), -50, 350 );
 
 		//I algunes dades pel jugador B
-		g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] ).getColorTextInformacio( EstatCasella.JUGADOR_B ) );
-		if ( (Integer) elements_de_control_partida[2] % 2 == 1 )
+		g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
+				.getColorTextInformacio( EstatCasella.JUGADOR_B ) );
+		if ( ( Integer ) elements_de_control_partida[2] % 2 == 1 )
 		{
 			g.drawString( "Té el torn", 580, 60 );
 		}
@@ -363,43 +371,72 @@ public final class JPanelTauler extends JPanel
 		g.drawString( "De dalt a baix", 580, 100 );
 
 		g.drawString( "Temps: " + ( String ) elements_de_control_jugadors[2][1], 580, 120 );
-		g.drawString( "Pistes disponibles: " + ( (Integer) elements_de_control_partida[0] - ( ( Integer ) elements_de_control_jugadors[1][1] ) ), 580, 140 );
+		g.drawString( "Pistes disponibles: " + ( ( Integer ) elements_de_control_partida[0] -
+		                                         ( ( Integer ) elements_de_control_jugadors[1][1] ) ), 580, 140 );
 
 		if ( ( ( CombinacionsColors ) elements_de_control_partida[3] ) == CombinacionsColors.VERMELL_BLAU )
 		{
-			g.drawImage( ( new ImageIcon( "img/tauler_vb.png" ) ).getImage(), -iniciX, -iniciY, getWidth(), getHeight(), null );
+			g.drawImage( ( new ImageIcon( "img/tauler_vb.png" ) ).getImage(), -iniciX, -iniciY, getWidth(), getHeight(),
+					null );
 		}
 		else
 		{
-			g.drawImage( ( new ImageIcon( "img/tauler_nb.png" ) ).getImage(), -iniciX, -iniciY, getWidth(), getHeight(), null );
+			g.drawImage( ( new ImageIcon( "img/tauler_nb.png" ) ).getImage(), -iniciX, -iniciY, getWidth(), getHeight(),
+					null );
 		}
 
 		//Si ha guanyat un jugador, mostrem el resultat.
 		if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_A )
 		{
 			g.setColor( new Color( 0x66CCFF ) );
-			g.fillRoundRect( 150, 0, 300, 200, 16, 16 );
+			g.fillRoundRect( 140, 0, 320, 200, 16, 16 );
 			g.setColor( Color.black );
-			g.drawRoundRect( 150, 0, 300, 200, 16, 16 );
-			g.drawString( "Partida finalitzada.", 160, 30 );
-			g.drawString( "Guanya " + ( ( String ) elements_de_control_jugadors[3][0] ), 160, 50 );
-			g.drawString( "amb un temps de " + ( String ) elements_de_control_jugadors[2][0] + ",", 160, 70 );
-			g.drawString( "col·locant un total de " + ( ( Integer )  elements_de_control_jugadors[4][0] ) + " fitxes,", 160, 90 );
-			g.drawString( "i utilitzant " + ( ( Integer )  elements_de_control_jugadors[1][0] )  + " pistes.", 160, 110 );
-			g.drawString( "Per a continuar, pitja el botó Abandona partida.", 160, 150);
+			g.drawRoundRect( 140, 0, 320, 200, 16, 16 );
+			g.drawString( "Partida finalitzada.", 150, 30 );
+			g.drawString( "Guanya " + ( ( String ) elements_de_control_jugadors[3][0] ), 150, 50 );
+			g.drawString( "amb un temps de " + ( String ) elements_de_control_jugadors[2][0] + ",", 150, 70 );
+			g.drawString( "col·locant un total de " + ( ( Integer ) elements_de_control_jugadors[4][0] ) + " fitxes,",
+					150, 90 );
+			g.drawString( "i utilitzant " + ( ( Integer ) elements_de_control_jugadors[1][0] ) + " pistes.", 150, 110 );
+			g.drawString( "Per a continuar, pitja el botó Abandona partida.", 150, 150 );
+
+			partida_finalitzada = true;
+			try
+			{
+				presentacio_ctrl.finalitzaPartida();
+			}
+			catch ( Exception excepcio )
+			{
+				VistaDialeg dialeg_error = new VistaDialeg();
+				String[] botons_error = { "Accepta" };
+				dialeg_error.setDialeg( "Error", excepcio.getMessage(), botons_error, JOptionPane.WARNING_MESSAGE );
+			}
 		}
 		else if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_B )
 		{
 			g.setColor( new Color( 0x66CCFF ) );
-			g.fillRoundRect( 150, 0, 300, 200, 16, 16 );
+			g.fillRoundRect( 140, 0, 320, 200, 16, 16 );
 			g.setColor( Color.black );
-			g.drawRoundRect( 150, 0, 300, 200, 16, 16 );
-			g.drawString( "Partida finalitzada.", 160, 30 );
-			g.drawString( "Guanya " + ( ( String ) elements_de_control_jugadors[3][1] ), 160, 50 );
-			g.drawString( "amb un temps de " + ( String ) elements_de_control_jugadors[2][1] + ",", 160, 70 );
-			g.drawString( "col·locant un total de " + ( ( Integer )  elements_de_control_jugadors[4][1] ) + " fitxes,", 160, 90 );
-			g.drawString( "i utilitzant " + ( ( Integer )  elements_de_control_jugadors[1][1] )  + " pistes.", 160, 110 );
-			g.drawString( "Per a continuar, pitja el botó Abandona partida.", 160, 150);
+			g.drawRoundRect( 140, 0, 320, 200, 16, 16 );
+			g.drawString( "Partida finalitzada.", 150, 30 );
+			g.drawString( "Guanya " + ( ( String ) elements_de_control_jugadors[3][1] ), 150, 50 );
+			g.drawString( "amb un temps de " + ( String ) elements_de_control_jugadors[2][1] + ",", 150, 70 );
+			g.drawString( "col·locant un total de " + ( ( Integer ) elements_de_control_jugadors[4][1] ) + " fitxes,",
+					150, 90 );
+			g.drawString( "i utilitzant " + ( ( Integer ) elements_de_control_jugadors[1][1] ) + " pistes.", 150, 110 );
+			g.drawString( "Per a continuar, pitja el botó Abandona partida.", 150, 150 );
+
+			partida_finalitzada = true;
+			try
+			{
+				presentacio_ctrl.finalitzaPartida();
+			}
+			catch ( Exception excepcio )
+			{
+				VistaDialeg dialeg_error = new VistaDialeg();
+				String[] botons_error = { "Accepta" };
+				dialeg_error.setDialeg( "Error", excepcio.getMessage(), botons_error, JOptionPane.WARNING_MESSAGE );
+			}
 		}
 	}
 }

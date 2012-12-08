@@ -105,19 +105,7 @@ public final class PartidaVista extends BaseVista
 		}
 		else
 		{
-			try
-			{
-				presentacio_ctrl.finalitzaPartida();
-				presentacio_ctrl.vistaPartidaAMenuPrincipal();
-			}
-			catch ( Exception excepcio )
-			{
-				VistaDialeg dialeg_error = new VistaDialeg();
-				String[] botons_error = { "Accepta" };
-				dialeg_error.setDialeg( "Error", excepcio.getMessage(),
-				botons_error, JOptionPane.WARNING_MESSAGE );
-			}
-
+			presentacio_ctrl.vistaPartidaAMenuPrincipal();
 		}
 	}
 

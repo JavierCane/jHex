@@ -40,6 +40,8 @@ public final class PartidaCtrl
 	 */
 	private PartidaHexGstr gestor_partida;
 
+	private EstatPartida estat_darrera_partida = null;
+
 	/**
 	 * Conté els usuaris pre inicialitzats de la partida actual, únicament son útils abans d'inicialitzar una partida
 	 * o carregar-la de disc.
@@ -103,7 +105,7 @@ public final class PartidaCtrl
 		UsuariHexGstr usuari_gestor = new UsuariHexGstr();
 		for ( TipusJugadors tipus_jugador_maquina : TipusJugadors.obteLlistatMaquines() )
 		{
-			if ( !usuari_gestor.existeixElement( tipus_jugador_maquina.getNomUsuari() ) )
+			if ( !usuari_gestor.existeixElement( tipus_jugador_maquina.getNomUsuari().replace( ' ', '-' ) ) )
 			{
 				UsuariCtrl.getInstancia().creaUsuari( tipus_jugador_maquina.getNomUsuari(), "", tipus_jugador_maquina );
 			}
@@ -453,7 +455,7 @@ public final class PartidaCtrl
 					UsuariCtrl.getInstancia()
 							.actualitzaEstadistiques( usuari_b, estat_actual == EstatPartida.GUANYA_JUGADOR_B,
 									usuari_a.getTipusJugador(), partida_actual.getTempsDeJoc( 1 ),
-									partida_actual.getTauler().getNumFitxesA() );
+									partida_actual.getTauler().getNumFitxesB() );
 
 					Ranquing.getInstancia().actualitzaUsuari( usuari_b );
 				}
@@ -559,10 +561,13 @@ public final class PartidaCtrl
 	 */
 	public EstatPartida consultaEstatPartida()
 	{
-		EstatPartida estat_partida = partida_actual.comprovaEstatPartida();
-		partida_actual.setFinalitzada( estat_partida != EstatPartida.NO_FINALITZADA );
+		if ( partida_actual != null )
+		{
+			estat_darrera_partida = partida_actual.comprovaEstatPartida();
+			partida_actual.setFinalitzada( estat_darrera_partida != EstatPartida.NO_FINALITZADA );
+		}
 
-		return estat_partida;
+		return estat_darrera_partida;
 	}
 
 	/**
