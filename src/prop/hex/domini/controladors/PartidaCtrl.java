@@ -486,6 +486,7 @@ public final class PartidaCtrl
 	 */
 	public Casella obtePista()
 	{
+		partida_actual.incrementaPistesUsades( getNumJugadorTornActual(), 1 );
 		return getMovimentIATornActual();
 	}
 
@@ -676,12 +677,14 @@ public final class PartidaCtrl
 
 		elements_de_control[0][0] = partida_actual.getJugadorA().getTipusJugador();
 		elements_de_control[1][0] = partida_actual.getPistesUsades( 0 );
-		elements_de_control[2][0] = partida_actual.getTempsDeJoc( 0 );
+		elements_de_control[2][0] = String.valueOf( partida_actual.getTempsDeJoc( 0 ) / 1000L ) + "." +
+		                            ( partida_actual.getTempsDeJoc( 0 ) % 1000L ) / 100 + " s";
 		elements_de_control[3][0] = partida_actual.getJugadorA().getNom();
 		elements_de_control[4][0] = partida_actual.getTauler().getNumFitxesA();
 		elements_de_control[0][1] = partida_actual.getJugadorB().getTipusJugador();
 		elements_de_control[1][1] = partida_actual.getPistesUsades( 1 );
-		elements_de_control[2][1] = partida_actual.getTempsDeJoc( 1 );
+		elements_de_control[2][1] = String.valueOf( partida_actual.getTempsDeJoc( 1 ) / 1000L ) + "." +
+		                            ( partida_actual.getTempsDeJoc( 1 ) % 1000L ) / 100 + " s";
 		elements_de_control[3][1] = partida_actual.getJugadorB().getNom();
 		elements_de_control[4][1] = partida_actual.getTauler().getNumFitxesB();
 

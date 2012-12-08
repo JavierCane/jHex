@@ -349,7 +349,7 @@ public final class JPanelTauler extends JPanel
 		g.drawString( ( ( String ) elements_de_control_jugadors[3][0] ), -50, 290 );
 		g.drawString( "D'esquerra a dreta", -50, 310 );
 
-		g.drawString( "Temps: " + ( ( Long ) elements_de_control_jugadors[2][0] ) / 1000, -50, 330 );
+		g.drawString( "Temps: " + ( String ) elements_de_control_jugadors[2][0], -50, 330 );
 		g.drawString( "Pistes disponibles: " + ( (Integer) elements_de_control_partida[0] -
                      ( ( Integer )  elements_de_control_jugadors[1][0] ) ), -50, 350 );
 
@@ -362,7 +362,7 @@ public final class JPanelTauler extends JPanel
 		g.drawString( ( ( String ) elements_de_control_jugadors[3][1] ), 580, 80 );
 		g.drawString( "De dalt a baix", 580, 100 );
 
-		g.drawString( "Temps: " + ( ( Long ) elements_de_control_jugadors[2][1] ) / 1000, 580, 120 );
+		g.drawString( "Temps: " + ( String ) elements_de_control_jugadors[2][1], 580, 120 );
 		g.drawString( "Pistes disponibles: " + ( (Integer) elements_de_control_partida[0] - ( ( Integer ) elements_de_control_jugadors[1][1] ) ), 580, 140 );
 
 		if ( ( ( CombinacionsColors ) elements_de_control_partida[3] ) == CombinacionsColors.VERMELL_BLAU )
