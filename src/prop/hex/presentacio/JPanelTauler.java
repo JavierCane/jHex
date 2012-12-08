@@ -383,7 +383,7 @@ public final class JPanelTauler extends JPanel
 			g.drawRoundRect( 150, 0, 300, 200, 16, 16 );
 			g.drawString( "Partida finalitzada.", 160, 30 );
 			g.drawString( "Guanya " + ( ( String ) elements_de_control_jugadors[3][0] ), 160, 50 );
-			g.drawString( "amb un temps de " + ( ( Long ) elements_de_control_jugadors[2][0] )/1000 + " s,", 160, 70 );
+			g.drawString( "amb un temps de " + ( String ) elements_de_control_jugadors[2][0] + ",", 160, 70 );
 			g.drawString( "col·locant un total de " + ( ( Integer )  elements_de_control_jugadors[4][0] ) + " fitxes,", 160, 90 );
 			g.drawString( "i utilitzant " + ( ( Integer )  elements_de_control_jugadors[1][0] )  + " pistes.", 160, 110 );
 			g.drawString( "Per a continuar, pitja el botó Abandona partida.", 160, 150);
@@ -396,7 +396,7 @@ public final class JPanelTauler extends JPanel
 			g.drawRoundRect( 150, 0, 300, 200, 16, 16 );
 			g.drawString( "Partida finalitzada.", 160, 30 );
 			g.drawString( "Guanya " + ( ( String ) elements_de_control_jugadors[3][1] ), 160, 50 );
-			g.drawString( "amb un temps de " + ( ( Long ) elements_de_control_jugadors[2][1] )/1000 + " s,", 160, 70 );
+			g.drawString( "amb un temps de " + ( String ) elements_de_control_jugadors[2][1] + ",", 160, 70 );
 			g.drawString( "col·locant un total de " + ( ( Integer )  elements_de_control_jugadors[4][1] ) + " fitxes,", 160, 90 );
 			g.drawString( "i utilitzant " + ( ( Integer )  elements_de_control_jugadors[1][1] )  + " pistes.", 160, 110 );
 			g.drawString( "Per a continuar, pitja el botó Abandona partida.", 160, 150);
