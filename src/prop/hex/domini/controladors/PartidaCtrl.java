@@ -231,12 +231,14 @@ public final class PartidaCtrl
 	 *
 	 * @param id_partida              Identificador de la partida que es vol carregar
 	 * @param contrasenya_contrincant Contrasenya de l'usuari contrincant
-	 * @throws ClassNotFoundException Si hi ha un problema de classes quan es carrega la partida o la
-	 *                                intel·ligència artificial.
-	 * @throws IOException            Si hi ha un error d'entrada/sortida al carregar la partida.
+	 * @throws IOException            Si no es pot carregar la partida
+	 * @throws ClassNotFoundException Si no existeix la classe PartidaHex o la de la intel·ligència artificial.
+	 * @throws IllegalAccessError     Si hi ha un problema d'accés al fitxer amb la partida
+	 * @throws InstantiationError     Si hi ha un problema de classes a la instanciació de la partida que es vol
+	 *                                carregar
 	 */
 	public void carregaPartida( String id_partida, String contrasenya_contrincant )
-			throws ClassNotFoundException, IOException
+			throws ClassNotFoundException, IOException, InstantiationException, IllegalAccessException
 	{
 		partida_actual = gestor_partida.carregaElement( id_partida );
 		String nom_usuari_contrincant;
@@ -247,6 +249,8 @@ public final class PartidaCtrl
 			tipus_jugador_contrincant = partida_actual.getJugadorA().getTipusJugador();
 
 			partida_actual.setJugadorB( UsuariCtrl.getInstancia().getUsuariPrincipal() );
+			partida_actual.setJugadorA( UsuariCtrl.getInstancia()
+					.carregaUsuari( nom_usuari_contrincant, contrasenya_contrincant, tipus_jugador_contrincant ) );
 		}
 		else
 		{
@@ -254,9 +258,11 @@ public final class PartidaCtrl
 			tipus_jugador_contrincant = partida_actual.getJugadorB().getTipusJugador();
 
 			partida_actual.setJugadorA( UsuariCtrl.getInstancia().getUsuariPrincipal() );
+			partida_actual.setJugadorB( UsuariCtrl.getInstancia()
+					.carregaUsuari( nom_usuari_contrincant, contrasenya_contrincant, tipus_jugador_contrincant ) );
 		}
-		UsuariCtrl.getInstancia()
-				.carregaUsuari( nom_usuari_contrincant, contrasenya_contrincant, tipus_jugador_contrincant );
+
+		inicialitzaIAJugadors();
 
 		gestor_partida.eliminaElement( id_partida );
 	}
@@ -269,7 +275,8 @@ public final class PartidaCtrl
 	 * @throws IOException            Si no es pot carregar la partida
 	 * @throws ClassNotFoundException Si no existeix la classe PartidaHex.
 	 * @throws IllegalAccessError     Si hi ha un problema d'accés al fitxer amb la partida
-	 * @throws InstantiationError     Si hi ha un problema de classes a la instanciació de la partida que es consultar
+	 * @throws InstantiationError     Si hi ha un problema de classes a la instanciació de la partida que es vol
+	 *                                consultar
 	 */
 	public String usuariSenseAutenticarAPartida( String id_partida )
 			throws IOException, ClassNotFoundException, IllegalAccessError, InstantiationError
@@ -287,8 +294,6 @@ public final class PartidaCtrl
 		{
 			nom_usuari = partida_futura.getJugadorB().getNom();
 		}
-
-		inicialitzaIAJugadors();
 
 		return nom_usuari;
 	}
