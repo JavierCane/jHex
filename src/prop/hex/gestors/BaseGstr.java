@@ -13,12 +13,12 @@ public abstract class BaseGstr<T>
 	/**
 	 * Carpeta del sistema de fitxers on es guardaran totes les dades del joc
 	 */
-	private final String carpeta_dades = "dat";
+	protected final String carpeta_dades = "dat";
 
 	/**
 	 * Extensió dels fitxers de dades
 	 */
-	private final String extensio_fitxers = "dat";
+	protected final String extensio_fitxers = "dat";
 
 	/**
 	 * Subcarpeta del sistema de fitxers, dins de carpeta_dades, per guardar els arxius. Especificada a les
