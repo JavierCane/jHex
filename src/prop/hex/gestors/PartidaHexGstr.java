@@ -32,20 +32,23 @@ public final class PartidaHexGstr extends BaseGstr<PartidaHex>
 		File[] llista_arxius = carpeta.listFiles();
 
 		Set<String> noms_elements = new HashSet<String>();
-		for ( File arxiu : llista_arxius )
+		if ( llista_arxius != null )
 		{
-			String nom = arxiu.getName();
-			if ( nom.endsWith( '.' + extensio_fitxers ) )
+			for ( File arxiu : llista_arxius )
 			{
-				String id_partida = nom.substring( 0, nom.length() - ( 1 + extensio_fitxers.length() ) );
-				String[] identificadors = id_partida.split( "@" );
-
-				// Comprovem si l'usuari juga a la partida
-				if ( identificadors[identificadors.length - 1].equals( id_usuari ) ||
-				     identificadors[identificadors.length - 2].equals( id_usuari ) )
+				String nom = arxiu.getName();
+				if ( nom.endsWith( '.' + extensio_fitxers ) )
 				{
-					// Afegim el nom de l'element sense l'extensió al conjunt d'identificadors
-					noms_elements.add( id_partida );
+					String id_partida = nom.substring( 0, nom.length() - ( 1 + extensio_fitxers.length() ) );
+					String[] identificadors = id_partida.split( "@" );
+
+					// Comprovem si l'usuari juga a la partida
+					if ( identificadors[identificadors.length - 1].equals( id_usuari ) ||
+					     identificadors[identificadors.length - 2].equals( id_usuari ) )
+					{
+						// Afegim el nom de l'element sense l'extensió al conjunt d'identificadors
+						noms_elements.add( id_partida );
+					}
 				}
 			}
 		}
