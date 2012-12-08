@@ -163,21 +163,4 @@ public final class RanquingDrvr
 					"." );
 		}
 	}
-
-	/**
-	 * Elimina el fitxer de rànquing de disc.
-	 */
-	public static void testEliminaRanquing()
-	{
-		RanquingGstr gestor_ranquing = new RanquingGstr();
-
-		if ( gestor_ranquing.eliminaElement() )
-		{
-			System.out.println( "[OK]\tS'ha eliminat correctament el fitxer del rànquing." );
-		}
-		else
-		{
-			System.out.println( "[KO]\tNo s'ha pogut eliminar el fitxer del rànquing." );
-		}
-	}
 }

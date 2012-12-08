@@ -2,7 +2,7 @@ package prop.hex.domini.controladors.drivers;
 
 import prop.hex.domini.models.UsuariHex;
 import prop.hex.domini.models.enums.TipusJugadors;
-import prop.hex.gestors.UsuariGstr;
+import prop.hex.gestors.UsuariHexGstr;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -10,7 +10,7 @@ import java.io.IOException;
 import static prop.hex.domini.controladors.drivers.UtilsDrvr.llegeixParaula;
 
 /**
- * Proves dels mètodes de la classe UsuariGstr. No obstant, també s'estaria provant el correcte funcionament de les
+ * Proves dels mètodes de la classe UsuariHexGstr. No obstant, també s'estaria provant el correcte funcionament de les
  * classes BaseGstr, UsuariHex i Usuari de forma implícita
  */
 public final class UsuariGstrDrvr
@@ -48,13 +48,13 @@ public final class UsuariGstrDrvr
 	 */
 	public static void testGuardaUsuariHex()
 	{
-		UsuariGstr gestor_usuari = new UsuariGstr();
+		UsuariHexGstr gestor_usuari = new UsuariHexGstr();
 
 		UsuariHex usuari_hex = testInstanciaUsuariHex();
 
 		try
 		{
-			if ( gestor_usuari.guardaElement( usuari_hex, usuari_hex.getIdentificadorUnic() ) )
+			if ( gestor_usuari.guardaElement( usuari_hex ) )
 			{
 				System.out.println( "[OK]\tS'ha guardat correctament el fitxer de l'usuari amb identificador: " +
 				                    usuari_hex.getIdentificadorUnic() );
@@ -80,7 +80,7 @@ public final class UsuariGstrDrvr
 	 */
 	public static void testCarregaUsuariHex()
 	{
-		UsuariGstr model_usuari = new UsuariGstr();
+		UsuariHexGstr model_usuari = new UsuariHexGstr();
 
 		String nom_usuari = llegeixParaula( "Escriu el nom de l'usuari a carregar de disc:" );
 
@@ -113,7 +113,7 @@ public final class UsuariGstrDrvr
 	 */
 	public static void testEliminaUsuariHex()
 	{
-		UsuariGstr model_usuari = new UsuariGstr();
+		UsuariHexGstr model_usuari = new UsuariHexGstr();
 
 		String nom_usuari = llegeixParaula( "Escriu el nom de l'usuari a eliminar de disc:" );
 

@@ -6,7 +6,7 @@ import prop.hex.domini.models.enums.ModesInici;
 import prop.hex.domini.models.enums.TipusJugadors;
 import prop.hex.gestors.PartidaHexGstr;
 import prop.hex.gestors.RanquingGstr;
-import prop.hex.gestors.UsuariGstr;
+import prop.hex.gestors.UsuariHexGstr;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -91,7 +91,7 @@ public final class PartidaCtrl
 		}
 
 		// Comprovo consistència de jugadors màquina (han de figurar tots els usuaris de tipus màquina a disc)
-		UsuariGstr usuari_gestor = new UsuariGstr();
+		UsuariHexGstr usuari_gestor = new UsuariHexGstr();
 		for ( TipusJugadors tipus_jugador_maquina : TipusJugadors.obteLlistatMaquines() )
 		{
 			if ( !usuari_gestor.existeixElement( tipus_jugador_maquina.getNomUsuari() ) )
@@ -323,7 +323,7 @@ public final class PartidaCtrl
 					"Per guardar la partida cal que algun dels jugadors estigui registrat!" );
 		}
 
-		return gestor_partida.guardaElement( partida_actual, partida_actual.getIdentificadorUnic() );
+		return gestor_partida.guardaElement( partida_actual );
 	}
 
 	/**

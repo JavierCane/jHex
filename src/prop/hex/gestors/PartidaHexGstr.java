@@ -3,6 +3,8 @@ package prop.hex.gestors;
 import prop.hex.domini.models.PartidaHex;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -19,6 +21,19 @@ public final class PartidaHexGstr extends BaseGstr<PartidaHex>
 	public PartidaHexGstr()
 	{
 		subcarpeta_dades = "partides";
+	}
+
+	/**
+	 * Guarda el fitxer de la partida
+	 *
+	 * @return boolean true si s'ha pogut guardar correctament i el fitxer resultant es contempla com correcte,
+	 *         false altrament
+	 * @throws java.io.FileNotFoundException Si el fitxer no s'ha generat i no s'hi poden escriure les dades.
+	 * @throws java.io.IOException           Si ha ocorregut un error d'entrada/sortida inesperat.
+	 */
+	public boolean guardaElement( PartidaHex partida_hex ) throws FileNotFoundException, IOException
+	{
+		return super.guardaElement( partida_hex, partida_hex.getIdentificadorUnic() );
 	}
 
 	/**

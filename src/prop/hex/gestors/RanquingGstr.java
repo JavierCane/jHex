@@ -49,16 +49,6 @@ public final class RanquingGstr extends BaseGstr<Ranquing>
 	}
 
 	/**
-	 * Elimina el fitxer del rànquing
-	 *
-	 * @return boolean true si s'ha pogut eliminar correctament o el fixer no hi existia false altrament
-	 */
-	public boolean eliminaElement()
-	{
-		return super.eliminaElement( nom_ranquing );
-	}
-
-	/**
 	 * Comprova si existeix el fitxer del rànquing
 	 *
 	 * @return boolean Dependenent de si existeix o no l'element buscat tornarà true o false.

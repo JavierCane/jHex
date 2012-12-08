@@ -5,7 +5,7 @@ import prop.hex.domini.models.UsuariHex;
 import prop.hex.domini.models.enums.CombinacionsColors;
 import prop.hex.domini.models.enums.ModesInici;
 import prop.hex.domini.models.enums.TipusJugadors;
-import prop.hex.gestors.UsuariGstr;
+import prop.hex.gestors.UsuariHexGstr;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -34,14 +34,14 @@ public final class UsuariCtrl
 	/**
 	 * Instància del gestor d'usuaris en disc.
 	 */
-	private static UsuariGstr gestor_usuari = new UsuariGstr();
+	private static UsuariHexGstr gestor_usuari = new UsuariHexGstr();
 
 	/**
 	 * Constructor per defecte. Declarat privat perquè és una classe singleton
 	 */
 	private UsuariCtrl()
 	{
-		gestor_usuari = new UsuariGstr();
+		gestor_usuari = new UsuariHexGstr();
 	}
 
 	/**
@@ -119,7 +119,7 @@ public final class UsuariCtrl
 			}
 			else
 			{
-				if ( !gestor_usuari.guardaElement( usuari_hex, usuari_hex.getIdentificadorUnic() ) )
+				if ( !gestor_usuari.guardaElement( usuari_hex ) )
 				{
 					throw new IOException( "No s'ha pogut guardar el jugador." );
 				}
@@ -129,7 +129,7 @@ public final class UsuariCtrl
 		else
 		{
 			UsuariHex usuari_ia = new UsuariHex( tipus_jugador.getNomUsuari(), "", tipus_jugador );
-			if ( !gestor_usuari.guardaElement( usuari_ia, usuari_ia.getIdentificadorUnic() ) )
+			if ( !gestor_usuari.guardaElement( usuari_ia ) )
 			{
 				throw new IOException( "No s'ha pogut guardar el jugador." );
 			}
@@ -162,12 +162,17 @@ public final class UsuariCtrl
 		{
 			throw new IllegalArgumentException( "[KO]\tL'usuari no existeix." );
 		}
-		boolean es_eliminat = gestor_usuari.eliminaElement( usuari.getIdentificadorUnic() );
-		if ( es_eliminat )
+
+		if ( gestor_usuari.eliminaElement( usuari.getIdentificadorUnic() ) )
 		{
 			Ranquing.getInstancia().eliminaUsuari( usuari );
+
+			return true;
 		}
-		return es_eliminat;
+		else
+		{
+			return false;
+		}
 	}
 
 	/**
@@ -244,7 +249,7 @@ public final class UsuariCtrl
 	public boolean guardaUsuari() throws IOException, FileNotFoundException
 	{
 
-		return gestor_usuari.guardaElement( usuari_principal, usuari_principal.getIdentificadorUnic() );
+		return gestor_usuari.guardaElement( usuari_principal );
 	}
 
 	/**

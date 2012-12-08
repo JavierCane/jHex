@@ -7,19 +7,18 @@ import java.io.*;
  * Conte els metodes generics com guardar i carregar objectes del tipus insanciat desde la subcarpeta de dades
  * que especifiqui la classe que hereti d'aquí.
  */
-@SuppressWarnings( "unchecked" )
 public abstract class BaseGstr<T>
 {
 
 	/**
 	 * Carpeta del sistema de fitxers on es guardaran totes les dades del joc
 	 */
-	protected String carpeta_dades = "dat";
+	private final String carpeta_dades = "dat";
 
 	/**
 	 * Extensió dels fitxers de dades
 	 */
-	protected String extensio_fitxers = "dat";
+	private final String extensio_fitxers = "dat";
 
 	/**
 	 * Subcarpeta del sistema de fitxers, dins de carpeta_dades, per guardar els arxius. Especificada a les
@@ -38,7 +37,8 @@ public abstract class BaseGstr<T>
 	 * @throws FileNotFoundException Si el fitxer no s'ha generat i no s'hi poden escriure les dades.
 	 * @throws IOException           Si ha ocorregut un error d'entrada/sortida inesperat.
 	 */
-	public boolean guardaElement( T element_a_guardar, String nom_element ) throws FileNotFoundException, IOException
+	protected final boolean guardaElement( T element_a_guardar, String nom_element ) throws FileNotFoundException,
+	                                                                                   IOException
 	{
 		File carpeta_a_accedir = new File( this.carpeta_dades + '/' + this.subcarpeta_dades );
 		File arxiu_a_accedir = new File( this.carpeta_dades + '/' + this.subcarpeta_dades + '/' + nom_element + '.' +
@@ -75,7 +75,8 @@ public abstract class BaseGstr<T>
 	 * @throws ClassNotFoundException Si no es troba la classe de l'objecte materialitzat
 	 * @throws NullPointerException   Si el fitxer que es vol llegir és buit.
 	 */
-	public T carregaElement( String nom_element ) throws IOException, ClassNotFoundException, NullPointerException
+	public final T carregaElement( String nom_element ) throws IOException, ClassNotFoundException,
+	                                                           NullPointerException
 	{
 		T element_carregat;
 
@@ -109,7 +110,7 @@ public abstract class BaseGstr<T>
 	 * @param nom_element Nom de l'element que es vol eliminar.
 	 * @return boolean true si s'ha pogut eliminar correctament o el fixer no hi existia false altrament
 	 */
-	public boolean eliminaElement( String nom_element )
+	public final boolean eliminaElement( String nom_element )
 	{
 		File arxiu_a_accedir = new File( this.carpeta_dades + '/' + this.subcarpeta_dades + '/' + nom_element + '.' +
 		                                 this.extensio_fitxers );
@@ -130,7 +131,7 @@ public abstract class BaseGstr<T>
 	 * @param nom_element Nom de l'element que es vol comprovar si existeix.
 	 * @return boolean Dependenent de si existeix o no l'element buscat tornarà true o false.
 	 */
-	public boolean existeixElement( String nom_element )
+	public final boolean existeixElement( String nom_element )
 	{
 		File arxiu_a_accedir = new File( this.carpeta_dades + '/' + this.subcarpeta_dades + '/' + nom_element + '.' +
 		                                 this.extensio_fitxers );
