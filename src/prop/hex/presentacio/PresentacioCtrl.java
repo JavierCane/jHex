@@ -75,6 +75,11 @@ public final class PresentacioCtrl
 	private CarregaPartidaVista carrega_partida_vista;
 
 	/**
+	 * Vista de la pantalla d'identificar-se per a carregar una partida guardada.
+	 */
+	private IdentificaCarregaPartidaVista identifica_carrega_partida_vista;
+
+	/**
 	 * Vista de la pantalla de definició d'una situació inicial.
 	 */
 	private DefineixSituacioVista defineix_situacio_vista;
@@ -242,8 +247,19 @@ public final class PresentacioCtrl
 		return PartidaCtrl.getInstancia().llistaPartidesUsuari();
 	}
 
+	public String usuariSenseAutenticarAPartida( String id_partida ) throws IOException, ClassNotFoundException
+	{
+		return PartidaCtrl.getInstancia().usuariSenseAutenticarAPartida( id_partida );
+	}
+
+	public void carregaPartida( String id_partida, String contrasenya_contrincant) throws ClassNotFoundException,
+			IOException, InstantiationException, IllegalAccessException
+	{
+		PartidaCtrl.getInstancia().carregaPartida( id_partida, contrasenya_contrincant );
+	}
+
 	// Metodes JPanelTauler
-	// --------------------------------------------------------------------------------
+	// ----------------------------------------------------------------------------------------------------------------
 
 	public EstatPartida consultaEstatPartida()
 	{
@@ -475,6 +491,57 @@ public final class PresentacioCtrl
 		}
 		carrega_partida_vista = null;
 		menu_principal_vista.fesVisible();
+	}
+
+	public void vistaCarregaPartidaAPartida()
+	{
+		if ( partida_vista == null )
+		{
+			partida_vista = new PartidaVista( this, frame_principal );
+		}
+		carrega_partida_vista = null;
+		partida_vista.fesVisible();
+	}
+
+	public void vistaCarregaPartidaAIdentificaCarregaPartida( String usuari, String id_partida )
+	{
+		if ( identifica_carrega_partida_vista == null )
+		{
+			identifica_carrega_partida_vista = new IdentificaCarregaPartidaVista( this, frame_principal, usuari,
+					id_partida );
+		}
+		carrega_partida_vista = null;
+		identifica_carrega_partida_vista.fesVisible();
+	}
+
+	public void vistaIdentificaCarregaPartidaAPartida()
+	{
+		if ( partida_vista == null )
+		{
+			partida_vista = new PartidaVista( this, frame_principal );
+		}
+		identifica_carrega_partida_vista = null;
+		partida_vista.fesVisible();
+	}
+
+	public void vistaIdentificaCarregaPartidaAMenuPrincipal()
+	{
+		if ( menu_principal_vista == null )
+		{
+			menu_principal_vista = new MenuPrincipalVista( this, frame_principal );
+		}
+		identifica_carrega_partida_vista = null;
+		menu_principal_vista.fesVisible();
+	}
+
+	public void vistaIdentificaCarregaPartidaACarregaPartida()
+	{
+		if ( carrega_partida_vista == null )
+		{
+			carrega_partida_vista = new CarregaPartidaVista( this, frame_principal );
+		}
+		identifica_carrega_partida_vista = null;
+		carrega_partida_vista.fesVisible();
 	}
 
 	public void vistaConfiguraPartidaAPartida()

@@ -34,9 +34,7 @@ public final class CarregaPartidaVista extends BaseVista
 			System.arraycopy( dades[i], 1, dades_taula[i], 0, 3 );
 		}
 		taula_partides = new JTable( dades_taula, new String[] {
-				"Nom de la partida",
-				"Oponent",
-				"Data i hora"
+				"Nom de la partida", "Oponent", "Data i hora"
 		} );
 
 		inicialitzaVista();
@@ -94,23 +92,42 @@ public final class CarregaPartidaVista extends BaseVista
 
 	public void accioBotoCarrega( ActionEvent event )
 	{
-		if (taula_partides.getSelectedRowCount() == 0)
+		if ( taula_partides.getSelectedRowCount() == 0 )
 		{
 			VistaDialeg dialeg_error = new VistaDialeg();
 			String[] botons_error = { "Accepta" };
-			dialeg_error.setDialeg( "Error", "Has de seleccionar almenys una partida.",
-					botons_error, JOptionPane.WARNING_MESSAGE );
+			dialeg_error.setDialeg( "Error", "Has de seleccionar almenys una partida.", botons_error,
+					JOptionPane.WARNING_MESSAGE );
 		}
-		else if (taula_partides.getSelectedRowCount() > 1)
+		else if ( taula_partides.getSelectedRowCount() > 1 )
 		{
 			VistaDialeg dialeg_error = new VistaDialeg();
 			String[] botons_error = { "Accepta" };
-			dialeg_error.setDialeg( "Error", "No pots seleccionar més d'una partida.",
-					botons_error, JOptionPane.WARNING_MESSAGE );
+			dialeg_error.setDialeg( "Error", "No pots seleccionar més d'una partida.", botons_error,
+					JOptionPane.WARNING_MESSAGE );
 		}
 		else
 		{
-			int fila_seleccionada = taula_partides.getSelectedRow();
+			try
+			{
+				String id_partida = id_partides[taula_partides.getSelectedRow()];
+				String usuari = presentacio_ctrl.usuariSenseAutenticarAPartida( id_partida );
+				if ( usuari == null )
+				{
+					presentacio_ctrl.carregaPartida( id_partida, "" );
+					presentacio_ctrl.vistaCarregaPartidaAPartida();
+				}
+				else
+				{
+					presentacio_ctrl.vistaCarregaPartidaAIdentificaCarregaPartida( usuari, id_partida );
+				}
+			}
+			catch ( Exception excepcio )
+			{
+				VistaDialeg dialeg_error = new VistaDialeg();
+				String[] botons_error = { "Accepta" };
+				dialeg_error.setDialeg( "Error", excepcio.getMessage(), botons_error, JOptionPane.ERROR_MESSAGE );
+			}
 		}
 	}
 
