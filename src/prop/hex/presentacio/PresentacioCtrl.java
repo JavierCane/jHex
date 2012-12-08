@@ -285,7 +285,7 @@ public final class PresentacioCtrl
 		return PartidaCtrl.getInstancia().obtePista();
 	}
 
-	public int[] getElementsDeControlPartida()
+	public Object[] getElementsDeControlPartida()
 	{
 		return PartidaCtrl.getInstancia().getElementsDeControlPartida();
 	}
