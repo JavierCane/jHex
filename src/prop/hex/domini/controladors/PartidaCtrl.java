@@ -316,14 +316,16 @@ public final class PartidaCtrl
 		{
 			throw new UnsupportedOperationException( "La partida ja ha finalitzat" );
 		}
-		else if ( usuaris_preinicialitzats_partida[0].getTipusJugador() != TipusJugadors.JUGADOR &&
-		          usuaris_preinicialitzats_partida[1].getTipusJugador() != TipusJugadors.JUGADOR )
+		else if ( partida_actual.getJugadorA().getTipusJugador() != TipusJugadors.JUGADOR &&
+		          partida_actual.getJugadorB().getTipusJugador() != TipusJugadors.JUGADOR )
 		{
 			throw new UnsupportedOperationException(
-					"Per guardar la partida cal que algun dels jugadors estigui registrat!" );
+					"Per guardar la partida cal que algun dels jugadors estigui registrat" );
 		}
-
-		return gestor_partida.guardaElement( partida_actual );
+		else
+		{
+			return gestor_partida.guardaElement( partida_actual );
+		}
 	}
 
 	/**
@@ -386,6 +388,7 @@ public final class PartidaCtrl
 		}
 
 		partida_actual = null;
+		usuaris_preinicialitzats_partida[0] = null;
 		usuaris_preinicialitzats_partida[1] = null;
 		try
 		{
@@ -395,17 +398,6 @@ public final class PartidaCtrl
 		{
 			throw new IOException( "No s'ha pogut desar el ranquing" );
 		}
-	}
-
-	/**
-	 * Tanca la partida actual i l'esborra del disc. Actualitza les estadístiques si la partida ja ha finalitzat.
-	 *
-	 * @return Cert si s'ha tancat correctament. Fals altrament.
-	 */
-	public void tancaIEliminaPartida() throws IOException
-	{
-		tancaPartida();
-		gestor_partida.eliminaElement( partida_actual.getIdentificadorUnic() );
 	}
 
 	private Casella getMovimentIATornActual()
@@ -488,6 +480,23 @@ public final class PartidaCtrl
 	}
 
 	/**
+	 * Retorna el jugador A o B depenent del torn que s'hagin jugat
+	 *
+	 * @return jugador A o B depenent del torn que s'hagin jugat
+	 */
+	private UsuariHex obteJugadorTornActual()
+	{
+		if ( 0 == partida_actual.getTornsJugats() % 2 )
+		{
+			return partida_actual.getJugadorA();
+		}
+		else
+		{
+			return partida_actual.getJugadorB();
+		}
+	}
+
+	/**
 	 * Consulta si és un torn humà. Necessari perquè el controlador de presentació sàpiga si demanar un moviment
 	 * d'intel·ligència artificial al controlador o esperar que l'usuari esculli una casella.
 	 *
@@ -495,8 +504,7 @@ public final class PartidaCtrl
 	 */
 	public boolean esTornHuma()
 	{
-		TipusJugadors tipus_jugador_actual =
-				usuaris_preinicialitzats_partida[partida_actual.getTornsJugats() % 2].getTipusJugador();
+		TipusJugadors tipus_jugador_actual = obteJugadorTornActual().getTipusJugador();
 
 		return ( TipusJugadors.JUGADOR == tipus_jugador_actual || TipusJugadors.CONVIDAT == tipus_jugador_actual );
 	}
