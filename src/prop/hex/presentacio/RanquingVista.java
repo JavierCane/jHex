@@ -5,17 +5,36 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Vista del rànquing del joc Hex.
+ *
+ * @author Guillermo Girona San Miguel (Grup 7.3, Hex)
+ */
 public final class RanquingVista extends BaseVista
 {
 
+	// Panells
 	private JPanel panell_central;
 	private JPanel panell_botons;
+
+	// Botons
 	private JButton torna;
+
+	// Dades de les taules
 	private String[][] dades_classificacio;
 	private String[][] dades_hall_of_fame;
+
+	// Taules
 	private JTable taula_classificacio;
 	private JTable taula_hall_of_fame;
 
+	/**
+	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
+	 * controlador de presentació al qual haurà de demanar certes operacions.
+	 *
+	 * @param presentacio_ctrl Controlador de presentació.
+	 * @param frame_principal  Frame principal sobre el que s'hauran d'afegir els diferents components.
+	 */
 	public RanquingVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
 	{
 		super( presentacio_ctrl, frame_principal );
@@ -106,11 +125,6 @@ public final class RanquingVista extends BaseVista
 		panell_botons.setOpaque( false );
 	}
 
-	public void accioBotoTorna( ActionEvent event )
-	{
-		presentacio_ctrl.vistaRanquingAMenuPrincipal();
-	}
-
 	@Override
 	protected void assignaListeners()
 	{
@@ -125,5 +139,15 @@ public final class RanquingVista extends BaseVista
 				accioBotoTorna( event );
 			}
 		} );
+	}
+
+	/**
+	 * Defineix el comportament del botó de tornar al menú principal quan sigui pitjat.
+	 *
+	 * @param event Event que activarà el botó.
+	 */
+	public void accioBotoTorna( ActionEvent event )
+	{
+		presentacio_ctrl.vistaRanquingAMenuPrincipal();
 	}
 }
