@@ -140,14 +140,47 @@ public class TaulerHex extends Tauler implements Serializable
 	}
 
 	/**
+	 * Indica si una casella és central o no.
+	 *
+	 * @param fila    Fila de la casella dins el tauler
+	 * @param columna Columna de la casella dins el tauler.
+	 * @return Cert si la casella és central. Fals altrament.
+	 * @throws IllegalArgumentException Si (fila, columna) no és una casella vàlida.
+	 */
+	public boolean esCasellaCentral( int fila, int columna ) throws IndexOutOfBoundsException
+	{
+		if ( !esCasellaValida( fila, columna ) )
+		{
+			throw new IndexOutOfBoundsException( "Casella fora del tauler" );
+		}
+		else
+		{
+			return ( fila == mida / 2 || fila == ( mida - 1 ) / 2 ) &&
+			       ( columna == mida / 2 || columna == ( mida - 1 ) / 2 );
+		}
+	}
+
+	/**
+	 * Indica si una casella és central o no.
+	 *
+	 * @param casella Casella dins el tauler.
+	 * @return Cert si la casella és central. Fals altrament.
+	 * @throws IllegalArgumentException Si (fila, columna) no és una casella vàlida.
+	 */
+	public boolean esCasellaCentral( Casella casella ) throws IndexOutOfBoundsException
+	{
+		return esCasellaCentral( casella.getFila(), casella.getColumna() );
+	}
+
+	/**
 	 * Comprova si un moviment és vàlid.
 	 *
 	 * @param fitxa   Fitxa que es vol comprovar
 	 * @param fila    Fila de la casella dins el tauler
 	 * @param columna Columna de la casella dins el tauler.
 	 * @return Cert si el moviment és vàlid. Fals altrament.
-	 * @throws IndexOutOfBoundsException si (fila, columna) no és una casella vàlida.
-	 * @throws IllegalArgumentException  si fitxa no és de cap jugador (és EstatCasella.BUIDA).
+	 * @throws IndexOutOfBoundsException Si (fila, columna) no és una casella vàlida.
+	 * @throws IllegalArgumentException  Si fitxa no és de cap jugador (és EstatCasella.BUIDA).
 	 */
 	@Override
 	public boolean esMovimentValid( EstatCasella fitxa, int fila, int columna )
@@ -165,8 +198,8 @@ public class TaulerHex extends Tauler implements Serializable
 		{
 			throw new IllegalArgumentException( "La fitxa no és de cap jugador" );
 		}
-		else if ( mode_inici_partida == ModesInici.ESTANDARD && num_fitxes_a + num_fitxes_b == 0 && fila == mida / 2 &&
-		          columna == mida / 2 )
+		else if ( mode_inici_partida == ModesInici.ESTANDARD && num_fitxes_a + num_fitxes_b == 0 &&
+		          esCasellaCentral( fila, columna ) )
 		{
 			return false;
 		}

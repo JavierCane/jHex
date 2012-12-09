@@ -109,8 +109,8 @@ public final class PresentacioCtrl
 		{
 			Method metode = Class.forName( "com.apple.eawt.Application" ).getMethod( "getApplication" );
 			Object aplicacio = metode.invoke( null );
-			aplicacio.getClass().getMethod( "setDockIconImage", Image.class ).invoke( aplicacio,
-					new ImageIcon( "img/logo-120_120.png" ).getImage() );
+			aplicacio.getClass().getMethod( "setDockIconImage", Image.class )
+					.invoke( aplicacio, new ImageIcon( "img/logo-120_120.png" ).getImage() );
 		}
 		catch ( Exception excepcio )
 		{
@@ -134,8 +134,9 @@ public final class PresentacioCtrl
 		inicia_sessio_vista.fesVisible();
 	}
 
-	public void setUsuariActual( String nom, String contrasenya ) throws IllegalArgumentException,
-			FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
+	public void setUsuariActual( String nom, String contrasenya )
+			throws IllegalArgumentException, FileNotFoundException, IOException, ClassNotFoundException,
+			       NullPointerException
 	{
 		UsuariCtrl.getInstancia().setUsuariPrincipal( nom, contrasenya );
 	}
@@ -194,8 +195,8 @@ public final class PresentacioCtrl
 		UsuariCtrl.getInstancia().reiniciaEstadistiques();
 	}
 
-	public void canviaContrasenyaJugadorPrincipal( String contrasenya_actual, String contrasenya_nova ) throws
-			IllegalArgumentException
+	public void canviaContrasenyaJugadorPrincipal( String contrasenya_actual, String contrasenya_nova )
+			throws IllegalArgumentException
 	{
 		UsuariCtrl.getInstancia().modificaContrasenya( contrasenya_actual, contrasenya_nova );
 	}
@@ -204,15 +205,16 @@ public final class PresentacioCtrl
 	// ----------------------------------------------------------------------------------------------------------------
 
 	public void preInicialitzaUsuariPartida( int num_jugador, TipusJugadors tipus_jugador, String nom_usuari,
-	                                         String contrasenya_usuari ) throws IllegalArgumentException,
-			FileNotFoundException, IOException, ClassNotFoundException, NullPointerException
+	                                         String contrasenya_usuari )
+			throws IllegalArgumentException, FileNotFoundException, IOException, ClassNotFoundException,
+			       NullPointerException
 	{
-		PartidaCtrl.getInstancia().preInicialitzaUsuariPartida( num_jugador, tipus_jugador, nom_usuari,
-				contrasenya_usuari );
+		PartidaCtrl.getInstancia()
+				.preInicialitzaUsuariPartida( num_jugador, tipus_jugador, nom_usuari, contrasenya_usuari );
 	}
 
-	public void iniciaPartida( int mida_tauler, String nom_partida, boolean situacio_inicial ) throws
-			ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException
+	public void iniciaPartida( int mida_tauler, String nom_partida, boolean situacio_inicial )
+			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException
 	{
 		PartidaCtrl.getInstancia().inicialitzaPartida( mida_tauler, nom_partida, situacio_inicial );
 	}
@@ -257,8 +259,8 @@ public final class PresentacioCtrl
 		return PartidaCtrl.getInstancia().usuariSenseAutenticarAPartida( id_partida );
 	}
 
-	public void carregaPartida( String id_partida, String contrasenya_contrincant) throws ClassNotFoundException,
-			IOException, InstantiationException, IllegalAccessException
+	public void carregaPartida( String id_partida, String contrasenya_contrincant )
+			throws ClassNotFoundException, IOException, InstantiationException, IllegalAccessException
 	{
 		PartidaCtrl.getInstancia().carregaPartida( id_partida, contrasenya_contrincant );
 	}
@@ -273,12 +275,12 @@ public final class PresentacioCtrl
 
 	public void mouFitxa( int fila, int columna ) throws UnsupportedOperationException
 	{
-		PartidaCtrl.getInstancia().mouFitxa(fila, columna);
+		PartidaCtrl.getInstancia().mouFitxa( fila, columna );
 	}
 
 	public EstatCasella getEstatCasella( int fila, int columna )
 	{
-		return PartidaCtrl.getInstancia().getEstatCasella(fila, columna);
+		return PartidaCtrl.getInstancia().getEstatCasella( fila, columna );
 	}
 
 	public boolean esPartidaAmbSituacioInicial()
@@ -299,6 +301,11 @@ public final class PresentacioCtrl
 	public boolean esTornHuma()
 	{
 		return PartidaCtrl.getInstancia().esTornHuma();
+	}
+
+	public boolean esCasellaCentral( int fila, int columna )
+	{
+		return PartidaCtrl.getInstancia().esCasellaCentral( fila, columna );
 	}
 
 	public Casella obtePista()
@@ -512,8 +519,8 @@ public final class PresentacioCtrl
 	{
 		if ( identifica_carrega_partida_vista == null )
 		{
-			identifica_carrega_partida_vista = new IdentificaCarregaPartidaVista( this, frame_principal, usuari,
-					id_partida );
+			identifica_carrega_partida_vista =
+					new IdentificaCarregaPartidaVista( this, frame_principal, usuari, id_partida );
 		}
 		carrega_partida_vista = null;
 		identifica_carrega_partida_vista.fesVisible();

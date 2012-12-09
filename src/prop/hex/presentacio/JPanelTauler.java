@@ -4,6 +4,7 @@ import prop.cluster.domini.models.estats.EstatCasella;
 import prop.cluster.domini.models.estats.EstatPartida;
 import prop.hex.domini.models.Casella;
 import prop.hex.domini.models.enums.CombinacionsColors;
+import prop.hex.domini.models.enums.ModesInici;
 import prop.hex.domini.models.enums.TipusJugadors;
 
 import javax.swing.*;
@@ -226,9 +227,9 @@ public final class JPanelTauler extends JPanel
 			{
 				g.translate( j * dx, 0 );
 
-				if ( i == ( Integer ) elements_de_control_partida[1] / 2 &&
-				     j == ( Integer ) elements_de_control_partida[1] / 2 &&
-				     ( Integer ) elements_de_control_partida[2] == 0 )
+				if ( ( Integer ) elements_de_control_partida[2] == 0 &&
+				     elements_de_control_partida[4] == ModesInici.ESTANDARD &&
+				     presentacio_ctrl.esCasellaCentral( i, j ) )
 				{
 					g.setColor(
 							( ( CombinacionsColors ) elements_de_control_partida[3] ).getColorCasellesInhabilitades() );

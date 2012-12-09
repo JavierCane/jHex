@@ -573,6 +573,11 @@ public final class PartidaCtrl
 		}
 	}
 
+	public boolean esCasellaCentral( int fila, int columna )
+	{
+		return partida_actual.getTauler().esCasellaCentral( fila, columna );
+	}
+
 	/**
 	 * Consulta l'estat de la partida.
 	 *
