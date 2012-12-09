@@ -56,6 +56,8 @@ public final class JPanelTauler extends JPanel
 
 	private boolean partida_ia;
 
+	private boolean es_primer_moviment;
+
 	/**
 	 * Constructora, obté el taulell i els jugadors, construeix un poligon hexagonal i
 	 * afegeix el listener del ratoli pel cas del click.
@@ -73,6 +75,7 @@ public final class JPanelTauler extends JPanel
 		             ( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) != TipusJugadors.CONVIDAT &&
 		             ( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) != TipusJugadors.JUGADOR &&
 		             ( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) != TipusJugadors.CONVIDAT;
+		es_primer_moviment = true;
 
 		//Creem l'hexàgon que dibuixarem després.
 		int x[] = new int[6];
@@ -151,8 +154,7 @@ public final class JPanelTauler extends JPanel
 
 	private boolean potMoureIA()
 	{
-		return ( partida_en_curs && ( partida_ia || ( Integer ) elements_de_control_partida[2] == 0 ||
-			presentacio_ctrl.esPartidaAmbSituacioInicialAcabadaDeDefinir() ) && !presentacio_ctrl.esTornHuma() &&
+		return ( partida_en_curs && ( partida_ia || es_primer_moviment ) && !presentacio_ctrl.esTornHuma() &&
 			presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA );
 	}
 
@@ -164,6 +166,7 @@ public final class JPanelTauler extends JPanel
 	{
 		if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA && !presentacio_ctrl.esTornHuma() )
 		{
+			es_primer_moviment = false;
 			presentacio_ctrl.executaMovimentIA();
 		}
 		else if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA &&
@@ -193,6 +196,7 @@ public final class JPanelTauler extends JPanel
 				//No ens cal comprovar si el moviment es fa o no (si retorna true o false).
 				presentacio_ctrl.mouFitxa( i, j );
 				pista_valida = false;
+				es_primer_moviment = false;
 				paintImmediately( 0, 0, 800, 500 );
 				if ( !partida_finalitzada && partida_en_curs && !presentacio_ctrl.esTornHuma() )
 				{
@@ -295,9 +299,7 @@ public final class JPanelTauler extends JPanel
 		}
 
 		// Si és torn de la IA i a la partida juga algun humà,
-		if ( !( ( Integer ) elements_de_control_partida[2] == 0 ||
-			presentacio_ctrl.esPartidaAmbSituacioInicialAcabadaDeDefinir() ) && partida_en_curs &&
-			!partida_ia && !presentacio_ctrl.esTornHuma() &&
+		if ( !es_primer_moviment && partida_en_curs && !partida_ia && !presentacio_ctrl.esTornHuma() &&
 		     presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA )
 		{
 			if ( ( Integer ) elements_de_control_partida[2] % 2 == 0 )
