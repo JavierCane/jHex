@@ -73,6 +73,7 @@ public final class JugarDrvr
 	{
 		try
 		{
+			UsuariCtrl.getInstancia().entraConvidat();
 			PartidaCtrl.getInstancia().preInicialitzaUsuariPartida( 0, usuari_a.getTipusJugador(), usuari_a.getNom(),
 					usuari_a.getContrasenya() );
 			PartidaCtrl.getInstancia().preInicialitzaUsuariPartida( 1, usuari_b.getTipusJugador(), usuari_b.getNom(),
