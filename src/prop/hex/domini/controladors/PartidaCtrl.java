@@ -3,6 +3,7 @@ package prop.hex.domini.controladors;
 import prop.cluster.domini.models.estats.EstatCasella;
 import prop.cluster.domini.models.estats.EstatPartida;
 import prop.hex.domini.models.*;
+import prop.hex.domini.models.enums.CombinacionsColors;
 import prop.hex.domini.models.enums.ModesInici;
 import prop.hex.domini.models.enums.TipusJugadors;
 import prop.hex.gestors.PartidaHexGstr;
@@ -27,7 +28,9 @@ public final class PartidaCtrl
 {
 
 	/**
-	 * Instància del controlador.
+	 * Instància del controlador. Feta així perquè segueix el patró <em>singleton</em>.
+	 *
+	 * @see #getInstancia()
 	 */
 	private static PartidaCtrl instancia;
 
@@ -44,21 +47,29 @@ public final class PartidaCtrl
 	/**
 	 * Estat de la darrera partida. Es fa servir quan es finalitza la partida, per no tenir problemes d'accés a
 	 * punters nuls.
+	 *
+	 * @see #consultaEstatPartida()
 	 */
 	private EstatPartida estat_darrera_partida = null;
 
 	/**
 	 * Conté els usuaris pre inicialitzats de la partida actual, únicament son útils abans d'inicialitzar una partida.
+	 *
+	 * @see #preInicialitzaUsuariPartida(int, TipusJugadors, String, String)
 	 */
 	private UsuariHex[] usuaris_preinicialitzats_partida;
 
 	/**
 	 * Instàncies de les intel·ligències artificials per als jugadors no humans.
+	 *
+	 * @see #inicialitzaIAJugadors()
 	 */
 	private MouFitxaIA[] ia_jugadors;
 
 	/**
-	 * Constructor per defecte. Declarat privat perquè és una classe singleton
+	 * Constructor per defecte. Declarat privat perquè és una classe singleton.
+	 *
+	 * @see #getInstancia()
 	 */
 	private PartidaCtrl()
 	{
@@ -79,6 +90,7 @@ public final class PartidaCtrl
 	 * simplement retorna l'instancia ja creada.
 	 *
 	 * @return L'objecte singleton amb el el controlador de partida.
+	 * @see #instancia
 	 */
 	public static synchronized PartidaCtrl getInstancia()
 	{
@@ -101,8 +113,8 @@ public final class PartidaCtrl
 	 * @throws IOException            Si hi ha algun problema d'entrada/sortida quan intentem llegir o crear el
 	 *                                rànquing o les intel·ligències artificials.
 	 * @throws ClassNotFoundException Si no es troben les classes UsuariHex o Ranquing.
-	 * @see prop.hex.gestors.RanquingGstr
-	 * @see UsuariCtrl#creaUsuari(String, String, prop.hex.domini.models.enums.TipusJugadors)
+	 * @see RanquingGstr
+	 * @see UsuariCtrl#creaUsuari(String, String, TipusJugadors)
 	 */
 	public static void comprovaConsistenciaFitxersIDades() throws IOException, ClassNotFoundException
 	{
@@ -145,7 +157,8 @@ public final class PartidaCtrl
 	 * @throws IOException              Si hi ha algun problema d'entrada/sortida quan intentem carregar l'usuari de disc.
 	 * @throws ClassNotFoundException   Si no es troba la classe UsuariHex quan s'intenta carregar l'usuari de disc.
 	 * @throws NullPointerException     Si el fitxer de l'usuari és buit.
-	 * @see UsuariCtrl#carregaUsuari(String, String, prop.hex.domini.models.enums.TipusJugadors)
+	 * @see UsuariHex#UsuariHex(String, String, TipusJugadors)
+	 * @see UsuariCtrl#carregaUsuari(String, String, TipusJugadors)
 	 */
 	public void preInicialitzaUsuariPartida( int num_jugador, TipusJugadors tipus_jugador, String nom_usuari,
 	                                         String contrasenya_usuari )
@@ -193,6 +206,7 @@ public final class PartidaCtrl
 	 * @throws IllegalAccessError     Si s'intenta accedir a un lloc no permès quan es carreguen les intel·ligències
 	 *                                artificials.
 	 * @throws InstantiationError     Si hi ha problemes amb la instanciació de les intel·ligències artificials.
+	 * @see #ia_jugadors
 	 * @see MouFitxaIA
 	 * @see TipusJugadors
 	 */
@@ -210,12 +224,12 @@ public final class PartidaCtrl
 	}
 
 	/**
-	 * Inicialitza una partida nova.
+	 * Inicialitza una partida nova. Li assigna les preferències de l'usuari principal actual.
 	 *
 	 * @param mida_tauler      Mida del tauler de la partida.
 	 * @param nom_partida      Nom de la partida.
 	 * @param situacio_inicial Indica si la partida ve definida amb una situació inicial
-	 * @throws NullPointerException     Si no s'han preinicialitzat els usuaris de la partida previament.
+	 * @throws NullPointerException     Si no s'han preinicialitzat els usuaris de la partida prèviament.
 	 * @throws IllegalArgumentException Si no s'ha especificat un nom de partida o si ja existeix una partida amb
 	 *                                  aquest identificador
 	 * @throws ClassNotFoundException   Si no es pot carregar la classe de les intel·ligències artificials.
@@ -223,8 +237,7 @@ public final class PartidaCtrl
 	 * @throws IllegalAccessException   Si s'intenta accedir a un lloc no permès quan es carreguen les
 	 *                                  intel·ligències artificials.
 	 * @see #usuaris_preinicialitzats_partida
-	 * @see PartidaHex#PartidaHex(UsuariHex, UsuariHex, TaulerHex, String, prop.hex.domini.models.enums.ModesInici,
-	 *      prop.hex.domini.models.enums.CombinacionsColors, boolean)
+	 * @see PartidaHex#PartidaHex(UsuariHex, UsuariHex, TaulerHex, String, ModesInici, CombinacionsColors, boolean)
 	 */
 	public void inicialitzaPartida( int mida_tauler, String nom_partida, boolean situacio_inicial )
 			throws NullPointerException, IllegalArgumentException, ClassNotFoundException, InstantiationException,
@@ -258,7 +271,7 @@ public final class PartidaCtrl
 
 	/**
 	 * Carrega de memòria secundària la partida identificada per identificador_partida i la estableix com la partida
-	 * en joc
+	 * en joc.
 	 *
 	 * @param id_partida              Identificador de la partida que es vol carregar
 	 * @param contrasenya_contrincant Contrasenya de l'usuari contrincant
@@ -267,6 +280,9 @@ public final class PartidaCtrl
 	 * @throws IllegalAccessError     Si hi ha un problema d'accés al fitxer amb la partida
 	 * @throws InstantiationError     Si hi ha un problema de classes a la instanciació de la partida que es vol
 	 *                                carregar
+	 * @see #inicialitzaIAJugadors()
+	 * @see PartidaHexGstr
+	 * @see UsuariCtrl#getUsuariPrincipal()
 	 */
 	public void carregaPartida( String id_partida, String contrasenya_contrincant )
 			throws ClassNotFoundException, IOException, InstantiationException, IllegalAccessException
@@ -310,6 +326,7 @@ public final class PartidaCtrl
 	 * @throws IllegalAccessError     Si hi ha un problema d'accés al fitxer amb la partida
 	 * @throws InstantiationError     Si hi ha un problema de classes a la instanciació de la partida que es vol
 	 *                                consultar
+	 * @see PartidaHexGstr#carregaElement(String)
 	 */
 	public String usuariSenseAutenticarAPartida( String id_partida )
 			throws IOException, ClassNotFoundException, IllegalAccessError, InstantiationError
@@ -335,10 +352,13 @@ public final class PartidaCtrl
 	 * Consulta les partides de l'usuari principal
 	 *
 	 * @return Una llista amb les dades de les partides. Dins de cada element de la llista, els elements són
-	 *         - 0: Identificador únic de la partida
-	 *         - 1: Nom de la partida
-	 *         - 2: Nom d'usuari de l'oponent (contra qui juga l'usuari principal de la sessió, no de la partida)
-	 *         - 3: String formatat amb la data i hora d'inici de la partida
+	 *         <ol start="0">
+	 *         <li>Identificador únic de la partida</li>
+	 *         <li>Nom de la partida</li>
+	 *         <li>Nom d'usuari de l'oponent (contra qui juga l'usuari principal de la sessió, no de la partida)</li>
+	 *         <li>String formatat amb la data i hora d'inici de la partida</li>
+	 *         </ol>
+	 * @see PartidaHexGstr#llistaPartidesUsuari(String)
 	 */
 	public String[][] llistaPartidesUsuari()
 	{
@@ -379,26 +399,32 @@ public final class PartidaCtrl
 	 *
 	 * @param id_usuari Identificador únic de l'usuari de qui es volen esborrar les partides.
 	 * @return Cert si s'han esborrat. Fals altrament.
+	 * @see PartidaHexGstr#eliminaElement(String)
 	 */
 	public boolean esborraPartidesUsuari( String id_usuari )
 	{
 		Set<String> id_partides = gestor_partida.llistaPartidesUsuari( id_usuari );
-
+		boolean resultat = true;
 		for ( String id_partida : id_partides )
 		{
-			gestor_partida.eliminaElement( id_partida );
+			resultat = resultat && gestor_partida.eliminaElement( id_partida );
 		}
 
-		return true;
+		return resultat;
 	}
 
 	/**
 	 * Guarda la partida actual.
+	 * <p/>
+	 * Cal tenir en compte que només es poden guardar les partides amb algun usuari registrat i que, a més,
+	 * no hagin finalitzat.
 	 *
 	 * @return Cert si s'ha guardat correctament. Fals altrament.
 	 * @throws FileNotFoundException         Si no existeix el fitxer que de la partida que es desa.
 	 * @throws IOException                   Si hi ha un error d'entrada/sortida
-	 * @throws UnsupportedOperationException Si es vol guardar una partida ja finalitzada.
+	 * @throws UnsupportedOperationException Si es vol guardar una partida ja finalitzada o cap dels usuaris és
+	 *                                       registrat.
+	 * @see PartidaHexGstr#guardaElement(prop.hex.domini.models.PartidaHex)
 	 */
 	public boolean guardaPartida() throws IOException, UnsupportedOperationException
 	{
@@ -419,7 +445,7 @@ public final class PartidaCtrl
 	}
 
 	/**
-	 * Comprova si la partida actual té situació inicial
+	 * Comprova si la partida actual té situació inicial.
 	 *
 	 * @return Cert si la partida actual té situació inicial. Fals altrament.
 	 */
@@ -440,6 +466,9 @@ public final class PartidaCtrl
 
 	/**
 	 * Per una partida que té situació inicial, estableix que aquesta ja està acabada de definir.
+	 *
+	 * @see #esPartidaAmbSituacioInicial()
+	 * @see #esPartidaAmbSituacioInicialAcabadaDeDefinir()
 	 */
 	public void acabaDeDefinirSituacioInicial()
 	{
@@ -451,6 +480,12 @@ public final class PartidaCtrl
 	 * <p/>
 	 * Actualitza les estadístiques dels usuaris si la partida ja ha finalitzat i no ha començat
 	 * definint una situació inicial.
+	 *
+	 * @see #consultaEstatPartida()
+	 * @see PartidaHex
+	 * @see PartidaHexGstr#eliminaElement(String)
+	 * @see Ranquing#actualitzaRanquingUsuari(prop.hex.domini.models.UsuariHex)
+	 * @see RanquingGstr#guardaElement()
 	 */
 	public void finalitzaPartida() throws IOException
 	{
@@ -505,15 +540,12 @@ public final class PartidaCtrl
 		netejaParametresPartidaActual();
 	}
 
-	private Casella getMovimentIATornActual()
-	{
-		return ia_jugadors[getNumJugadorTornActual()].mouFitxa( getTipusFitxesJugadorTornActual() );
-	}
-
 	/**
 	 * Consulta una pista per al jugador que la demana.
 	 *
 	 * @return La casella on mouria la intel·ligència artificial configurada per a les pistes.
+	 * @see #getMovimentIATornActual()
+	 * @see PartidaHex#incrementaPistesUsades(int, int)
 	 */
 	public Casella obtePista()
 	{
@@ -525,6 +557,7 @@ public final class PartidaCtrl
 	 * Executa un moviment d'una intel·ligència artificial (cal que sigui el seu torn)
 	 *
 	 * @return La casella on mou la intel·ligència artificial.
+	 * @see #getMovimentIATornActual()
 	 */
 	public Casella executaMovimentIA()
 	{
@@ -537,11 +570,19 @@ public final class PartidaCtrl
 
 	/**
 	 * Mou la fitxa del jugador que toca segons el torn a la casella indicada per (fila, columna).
+	 * <p/>
+	 * Actualitza les estadístiques i propietats corresponents a la partida.
 	 *
 	 * @param fila    Fila de la casella
 	 * @param columna Columna de la casella
 	 * @return Cert si s'ha mogut la fitxa. Fals altrament.
 	 * @throws UnsupportedOperationException Si la partida ja ha finalitzat.
+	 * @see Casella
+	 * @see TaulerHex#esMovimentValid(EstatCasella, Casella)
+	 * @see TaulerHex#mouFitxa(EstatCasella, Casella)
+	 * @see PartidaHex#setDarreraFitxa(Casella)
+	 * @see PartidaHex#incrementaTempsDeJoc(int, long)
+	 * @see PartidaHex#incrementaTornsJugats(int)
 	 */
 	public boolean mouFitxa( int fila, int columna ) throws UnsupportedOperationException
 	{
@@ -551,15 +592,16 @@ public final class PartidaCtrl
 		}
 		else
 		{
-			if ( !partida_actual.getTauler().esMovimentValid( getTipusFitxesJugadorTornActual(), fila, columna ) )
+			Casella destinacio = new Casella( fila, columna );
+			if ( !partida_actual.getTauler().esMovimentValid( getTipusFitxesJugadorTornActual(), destinacio ) )
 			{
 				return false;
 			}
 			else
 			{
-				if ( partida_actual.getTauler().mouFitxa( getTipusFitxesJugadorTornActual(), fila, columna ) )
+				if ( partida_actual.getTauler().mouFitxa( getTipusFitxesJugadorTornActual(), destinacio ) )
 				{
-					partida_actual.setDarreraFitxa( new Casella( fila, columna ) );
+					partida_actual.setDarreraFitxa( destinacio );
 
 					long instant_actual = new Date().getTime();
 
@@ -583,7 +625,16 @@ public final class PartidaCtrl
 		}
 	}
 
-	public boolean esCasellaCentral( int fila, int columna )
+	/**
+	 * Consulta si una casella és central.
+	 *
+	 * @param fila    Fila de la casella dins el tauler.
+	 * @param columna Columna de la casella dins el tauler.
+	 * @return Cert si la casella (fila, columna) és central. Fals altrament.
+	 * @throws IllegalArgumentException Si (fila, columna) no és una casella vàlida.
+	 * @see TaulerHex#esCasellaCentral(int, int)
+	 */
+	public boolean esCasellaCentral( int fila, int columna ) throws IndexOutOfBoundsException
 	{
 		return partida_actual.getTauler().esCasellaCentral( fila, columna );
 	}
@@ -592,6 +643,8 @@ public final class PartidaCtrl
 	 * Consulta l'estat de la partida.
 	 *
 	 * @return L'estat de la partida (si guanya algun jugador o encara no està finalitzada).
+	 * @see PartidaHex#comprovaEstatPartida(int, int)
+	 * @see PartidaHex#setFinalitzada(boolean)
 	 */
 	public EstatPartida consultaEstatPartida()
 	{
@@ -608,6 +661,8 @@ public final class PartidaCtrl
 	 * Intercanvia la darrera fitxa d'un jugador per l'altre. Útil si s'aplica la regla del pastís.
 	 *
 	 * @return Cert si s'ha canviat la fitxa. Fals altrament.
+	 * @see TaulerHex#intercanviaFitxa(Casella)
+	 * @see PartidaHex#incrementaTornsJugats(int)
 	 */
 	public boolean intercanviaDarreraFitxa()
 	{
@@ -620,6 +675,7 @@ public final class PartidaCtrl
 	 * Consulta si es pot intercanviar la darrera fitxa.
 	 *
 	 * @return Cert si es pot (està la regla del pastís i hi ha només una fitxa). Fals altrament.
+	 * @see #esReglaPastis()
 	 */
 	public boolean esPotIntercanviarDarreraFitxa()
 	{
@@ -630,6 +686,7 @@ public final class PartidaCtrl
 	 * Consulta si el joc actual té la regla del pastís.
 	 *
 	 * @return Cert si comença amb la regla del pastís. Fals altrament.
+	 * @see ModesInici#PASTIS
 	 */
 	public boolean esReglaPastis()
 	{
@@ -639,7 +696,8 @@ public final class PartidaCtrl
 	/**
 	 * Obté la partida actual en joc.
 	 *
-	 * @return PartidaHex amb la partida actual.
+	 * @return PartidaHex amb la partida actual. Si no s'està jugant cap partida, o aquesta ha finalitzat,
+	 *         retorna null.
 	 */
 	public PartidaHex getPartidaActual()
 	{
@@ -649,15 +707,22 @@ public final class PartidaCtrl
 	// Métodes auxiliars depenents del torn actual
 	// ----------------------------------------------------------------------------------------------------------------
 
+	/**
+	 * Consulta el número del jugador del torn actual. A juga els torns parells (comencen per 0) i B els senars.
+	 *
+	 * @return Retorna el número del jugador del torn actual (0 si és A, 1 si és B).
+	 * @see PartidaHex#getTornsJugats()
+	 */
 	private int getNumJugadorTornActual()
 	{
 		return partida_actual.getTornsJugats() % 2;
 	}
 
 	/**
-	 * Retorna el jugador A o B depenent del torn que s'hagin jugat
+	 * Retorna el jugador A o B depenent dels torns que s'hagin jugat
 	 *
-	 * @return jugador A o B depenent del torn que s'hagin jugat
+	 * @return jugador A o B depenent dels torns que s'hagin jugat
+	 * @see #getNumJugadorTornActual()
 	 */
 	private UsuariHex obteJugadorTornActual()
 	{
@@ -672,10 +737,23 @@ public final class PartidaCtrl
 	}
 
 	/**
+	 * Consulta quin moviment faria la intel·ligència artificial del torn actual. Si és un torn humà,
+	 * fa servir la intel·ligència artificial de les pistes.
+	 *
+	 * @return El moviment que faria la intel·ligència artificial corresponent.
+	 * @see MouFitxaIA#mouFitxa(EstatCasella)
+	 */
+	private Casella getMovimentIATornActual()
+	{
+		return ia_jugadors[getNumJugadorTornActual()].mouFitxa( getTipusFitxesJugadorTornActual() );
+	}
+
+	/**
 	 * Consulta si és un torn humà. Necessari perquè el controlador de presentació sàpiga si demanar un moviment
 	 * d'intel·ligència artificial al controlador o esperar que l'usuari esculli una casella.
 	 *
 	 * @return Cert si el jugador és humà. Fals altrament.
+	 * @see TipusJugadors
 	 */
 	public boolean esTornHuma()
 	{
@@ -684,6 +762,13 @@ public final class PartidaCtrl
 		return ( TipusJugadors.JUGADOR == tipus_jugador_actual || TipusJugadors.CONVIDAT == tipus_jugador_actual );
 	}
 
+	/**
+	 * Consulta amb quines fitxes juga el jugador del torn actual.
+	 *
+	 * @return El tipus de fitxa que fa servir el jugador del torn actual.
+	 * @see #getNumJugadorTornActual()
+	 * @see PartidaHex#getTipusFitxesJugador(int)
+	 */
 	private EstatCasella getTipusFitxesJugadorTornActual()
 	{
 		return partida_actual.getTipusFitxesJugador( getNumJugadorTornActual() );
@@ -692,11 +777,34 @@ public final class PartidaCtrl
 	// Mètodes auxiliars per les vistes
 	// ----------------------------------------------------------------------------------------------------------------
 
-	public EstatCasella getEstatCasella( int fila, int columna )
+	/**
+	 * Consulta quin és l'estat de la casella en el moment actual.
+	 *
+	 * @param fila    Fila de la casella dins el tauler
+	 * @param columna Columna de la casella dins el tauler
+	 * @return L'estat de la casella (fila, columna).
+	 * @throws IndexOutOfBoundsException Si (fila, columna) no és una casella vàlida.
+	 * @see TaulerHex#getEstatCasella(int, int)
+	 */
+	public EstatCasella getEstatCasella( int fila, int columna ) throws IndexOutOfBoundsException
 	{
 		return partida_actual.getTauler().getEstatCasella( fila, columna );
 	}
 
+	/**
+	 * Consulta els elements de control de la partida per a la vista.
+	 *
+	 * @return Els elements de control de la partida necessaris per a la capa de presentació. Aquests són
+	 *         <ol start="0">
+	 *         <li>Nombre màxim de pistes</li>
+	 *         <li>Mida del tauler</li>
+	 *         <li>Total de torns jugats</li>
+	 *         <li>Combinació de colors</li>
+	 *         <li>Mode d'inici</li>
+	 *         </ol>
+	 * @see CombinacionsColors
+	 * @see ModesInici
+	 */
 	public Object[] getElementsDeControlPartida()
 	{
 		Object[] elements_de_control = new Object[5];
@@ -710,6 +818,21 @@ public final class PartidaCtrl
 		return elements_de_control;
 	}
 
+	/**
+	 * Consulta els element de control dels jugadors de la partida per a la vista.
+	 *
+	 * @return Els elements de control dels jugadors de la partida necessaris per a la capa de presentació. Aquests són
+	 *         <ol start="0">
+	 *         <li>Tipus de jugador</li>
+	 *         <li>Pistes usades pel jugador</li>
+	 *         <li>Temps de joc (en segons) del jugador</li>
+	 *         <li>Nom del jugador</li>
+	 *         <li>Número de fitxes del jugador</li>
+	 *         </ol>
+	 *         <p/>
+	 *         I, dins de cada element, els índex 0 i 1 contenen dades del jugadors A i B respectivament.
+	 * @see TipusJugadors
+	 */
 	public Object[][] getElementsDeControlJugadors()
 	{
 		Object[][] elements_de_control = new Object[5][2];
