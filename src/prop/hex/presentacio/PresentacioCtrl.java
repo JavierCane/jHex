@@ -270,13 +270,13 @@ public final class PresentacioCtrl
 		hall_of_fame_formatejat[1] = getFitaHallOfFameFormatejada(
 				"Més victòries",
 				ranquing.get_usuari_mes_partides_guanyades(),
-				ranquing.get_fitxes_minimes().toString()
+				ranquing.get_mes_partides_guanyades().toString()
 		);
 
 		hall_of_fame_formatejat[2] = getFitaHallOfFameFormatejada(
 				"Més partides jugades",
 				ranquing.get_usuari_mes_partides_jugades(),
-				ranquing.get_fitxes_minimes().toString()
+				ranquing.get_mes_partides_jugades().toString()
 		);
 
 		hall_of_fame_formatejat[3] = getFitaHallOfFameFormatejada(
