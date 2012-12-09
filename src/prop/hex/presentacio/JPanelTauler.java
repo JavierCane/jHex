@@ -25,6 +25,8 @@ public final class JPanelTauler extends JPanel
 
 	private boolean pista_valida;
 
+	private JPanel panell_botons;
+
 	/**
 	 * Poligon que s'utilitza per dibuixar a pantalla.
 	 */
@@ -47,6 +49,7 @@ public final class JPanelTauler extends JPanel
 	private int iniciY = 80;
 
 	private boolean partida_en_curs;
+
 	private boolean partida_finalitzada;
 
 	private boolean partida_ia;
@@ -111,40 +114,50 @@ public final class JPanelTauler extends JPanel
 			elements_de_control_partida = presentacio_ctrl.getElementsDeControlPartida();
 			elements_de_control_jugadors = presentacio_ctrl.getElementsDeControlJugadors();
 
-			if ( partida_en_curs && ( ( ( Integer ) elements_de_control_partida[2] % 2 == 0 &&
-			                            ( x < 170 && x > -50 && y < 480 && y > 360 ) ) ||
-			                          ( ( Integer ) elements_de_control_partida[2] % 2 != 0 &&
-			                            ( x < 800 && x > 580 && y < 270 && y > 150 ) ) ) )
+			for ( int i = 0; i < ( Integer ) elements_de_control_partida[1]; i++ )
 			{
-				mouIAOMostraPista();
-			}
-			else
-			{
-				for ( int i = 0; i < ( Integer ) elements_de_control_partida[1]; i++ )
+				rx += i * dx / 2;
+				ry += i * dy;
+				for ( int j = 0; j < ( Integer ) elements_de_control_partida[1]; j++ )
 				{
-					rx += i * dx / 2;
-					ry += i * dy;
-					for ( int j = 0; j < ( Integer ) elements_de_control_partida[1]; j++ )
+					rx += j * dx;
+					if ( hexagon.contains( x - rx, y - ry ) )
 					{
-						rx += j * dx;
-						if ( hexagon.contains( x - rx, y - ry ) )
-						{
-							clickHexagon( i, j );
-						}
-						rx -= j * dx;
+						clickHexagon( i, j );
 					}
-					rx -= i * dx / 2;
-					ry -= i * dy;
+					rx -= j * dx;
 				}
+				rx -= i * dx / 2;
+				ry -= i * dy;
 			}
 		}
+	}
+
+	public boolean potDemanarPista()
+	{
+		int i = ( Integer ) elements_de_control_partida[2] % 2;
+		return ( partida_en_curs && !pista_valida && presentacio_ctrl.esTornHuma() &&
+				presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA &&
+				( ( Integer ) elements_de_control_partida[0] > ( Integer ) elements_de_control_jugadors[1][i] ) );
+	}
+
+	public boolean potMoureIA()
+	{
+		return ( partida_en_curs && ( partida_ia || ( Integer ) elements_de_control_partida[2] == 0 ||
+			presentacio_ctrl.esPartidaAmbSituacioInicialAcabadaDeDefinir() ) && !presentacio_ctrl.esTornHuma() &&
+			presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA );
+	}
+
+	public boolean esPartidaIA()
+	{
+		return partida_ia;
 	}
 
 	/**
 	 * Si la partida no està finalitzada i es torn de una IA, crida PartidaCtrl a executar moviment IA.
 	 * Torna a pintar l'escena.
 	 */
-	private void mouIAOMostraPista()
+	public void mouIAOMostraPista()
 	{
 		if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA && !presentacio_ctrl.esTornHuma() )
 		{
@@ -178,7 +191,6 @@ public final class JPanelTauler extends JPanel
 				presentacio_ctrl.mouFitxa( i, j );
 				pista_valida = false;
 				paintImmediately( 0, 0, 800, 500 );
-				// De moment sembla que falla, ja ho mirarem.
 				if ( !partida_finalitzada && partida_en_curs && !presentacio_ctrl.esTornHuma() )
 				{
 					mouIAOMostraPista();
@@ -258,36 +270,6 @@ public final class JPanelTauler extends JPanel
 			g.translate( -i * dx / 2, -i * dy );
 		}
 
-		// Si és torn de la IA mostrem el botó Mou IA, només si a la partida només juga la IA.
-		if ( partida_en_curs && ( partida_ia || ( Integer ) elements_de_control_partida[2] == 0 ||
-		                          presentacio_ctrl.esPartidaAmbSituacioInicialAcabadaDeDefinir() ) &&
-		     !presentacio_ctrl.esTornHuma() &&
-		     presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA )
-		{
-			if ( ( Integer ) elements_de_control_partida[2] % 2 == 0 )
-			{
-				g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
-						.getColorCasella( EstatCasella.JUGADOR_A ) );
-				g.fillRoundRect( -50, 360, 120, 40, 8, 8 );
-				g.setColor( Color.black );
-				g.drawRoundRect( -50, 360, 120, 40, 8, 8 );
-				g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
-						.getColorTextMouFitxaIA( EstatCasella.JUGADOR_A ) );
-				g.drawString( "Mou IA", -10, 385 );
-			}
-			else
-			{
-				g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
-						.getColorCasella( EstatCasella.JUGADOR_B ) );
-				g.fillRoundRect( 580, 150, 120, 40, 8, 8 );
-				g.setColor( Color.black );
-				g.drawRoundRect( 580, 150, 120, 40, 8, 8 );
-				g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
-						.getColorTextMouFitxaIA( EstatCasella.JUGADOR_B ) );
-				g.drawString( "Mou IA", 620, 175 );
-			}
-		}
-
 		// Si és torn de la IA i a la partida juga algun humà,
 		if ( partida_en_curs && !partida_ia && !presentacio_ctrl.esTornHuma() &&
 		     presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA )
@@ -303,41 +285,6 @@ public final class JPanelTauler extends JPanel
 				g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
 						.getColorCasella( EstatCasella.JUGADOR_B ) );
 				g.drawString( "Pensant moviment...", 580, 160 );
-			}
-		}
-
-		// Si és torn d'un humà i té pistes per utilitzar mostrem el botó Demana Pista
-		if ( partida_en_curs && !pista_valida && presentacio_ctrl.esTornHuma() &&
-		     presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA )
-		{
-			if ( ( Integer ) elements_de_control_partida[2] % 2 == 0 )
-			{
-				if ( ( ( Integer ) elements_de_control_jugadors[1][0] ) < ( Integer ) elements_de_control_partida[0] )
-				{
-					g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
-							.getColorCasella( EstatCasella.JUGADOR_A ) );
-					g.fillRoundRect( -50, 360, 120, 40, 8, 8 );
-					g.setColor( Color.black );
-					g.drawRoundRect( -50, 360, 120, 40, 8, 8 );
-					g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
-							.getColorTextMouFitxaIA( EstatCasella.JUGADOR_A ) );
-					g.drawString( "Demana pista", -30, 385 );
-				}
-			}
-			else
-			{
-				// Com ho fem per carregar el valor màxim de pistes, que està a una classe del domini?
-				if ( ( ( Integer ) elements_de_control_jugadors[1][1] ) < ( Integer ) elements_de_control_partida[0] )
-				{
-					g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
-							.getColorCasella( EstatCasella.JUGADOR_B ) );
-					g.fillRoundRect( 580, 150, 120, 40, 8, 8 );
-					g.setColor( Color.black );
-					g.drawRoundRect( 580, 150, 120, 40, 8, 8 );
-					g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
-							.getColorTextMouFitxaIA( EstatCasella.JUGADOR_B ) );
-					g.drawString( "Demana pista", 600, 175 );
-				}
 			}
 		}
 

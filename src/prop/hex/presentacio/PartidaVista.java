@@ -19,6 +19,8 @@ public final class PartidaVista extends BaseVista
 	private JPanel panell_botons;
 
 	// Botons
+	private JButton mou_ia;
+	private JButton demana_pista;
 	private JButton abandona;
 
 	/**
@@ -35,6 +37,8 @@ public final class PartidaVista extends BaseVista
 		titol = new JLabel( "jHex" );
 		panell_central = new JPanelTauler( true, presentacio_ctrl );
 		panell_botons = new JPanel();
+		mou_ia = new JButton( "Mou IA" );
+		demana_pista = new JButton( "Demana pista" );
 		abandona = new JButton( "Abandona la partida" );
 
 		inicialitzaVista();
@@ -56,8 +60,10 @@ public final class PartidaVista extends BaseVista
 	@Override
 	protected void inicialitzaPanellPeu()
 	{
-		panell_botons.setLayout( new FlowLayout( FlowLayout.CENTER, 240, 0 ) );
+		panell_botons.setLayout( new FlowLayout( FlowLayout.CENTER, 80, 0 ) );
 		panell_botons.add( titol_baix );
+		panell_botons.add( mou_ia );
+		panell_botons.add( demana_pista );
 		panell_botons.add( abandona );
 		panell_botons.add( panell_sortida );
 		panell_botons.setOpaque( false );
@@ -75,6 +81,26 @@ public final class PartidaVista extends BaseVista
 	{
 		super.assignaListeners();
 
+		mou_ia.addActionListener( new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed( ActionEvent event )
+			{
+				accioBotoMouIA( event );
+			}
+		} );
+
+		demana_pista.addActionListener( new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed( ActionEvent event )
+			{
+				accioBotoDemanaPista( event );
+			}
+		} );
+
 		abandona.addActionListener( new ActionListener()
 		{
 
@@ -84,6 +110,32 @@ public final class PartidaVista extends BaseVista
 				accioBotoAbandona( event );
 			}
 		} );
+	}
+
+	/**
+	 * Defineix el comportament del botó de mou IA quan sigui pitjat.
+	 *
+	 * @param event Event que activarà el botó.
+	 */
+	public void accioBotoMouIA( ActionEvent event )
+	{
+		if ( panell_central.potMoureIA() )
+		{
+			panell_central.mouIAOMostraPista();
+		}
+	}
+
+	/**
+	 * Defineix el comportament del botó de demanar pista quan sigui pitjat.
+	 *
+	 * @param event Event que activarà el botó.
+	 */
+	public void accioBotoDemanaPista( ActionEvent event )
+	{
+		if ( panell_central.potDemanarPista() )
+		{
+			panell_central.mouIAOMostraPista();
+		}
 	}
 
 	/**
@@ -103,7 +155,7 @@ public final class PartidaVista extends BaseVista
 					( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) != TipusJugadors.CONVIDAT;
 			boolean es_partida_convidat =
 					( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) == TipusJugadors.CONVIDAT ||
-					( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) == TipusJugadors.CONVIDAT;
+							( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) == TipusJugadors.CONVIDAT;
 
 			if ( es_partida_convidat || es_partida_ia )
 			{
@@ -169,6 +221,4 @@ public final class PartidaVista extends BaseVista
 			presentacio_ctrl.vistaPartidaAMenuPrincipal();
 		}
 	}
-
-
 }
