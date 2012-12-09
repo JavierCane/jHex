@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
  *
  * @author Guillermo Girona San Miguel (Grup 7.3, Hex)
  */
-public final class PreferenciesVista extends BaseVista
+public final class ConfiguracioVista extends BaseVista
 {
 
 	// Panells
@@ -35,6 +35,7 @@ public final class PreferenciesVista extends BaseVista
 	// Botons
 	private JButton reinicia_estadistiques;
 	private JButton canvia_contrasenya;
+	private JButton elimina_usuari;
 	private JButton accepta;
 	private JButton descarta;
 
@@ -45,11 +46,11 @@ public final class PreferenciesVista extends BaseVista
 	 * @param presentacio_ctrl Controlador de presentació.
 	 * @param frame_principal  Frame principal sobre el que s'hauran d'afegir els diferents components.
 	 */
-	public PreferenciesVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
+	public ConfiguracioVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
 	{
 		super( presentacio_ctrl, frame_principal );
 
-		titol = new JLabel( "Preferències" );
+		titol = new JLabel( "Configuració" );
 		panell_central = new JPanel();
 		panell_botons = new JPanel();
 		colors_vermell_blau = new JRadioButton( "Vermell/Blau" );
@@ -62,6 +63,7 @@ public final class PreferenciesVista extends BaseVista
 		modes_inici = new JLabel( "Mode d'inici de la partida:" );
 		reinicia_estadistiques = new JButton( "Reinicia les estadístiques" );
 		canvia_contrasenya = new JButton( "Canvia la contrasenya" );
+		elimina_usuari = new JButton( "Elimina el teu usuari" );
 		accepta = new JButton( "Accepta" );
 		descarta = new JButton( "Descarta" );
 
@@ -153,9 +155,11 @@ public final class PreferenciesVista extends BaseVista
 		{
 			reinicia_estadistiques.setEnabled( false );
 			canvia_contrasenya.setEnabled( false );
+			elimina_usuari.setEnabled( false );
 		}
 		panell_botons_opcions.add( reinicia_estadistiques );
 		panell_botons_opcions.add( canvia_contrasenya );
+		panell_botons_opcions.add( elimina_usuari );
 		panell_botons_opcions.setOpaque( false );
 		panell_central.add( panell_botons_opcions );
 	}
@@ -195,6 +199,16 @@ public final class PreferenciesVista extends BaseVista
 			}
 		} );
 
+		elimina_usuari.addActionListener( new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed( ActionEvent event )
+			{
+				accioBotoEliminaUsuari( event );
+			}
+		} );
+
 		accepta.addActionListener( new ActionListener()
 		{
 
@@ -229,7 +243,7 @@ public final class PreferenciesVista extends BaseVista
 		};
 		String valor_seleccionat = dialeg.setDialeg( "Reinicia les estadístiques", "Estàs segur que vols reiniciar " +
 				"" + "les teves estadístiques? Aquesta acció no es podrà desfer.", botons,
-				JOptionPane.WARNING_MESSAGE );
+				JOptionPane.QUESTION_MESSAGE );
 		if ( valor_seleccionat == "Sí" )
 		{
 			presentacio_ctrl.reiniciaEstadistiquesJugadorPrincipal();
@@ -248,11 +262,34 @@ public final class PreferenciesVista extends BaseVista
 			VistaDialeg dialeg = new VistaDialeg();
 			String[] botons = { "Accepta" };
 			String valor_seleccionat = dialeg.setDialeg( "Error", "Els usuaris convidats no tenen contrasenya.",
-					botons, JOptionPane.WARNING_MESSAGE );
+					botons, JOptionPane.ERROR_MESSAGE );
 		}
 		else
 		{
 			presentacio_ctrl.vistaPreferenciesACanviaContrasenya();
+		}
+	}
+
+	/**
+	 * Defineix el comportament del botó de definir situació inicial quan sigui pitjat.
+	 *
+	 * @param event Event que activarà el botó.
+	 */
+	public void accioBotoEliminaUsuari( ActionEvent event )
+	{
+		VistaDialeg dialeg = new VistaDialeg();
+		String[] botons = {
+				"Sí", "No"
+		};
+		String valor_seleccionat = dialeg.setDialeg( "Confirma eliminació usuari",
+				"Estàs segur que vols eliminar el teu usuari? Aquesta acció no es podrà desfer.", botons,
+				JOptionPane.QUESTION_MESSAGE );
+
+		if ( valor_seleccionat == "Sí" )
+		{
+			presentacio_ctrl.eliminaUsuariJugadorPrincipal();
+			presentacio_ctrl.tancaSessio();
+			presentacio_ctrl.vistaMenuPrincipalAIniciaSessio();
 		}
 	}
 

@@ -57,7 +57,7 @@ public final class PresentacioCtrl
 	/**
 	 * Vista de les preferències de l'usuari.
 	 */
-	private PreferenciesVista preferencies_vista;
+	private ConfiguracioVista preferencies_vista;
 
 	/**
 	 * Vista del menú de configuració d'una nova partida.
@@ -170,6 +170,9 @@ public final class PresentacioCtrl
 		es_convidat = false;
 	}
 
+	// Mètodes ConfiguracioVista
+	// ----------------------------------------------------------------------------------------------------------------
+
 	public String obteNomJugadorPrincipal()
 	{
 		return UsuariCtrl.getInstancia().obteNom();
@@ -201,6 +204,11 @@ public final class PresentacioCtrl
 		UsuariCtrl.getInstancia().modificaContrasenya( contrasenya_actual, contrasenya_nova );
 	}
 
+	public void eliminaUsuariJugadorPrincipal()
+	{
+		UsuariCtrl.getInstancia().eliminaUsuariJugadorPrincipal();
+	}
+
 	// Mètodes ConfiguraPartidaVista
 	// ----------------------------------------------------------------------------------------------------------------
 
@@ -213,7 +221,7 @@ public final class PresentacioCtrl
 				.preInicialitzaUsuariPartida( num_jugador, tipus_jugador, nom_usuari, contrasenya_usuari );
 	}
 
-	public void iniciaPartida( int mida_tauler, String nom_partida, boolean situacio_inicial )
+	public void inicialitzaPartida( int mida_tauler, String nom_partida, boolean situacio_inicial )
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException
 	{
 		PartidaCtrl.getInstancia().inicialitzaPartida( mida_tauler, nom_partida, situacio_inicial );
@@ -462,7 +470,7 @@ public final class PresentacioCtrl
 	{
 		if ( preferencies_vista == null )
 		{
-			preferencies_vista = new PreferenciesVista( this, frame_principal );
+			preferencies_vista = new ConfiguracioVista( this, frame_principal );
 		}
 		menu_principal_vista = null;
 		preferencies_vista.fesVisible();
@@ -482,7 +490,7 @@ public final class PresentacioCtrl
 	{
 		if ( preferencies_vista == null )
 		{
-			preferencies_vista = new PreferenciesVista( this, frame_principal );
+			preferencies_vista = new ConfiguracioVista( this, frame_principal );
 		}
 		canvia_contrasenya_vista = null;
 		preferencies_vista.fesVisible();

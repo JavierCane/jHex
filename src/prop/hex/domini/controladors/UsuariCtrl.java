@@ -152,28 +152,18 @@ public final class UsuariCtrl
 	/**
 	 * Elimina un usuari existent al sistema. També elimina les partides que pugui estar jugant.
 	 *
-	 * @param usuari Usuari que es vol eliminar.
 	 * @return Cert, si s'ha pogut eliminar l'usuari del sistema. Fals, altrament.
-	 * @throws IllegalArgumentException Si l'usuari que passem con a paràmetre no existeix al sistema.
 	 */
-	public boolean eliminaUsuari( UsuariHex usuari ) throws IllegalArgumentException
+	public void eliminaUsuariJugadorPrincipal()
 	{
-		if ( !gestor_usuari.existeixElement( usuari.getIdentificadorUnic() ) )
-		{
-			throw new IllegalArgumentException( "L'usuari no existeix." );
-		}
+		// Elimina l'usuari de disc
+		gestor_usuari.eliminaElement( usuari_principal.getIdentificadorUnic() );
 
-		if ( gestor_usuari.eliminaElement( usuari.getIdentificadorUnic() ) )
-		{
-			Ranquing.getInstancia().eliminaRanquingUsuari( usuari );
-			PartidaCtrl.getInstancia().esborraPartidesUsuari( usuari.getIdentificadorUnic() );
+		// Elimina l'usuari del rànquing
+		Ranquing.getInstancia().eliminaRanquingUsuari( usuari_principal );
 
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		// Elimina les partides que estigués dispuntant a mitges
+		PartidaCtrl.getInstancia().esborraPartidesUsuari( usuari_principal.getIdentificadorUnic() );
 	}
 
 	/**

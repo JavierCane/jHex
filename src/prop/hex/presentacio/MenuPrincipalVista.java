@@ -21,7 +21,7 @@ public final class MenuPrincipalVista extends BaseVista
 	private JButton tanca_sessio;
 	private JButton juga;
 	private JButton carrega;
-	private JButton preferencies;
+	private JButton configuracio;
 	private JButton ranquing;
 
 	// Etiquetes de text
@@ -44,7 +44,7 @@ public final class MenuPrincipalVista extends BaseVista
 		tanca_sessio = new JButton( "Tanca la sessió" );
 		juga = new JButton( "Juga una partida" );
 		carrega = new JButton( "Carrega una partida" );
-		preferencies = new JButton( "Preferències" );
+		configuracio = new JButton( "Configuració" );
 		ranquing = new JButton( "Rànquing" );
 
 		inicialitzaVista();
@@ -94,7 +94,7 @@ public final class MenuPrincipalVista extends BaseVista
 			carrega.setEnabled( false );
 		}
 		panell_botons.add( carrega );
-		panell_botons.add( preferencies );
+		panell_botons.add( configuracio );
 		panell_botons.add( ranquing );
 		panell_botons.setOpaque( false );
 	}
@@ -134,7 +134,7 @@ public final class MenuPrincipalVista extends BaseVista
 			}
 		} );
 
-		preferencies.addActionListener( new ActionListener()
+		configuracio.addActionListener( new ActionListener()
 		{
 
 			@Override
