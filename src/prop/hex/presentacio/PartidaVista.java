@@ -55,6 +55,7 @@ public final class PartidaVista extends BaseVista
 	protected void inicialitzaPanellCentral()
 	{
 		panell_central.setOpaque( false );
+		panell_central.afegeixBotons( mou_ia, demana_pista );
 	}
 
 	@Override
@@ -67,6 +68,8 @@ public final class PartidaVista extends BaseVista
 		panell_botons.add( abandona );
 		panell_botons.add( panell_sortida );
 		panell_botons.setOpaque( false );
+		mou_ia.setEnabled( false );
+		demana_pista.setEnabled( false );
 	}
 
 	@Override
@@ -119,10 +122,8 @@ public final class PartidaVista extends BaseVista
 	 */
 	public void accioBotoMouIA( ActionEvent event )
 	{
-		if ( panell_central.potMoureIA() )
-		{
-			panell_central.mouIAOMostraPista();
-		}
+		mou_ia.setEnabled( false );
+		panell_central.mouIAOMostraPista();
 	}
 
 	/**
@@ -132,10 +133,8 @@ public final class PartidaVista extends BaseVista
 	 */
 	public void accioBotoDemanaPista( ActionEvent event )
 	{
-		if ( panell_central.potDemanarPista() )
-		{
-			panell_central.mouIAOMostraPista();
-		}
+		demana_pista.setEnabled( false );
+		panell_central.mouIAOMostraPista();
 	}
 
 	/**

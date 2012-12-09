@@ -25,7 +25,9 @@ public final class JPanelTauler extends JPanel
 
 	private boolean pista_valida;
 
-	private JPanel panell_botons;
+	private JButton mou_ia;
+
+	private JButton demana_pista;
 
 	/**
 	 * Poligon que s'utilitza per dibuixar a pantalla.
@@ -96,12 +98,18 @@ public final class JPanelTauler extends JPanel
 		} );
 	}
 
+	public void afegeixBotons( JButton mou_ia, JButton demana_pista )
+	{
+		this.mou_ia = mou_ia;
+		this.demana_pista = demana_pista;
+	}
+
 	/**
 	 * Calcula sobre quina casella es corresponen les coordenades píxel i crida a clickHexagon amb aquesta
 	 * informació. Listener de mouseClicked. Si s'ha fet click sobre una casella crida a clickHexagon,
 	 * si s'ha fet click sobre el botó de moviment IA, crida a mouIA
 	 *
-	 * @param x Coordenades píxel horitxontals.
+	 * @param x Coordenades píxel horitzontals.
 	 * @param y Coordenades píxel verticals.
 	 */
 	private void comprovaClick( int x, int y )
@@ -133,7 +141,7 @@ public final class JPanelTauler extends JPanel
 		}
 	}
 
-	public boolean potDemanarPista()
+	private boolean potDemanarPista()
 	{
 		int i = ( Integer ) elements_de_control_partida[2] % 2;
 		return ( partida_en_curs && !pista_valida && presentacio_ctrl.esTornHuma() &&
@@ -141,16 +149,11 @@ public final class JPanelTauler extends JPanel
 				( ( Integer ) elements_de_control_partida[0] > ( Integer ) elements_de_control_jugadors[1][i] ) );
 	}
 
-	public boolean potMoureIA()
+	private boolean potMoureIA()
 	{
 		return ( partida_en_curs && ( partida_ia || ( Integer ) elements_de_control_partida[2] == 0 ||
 			presentacio_ctrl.esPartidaAmbSituacioInicialAcabadaDeDefinir() ) && !presentacio_ctrl.esTornHuma() &&
 			presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA );
-	}
-
-	public boolean esPartidaIA()
-	{
-		return partida_ia;
 	}
 
 	/**
@@ -270,8 +273,20 @@ public final class JPanelTauler extends JPanel
 			g.translate( -i * dx / 2, -i * dy );
 		}
 
+		if ( potMoureIA() )
+		{
+			mou_ia.setEnabled( true );
+		}
+
+		if ( potDemanarPista() )
+		{
+			demana_pista.setEnabled( true );
+		}
+
 		// Si és torn de la IA i a la partida juga algun humà,
-		if ( partida_en_curs && !partida_ia && !presentacio_ctrl.esTornHuma() &&
+		if ( !( ( Integer ) elements_de_control_partida[2] == 0 ||
+			presentacio_ctrl.esPartidaAmbSituacioInicialAcabadaDeDefinir() ) && partida_en_curs &&
+			!partida_ia && !presentacio_ctrl.esTornHuma() &&
 		     presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA )
 		{
 			if ( ( Integer ) elements_de_control_partida[2] % 2 == 0 )
