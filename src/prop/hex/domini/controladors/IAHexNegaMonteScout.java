@@ -20,9 +20,9 @@ import java.util.Random;
  * href="http://en.wikipedia.org/wiki/Zobrist_hashing">claus Zobrist</a>.
  * <p/>
  * Les avaluacions estàtiques del tauler fan servir la funció d'avaluació
- * <a href="http://link.springer.com/chapter/10.1007%2F3-540-45486-1_2">QueenBee</a>,
+ * <a href="http://javhar.net/AreBeesBetterThanFruitfliesThesis.pdf">QueenBee</a>,
  * de <a href="http://javhar.net/">Jack van Rijswijck</a>.
- * 
+ *
  * @author Isaac Sánchez Barrera (Grup 7.3, Hex)
  */
 public final class IAHexNegaMonteScout implements MouFitxaIA
