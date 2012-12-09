@@ -203,6 +203,11 @@ public final class Ranquing implements Serializable
 		classificacio.remove( usuari );
 
 		// Elimino l'usuari de les fites si és que va aconseguir alguna
+		netejaFitesUsuari( nom_usuari );
+	}
+
+	public void netejaFitesUsuari( String nom_usuari )
+	{
 		if ( nom_usuari == usuari_temps_minim )
 		{
 			usuari_temps_minim = null;
@@ -227,7 +232,6 @@ public final class Ranquing implements Serializable
 			mes_partides_jugades = 0;
 		}
 	}
-
 	/**
 	 * Funció que neteja el rànquing actual (elimina els usuaris ja ordenats i reinicialitza els rècords)
 	 */

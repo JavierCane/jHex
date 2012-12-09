@@ -94,11 +94,8 @@ public class UsuariHex extends Usuari implements Serializable, Comparable<Usuari
 		this.tipus_jugador = tipus_jugador;
 		mode_inici = ModesInici.ESTANDARD;
 		combinacio_colors = CombinacionsColors.VERMELL_BLAU;
-		temps_minim = Long.MAX_VALUE;
-		fitxes_minimes = Integer.MAX_VALUE;
-		partides_jugades = 0;
-		partides_guanyades = 0;
-		puntuacio_global = 0;
+
+		reiniciaEstadistiques();
 	}
 
 	/**
@@ -345,8 +342,11 @@ public class UsuariHex extends Usuari implements Serializable, Comparable<Usuari
 	public void reiniciaEstadistiques()
 	{
 		super.reiniciaEstadistiques();
-		partides_guanyades = 0;
+
+		temps_minim = Long.MAX_VALUE;
+		fitxes_minimes = Integer.MAX_VALUE;
 		partides_jugades = 0;
+		partides_guanyades = 0;
 		puntuacio_global = 0;
 	}
 
