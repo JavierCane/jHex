@@ -5,14 +5,31 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Vista de definir una situació inicial d'una partida del joc Hex.
+ *
+ * @author Guillermo Girona San Miguel (Grup 7.3, Hex)
+ */
 public class DefineixSituacioVista extends BaseVista
 {
 
+	// Panell del tauler
 	private JPanelTauler panell_central;
+
+	// Panells
 	private JPanel panell_botons;
+
+	// Botons
 	private JButton inicia_partida;
 	private JButton abandona;
 
+	/**
+	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
+	 * controlador de presentació al qual haurà de demanar certes operacions.
+	 *
+	 * @param presentacio_ctrl Controlador de presentació.
+	 * @param frame_principal  Frame principal sobre el que s'hauran d'afegir els diferents components.
+	 */
 	public DefineixSituacioVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
 	{
 		super( presentacio_ctrl, frame_principal );
@@ -24,18 +41,6 @@ public class DefineixSituacioVista extends BaseVista
 		abandona = new JButton( "Abandona la partida" );
 
 		inicialitzaVista();
-	}
-
-	protected void inicialitzaVista()
-	{
-		inicialitzaPanellPrincipal(); // Mètode abstracte, a implementar a cada classe
-		inicialitzaPanellTitol(); // Mètode comú a totes les vistes
-
-		inicialitzaPanellCentral(); // Mètode abstracte, a implementar a cada classe
-		inicialitzaPanellPeu(); // Mètode abstracte, a implementar a cada classe
-
-		inicialitzaPanellSortida(); // Mètode comú a totes les vistes
-		assignaListeners(); // Mètode comú a totes les vistes
 	}
 
 	@Override
@@ -68,29 +73,6 @@ public class DefineixSituacioVista extends BaseVista
 		panell_sortida.setOpaque( false );
 	}
 
-	public void accioBotoAbandona( ActionEvent event )
-	{
-		VistaDialeg dialeg = new VistaDialeg();
-
-		String[] botons = {
-				"Sí", "No"
-		};
-
-		String valor_seleccionat = dialeg.setDialeg( "Confirmació de sortida de la partida", "Estàs segur de que " +
-				"vols sortir de la partida?", botons, JOptionPane.QUESTION_MESSAGE );
-
-		if ( "Sí" == valor_seleccionat )
-		{
-			presentacio_ctrl.vistaDefineixSituacioAMenuPrincipal();
-		}
-
-	}
-
-	public void accioBotoIniciaPartida( ActionEvent event )
-	{
-		presentacio_ctrl.vistaDefineixSituacioAPartida();
-	}
-
 	@Override
 	protected void assignaListeners()
 	{
@@ -116,4 +98,39 @@ public class DefineixSituacioVista extends BaseVista
 			}
 		} );
 	}
+
+	/**
+	 * Defineix el comportament del botó d'abandonar partida quan sigui pitjat.
+	 *
+	 * @param event Event que activarà el botó.
+	 */
+	public void accioBotoAbandona( ActionEvent event )
+	{
+		VistaDialeg dialeg = new VistaDialeg();
+
+		String[] botons = {
+				"Sí", "No"
+		};
+
+		String valor_seleccionat = dialeg.setDialeg( "Confirmació de sortida de la partida", "Estàs segur de que " +
+				"vols sortir de la partida?", botons, JOptionPane.QUESTION_MESSAGE );
+
+		if ( "Sí" == valor_seleccionat )
+		{
+			presentacio_ctrl.vistaDefineixSituacioAMenuPrincipal();
+		}
+
+	}
+
+	/**
+	 * Defineix el comportament del botó d'iniciar partida quan sigui pitjat.
+	 *
+	 * @param event Event que activarà el botó.
+	 */
+	public void accioBotoIniciaPartida( ActionEvent event )
+	{
+		presentacio_ctrl.vistaDefineixSituacioAPartida();
+	}
+
+
 }

@@ -10,6 +10,11 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.IOException;
 
+/**
+ * Vista de configuració d'una partida del joc Hex.
+ *
+ * @author Guillermo Girona San Miguel (Grup 7.3, Hex)
+ */
 public final class ConfiguraPartidaVista extends BaseVista implements ItemListener
 {
 
@@ -46,6 +51,13 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 	private JLabel text_jugador_a;
 	private JLabel text_jugador_b;
 
+	/**
+	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
+	 * controlador de presentació al qual haurà de demanar certes operacions.
+	 *
+	 * @param presentacio_ctrl Controlador de presentació.
+	 * @param frame_principal  Frame principal sobre el que s'hauran d'afegir els diferents components.
+	 */
 	public ConfiguraPartidaVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
 	{
 		super( presentacio_ctrl, frame_principal );
@@ -279,9 +291,8 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 
 	/**
 	 * Inicialitza un jugador de la partida cridant a preInicialitzaUsuariPartida de PresentacioCtrl per tal de que
-	 * aquesta
-	 * cridi a preInicialitzaUsuariPartida de PartidaCtrl en base a el tipus d'usuari seleccionat i les seves dades
-	 * corresponents.
+	 * aquesta cridi a preInicialitzaUsuariPartida de PartidaCtrl en base a el tipus d'usuari seleccionat i les seves
+	 * dades corresponents.
 	 *
 	 * @param num_jugador
 	 * @param combo_tipus_jugador
@@ -412,96 +423,6 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 		}
 	}
 
-	public void accioBotoIniciaPartida( ActionEvent event )
-	{
-		// Inicialitzo els dos jugadors de la partida en base a les dades dels seus formularis
-		if ( camp_nom_partida.getText().isEmpty() )
-		{
-			VistaDialeg dialeg = new VistaDialeg();
-			String[] botons = { "Accepta" };
-			String valor_seleccionat = dialeg.setDialeg( "Error", "Has de definir un nom de partida, " +
-					"això servirà per identificar-la quan per exemple la guardis i la vulguis tornar a carregar" +
-					".", botons, JOptionPane.ERROR_MESSAGE );
-		}
-		else
-		{
-			try
-			{
-				preInicialitzaUsuariPartida( 0, combo_tipus_jugador_a, camp_nom_convidat_a, combo_tipus_maquina_a,
-						"", "" );
-				preInicialitzaUsuariPartida( 1, combo_tipus_jugador_b, camp_nom_convidat_b, combo_tipus_maquina_b,
-						camp_nom_usuari_b.getText(), new String( camp_contrasenya_usuari_b.getPassword() ) );
-				presentacio_ctrl.iniciaPartida( 7, camp_nom_partida.getText(), false );
-				presentacio_ctrl.vistaConfiguraPartidaAPartida();
-			}
-			catch ( Exception excepcio )
-			{
-				VistaDialeg dialeg = new VistaDialeg();
-				String[] botons = { "Accepta" };
-				String valor_seleccionat = dialeg.setDialeg( "Error", excepcio.getMessage(), botons,
-						JOptionPane.ERROR_MESSAGE );
-			}
-		}
-	}
-
-	public void accioBotoSituacioInicial( ActionEvent event )
-	{
-		// Inicialitzo els dos jugadors de la partida en base a les dades dels seus formularis
-		if ( camp_nom_partida.getText().isEmpty() )
-		{
-			VistaDialeg dialeg = new VistaDialeg();
-			String[] botons = { "Accepta" };
-			String valor_seleccionat = dialeg.setDialeg( "Error", "Has de definir un nom de partida, " +
-					"això servirà per identificar-la quan per exemple la guardis i la vulguis tornar a carregar" +
-					".", botons, JOptionPane.ERROR_MESSAGE );
-		}
-		else
-		{
-			try
-			{
-				preInicialitzaUsuariPartida( 0, combo_tipus_jugador_a, camp_nom_convidat_a, combo_tipus_maquina_a,
-						"", "" );
-				preInicialitzaUsuariPartida( 1, combo_tipus_jugador_b, camp_nom_convidat_b, combo_tipus_maquina_b,
-						camp_nom_usuari_b.getText(), new String( camp_contrasenya_usuari_b.getPassword() ) );
-				presentacio_ctrl.iniciaPartida( 7, camp_nom_partida.getText(), true );
-				presentacio_ctrl.vistaConfiguraPartidaADefineixSituacio();
-			}
-			catch ( Exception excepcio )
-			{
-				VistaDialeg dialeg = new VistaDialeg();
-				String[] botons = { "Accepta" };
-				String valor_seleccionat = dialeg.setDialeg( "Error", excepcio.getMessage(), botons,
-						JOptionPane.ERROR_MESSAGE );
-			}
-		}
-	}
-
-	public void accioBotoDescarta( ActionEvent event )
-	{
-		presentacio_ctrl.vistaConfiguraPartidaAMenuPrincipal();
-	}
-
-	/**
-	 * Mètode per intercanviar els diferents panells afegits al CardLayout quan es cambiï el tipus de jugador
-	 * seleccionat
-	 *
-	 * @param event
-	 */
-	@Override
-	public void itemStateChanged( ItemEvent event )
-	{
-		if ( event.getItemSelectable() == combo_tipus_jugador_a )
-		{
-			CardLayout c = ( CardLayout ) ( seleccio_jugador_a.getLayout() );
-			c.show( seleccio_jugador_a, ( String ) event.getItem() );
-		}
-		else
-		{
-			CardLayout c = ( CardLayout ) ( seleccio_jugador_b.getLayout() );
-			c.show( seleccio_jugador_b, ( String ) event.getItem() );
-		}
-	}
-
 	@Override
 	protected void assignaListeners()
 	{
@@ -539,5 +460,110 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 
 		combo_tipus_jugador_a.addItemListener( this );
 		combo_tipus_jugador_b.addItemListener( this );
+	}
+
+	/**
+	 * Defineix el comportament del botó d'iniciar partida quan sigui pitjat.
+	 *
+	 * @param event Event que activarà el botó.
+	 */
+	public void accioBotoIniciaPartida( ActionEvent event )
+	{
+		// Inicialitzo els dos jugadors de la partida en base a les dades dels seus formularis
+		if ( camp_nom_partida.getText().isEmpty() )
+		{
+			VistaDialeg dialeg = new VistaDialeg();
+			String[] botons = { "Accepta" };
+			String valor_seleccionat = dialeg.setDialeg( "Error", "Has de definir un nom de partida, " +
+					"això servirà per identificar-la quan per exemple la guardis i la vulguis tornar a carregar" +
+					".", botons, JOptionPane.ERROR_MESSAGE );
+		}
+		else
+		{
+			try
+			{
+				preInicialitzaUsuariPartida( 0, combo_tipus_jugador_a, camp_nom_convidat_a, combo_tipus_maquina_a,
+						"", "" );
+				preInicialitzaUsuariPartida( 1, combo_tipus_jugador_b, camp_nom_convidat_b, combo_tipus_maquina_b,
+						camp_nom_usuari_b.getText(), new String( camp_contrasenya_usuari_b.getPassword() ) );
+				presentacio_ctrl.iniciaPartida( 7, camp_nom_partida.getText(), false );
+				presentacio_ctrl.vistaConfiguraPartidaAPartida();
+			}
+			catch ( Exception excepcio )
+			{
+				VistaDialeg dialeg = new VistaDialeg();
+				String[] botons = { "Accepta" };
+				String valor_seleccionat = dialeg.setDialeg( "Error", excepcio.getMessage(), botons,
+						JOptionPane.ERROR_MESSAGE );
+			}
+		}
+	}
+
+	/**
+	 * Defineix el comportament del botó de definir situació inicial quan sigui pitjat.
+	 *
+	 * @param event Event que activarà el botó.
+	 */
+	public void accioBotoSituacioInicial( ActionEvent event )
+	{
+		// Inicialitzo els dos jugadors de la partida en base a les dades dels seus formularis
+		if ( camp_nom_partida.getText().isEmpty() )
+		{
+			VistaDialeg dialeg = new VistaDialeg();
+			String[] botons = { "Accepta" };
+			String valor_seleccionat = dialeg.setDialeg( "Error", "Has de definir un nom de partida, " +
+					"això servirà per identificar-la quan per exemple la guardis i la vulguis tornar a carregar" +
+					".", botons, JOptionPane.ERROR_MESSAGE );
+		}
+		else
+		{
+			try
+			{
+				preInicialitzaUsuariPartida( 0, combo_tipus_jugador_a, camp_nom_convidat_a, combo_tipus_maquina_a,
+						"", "" );
+				preInicialitzaUsuariPartida( 1, combo_tipus_jugador_b, camp_nom_convidat_b, combo_tipus_maquina_b,
+						camp_nom_usuari_b.getText(), new String( camp_contrasenya_usuari_b.getPassword() ) );
+				presentacio_ctrl.iniciaPartida( 7, camp_nom_partida.getText(), true );
+				presentacio_ctrl.vistaConfiguraPartidaADefineixSituacio();
+			}
+			catch ( Exception excepcio )
+			{
+				VistaDialeg dialeg = new VistaDialeg();
+				String[] botons = { "Accepta" };
+				String valor_seleccionat = dialeg.setDialeg( "Error", excepcio.getMessage(), botons,
+						JOptionPane.ERROR_MESSAGE );
+			}
+		}
+	}
+
+	/**
+	 * Defineix el comportament del botó de descartar quan sigui pitjat.
+	 *
+	 * @param event Event que activarà el botó.
+	 */
+	public void accioBotoDescarta( ActionEvent event )
+	{
+		presentacio_ctrl.vistaConfiguraPartidaAMenuPrincipal();
+	}
+
+	/**
+	 * Mètode per intercanviar els diferents panells afegits al CardLayout quan es canviï el tipus de jugador
+	 * seleccionat
+	 *
+	 * @param event Event que activarà el canvi de panell.
+	 */
+	@Override
+	public void itemStateChanged( ItemEvent event )
+	{
+		if ( event.getItemSelectable() == combo_tipus_jugador_a )
+		{
+			CardLayout c = ( CardLayout ) ( seleccio_jugador_a.getLayout() );
+			c.show( seleccio_jugador_a, ( String ) event.getItem() );
+		}
+		else
+		{
+			CardLayout c = ( CardLayout ) ( seleccio_jugador_b.getLayout() );
+			c.show( seleccio_jugador_b, ( String ) event.getItem() );
+		}
 	}
 }

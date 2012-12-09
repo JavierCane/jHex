@@ -64,7 +64,7 @@ public abstract class BaseVista
 
 	/**
 	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
-	 * controlador de presentació al qual haurà de demanar certes operations.
+	 * controlador de presentació al qual haurà de demanar certes operacions.
 	 *
 	 * @param presentacio_ctrl Controlador de presentació.
 	 * @param frame_vista      Frame principal sobre el que s'hauran d'afegir els diferents components.
@@ -216,11 +216,7 @@ public abstract class BaseVista
 		}
 	}
 
-	/**
-	 * Defineix el comportament del botó d'ajuda quan sigui pitjat.
-	 *
-	 * @param event Event que activarà el botó.
-	 */
+
 	public void accioBotoAjuda( ActionEvent event )
 	{
 		try

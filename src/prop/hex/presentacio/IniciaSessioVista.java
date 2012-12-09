@@ -5,19 +5,38 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Vista d'iniciar sessió del joc Hex.
+ *
+ * @author Guillermo Girona San Miguel (Grup 7.3, Hex)
+ */
 public final class IniciaSessioVista extends BaseVista
 {
 
+	// Panells
 	private JPanel panell_dades;
 	private JPanel panell_botons;
+
+	// Botons
 	private JButton accepta;
 	private JButton registra;
 	private JButton convidat;
+
+	// Camps de tipus text/contrasenya
 	private JTextField usuari;
 	private JPasswordField contrasenya;
+
+	// Etiquetes de text
 	private JLabel text_usuari;
 	private JLabel text_contrasenya;
 
+	/**
+	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
+	 * controlador de presentació al qual haurà de demanar certes operacions.
+	 *
+	 * @param presentacio_ctrl Controlador de presentació.
+	 * @param frame_principal  Frame principal sobre el que s'hauran d'afegir els diferents components.
+	 */
 	public IniciaSessioVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
 	{
 		super( presentacio_ctrl, frame_principal );
@@ -102,57 +121,6 @@ public final class IniciaSessioVista extends BaseVista
 		panell_botons.setOpaque( false );
 	}
 
-	public void accioBotoAccepta( ActionEvent event )
-	{
-		try
-		{
-			presentacio_ctrl.setUsuariActual( usuari.getText(), new String( contrasenya.getPassword() ) );
-			presentacio_ctrl.vistaIniciaSessioAMenuPrincipal();
-		}
-		catch ( IllegalArgumentException excepcio )
-		{
-			VistaDialeg dialeg = new VistaDialeg();
-			String[] botons = { "Accepta" };
-			String valor_seleccionat = dialeg.setDialeg( "Error", "Nom d'usuari o contrasenya incorrectes.",
-					botons, JOptionPane.WARNING_MESSAGE );
-		}
-		catch ( Exception excepcio )
-		{
-			VistaDialeg dialeg = new VistaDialeg();
-			String[] botons = { "Accepta" };
-			String valor_seleccionat = dialeg.setDialeg( "Error", "Error inesperat.", botons,
-					JOptionPane.ERROR_MESSAGE );
-		}
-	}
-
-	public void accioBotoConvidat( ActionEvent event )
-	{
-		try
-		{
-			presentacio_ctrl.entraConvidat();
-			presentacio_ctrl.vistaIniciaSessioAMenuPrincipal();
-		}
-		catch ( IllegalArgumentException excepcio )
-		{
-			VistaDialeg dialeg = new VistaDialeg();
-			String[] botons = { "Accepta" };
-			String valor_seleccionat = dialeg.setDialeg( "Error", "Nom d'usuari o contrasenya incorrectes.",
-					botons, JOptionPane.WARNING_MESSAGE );
-		}
-		catch ( Exception excepcio )
-		{
-			VistaDialeg dialeg = new VistaDialeg();
-			String[] botons = { "Accepta" };
-			String valor_seleccionat = dialeg.setDialeg( "Error", "Error inesperat.", botons,
-					JOptionPane.ERROR_MESSAGE );
-		}
-	}
-
-	public void accioBotoRegistra( ActionEvent event )
-	{
-		presentacio_ctrl.vistaIniciaSessioARegistra();
-	}
-
 	@Override
 	protected void assignaListeners()
 	{
@@ -187,5 +155,71 @@ public final class IniciaSessioVista extends BaseVista
 				accioBotoRegistra( event );
 			}
 		} );
+	}
+
+	/**
+	 * Defineix el comportament del botó d'acceptar quan sigui pitjat.
+	 *
+	 * @param event Event que activarà el botó.
+	 */
+	public void accioBotoAccepta( ActionEvent event )
+	{
+		try
+		{
+			presentacio_ctrl.setUsuariActual( usuari.getText(), new String( contrasenya.getPassword() ) );
+			presentacio_ctrl.vistaIniciaSessioAMenuPrincipal();
+		}
+		catch ( IllegalArgumentException excepcio )
+		{
+			VistaDialeg dialeg = new VistaDialeg();
+			String[] botons = { "Accepta" };
+			String valor_seleccionat = dialeg.setDialeg( "Error", "Nom d'usuari o contrasenya incorrectes.",
+					botons, JOptionPane.WARNING_MESSAGE );
+		}
+		catch ( Exception excepcio )
+		{
+			VistaDialeg dialeg = new VistaDialeg();
+			String[] botons = { "Accepta" };
+			String valor_seleccionat = dialeg.setDialeg( "Error", "Error inesperat.", botons,
+					JOptionPane.ERROR_MESSAGE );
+		}
+	}
+
+	/**
+	 * Defineix el comportament del botó d'entrar com a convidat quan sigui pitjat.
+	 *
+	 * @param event Event que activarà el botó.
+	 */
+	public void accioBotoConvidat( ActionEvent event )
+	{
+		try
+		{
+			presentacio_ctrl.entraConvidat();
+			presentacio_ctrl.vistaIniciaSessioAMenuPrincipal();
+		}
+		catch ( IllegalArgumentException excepcio )
+		{
+			VistaDialeg dialeg = new VistaDialeg();
+			String[] botons = { "Accepta" };
+			String valor_seleccionat = dialeg.setDialeg( "Error", "Nom d'usuari o contrasenya incorrectes.",
+					botons, JOptionPane.WARNING_MESSAGE );
+		}
+		catch ( Exception excepcio )
+		{
+			VistaDialeg dialeg = new VistaDialeg();
+			String[] botons = { "Accepta" };
+			String valor_seleccionat = dialeg.setDialeg( "Error", "Error inesperat.", botons,
+					JOptionPane.ERROR_MESSAGE );
+		}
+	}
+
+	/**
+	 * Defineix el comportament del botó de registrar-se quan sigui pitjat.
+	 *
+	 * @param event Event que activarà el botó.
+	 */
+	public void accioBotoRegistra( ActionEvent event )
+	{
+		presentacio_ctrl.vistaIniciaSessioARegistra();
 	}
 }

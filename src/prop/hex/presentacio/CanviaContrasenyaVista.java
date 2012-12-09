@@ -5,19 +5,38 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Vista de canvi de contrasenya del joc Hex.
+ *
+ * @author Guillermo Girona San Miguel (Grup 7.3, Hex)
+ */
 public class CanviaContrasenyaVista extends BaseVista
 {
 
+	// Panells
 	private JPanel panell_dades;
+
+	// Botons
 	private JButton accepta;
 	private JButton descarta;
+
+	// Camps de tipus contrasenya
 	private JPasswordField contrasenya_actual;
 	private JPasswordField contrasenya_nova;
 	private JPasswordField confirma_contrasenya_nova;
+
+	// Etiquetes de text
 	private JLabel text_contrasenya_actual;
 	private JLabel text_contrasenya_nova;
 	private JLabel text_confirma_contrasenya_nova;
 
+	/**
+	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
+	 * controlador de presentació al qual haurà de demanar certes operacions.
+	 *
+	 * @param presentacio_ctrl Controlador de presentació.
+	 * @param frame_principal  Frame principal sobre el que s'hauran d'afegir els diferents components.
+	 */
 	public CanviaContrasenyaVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
 	{
 		super( presentacio_ctrl, frame_principal );
@@ -97,6 +116,37 @@ public class CanviaContrasenyaVista extends BaseVista
 	{
 	}
 
+	@Override
+	protected void assignaListeners()
+	{
+		super.assignaListeners();
+
+		accepta.addActionListener( new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed( ActionEvent event )
+			{
+				accioBotoAccepta( event );
+			}
+		} );
+
+		descarta.addActionListener( new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed( ActionEvent event )
+			{
+				accioBotoDescarta( event );
+			}
+		} );
+	}
+
+	/**
+	 * Defineix el comportament del botó d'acceptar quan sigui pitjat.
+	 *
+	 * @param event Event que activarà el botó.
+	 */
 	public void accioBotoAccepta( ActionEvent event )
 	{
 		try
@@ -134,34 +184,13 @@ public class CanviaContrasenyaVista extends BaseVista
 		}
 	}
 
+	/**
+	 * Defineix el comportament del botó de descartar quan sigui pitjat.
+	 *
+	 * @param event Event que activarà el botó.
+	 */
 	public void accioBotoDescarta( ActionEvent event )
 	{
 		presentacio_ctrl.vistaCanviaContrasenyaAPreferencies();
-	}
-
-	@Override
-	protected void assignaListeners()
-	{
-		super.assignaListeners();
-
-		accepta.addActionListener( new ActionListener()
-		{
-
-			@Override
-			public void actionPerformed( ActionEvent event )
-			{
-				accioBotoAccepta( event );
-			}
-		} );
-
-		descarta.addActionListener( new ActionListener()
-		{
-
-			@Override
-			public void actionPerformed( ActionEvent event )
-			{
-				accioBotoDescarta( event );
-			}
-		} );
 	}
 }
