@@ -7,7 +7,6 @@ import prop.hex.domini.models.enums.ModesInici;
 import prop.hex.domini.models.enums.TipusJugadors;
 import prop.hex.gestors.PartidaHexGstr;
 import prop.hex.gestors.RanquingGstr;
-import prop.hex.gestors.UsuariHexGstr;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -102,10 +101,9 @@ public final class PartidaCtrl
 		}
 
 		// Comprovo consistència de jugadors màquina (han de figurar tots els usuaris de tipus màquina a disc)
-		UsuariHexGstr usuari_gestor = new UsuariHexGstr();
 		for ( TipusJugadors tipus_jugador_maquina : TipusJugadors.obteLlistatMaquines() )
 		{
-			if ( !usuari_gestor.existeixElement( tipus_jugador_maquina.getNomUsuari().replace( ' ', '-' ) ) )
+			if ( !UsuariCtrl.getInstancia().existeixUsuari( tipus_jugador_maquina.getNomUsuari() ) )
 			{
 				UsuariCtrl.getInstancia().creaUsuari( tipus_jugador_maquina.getNomUsuari(), "", tipus_jugador_maquina );
 			}
