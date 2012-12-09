@@ -124,7 +124,7 @@ public final class UsuariCtrl
 					throw new IOException( "No s'ha pogut guardar el jugador." );
 				}
 			}
-			Ranquing.getInstancia().actualitzaUsuari( usuari_hex );
+			Ranquing.getInstancia().actualitzaRanquingUsuari( usuari_hex );
 		}
 		else
 		{
@@ -133,7 +133,7 @@ public final class UsuariCtrl
 			{
 				throw new IOException( "No s'ha pogut guardar el jugador." );
 			}
-			Ranquing.getInstancia().actualitzaUsuari( usuari_ia );
+			Ranquing.getInstancia().actualitzaRanquingUsuari( usuari_ia );
 		}
 		return true;
 	}
@@ -165,7 +165,7 @@ public final class UsuariCtrl
 
 		if ( gestor_usuari.eliminaElement( usuari.getIdentificadorUnic() ) )
 		{
-			Ranquing.getInstancia().eliminaUsuari( usuari );
+			Ranquing.getInstancia().eliminaRanquingUsuari( usuari );
 			PartidaCtrl.getInstancia().esborraPartidesUsuari( usuari.getIdentificadorUnic() );
 
 			return true;
@@ -334,6 +334,7 @@ public final class UsuariCtrl
 	                                     long temps_emprat, int fitxes_usades ) throws IOException
 	{
 		usuari.recalculaDadesUsuariPartidaFinalitzada( ha_guanyat, jugador_contrari, temps_emprat, fitxes_usades );
+
 		if ( usuari.getTipusJugador() != TipusJugadors.CONVIDAT )
 		{
 			gestor_usuari.guardaElement( usuari );
@@ -348,7 +349,7 @@ public final class UsuariCtrl
 	public boolean reiniciaEstadistiques()
 	{
 		usuari_principal.reiniciaEstadistiques();
-		Ranquing.getInstancia().actualitzaUsuari( usuari_principal );
+		Ranquing.getInstancia().actualitzaRanquingUsuari( usuari_principal );
 		return true;
 	}
 

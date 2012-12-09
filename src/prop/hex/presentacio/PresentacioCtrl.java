@@ -227,23 +227,86 @@ public final class PresentacioCtrl
 	// Mètodes RanquingVista
 	// ----------------------------------------------------------------------------------------------------------------
 
-	public Object[][] getClassificacioFormatejada()
+	public String[][] getClassificacioFormatejada()
 	{
 		List<UsuariHex> classificacio = Ranquing.getInstancia().getClassificacio();
 
-		Object[][] classificacio_formatejada = new Object[classificacio.size()][4];
+		String[][] classificacio_formatejada = new String[classificacio.size()][4];
 
 		int i = 0;
 		for ( UsuariHex usuari_classificat : classificacio )
 		{
 			classificacio_formatejada[i][0] = usuari_classificat.getNom();
-			classificacio_formatejada[i][1] = usuari_classificat.getPartidesJugades();
-			classificacio_formatejada[i][2] = usuari_classificat.getPartidesGuanyades();
-			classificacio_formatejada[i][3] = usuari_classificat.getPuntuacioGlobal();
+
+			Integer partides_jugades = usuari_classificat.getPartidesJugades();
+			classificacio_formatejada[i][1] = partides_jugades.toString();
+
+			// Càlcul del percentatge de victòries
+			Float percentatge_victories = new Float( ( usuari_classificat.getPartidesGuanyades().floatValue() /
+			                                     partides_jugades.floatValue() ) * 100 );
+			// Redondeig a dos decimals
+			percentatge_victories = ( float ) ( Math.round( percentatge_victories * 100.0 ) / 100.0 );
+
+			classificacio_formatejada[i][2] = percentatge_victories.toString() + "%";
+			classificacio_formatejada[i][3] = usuari_classificat.getPuntuacioGlobal().toString();
 			i++;
 		}
 
 		return classificacio_formatejada;
+	}
+
+	public String[][] getHallOfFameFormatejat()
+	{
+		Ranquing ranquing = Ranquing.getInstancia();
+
+		String[][] hall_of_fame_formatejat = new String[4][3];
+
+		hall_of_fame_formatejat[0] = getFitaHallOfFameFormatejada(
+				"Victòria amb menys fitxes",
+				ranquing.get_usuari_fitxes_minimes(),
+				ranquing.get_fitxes_minimes().toString()
+		);
+
+		hall_of_fame_formatejat[1] = getFitaHallOfFameFormatejada(
+				"Més victòries",
+				ranquing.get_usuari_mes_partides_guanyades(),
+				ranquing.get_fitxes_minimes().toString()
+		);
+
+		hall_of_fame_formatejat[2] = getFitaHallOfFameFormatejada(
+				"Més partides jugades",
+				ranquing.get_usuari_mes_partides_jugades(),
+				ranquing.get_fitxes_minimes().toString()
+		);
+
+		hall_of_fame_formatejat[3] = getFitaHallOfFameFormatejada(
+				"Victòria en menys temps",
+				ranquing.get_usuari_temps_minim(),
+				String.valueOf( ranquing.get_temps_minim() / 1000L ) + "." +
+				( ranquing.get_temps_minim() % 1000L ) / 100 + " segs."
+		);
+
+		return hall_of_fame_formatejat;
+	}
+
+	private String[] getFitaHallOfFameFormatejada( String nom_fita, String nom_usuari, String record )
+	{
+		String[] dades_fita = new String[3];
+
+		dades_fita[0] = nom_fita;
+
+		if ( nom_usuari != null )
+		{
+			dades_fita[1] = nom_usuari;
+			dades_fita[2] = record;
+		}
+		else
+		{
+			dades_fita[1] = "-";
+			dades_fita[2] = "(Per aconseguir)";
+		}
+
+		return dades_fita;
 	}
 
 	// Mètodes CarregaPartidaVista

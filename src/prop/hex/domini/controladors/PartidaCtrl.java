@@ -466,7 +466,7 @@ public final class PartidaCtrl
 									usuari_b.getTipusJugador(), partida_actual.getTempsDeJoc( 0 ),
 									partida_actual.getTauler().getNumFitxesA() );
 
-					Ranquing.getInstancia().actualitzaUsuari( usuari_a );
+					Ranquing.getInstancia().actualitzaRanquingUsuari( usuari_a );
 				}
 
 				if ( usuari_b.getTipusJugador() != TipusJugadors.CONVIDAT )
@@ -476,7 +476,7 @@ public final class PartidaCtrl
 									usuari_a.getTipusJugador(), partida_actual.getTempsDeJoc( 1 ),
 									partida_actual.getTauler().getNumFitxesB() );
 
-					Ranquing.getInstancia().actualitzaUsuari( usuari_b );
+					Ranquing.getInstancia().actualitzaRanquingUsuari( usuari_b );
 				}
 			}
 		}

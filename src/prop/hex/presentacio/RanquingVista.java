@@ -11,9 +11,9 @@ public final class RanquingVista extends BaseVista
 	private JPanel panell_central;
 	private JPanel panell_botons;
 	private JButton torna;
-	private Object[][] dades_taula;
-	private Object[][] dades_hall_of_fame;
-	private JTable taula_ranquing;
+	private String[][] dades_classificacio;
+	private String[][] dades_hall_of_fame;
+	private JTable taula_classificacio;
 	private JTable taula_hall_of_fame;
 
 	public RanquingVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
@@ -24,19 +24,16 @@ public final class RanquingVista extends BaseVista
 		panell_central = new JPanel();
 		panell_botons = new JPanel();
 		torna = new JButton( "Torna al menú principal" );
-		dades_taula = presentacio_ctrl.getClassificacioFormatejada();
-		dades_hall_of_fame = new Object[][] {
-				{
-						"Test", "Test", "Test", "Test"
-				}, {
-				"27 s", "10", "10", "10"
-		}
-		};
-		taula_ranquing = new JTable( dades_taula, new String[] {
-				"Nom d'usuari", "Partides jugades", "Partides guanyades", "Puntuació global"
+
+		// Construeixo les taules del rànquing (classificació i Hall of Fame)
+		dades_classificacio = presentacio_ctrl.getClassificacioFormatejada();
+		taula_classificacio = new JTable( dades_classificacio, new String[] {
+				"Nom d'usuari", "Partides jugades", "Percentatge de victòries", "Puntuació global"
 		} );
+
+		dades_hall_of_fame = presentacio_ctrl.getHallOfFameFormatejat();
 		taula_hall_of_fame = new JTable( dades_hall_of_fame, new String[] {
-				"Victòria amb temps mínim", "Victòria amb més fitxes", "Més partides jugades", "Més victòries"
+				"Fita aconseguida", "Jugador", "Rècord"
 		} );
 
 		inicialitzaVista();
@@ -81,15 +78,25 @@ public final class RanquingVista extends BaseVista
 	protected void inicialitzaPanellCentral()
 	{
 		panell_central.setLayout( new BoxLayout( panell_central, BoxLayout.PAGE_AXIS ) );
-		panell_central.add( new JScrollPane( taula_ranquing ) );
+
+		// Taula de classificació
+		taula_classificacio.setFillsViewportHeight( true );
+		taula_classificacio.setEnabled( false );
+		// Defineixo la dimensió del panell com tot l'ample que pugui i 100 d'altura
+		taula_classificacio.setPreferredScrollableViewportSize( new Dimension( 1000, 100 ) );
+		panell_central.add( new JScrollPane( taula_classificacio, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER ) );
 		panell_central.add( Box.createVerticalStrut( 10 ) );
-		panell_central.add( taula_hall_of_fame.getTableHeader() );
-		panell_central.add( taula_hall_of_fame );
-		panell_central.setOpaque( false );
-		taula_ranquing.setFillsViewportHeight( true );
-		taula_ranquing.setEnabled( false );
+
+		// Taula Hall of Fame
 		taula_hall_of_fame.setFillsViewportHeight( true );
 		taula_hall_of_fame.setEnabled( false );
+		// Defineixo la dimensió del panell com tot l'ample que pugui i 7 d'altura
+		taula_hall_of_fame.setPreferredScrollableViewportSize( new Dimension( 1000, 7 ) );
+		panell_central.add( new JScrollPane( taula_hall_of_fame, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER ) );
+
+		panell_central.setOpaque( false );
 	}
 
 	@Override

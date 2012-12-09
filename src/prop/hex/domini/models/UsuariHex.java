@@ -352,7 +352,7 @@ public class UsuariHex extends Usuari implements Serializable, Comparable<Usuari
 
 	/**
 	 * Mètode per comparar dos usuaris en funció de la serva puntuació global.
-	 * Utilitzada implícitament per el mètode Collections.sort de la funció actualitzaUsuari de la classe Ranquing
+	 * Utilitzada implícitament per el mètode Collections.sort de la funció actualitzaRanquingUsuari de la classe Ranquing
 	 * per ordenar el ràquing en funció de les millors puntuacions globals.
 	 *
 	 * @param contrincant UsuariHex amb qui es vol comparar
@@ -366,7 +366,7 @@ public class UsuariHex extends Usuari implements Serializable, Comparable<Usuari
 
 	/**
 	 * Compara la igualtat entre dos Usuaris.
-	 * Utilitzada implícitament per la funció indexOf del mètode actualitzaUsuari de la classe Ranquing per comprovar
+	 * Utilitzada implícitament per la funció indexOf del mètode actualitzaRanquingUsuari de la classe Ranquing per comprovar
 	 * si un usuari ja ha estat insertat o no al rànquing.
 	 *
 	 * @param suposat_usuari_hex Object de tipus UsuariHex a comparar

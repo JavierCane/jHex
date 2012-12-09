@@ -48,41 +48,41 @@ public final class RanquingDrvr
 
 		testConsultaRanquing();
 
-		ranquing.actualitzaUsuari( usuari_0 );
+		ranquing.actualitzaRanquingUsuari( usuari_0 );
 
 		usuari_1.recalculaDadesUsuariPartidaFinalitzada( false, TipusJugadors.IA_FACIL, 10L, 10 );
-		ranquing.actualitzaUsuari( usuari_1 );
+		ranquing.actualitzaRanquingUsuari( usuari_1 );
 
 		usuari_2.recalculaDadesUsuariPartidaFinalitzada( false, TipusJugadors.IA_QUEENBEE, 10L, 10 );
-		ranquing.actualitzaUsuari( usuari_2 );
+		ranquing.actualitzaRanquingUsuari( usuari_2 );
 
 		usuari_3.recalculaDadesUsuariPartidaFinalitzada( false, TipusJugadors.IA_FACIL, 10L, 10 );
 		usuari_3.recalculaDadesUsuariPartidaFinalitzada( false, TipusJugadors.IA_QUEENBEE, 10L, 10 );
-		ranquing.actualitzaUsuari( usuari_3 );
+		ranquing.actualitzaRanquingUsuari( usuari_3 );
 
 		usuari_4.recalculaDadesUsuariPartidaFinalitzada( true, TipusJugadors.IA_FACIL, 10L, 10 );
-		ranquing.actualitzaUsuari( usuari_4 );
+		ranquing.actualitzaRanquingUsuari( usuari_4 );
 
 		usuari_5.recalculaDadesUsuariPartidaFinalitzada( true, TipusJugadors.IA_QUEENBEE, 10L, 10 );
-		ranquing.actualitzaUsuari( usuari_5 );
+		ranquing.actualitzaRanquingUsuari( usuari_5 );
 
 		usuari_6.recalculaDadesUsuariPartidaFinalitzada( true, TipusJugadors.IA_FACIL, 10L, 10 );
 		usuari_6.recalculaDadesUsuariPartidaFinalitzada( true, TipusJugadors.IA_QUEENBEE, 10L, 10 );
-		ranquing.actualitzaUsuari( usuari_6 );
+		ranquing.actualitzaRanquingUsuari( usuari_6 );
 
 		usuari_7.recalculaDadesUsuariPartidaFinalitzada( false, TipusJugadors.IA_FACIL, 10L, 10 );
 		usuari_7.recalculaDadesUsuariPartidaFinalitzada( true, TipusJugadors.IA_FACIL, 10L, 10 );
-		ranquing.actualitzaUsuari( usuari_7 );
+		ranquing.actualitzaRanquingUsuari( usuari_7 );
 
 		usuari_8.recalculaDadesUsuariPartidaFinalitzada( false, TipusJugadors.IA_QUEENBEE, 10L, 10 );
 		usuari_8.recalculaDadesUsuariPartidaFinalitzada( true, TipusJugadors.IA_QUEENBEE, 10L, 10 );
-		ranquing.actualitzaUsuari( usuari_8 );
+		ranquing.actualitzaRanquingUsuari( usuari_8 );
 
 		usuari_9.recalculaDadesUsuariPartidaFinalitzada( false, TipusJugadors.IA_FACIL, 10L, 10 );
 		usuari_9.recalculaDadesUsuariPartidaFinalitzada( false, TipusJugadors.IA_QUEENBEE, 10L, 10 );
 		usuari_9.recalculaDadesUsuariPartidaFinalitzada( true, TipusJugadors.IA_FACIL, 10L, 10 );
 		usuari_9.recalculaDadesUsuariPartidaFinalitzada( true, TipusJugadors.IA_QUEENBEE, 10L, 10 );
-		ranquing.actualitzaUsuari( usuari_9 );
+		ranquing.actualitzaRanquingUsuari( usuari_9 );
 
 		System.out.println( "[OK]\tBateria de modificacions fetes correctament." );
 

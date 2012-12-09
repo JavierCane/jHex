@@ -126,13 +126,53 @@ public final class Ranquing implements Serializable
 		return classificacio;
 	}
 
+	public String get_usuari_temps_minim()
+	{
+		return usuari_temps_minim;
+	}
+
+	public Long get_temps_minim()
+	{
+		return temps_minim;
+	}
+
+	public String get_usuari_fitxes_minimes()
+	{
+		return usuari_fitxes_minimes;
+	}
+
+	public Integer get_fitxes_minimes()
+	{
+		return fitxes_minimes;
+	}
+
+	public String get_usuari_mes_partides_guanyades()
+	{
+		return usuari_mes_partides_guanyades;
+	}
+
+	public Integer get_mes_partides_guanyades()
+	{
+		return mes_partides_guanyades;
+	}
+
+	public String get_usuari_mes_partides_jugades()
+	{
+		return usuari_mes_partides_jugades;
+	}
+
+	public Integer get_mes_partides_jugades()
+	{
+		return mes_partides_jugades;
+	}
+
 	/**
 	 * Actualitza les dades del rànquing i dels millors rècords corresponents a un usuari. Si no hi està ja a la
 	 * llista l'inserta. Després d'actualitzar/insertar l'usuari, actualitza l'ordre del rànquing.
 	 *
 	 * @param usuari
 	 */
-	public void actualitzaUsuari( UsuariHex usuari )
+	public void actualitzaRanquingUsuari( UsuariHex usuari )
 	{
 		int posicio_usuari_ranquing = classificacio.indexOf( usuari );
 
@@ -155,9 +195,37 @@ public final class Ranquing implements Serializable
 	 *
 	 * @param usuari
 	 */
-	public void eliminaUsuari( UsuariHex usuari )
+	public void eliminaRanquingUsuari( UsuariHex usuari )
 	{
+		String nom_usuari = usuari.getNom();
+
+		// Elimino l'usuari de la classificació
 		classificacio.remove( usuari );
+
+		// Elimino l'usuari de les fites si és que va aconseguir alguna
+		if ( nom_usuari == usuari_temps_minim )
+		{
+			usuari_temps_minim = null;
+			temps_minim = Long.MAX_VALUE;
+		}
+
+		if ( nom_usuari == usuari_fitxes_minimes )
+		{
+			usuari_fitxes_minimes = null;
+			fitxes_minimes = Integer.MAX_VALUE;
+		}
+
+		if ( nom_usuari == usuari_mes_partides_guanyades )
+		{
+			usuari_mes_partides_guanyades = null;
+			mes_partides_guanyades = 0;
+		}
+
+		if ( nom_usuari == usuari_mes_partides_jugades )
+		{
+			usuari_mes_partides_jugades = null;
+			mes_partides_jugades = 0;
+		}
 	}
 
 	/**
@@ -218,30 +286,31 @@ public final class Ranquing implements Serializable
 	 */
 	private void comprovaRecords( UsuariHex usuari )
 	{
-		String identificador_usuari = usuari.getIdentificadorUnic();
+		String nom_usuari = usuari.getNom();
 
 		if ( temps_minim > usuari.getTempsMinim() )
 		{
 			temps_minim = usuari.getTempsMinim();
-			usuari_temps_minim = identificador_usuari;
+			usuari_temps_minim = nom_usuari;
 		}
 
 		if ( fitxes_minimes > usuari.getFitxesMinimes() )
 		{
 			fitxes_minimes = usuari.getFitxesMinimes();
-			usuari_fitxes_minimes = identificador_usuari;
+			usuari_fitxes_minimes = nom_usuari;
 		}
 
 		if ( mes_partides_guanyades < usuari.getPartidesGuanyades() )
 		{
 			mes_partides_guanyades = usuari.getPartidesGuanyades();
-			usuari_mes_partides_guanyades = identificador_usuari;
+			usuari_mes_partides_guanyades = nom_usuari;
 		}
 
 		if ( mes_partides_jugades < usuari.getPartidesJugades() )
 		{
 			mes_partides_jugades = usuari.getPartidesJugades();
-			usuari_mes_partides_jugades = identificador_usuari;
+			usuari_mes_partides_jugades = nom_usuari;
 		}
 	}
+
 }
