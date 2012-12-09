@@ -12,32 +12,60 @@ import java.util.HashMap;
 import java.util.Random;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Isaac
- * Date: 25/11/12
- * Time: 10:19
- * To change this template use File | Settings | File Templates.
+ * Intel·ligència artificial per al joc Hex que utilitza un mètode negaScout amb Monte Carlo.
+ * <p/>
+ * Utilitza un mètode NegaScout amb elecció de moviments a avaluar amb un mètode de
+ * Monte Carlo equiprobable. A més, guarda els valors de les avaluacions de la partida en joc en una taula de
+ * transposicions, on els resums (<em>hash</em> en anglès) de les avaluacions vénen donats per <a
+ * href="http://en.wikipedia.org/wiki/Zobrist_hashing">claus Zobrist</a>.
+ * <p/>
+ * Les avaluacions estàtiques del tauler fan servir la funció d'avaluació
+ * <a href="http://link.springer.com/chapter/10.1007%2F3-540-45486-1_2">QueenBee</a>,
+ * de <a href="http://javhar.net/">Jack van Rijswijck</a>.
+ * 
+ * @author Isaac Sánchez Barrera (Grup 7.3, Hex)
  */
 public final class IAHexNegaMonteScout implements MouFitxaIA
 {
 
+	/**
+	 * Partida que està jugant la intel·ligència artificial.
+	 */
 	private PartidaHex partida;
+
+	/**
+	 * Tauler on s'està desenvolupant la partida.
+	 */
 	private TaulerHex tauler;
+
+	/**
+	 * Profunditat màxima de l'arbre de cerca.
+	 */
 	private static int profunditat_maxima = 3;
-	private static HashMap<Integer, ElementTaulaTransposicions> taula_transposicio;
+
+	/**
+	 * Taula de transposicions. No té en compte possibles col·lisions.
+	 *
+	 * @see TaulerHex#hashCode()
+	 */
+	private HashMap<Integer, ElementTaulaTransposicions> taula_transposicions;
+
+	/**
+	 * Generador de nombres pseudo-aleatoris per a l'elecció dels moviments a avaluar.
+	 */
 	private Random generador;
+
+	/**
+	 * Classe d'on agafem la funció d'avaluació, per reaprofitar-la.
+	 */
 	private IAHexQueenBeeCtrl ia_avaluacio;
 
 	/**
-	 * Constructor per defecte. Genera la taula de transposició si no existeix.
+	 * Constructor per defecte. Inicialitza la taula de transposicions i el generador dels nombres pseudo-aleatoris.
 	 */
 	public IAHexNegaMonteScout()
 	{
-		if ( taula_transposicio == null )
-		{
-			taula_transposicio = new HashMap<Integer, ElementTaulaTransposicions>();
-		}
-
+		taula_transposicions = new HashMap<Integer, ElementTaulaTransposicions>();
 		ia_avaluacio = new IAHexQueenBeeCtrl();
 		generador = new Random();
 	}
@@ -65,6 +93,7 @@ public final class IAHexNegaMonteScout implements MouFitxaIA
 	 *
 	 * @param partida Partida on es vol jugar amb la intel·ligència artificial.
 	 * @return Cert si s'ha canviat de partida. Fals altrament.
+	 * @see MouFitxaIA
 	 */
 	public boolean setPartida( PartidaHex partida )
 	{
@@ -82,8 +111,11 @@ public final class IAHexNegaMonteScout implements MouFitxaIA
 	/**
 	 * Realitza un seguit d'iteracions de l'algorisme negaScout amb nodes aleatoris fent servir la funció d'avaluació
 	 * de QueensBee.
+	 * <p/>
+	 * La quantitat de nodes que s'avaluen depèn de la mida del tauler i les caselles buides. Les caselles que
+	 * s'acaben avaluant són escollides de manera aleatòria d'entre totes les buides. L'avaluació final s'acaba
+	 * afegint a la taula de transposicions, amb la fita corresponent.
 	 *
-	 * @param casella        Casella del darrer moviment
 	 * @param jugador        Fitxa del jugador que ha efectuat el darrer moviment
 	 * @param contrincant    Fitxa del jugador contrincant
 	 * @param alfa           Valor del paràmetre alfa a maximitzar en la darrera iteració recursiva
@@ -91,23 +123,26 @@ public final class IAHexNegaMonteScout implements MouFitxaIA
 	 * @param profunditat    Profunditat a què s'ha arribat
 	 * @param estat_iteracio Estat de la partida en la darrera iteració
 	 * @return El valor avaluat del moviment a la casella per al jugador que efectua el moviment
+	 * @see ElementTaulaTransposicions
+	 * @see FitesDePoda
+	 * @see PartidaHex#comprovaEstatPartida(int, int)
 	 */
-	int negaMonteScout( Casella casella, EstatCasella jugador, EstatCasella contrincant, int alfa, int beta,
-	                    int profunditat, EstatPartida estat_iteracio )
+	private int negaMonteScout( EstatCasella jugador, EstatCasella contrincant, int alfa, int beta, int profunditat,
+	                            EstatPartida estat_iteracio )
 	{
 		int beta_2, puntuacio;
 		if ( profunditat == profunditat_maxima || estat_iteracio != EstatPartida.NO_FINALITZADA )
 		{
 			puntuacio = ia_avaluacio.funcioAvaluacio( tauler, estat_iteracio, profunditat, jugador );
-			taula_transposicio.put( tauler.hashCode(),
+			taula_transposicions.put( tauler.hashCode(),
 					new ElementTaulaTransposicions( partida.getTornsJugats() + profunditat, FitesDePoda.VALOR_EXACTE,
 							puntuacio, jugador ) );
 			return puntuacio;
 		}
 
-		if ( taula_transposicio.containsKey( tauler.hashCode() ) )
+		if ( taula_transposicions.containsKey( tauler.hashCode() ) )
 		{
-			ElementTaulaTransposicions element = taula_transposicio.get( tauler.hashCode() );
+			ElementTaulaTransposicions element = taula_transposicions.get( tauler.hashCode() );
 			if ( element.getProfunditat() >= partida.getTornsJugats() + profunditat )
 			{
 				switch ( element.getFita( jugador ) )
@@ -147,14 +182,12 @@ public final class IAHexNegaMonteScout implements MouFitxaIA
 				num_explorades++;
 				tauler.mouFitxa( contrincant, actual );
 				estat_iteracio = partida.comprovaEstatPartida( actual.getFila(), actual.getColumna() );
-				puntuacio = -negaMonteScout( actual, contrincant, jugador, -beta_2, -alfa, profunditat + 1,
-						estat_iteracio );
+				puntuacio = -negaMonteScout( contrincant, jugador, -beta_2, -alfa, profunditat + 1, estat_iteracio );
 
 				if ( alfa < puntuacio && puntuacio < beta && !primer_fill )
 				{
 					fita = FitesDePoda.VALOR_EXACTE;
-					puntuacio = -negaMonteScout( actual, contrincant, jugador, -beta, -alfa, profunditat + 1,
-							estat_iteracio );
+					puntuacio = -negaMonteScout( contrincant, jugador, -beta, -alfa, profunditat + 1, estat_iteracio );
 				}
 
 				tauler.treuFitxa( actual );
@@ -167,7 +200,7 @@ public final class IAHexNegaMonteScout implements MouFitxaIA
 
 				if ( alfa >= beta )
 				{
-					taula_transposicio.put( tauler.hashCode(),
+					taula_transposicions.put( tauler.hashCode(),
 							new ElementTaulaTransposicions( partida.getTornsJugats() + profunditat,
 									FitesDePoda.FITA_INFERIOR, alfa, jugador ) );
 					return alfa;
@@ -178,7 +211,7 @@ public final class IAHexNegaMonteScout implements MouFitxaIA
 			}
 		}
 
-		taula_transposicio.put( tauler.hashCode(),
+		taula_transposicions.put( tauler.hashCode(),
 				new ElementTaulaTransposicions( partida.getTornsJugats() + profunditat, fita, alfa, jugador ) );
 
 		return alfa;
@@ -188,10 +221,12 @@ public final class IAHexNegaMonteScout implements MouFitxaIA
 	 * Retorna un moviment adequat al tauler actual per al jugador indicat per fitxa.
 	 * <p/>
 	 * Fa servir un algorisme negaScout amb taules de transposició i elecció d'un subconjunt de nodes aleatoris
-	 * (pseudo-montecarlo).
+	 * (Monte Carlo amb elecció equiprobable).
 	 *
 	 * @param fitxa Fitxa que vol col·locar-se al tauler de la partida del paràmetre implícit.
 	 * @return La casella on es mouria la fitxa.
+	 * @see #negaMonteScout(EstatCasella, EstatCasella, int, int, int, EstatPartida)
+	 * @see MouFitxaIA
 	 */
 	public Casella mouFitxa( EstatCasella fitxa )
 	{
@@ -217,9 +252,9 @@ public final class IAHexNegaMonteScout implements MouFitxaIA
 				explorades[actual.getFila()][actual.getColumna()] = true;
 				num_explorades++;
 				tauler.mouFitxa( fitxa, actual );
-				int puntuacio_actual = negaMonteScout( actual, fitxa, fitxaContraria( fitxa ), Integer.MIN_VALUE + 1,
-						Integer.MAX_VALUE - 1, 1,
-						partida.comprovaEstatPartida( actual.getFila(), actual.getColumna() ) );
+				int puntuacio_actual =
+						negaMonteScout( fitxa, fitxaContraria( fitxa ), Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1, 1,
+								partida.comprovaEstatPartida( actual.getFila(), actual.getColumna() ) );
 
 				tauler.treuFitxa( actual );
 
