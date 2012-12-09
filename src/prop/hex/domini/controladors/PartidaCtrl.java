@@ -20,6 +20,8 @@ import java.util.Set;
  * <p/>
  * Internament, els jugadors estan indexats per posició en un array; el jugador A es troba en la posició 0 i el B en
  * la posició 1.
+ *
+ * @author Isaac Sánchez Barrera (Grup 7.3, Hex)
  */
 public final class PartidaCtrl
 {
@@ -39,6 +41,10 @@ public final class PartidaCtrl
 	 */
 	private PartidaHexGstr gestor_partida;
 
+	/**
+	 * Estat de la darrera partida. Es fa servir quan es finalitza la partida, per no tenir problemes d'accés a
+	 * punters nuls.
+	 */
 	private EstatPartida estat_darrera_partida = null;
 
 	/**
@@ -95,8 +101,7 @@ public final class PartidaCtrl
 	 * @throws IOException            Si hi ha algun problema d'entrada/sortida quan intentem llegir o crear el
 	 *                                rànquing o les intel·ligències artificials.
 	 * @throws ClassNotFoundException Si no es troben les classes UsuariHex o Ranquing.
-	 * @see prop.hex.gestors.RanquingGstr#carregaElement()
-	 * @see prop.hex.gestors.RanquingGstr#guardaElement()
+	 * @see prop.hex.gestors.RanquingGstr
 	 * @see UsuariCtrl#creaUsuari(String, String, prop.hex.domini.models.enums.TipusJugadors)
 	 */
 	public static void comprovaConsistenciaFitxersIDades() throws IOException, ClassNotFoundException
@@ -188,6 +193,8 @@ public final class PartidaCtrl
 	 * @throws IllegalAccessError     Si s'intenta accedir a un lloc no permès quan es carreguen les intel·ligències
 	 *                                artificials.
 	 * @throws InstantiationError     Si hi ha problemes amb la instanciació de les intel·ligències artificials.
+	 * @see MouFitxaIA
+	 * @see TipusJugadors
 	 */
 	private void inicialitzaIAJugadors() throws ClassNotFoundException, IllegalAccessException, InstantiationException
 	{
@@ -215,6 +222,9 @@ public final class PartidaCtrl
 	 * @throws InstantiationException   Si hi ha problemes amb la instanciació de les intel·ligències artificials.
 	 * @throws IllegalAccessException   Si s'intenta accedir a un lloc no permès quan es carreguen les
 	 *                                  intel·ligències artificials.
+	 * @see #usuaris_preinicialitzats_partida
+	 * @see PartidaHex#PartidaHex(UsuariHex, UsuariHex, TaulerHex, String, prop.hex.domini.models.enums.ModesInici,
+	 *      prop.hex.domini.models.enums.CombinacionsColors, boolean)
 	 */
 	public void inicialitzaPartida( int mida_tauler, String nom_partida, boolean situacio_inicial )
 			throws NullPointerException, IllegalArgumentException, ClassNotFoundException, InstantiationException,
