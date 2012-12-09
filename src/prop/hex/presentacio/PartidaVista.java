@@ -61,11 +61,15 @@ public final class PartidaVista extends BaseVista
 	@Override
 	protected void inicialitzaPanellPeu()
 	{
-		panell_botons.setLayout( new FlowLayout( FlowLayout.CENTER, 80, 0 ) );
+		JPanel botons = new JPanel();
+		botons.add( mou_ia );
+		botons.add( demana_pista );
+		botons.add( abandona );
+		botons.setOpaque( false );
+		botons.setLayout( new FlowLayout( FlowLayout.CENTER, 10, 0 ) );
+		panell_botons.setLayout( new FlowLayout( FlowLayout.CENTER, 100, 0 ) );
 		panell_botons.add( titol_baix );
-		panell_botons.add( mou_ia );
-		panell_botons.add( demana_pista );
-		panell_botons.add( abandona );
+		panell_botons.add( botons );
 		panell_botons.add( panell_sortida );
 		panell_botons.setOpaque( false );
 		mou_ia.setEnabled( false );
