@@ -42,8 +42,7 @@ public final class PartidaCtrl
 	private EstatPartida estat_darrera_partida = null;
 
 	/**
-	 * Conté els usuaris pre inicialitzats de la partida actual, únicament son útils abans d'inicialitzar una partida
-	 * o carregar-la de disc.
+	 * Conté els usuaris pre inicialitzats de la partida actual, únicament son útils abans d'inicialitzar una partida.
 	 */
 	private UsuariHex[] usuaris_preinicialitzats_partida;
 
@@ -69,7 +68,7 @@ public final class PartidaCtrl
 	}
 
 	/**
-	 * Consultora de l'instancia actual del controlador de partida.
+	 * Consultora de la instància actual del controlador de partida.
 	 * Si encara no s'ha inicialitzat l'objecte, crida el constructor. Si ja s'ha instanciat prèviament,
 	 * simplement retorna l'instancia ja creada.
 	 *
@@ -85,6 +84,21 @@ public final class PartidaCtrl
 		return instancia;
 	}
 
+	/**
+	 * Comprova la consistència dels fitxers necessaris per al programa. Entre ells,
+	 * els fitxers amb les dades dels jugadors d'intel·ligència artificial i el del rànquing.
+	 * <p/>
+	 * L'estat real del joc pot seguir sent inconsistent, ja que si s'esborra un jugador manualment del directori de
+	 * dades no desapareix de les estadístiques. De la mateixa manera, si s'esborra el fitxer amb el rànquing aquest
+	 * no serà del tot correcte fins que tots els jugadors que havien jugat tornin a jugar.
+	 *
+	 * @throws IOException            Si hi ha algun problema d'entrada/sortida quan intentem llegir o crear el
+	 *                                rànquing o les intel·ligències artificials.
+	 * @throws ClassNotFoundException Si no es troben les classes UsuariHex o Ranquing.
+	 * @see prop.hex.gestors.RanquingGstr#carregaElement()
+	 * @see prop.hex.gestors.RanquingGstr#guardaElement()
+	 * @see UsuariCtrl#creaUsuari(String, String, prop.hex.domini.models.enums.TipusJugadors)
+	 */
 	public static void comprovaConsistenciaFitxersIDades() throws IOException, ClassNotFoundException
 	{
 		// Comprovo la consistència del rànquing (si no existeix a disc el creo, si ja existeix el carrego a memòria)
@@ -111,20 +125,22 @@ public final class PartidaCtrl
 	}
 
 	/**
-	 * Preinicialitza els usuaris que disputaran la partida. Aixo vol dir que carrega l'usuari corresponent a el
-	 * tipus de jugador seleccionat comprovant les credencials en cas que toqui, carregant de disc la versió
-	 * corresponent de la IA o instanciant un usuari convidat temporal si és el cas.
+	 * Preinicialitza els usuaris que disputaran la partida.
+	 * <p/>
+	 * Carrega l'usuari corresponent al tipus de jugador seleccionat comprovant les credencials en cas que toqui,
+	 * carregant de disc la versió corresponent de la IA o instanciant un usuari convidat temporal si és el cas.
 	 * Cal cridar a aquesta funció abans d'inicialitzar la partida mitjançant inicialitzaPartida.
 	 *
-	 * @param num_jugador
-	 * @param tipus_jugador
-	 * @param nom_usuari
-	 * @param contrasenya_usuari
-	 * @throws IllegalArgumentException
-	 * @throws FileNotFoundException
-	 * @throws IOException
-	 * @throws ClassNotFoundException
-	 * @throws NullPointerException
+	 * @param num_jugador        Número de jugador que es vol preinicialitzar (0 si és el jugador A, 1 si és el B)
+	 * @param tipus_jugador      Tipus de jugador que es vol preinicialitzar
+	 * @param nom_usuari         Nom de l'usuari d'aquest jugador
+	 * @param contrasenya_usuari Contrasenya de l'usuari associat a aquest jugador
+	 * @throws IllegalArgumentException Si la contrasenya de l'usuari és incorrecta.
+	 * @throws FileNotFoundException    Si no es troba el fitxer amb les dades de l'usuari.
+	 * @throws IOException              Si hi ha algun problema d'entrada/sortida quan intentem carregar l'usuari de disc.
+	 * @throws ClassNotFoundException   Si no es troba la classe UsuariHex quan s'intenta carregar l'usuari de disc.
+	 * @throws NullPointerException     Si el fitxer de l'usuari és buit.
+	 * @see UsuariCtrl#carregaUsuari(String, String, prop.hex.domini.models.enums.TipusJugadors)
 	 */
 	public void preInicialitzaUsuariPartida( int num_jugador, TipusJugadors tipus_jugador, String nom_usuari,
 	                                         String contrasenya_usuari )
@@ -133,8 +149,8 @@ public final class PartidaCtrl
 	{
 		UsuariCtrl usuari_ctrl = UsuariCtrl.getInstancia();
 
-		// Si l'usuari a establir es de tipus jugador, comprovaré si es tracta de l'usuari principal del joc,
-		// en aquest cas, simplement l'establiré, en cas que sigui el jugador secundari, comrpovaré les credencials
+		// Si l'usuari a establir és de tipus jugador, comprovem si es tracta de l'usuari principal del joc,
+		// en aquest cas, simplement l'establim. Si és el jugador secundari, comprovem les seves credencials.
 		if ( TipusJugadors.JUGADOR == tipus_jugador )
 		{
 			if ( 0 == num_jugador )
@@ -149,7 +165,12 @@ public final class PartidaCtrl
 		}
 		else if ( TipusJugadors.CONVIDAT == tipus_jugador )
 		{
-			// Si l'usuari a establir es de tipus convidat, crearé un UsuariHex temporal amb el nom donat
+			// Si l'usuari a establir es de tipus convidat, creem un UsuariHex temporal amb el nom donat. Si no té
+			// nom, en posem un de prefixat.
+			if ( nom_usuari == null || nom_usuari.equals( "" ) )
+			{
+				nom_usuari = String.format( "Convidat %d", num_jugador + 1 );
+			}
 			usuaris_preinicialitzats_partida[num_jugador] = new UsuariHex( nom_usuari, "", tipus_jugador );
 		}
 		else
@@ -653,7 +674,7 @@ public final class PartidaCtrl
 		return partida_actual.getTipusFitxesJugador( getNumJugadorTornActual() );
 	}
 
-	// Métodes auxiliars per les vistes
+	// Mètodes auxiliars per les vistes
 	// ----------------------------------------------------------------------------------------------------------------
 
 	public EstatCasella getEstatCasella( int fila, int columna )
