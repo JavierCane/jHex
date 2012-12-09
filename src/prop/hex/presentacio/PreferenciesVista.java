@@ -8,25 +8,43 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Vista de preferències d'usuari del joc Hex.
+ *
+ * @author Guillermo Girona San Miguel (Grup 7.3, Hex)
+ */
 public final class PreferenciesVista extends BaseVista
 {
 
+	// Panells
 	private JPanel panell_central;
 	private JPanel panell_botons;
+
+	// Botons d'opcions i grups associats que restringeixen la selecció múltiple
 	private JRadioButton colors_vermell_blau;
 	private JRadioButton colors_negre_blanc;
 	private JRadioButton mode_inici_estandard;
 	private JRadioButton mode_inici_pastis;
 	private ButtonGroup grup_colors;
 	private ButtonGroup grup_modes_inici;
+
+	// Etiquetes de text
 	private JLabel colors;
 	private JLabel modes_inici;
+
+	// Botons
 	private JButton reinicia_estadistiques;
 	private JButton canvia_contrasenya;
 	private JButton accepta;
 	private JButton descarta;
-	private JDialog dialeg_canvi_contrasenya;
 
+	/**
+	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
+	 * controlador de presentació al qual haurà de demanar certes operacions.
+	 *
+	 * @param presentacio_ctrl Controlador de presentació.
+	 * @param frame_principal  Frame principal sobre el que s'hauran d'afegir els diferents components.
+	 */
 	public PreferenciesVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
 	{
 		super( presentacio_ctrl, frame_principal );
@@ -46,7 +64,6 @@ public final class PreferenciesVista extends BaseVista
 		canvia_contrasenya = new JButton( "Canvia la contrasenya" );
 		accepta = new JButton( "Accepta" );
 		descarta = new JButton( "Descarta" );
-		dialeg_canvi_contrasenya = new JDialog( new JFrame(), "Canvia la contrasenya" );
 
 		inicialitzaVista();
 	}
@@ -153,71 +170,6 @@ public final class PreferenciesVista extends BaseVista
 		panell_botons.setOpaque( false );
 	}
 
-	public void accioBotoReiniciaEstadistiques( ActionEvent event )
-	{
-		VistaDialeg dialeg = new VistaDialeg();
-		String[] botons = {
-				"Sí", "No"
-		};
-		String valor_seleccionat = dialeg.setDialeg( "Reinicia les estadístiques", "Estàs segur que vols reiniciar " +
-				"" + "les teves estadístiques? Aquesta acció no es podrà desfer.", botons,
-				JOptionPane.WARNING_MESSAGE );
-		if ( valor_seleccionat == "Sí" )
-		{
-			presentacio_ctrl.reiniciaEstadistiquesJugadorPrincipal();
-		}
-	}
-
-	public void accioBotoCanviaContrasenya( ActionEvent event )
-	{
-		if ( presentacio_ctrl.getEsConvidat() )
-		{
-			VistaDialeg dialeg = new VistaDialeg();
-			String[] botons = { "Accepta" };
-			String valor_seleccionat = dialeg.setDialeg( "Error", "Els usuaris convidats no tenen contrasenya.",
-					botons, JOptionPane.WARNING_MESSAGE );
-		}
-		else
-		{
-			presentacio_ctrl.vistaPreferenciesACanviaContrasenya();
-		}
-	}
-
-	public void accioBotoAccepta( ActionEvent event )
-	{
-		try
-		{
-			ModesInici mode_inici = ModesInici.ESTANDARD;
-			CombinacionsColors combinacio_colors = CombinacionsColors.VERMELL_BLAU;
-
-			if ( mode_inici_pastis.isSelected() )
-			{
-				mode_inici = ModesInici.PASTIS;
-			}
-
-			if ( colors_negre_blanc.isSelected() )
-			{
-				combinacio_colors = CombinacionsColors.NEGRE_BLANC;
-			}
-
-			presentacio_ctrl.modificaPreferenciesJugadorPrincipal( mode_inici, combinacio_colors );
-			presentacio_ctrl.guardaJugadorPrincipal();
-			presentacio_ctrl.vistaPreferenciesAMenuPrincipal();
-		}
-		catch ( Exception e )
-		{
-			VistaDialeg dialeg = new VistaDialeg();
-			String[] botons = { "Accepta" };
-			String valor_seleccionat = dialeg.setDialeg( "Error", "Error al guardar el fitxer d'usuari.", botons,
-					JOptionPane.ERROR_MESSAGE );
-		}
-	}
-
-	public void accioBotoDescarta( ActionEvent event )
-	{
-		presentacio_ctrl.vistaPreferenciesAMenuPrincipal();
-	}
-
 	@Override
 	protected void assignaListeners()
 	{
@@ -262,5 +214,90 @@ public final class PreferenciesVista extends BaseVista
 				accioBotoDescarta( event );
 			}
 		} );
+	}
+
+	/**
+	 * Defineix el comportament del botó de definir situació inicial quan sigui pitjat.
+	 *
+	 * @param event Event que activarà el botó.
+	 */
+	public void accioBotoReiniciaEstadistiques( ActionEvent event )
+	{
+		VistaDialeg dialeg = new VistaDialeg();
+		String[] botons = {
+				"Sí", "No"
+		};
+		String valor_seleccionat = dialeg.setDialeg( "Reinicia les estadístiques", "Estàs segur que vols reiniciar " +
+				"" + "les teves estadístiques? Aquesta acció no es podrà desfer.", botons,
+				JOptionPane.WARNING_MESSAGE );
+		if ( valor_seleccionat == "Sí" )
+		{
+			presentacio_ctrl.reiniciaEstadistiquesJugadorPrincipal();
+		}
+	}
+
+	/**
+	 * Defineix el comportament del botó de definir situació inicial quan sigui pitjat.
+	 *
+	 * @param event Event que activarà el botó.
+	 */
+	public void accioBotoCanviaContrasenya( ActionEvent event )
+	{
+		if ( presentacio_ctrl.getEsConvidat() )
+		{
+			VistaDialeg dialeg = new VistaDialeg();
+			String[] botons = { "Accepta" };
+			String valor_seleccionat = dialeg.setDialeg( "Error", "Els usuaris convidats no tenen contrasenya.",
+					botons, JOptionPane.WARNING_MESSAGE );
+		}
+		else
+		{
+			presentacio_ctrl.vistaPreferenciesACanviaContrasenya();
+		}
+	}
+
+	/**
+	 * Defineix el comportament del botó d'acceptar quan sigui pitjat.
+	 *
+	 * @param event Event que activarà el botó.
+	 */
+	public void accioBotoAccepta( ActionEvent event )
+	{
+		try
+		{
+			ModesInici mode_inici = ModesInici.ESTANDARD;
+			CombinacionsColors combinacio_colors = CombinacionsColors.VERMELL_BLAU;
+
+			if ( mode_inici_pastis.isSelected() )
+			{
+				mode_inici = ModesInici.PASTIS;
+			}
+
+			if ( colors_negre_blanc.isSelected() )
+			{
+				combinacio_colors = CombinacionsColors.NEGRE_BLANC;
+			}
+
+			presentacio_ctrl.modificaPreferenciesJugadorPrincipal( mode_inici, combinacio_colors );
+			presentacio_ctrl.guardaJugadorPrincipal();
+			presentacio_ctrl.vistaPreferenciesAMenuPrincipal();
+		}
+		catch ( Exception e )
+		{
+			VistaDialeg dialeg = new VistaDialeg();
+			String[] botons = { "Accepta" };
+			String valor_seleccionat = dialeg.setDialeg( "Error", "Error al guardar el fitxer d'usuari.", botons,
+					JOptionPane.ERROR_MESSAGE );
+		}
+	}
+
+	/**
+	 * Defineix el comportament del botó de descartar quan sigui pitjat.
+	 *
+	 * @param event Event que activarà el botó.
+	 */
+	public void accioBotoDescarta( ActionEvent event )
+	{
+		presentacio_ctrl.vistaPreferenciesAMenuPrincipal();
 	}
 }

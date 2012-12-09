@@ -5,19 +5,38 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Vista de configuració d'una partida del joc Hex.
+ *
+ * @author Guillermo Girona San Miguel (Grup 7.3, Hex)
+ */
 public final class RegistraVista extends BaseVista
 {
 
+	// Panells
 	private JPanel panell_dades;
+
+	// Botons
 	private JButton accepta;
 	private JButton descarta;
+
+	// Camps de tipus text/contrasenya
 	private JTextField usuari;
 	private JPasswordField contrasenya;
 	private JPasswordField confirma_contrasenya;
+
+	// Etiquetes de text
 	private JLabel text_usuari;
 	private JLabel text_contrasenya;
 	private JLabel text_confirma_contrasenya;
 
+	/**
+	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
+	 * controlador de presentació al qual haurà de demanar certes operacions.
+	 *
+	 * @param presentacio_ctrl Controlador de presentació.
+	 * @param frame_principal  Frame principal sobre el que s'hauran d'afegir els diferents components.
+	 */
 	public RegistraVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
 	{
 		super( presentacio_ctrl, frame_principal );
@@ -97,6 +116,37 @@ public final class RegistraVista extends BaseVista
 	{
 	}
 
+	@Override
+	protected void assignaListeners()
+	{
+		super.assignaListeners();
+
+		accepta.addActionListener( new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed( ActionEvent event )
+			{
+				accioBotoAccepta( event );
+			}
+		} );
+
+		descarta.addActionListener( new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed( ActionEvent event )
+			{
+				accioBotoDescarta( event );
+			}
+		} );
+	}
+
+	/**
+	 * Defineix el comportament del botó d'acceptar quan sigui pitjat.
+	 *
+	 * @param event Event que activarà el botó.
+	 */
 	public void accioBotoAccepta( ActionEvent event )
 	{
 		try
@@ -132,34 +182,13 @@ public final class RegistraVista extends BaseVista
 		}
 	}
 
+	/**
+	 * Defineix el comportament del botó de descartar quan sigui pitjat.
+	 *
+	 * @param event Event que activarà el botó.
+	 */
 	public void accioBotoDescarta( ActionEvent event )
 	{
 		presentacio_ctrl.vistaRegistraAIniciaSessio();
-	}
-
-	@Override
-	protected void assignaListeners()
-	{
-		super.assignaListeners();
-
-		accepta.addActionListener( new ActionListener()
-		{
-
-			@Override
-			public void actionPerformed( ActionEvent event )
-			{
-				accioBotoAccepta( event );
-			}
-		} );
-
-		descarta.addActionListener( new ActionListener()
-		{
-
-			@Override
-			public void actionPerformed( ActionEvent event )
-			{
-				accioBotoDescarta( event );
-			}
-		} );
 	}
 }

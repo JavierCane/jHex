@@ -5,18 +5,35 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Vista del menú principal del joc Hex.
+ *
+ * @author Guillermo Girona San Miguel (Grup 7.3, Hex)
+ */
 public final class MenuPrincipalVista extends BaseVista
 {
 
+	// Panell
 	private JPanel panell_botons;
 	private JPanel panell_tanca_sessio;
-	private JLabel nom_jugador_principal;
+
+	// Botons
 	private JButton tanca_sessio;
 	private JButton juga;
 	private JButton carrega;
 	private JButton preferencies;
 	private JButton ranquing;
 
+	// Etiquetes de text
+	private JLabel nom_jugador_principal;
+
+	/**
+	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
+	 * controlador de presentació al qual haurà de demanar certes operacions.
+	 *
+	 * @param presentacio_ctrl Controlador de presentació.
+	 * @param frame_principal  Frame principal sobre el que s'hauran d'afegir els diferents components.
+	 */
 	public MenuPrincipalVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
 	{
 		super( presentacio_ctrl, frame_principal );
@@ -92,32 +109,6 @@ public final class MenuPrincipalVista extends BaseVista
 		panell_tanca_sessio.setOpaque( false );
 	}
 
-	public void accioBotoJuga( ActionEvent event )
-	{
-		presentacio_ctrl.vistaMenuPrincipalAConfiguraPartida();
-	}
-
-	public void accioBotoCarrega( ActionEvent event )
-	{
-		presentacio_ctrl.vistaMenuPrincipalACarregaPartida();
-	}
-
-	public void accioBotoPreferencies( ActionEvent event )
-	{
-		presentacio_ctrl.vistaMenuPrincipalAPreferencies();
-	}
-
-	public void accioBotoRanquing( ActionEvent event )
-	{
-		presentacio_ctrl.vistaMenuPrincipalARanquing();
-	}
-
-	public void accioBotoTancaSessio( ActionEvent event )
-	{
-		presentacio_ctrl.tancaSessio();
-		presentacio_ctrl.vistaMenuPrincipalAIniciaSessio();
-	}
-
 	@Override
 	protected void assignaListeners()
 	{
@@ -172,5 +163,56 @@ public final class MenuPrincipalVista extends BaseVista
 				accioBotoTancaSessio( event );
 			}
 		} );
+	}
+
+	/**
+	 * Defineix el comportament del botó de jugar una partida quan sigui pitjat.
+	 *
+	 * @param event Event que activarà el botó.
+	 */
+	public void accioBotoJuga( ActionEvent event )
+	{
+		presentacio_ctrl.vistaMenuPrincipalAConfiguraPartida();
+	}
+
+	/**
+	 * Defineix el comportament del botó de carregar una partida quan sigui pitjat.
+	 *
+	 * @param event Event que activarà el botó.
+	 */
+	public void accioBotoCarrega( ActionEvent event )
+	{
+		presentacio_ctrl.vistaMenuPrincipalACarregaPartida();
+	}
+
+	/**
+	 * Defineix el comportament del botó de preferències quan sigui pitjat.
+	 *
+	 * @param event Event que activarà el botó.
+	 */
+	public void accioBotoPreferencies( ActionEvent event )
+	{
+		presentacio_ctrl.vistaMenuPrincipalAPreferencies();
+	}
+
+	/**
+	 * Defineix el comportament del botó de rànquing quan sigui pitjat.
+	 *
+	 * @param event Event que activarà el botó.
+	 */
+	public void accioBotoRanquing( ActionEvent event )
+	{
+		presentacio_ctrl.vistaMenuPrincipalARanquing();
+	}
+
+	/**
+	 * Defineix el comportament del botó de tancar sessió quan sigui pitjat.
+	 *
+	 * @param event Event que activarà el botó.
+	 */
+	public void accioBotoTancaSessio( ActionEvent event )
+	{
+		presentacio_ctrl.tancaSessio();
+		presentacio_ctrl.vistaMenuPrincipalAIniciaSessio();
 	}
 }

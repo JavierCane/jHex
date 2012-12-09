@@ -12,10 +12,22 @@ import java.io.IOException;
 public final class PartidaVista extends BaseVista
 {
 
+	// Panell del tauler
 	private JPanelTauler panell_central;
+
+	// Panells
 	private JPanel panell_botons;
+
+	// Botons
 	private JButton abandona;
 
+	/**
+	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
+	 * controlador de presentació al qual haurà de demanar certes operacions.
+	 *
+	 * @param presentacio_ctrl Controlador de presentació.
+	 * @param frame_principal  Frame principal sobre el que s'hauran d'afegir els diferents components.
+	 */
 	public PartidaVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
 	{
 		super( presentacio_ctrl, frame_principal );
@@ -51,12 +63,34 @@ public final class PartidaVista extends BaseVista
 		panell_botons.setOpaque( false );
 	}
 
+	@Override
 	protected void inicialitzaPanellSortida()
 	{
 		panell_sortida.add( surt );
 		panell_sortida.setOpaque( false );
 	}
 
+	@Override
+	protected void assignaListeners()
+	{
+		super.assignaListeners();
+
+		abandona.addActionListener( new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed( ActionEvent event )
+			{
+				accioBotoAbandona( event );
+			}
+		} );
+	}
+
+	/**
+	 * Defineix el comportament del botó d'abandonar partida quan sigui pitjat.
+	 *
+	 * @param event Event que activarà el botó.
+	 */
 	public void accioBotoAbandona( ActionEvent event )
 	{
 		// Primer preguntem si vol guardar la partida a disc abans de sortir
@@ -136,19 +170,5 @@ public final class PartidaVista extends BaseVista
 		}
 	}
 
-	@Override
-	protected void assignaListeners()
-	{
-		super.assignaListeners();
 
-		abandona.addActionListener( new ActionListener()
-		{
-
-			@Override
-			public void actionPerformed( ActionEvent event )
-			{
-				accioBotoAbandona( event );
-			}
-		} );
-	}
 }
