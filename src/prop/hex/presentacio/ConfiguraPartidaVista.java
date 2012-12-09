@@ -319,7 +319,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 				VistaDialeg dialeg = new VistaDialeg();
 				String[] botons = { "Accepta" };
 				String valor_seleccionat = dialeg.setDialeg( "Error", "Error carregant el fitxer d'aquesta màquina " +
-						"" + "de disc, prova de nou o selecciona una altra.", botons, JOptionPane.ERROR_MESSAGE );
+						"de disc, prova de nou o selecciona una altra.", botons, JOptionPane.ERROR_MESSAGE );
 
 				e.printStackTrace(); // Imprimeixo l'error per consola per poder-ho debugar
 			}
@@ -328,7 +328,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 				VistaDialeg dialeg = new VistaDialeg();
 				String[] botons = { "Accepta" };
 				String valor_seleccionat = dialeg.setDialeg( "Error", "Error carregant el fitxer d'aquesta màquina " +
-						"" + "de disc, prova de nou o selecciona una altra.", botons, JOptionPane.ERROR_MESSAGE );
+						"de disc, prova de nou o selecciona una altra.", botons, JOptionPane.ERROR_MESSAGE );
 
 				e.printStackTrace(); // Imprimeixo l'error per consola per poder-ho debugar
 			}
@@ -338,10 +338,12 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 		{
 			if ( presentacio_ctrl.existeixUsuari( camp_nom_convidat.getText() ) )
 			{
-				throw new IllegalArgumentException( "El nom d'usuari ja està en ús." );
+				throw new IllegalArgumentException( "Error en el nom del jugador " + ( num_jugador + 1 ) +
+						": El nom d'usuari ja està en ús." );
 			}
 			else if ( num_jugador == 1 && combo_tipus_jugador_a.getSelectedItem() == "Convidat" &&
-					camp_nom_convidat_a.getText().equals( camp_nom_convidat.getText() ) )
+					camp_nom_convidat_a.getText().equals( camp_nom_convidat.getText() ) &&
+					!( camp_nom_convidat.getText().equals( new String( "" ) ) ) )
 			{
 				throw new IllegalArgumentException( "El nom dels dos jugadors ha de ser diferent." );
 			}
