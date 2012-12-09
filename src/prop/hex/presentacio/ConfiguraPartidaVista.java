@@ -308,7 +308,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 				VistaDialeg dialeg = new VistaDialeg();
 				String[] botons = { "Accepta" };
 				String valor_seleccionat = dialeg.setDialeg( "Error", "Error carregant el fitxer d'aquesta màquina " +
-						"de disc, " + "prova de nou o selecciona una altra.", botons, JOptionPane.ERROR_MESSAGE );
+						"de disc, prova de nou o selecciona una altra.", botons, JOptionPane.ERROR_MESSAGE );
 
 				e.printStackTrace(); // Imprimeixo l'error per consola per poder-ho debugar
 			}
@@ -317,7 +317,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 				VistaDialeg dialeg = new VistaDialeg();
 				String[] botons = { "Accepta" };
 				String valor_seleccionat = dialeg.setDialeg( "Error", "Error carregant el fitxer d'aquesta màquina " +
-						"de disc, " + "prova de nou o selecciona una altra.", botons, JOptionPane.ERROR_MESSAGE );
+						"de disc, prova de nou o selecciona una altra.", botons, JOptionPane.ERROR_MESSAGE );
 
 				e.printStackTrace(); // Imprimeixo l'error per consola per poder-ho debugar
 			}
@@ -337,14 +337,12 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 							camp_nom_convidat.getText(), "" );
 				}
 				catch ( IOException e ) // Aquest error no s'hauria de donar mai ja que si l'usuari es de tipus
-				// convidat,
-				// no el guardem a disc
+				// convidat, no el guardem a disc
 				{
 					VistaDialeg dialeg = new VistaDialeg();
 					String[] botons = { "Accepta" };
 					String valor_seleccionat = dialeg.setDialeg( "Error", "Error intentant guardar l'usuari de " +
-							"tipus " +
-							"convidat a disc, prova de nou o juga amb un " + "usuari registrat.", botons,
+							"tipus convidat a disc, prova de nou o juga amb un usuari registrat.", botons,
 							JOptionPane.ERROR_MESSAGE );
 
 					e.printStackTrace(); // Imprimeixo l'error per consola per poder-ho debugar
@@ -355,8 +353,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 					VistaDialeg dialeg = new VistaDialeg();
 					String[] botons = { "Accepta" };
 					String valor_seleccionat = dialeg.setDialeg( "Error", "Error intentant guardar l'usuari de " +
-							"tipus " +
-							"convidat a disc, prova de nou o juga amb un " + "usuari registrat.", botons,
+							"tipus convidat a disc, prova de nou o juga amb un usuari registrat.", botons,
 							JOptionPane.ERROR_MESSAGE );
 
 					e.printStackTrace(); // Imprimeixo l'error per consola per poder-ho debugar
@@ -390,8 +387,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 					VistaDialeg dialeg = new VistaDialeg();
 					String[] botons = { "Accepta" };
 					String valor_seleccionat = dialeg.setDialeg( "Error", "Error carregant el fitxer d'aquest " +
-							"usuari de" +
-							" disc, " + "prova de nou o selecciona un altra.", botons, JOptionPane.ERROR_MESSAGE );
+							"usuari de disc, prova de nou o selecciona un altra.", botons, JOptionPane.ERROR_MESSAGE );
 
 					e.printStackTrace(); // Imprimeixo l'error per consola per poder-ho debugar
 				}
@@ -400,8 +396,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 					VistaDialeg dialeg = new VistaDialeg();
 					String[] botons = { "Accepta" };
 					String valor_seleccionat = dialeg.setDialeg( "Error", "Error carregant el fitxer d'aquest " +
-							"usuari de" +
-							" disc, " + "prova de nou o selecciona un altra.", botons, JOptionPane.ERROR_MESSAGE );
+							"usuari de disc, prova de nou o selecciona un altra.", botons, JOptionPane.ERROR_MESSAGE );
 
 					e.printStackTrace(); // Imprimeixo l'error per consola per poder-ho debugar
 				}
