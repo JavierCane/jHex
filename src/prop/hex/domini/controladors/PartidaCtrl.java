@@ -830,7 +830,7 @@ public final class PartidaCtrl
 	 *         <li>Número de fitxes del jugador</li>
 	 *         </ol>
 	 *         <p/>
-	 *         I, dins de cada element, els índex 0 i 1 contenen dades del jugadors A i B respectivament.
+	 *         I, dins de cada element, els índexs 0 i 1 contenen dades del jugadors A i B respectivament.
 	 * @see TipusJugadors
 	 */
 	public Object[][] getElementsDeControlJugadors()

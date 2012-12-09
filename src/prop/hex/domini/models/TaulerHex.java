@@ -145,7 +145,7 @@ public class TaulerHex extends Tauler implements Serializable
 	 * @param fila    Fila de la casella dins el tauler
 	 * @param columna Columna de la casella dins el tauler.
 	 * @return Cert si la casella és central. Fals altrament.
-	 * @throws IllegalArgumentException Si (fila, columna) no és una casella vàlida.
+	 * @throws IndexOutOfBoundsException Si (fila, columna) no és una casella vàlida.
 	 */
 	public boolean esCasellaCentral( int fila, int columna ) throws IndexOutOfBoundsException
 	{
