@@ -273,14 +273,25 @@ public final class JPanelTauler extends JPanel
 			g.translate( -i * dx / 2, -i * dy );
 		}
 
-		if ( potMoureIA() )
+		if ( partida_en_curs )
 		{
-			mou_ia.setEnabled( true );
-		}
+			if ( potMoureIA() )
+			{
+				mou_ia.setEnabled( true );
+			}
+			else
+			{
+				mou_ia.setEnabled( false );
+			}
 
-		if ( potDemanarPista() )
-		{
-			demana_pista.setEnabled( true );
+			if ( potDemanarPista() )
+			{
+				demana_pista.setEnabled( true );
+			}
+			else
+			{
+				demana_pista.setEnabled( false );
+			}
 		}
 
 		// Si és torn de la IA i a la partida juga algun humà,
