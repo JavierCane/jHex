@@ -339,6 +339,18 @@ public class UsuariHex extends Usuari implements Serializable, Comparable<Usuari
 	}
 
 	/**
+	 * Mètode que reinicia les estadístiques de victòries, empats, derrotes i la puntuació d'un usuari.
+	 */
+	@Override
+	public void reiniciaEstadistiques()
+	{
+		super.reiniciaEstadistiques();
+		partides_guanyades = 0;
+		partides_jugades = 0;
+		puntuacio_global = 0;
+	}
+
+	/**
 	 * Mètode per comparar dos usuaris en funció de la serva puntuació global.
 	 * Utilitzada implícitament per el mètode Collections.sort de la funció actualitzaUsuari de la classe Ranquing
 	 * per ordenar el ràquing en funció de les millors puntuacions globals.
