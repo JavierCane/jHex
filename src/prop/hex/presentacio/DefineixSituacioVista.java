@@ -70,7 +70,20 @@ public class DefineixSituacioVista extends BaseVista
 
 	public void accioBotoAbandona( ActionEvent event )
 	{
-		presentacio_ctrl.vistaDefineixSituacioAMenuPrincipal();
+		VistaDialeg dialeg = new VistaDialeg();
+
+		String[] botons = {
+				"Sí", "No"
+		};
+
+		String valor_seleccionat = dialeg.setDialeg( "Confirmació de sortida de la partida", "Estàs segur de que " +
+				"vols sortir de la partida?", botons, JOptionPane.QUESTION_MESSAGE );
+
+		if ( "Sí" == valor_seleccionat )
+		{
+			presentacio_ctrl.vistaDefineixSituacioAMenuPrincipal();
+		}
+
 	}
 
 	public void accioBotoIniciaPartida( ActionEvent event )
