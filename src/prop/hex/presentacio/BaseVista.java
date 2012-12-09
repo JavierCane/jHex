@@ -17,6 +17,9 @@ import java.io.File;
 public abstract class BaseVista
 {
 
+	/**
+	 * Controlador de presentació.
+	 */
 	protected static PresentacioCtrl presentacio_ctrl;
 
 	/**

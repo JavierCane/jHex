@@ -86,7 +86,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 		text_jugador_a = new JLabel( "Jugador 1:" );
 		text_jugador_b = new JLabel( "Jugador 2:" );
 
-		// Si l'usuari ha iniciat sessió com a convidat, unicament mostro l'opció de jugar com convidat o màquina
+		// Si l'usuari ha iniciat sessió com a convidat, únicament mostro l'opció de jugar com convidat o màquina
 		if ( presentacio_ctrl.getEsConvidat() )
 		{
 			combo_tipus_jugador_a = new JComboBox( new String[] {
@@ -308,7 +308,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 				VistaDialeg dialeg = new VistaDialeg();
 				String[] botons = { "Accepta" };
 				String valor_seleccionat = dialeg.setDialeg( "Error", "Error carregant el fitxer d'aquesta màquina " +
-						"de disc, prova de nou o selecciona una altra.", botons, JOptionPane.ERROR_MESSAGE );
+						"" + "de disc, prova de nou o selecciona una altra.", botons, JOptionPane.ERROR_MESSAGE );
 
 				e.printStackTrace(); // Imprimeixo l'error per consola per poder-ho debugar
 			}
@@ -317,7 +317,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 				VistaDialeg dialeg = new VistaDialeg();
 				String[] botons = { "Accepta" };
 				String valor_seleccionat = dialeg.setDialeg( "Error", "Error carregant el fitxer d'aquesta màquina " +
-						"de disc, prova de nou o selecciona una altra.", botons, JOptionPane.ERROR_MESSAGE );
+						"" + "de disc, prova de nou o selecciona una altra.", botons, JOptionPane.ERROR_MESSAGE );
 
 				e.printStackTrace(); // Imprimeixo l'error per consola per poder-ho debugar
 			}
@@ -328,6 +328,11 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 			if ( presentacio_ctrl.existeixUsuari( camp_nom_convidat.getText() ) )
 			{
 				throw new IllegalArgumentException( "El nom d'usuari ja està en ús." );
+			}
+			else if ( num_jugador == 1 && combo_tipus_jugador_a.getSelectedItem() == "Convidat" &&
+					camp_nom_convidat_a.getText().equals( camp_nom_convidat.getText() ) )
+			{
+				throw new IllegalArgumentException( "El nom dels dos jugadors ha de ser diferent." );
 			}
 			else
 			{
@@ -362,7 +367,8 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 		}
 		else // Si ha seleccionat l'altra opció, es que vol jugar amb un usuari registrat
 		{
-			if ( nom_usuari.equals( presentacio_ctrl.obteNomJugadorPrincipal() ) )
+			if ( num_jugador == 1 && combo_tipus_jugador_a.getSelectedItem() == presentacio_ctrl
+					.obteNomJugadorPrincipal() && nom_usuari.equals( presentacio_ctrl.obteNomJugadorPrincipal() ) )
 			{
 				throw new IllegalArgumentException( "No pots jugar contra tu mateix." );
 			}
@@ -387,7 +393,8 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 					VistaDialeg dialeg = new VistaDialeg();
 					String[] botons = { "Accepta" };
 					String valor_seleccionat = dialeg.setDialeg( "Error", "Error carregant el fitxer d'aquest " +
-							"usuari de disc, prova de nou o selecciona un altra.", botons, JOptionPane.ERROR_MESSAGE );
+							"usuari de disc, prova de nou o selecciona un altra.", botons,
+							JOptionPane.ERROR_MESSAGE );
 
 					e.printStackTrace(); // Imprimeixo l'error per consola per poder-ho debugar
 				}
@@ -396,7 +403,8 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 					VistaDialeg dialeg = new VistaDialeg();
 					String[] botons = { "Accepta" };
 					String valor_seleccionat = dialeg.setDialeg( "Error", "Error carregant el fitxer d'aquest " +
-							"usuari de disc, prova de nou o selecciona un altra.", botons, JOptionPane.ERROR_MESSAGE );
+							"usuari de disc, prova de nou o selecciona un altra.", botons,
+							JOptionPane.ERROR_MESSAGE );
 
 					e.printStackTrace(); // Imprimeixo l'error per consola per poder-ho debugar
 				}
@@ -407,21 +415,6 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 	public void accioBotoIniciaPartida( ActionEvent event )
 	{
 		// Inicialitzo els dos jugadors de la partida en base a les dades dels seus formularis
-		try
-		{
-			preInicialitzaUsuariPartida( 0, combo_tipus_jugador_a, camp_nom_convidat_a, combo_tipus_maquina_a, "",
-					"" );
-			preInicialitzaUsuariPartida( 1, combo_tipus_jugador_b, camp_nom_convidat_b, combo_tipus_maquina_b,
-					camp_nom_usuari_b.getText(), new String( camp_contrasenya_usuari_b.getPassword() ) );
-		}
-		catch ( Exception excepcio )
-		{
-			VistaDialeg dialeg = new VistaDialeg();
-			String[] botons = { "Accepta" };
-			String valor_seleccionat = dialeg.setDialeg( "Error", excepcio.getMessage(), botons,
-					JOptionPane.ERROR_MESSAGE );
-		}
-
 		if ( camp_nom_partida.getText().isEmpty() )
 		{
 			VistaDialeg dialeg = new VistaDialeg();
@@ -434,6 +427,10 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 		{
 			try
 			{
+				preInicialitzaUsuariPartida( 0, combo_tipus_jugador_a, camp_nom_convidat_a, combo_tipus_maquina_a,
+						"", "" );
+				preInicialitzaUsuariPartida( 1, combo_tipus_jugador_b, camp_nom_convidat_b, combo_tipus_maquina_b,
+						camp_nom_usuari_b.getText(), new String( camp_contrasenya_usuari_b.getPassword() ) );
 				presentacio_ctrl.iniciaPartida( 7, camp_nom_partida.getText(), false );
 				presentacio_ctrl.vistaConfiguraPartidaAPartida();
 			}
@@ -441,8 +438,8 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 			{
 				VistaDialeg dialeg = new VistaDialeg();
 				String[] botons = { "Accepta" };
-				String valor_seleccionat = dialeg.setDialeg( "Error", "Error inesperat intentant iniciar la " +
-						"partida" + ".", botons, JOptionPane.ERROR_MESSAGE );
+				String valor_seleccionat = dialeg.setDialeg( "Error", excepcio.getMessage(), botons,
+						JOptionPane.ERROR_MESSAGE );
 			}
 		}
 	}
@@ -450,21 +447,6 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 	public void accioBotoSituacioInicial( ActionEvent event )
 	{
 		// Inicialitzo els dos jugadors de la partida en base a les dades dels seus formularis
-		try
-		{
-			preInicialitzaUsuariPartida( 0, combo_tipus_jugador_a, camp_nom_convidat_a, combo_tipus_maquina_a, "",
-					"" );
-			preInicialitzaUsuariPartida( 1, combo_tipus_jugador_b, camp_nom_convidat_b, combo_tipus_maquina_b,
-					camp_nom_usuari_b.getText(), new String( camp_contrasenya_usuari_b.getPassword() ) );
-		}
-		catch ( Exception excepcio )
-		{
-			VistaDialeg dialeg = new VistaDialeg();
-			String[] botons = { "Accepta" };
-			String valor_seleccionat = dialeg.setDialeg( "Error", excepcio.getMessage(), botons,
-					JOptionPane.ERROR_MESSAGE );
-		}
-
 		if ( camp_nom_partida.getText().isEmpty() )
 		{
 			VistaDialeg dialeg = new VistaDialeg();
@@ -477,6 +459,10 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 		{
 			try
 			{
+				preInicialitzaUsuariPartida( 0, combo_tipus_jugador_a, camp_nom_convidat_a, combo_tipus_maquina_a,
+						"", "" );
+				preInicialitzaUsuariPartida( 1, combo_tipus_jugador_b, camp_nom_convidat_b, combo_tipus_maquina_b,
+						camp_nom_usuari_b.getText(), new String( camp_contrasenya_usuari_b.getPassword() ) );
 				presentacio_ctrl.iniciaPartida( 7, camp_nom_partida.getText(), true );
 				presentacio_ctrl.vistaConfiguraPartidaADefineixSituacio();
 			}
@@ -484,8 +470,8 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 			{
 				VistaDialeg dialeg = new VistaDialeg();
 				String[] botons = { "Accepta" };
-				String valor_seleccionat = dialeg.setDialeg( "Error", "Error inesperat intentant iniciar la " +
-						"partida" + ".", botons, JOptionPane.ERROR_MESSAGE );
+				String valor_seleccionat = dialeg.setDialeg( "Error", excepcio.getMessage(), botons,
+						JOptionPane.ERROR_MESSAGE );
 			}
 		}
 	}

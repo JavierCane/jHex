@@ -352,6 +352,12 @@ public final class UsuariCtrl
 		return true;
 	}
 
+	/**
+	 * Indica si un usuari existeix ja al sistema.
+	 *
+	 * @param nom Nom d'usuari del qual es vol comprovar l'existència.
+	 * @return Cert, si l'usuari existeix al sistema. Fals, altrament.
+	 */
 	public boolean existeixUsuari( String nom )
 	{
 		return gestor_usuari.existeixElement( getIdentificadorUnic( nom ) );
