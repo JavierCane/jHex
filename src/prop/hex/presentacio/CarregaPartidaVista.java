@@ -22,7 +22,6 @@ public final class CarregaPartidaVista extends BaseVista
 	private JButton descarta;
 
 	// Dades associades a la taula
-	private Object[][] dades_taula;
 	private String[] id_partides;
 
 	// Taula de partides a carregar
@@ -45,16 +44,19 @@ public final class CarregaPartidaVista extends BaseVista
 		carrega = new JButton( "Carrega" );
 		descarta = new JButton( "Descarta" );
 		String[][] dades = presentacio_ctrl.obteLlistaPartides();
-		dades_taula = new String[dades.length][3];
+		Object[][] dades_taula = new String[dades.length][3];
 		id_partides = new String[dades.length];
 		for ( int i = 0; i < dades.length; i++ )
 		{
 			id_partides[i] = dades[i][0];
 			System.arraycopy( dades[i], 1, dades_taula[i], 0, 3 );
 		}
-		taula_partides = new JTable( dades_taula, new String[] {
-				"Nom de la partida", "Oponent", "Data i hora"
-		} );
+
+		taula_partides = new JTable( new ModelTaula( dades_taula, new String[] {
+				"Nom de la partida",
+				"Oponent",
+				"Data i hora"
+		} ) );
 
 		inicialitzaVista();
 	}
@@ -98,7 +100,7 @@ public final class CarregaPartidaVista extends BaseVista
 		panell_central.add( new JScrollPane( taula_partides ) );
 		panell_central.setOpaque( false );
 		taula_partides.setFillsViewportHeight( true );
-
+		taula_partides.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 	}
 
 	@Override
@@ -149,13 +151,6 @@ public final class CarregaPartidaVista extends BaseVista
 			dialeg_error.setDialeg( "Error", "Has de seleccionar almenys una partida.", botons_error,
 					JOptionPane.WARNING_MESSAGE );
 		}
-		else if ( taula_partides.getSelectedRowCount() > 1 )
-		{
-			VistaDialeg dialeg_error = new VistaDialeg();
-			String[] botons_error = { "Accepta" };
-			dialeg_error.setDialeg( "Error", "No pots seleccionar més d'una partida.", botons_error,
-					JOptionPane.WARNING_MESSAGE );
-		}
 		else
 		{
 			try
@@ -190,6 +185,4 @@ public final class CarregaPartidaVista extends BaseVista
 	{
 		presentacio_ctrl.vistaCarregaPartidaAMenuPrincipal();
 	}
-
-
 }
