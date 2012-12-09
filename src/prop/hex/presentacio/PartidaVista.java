@@ -9,6 +9,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+/**
+ * Vista d'una partida del joc Hex.
+ *
+ * @author Guillermo Girona San Miguel (Grup 7.3, Hex)
+ */
 public final class PartidaVista extends BaseVista
 {
 

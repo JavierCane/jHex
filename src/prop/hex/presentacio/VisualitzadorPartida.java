@@ -16,6 +16,8 @@ import java.awt.event.MouseEvent;
  * i captura els clicks del ratoli fent moure a qui toqui en cada situació.
  * Aquesta classe s'utilitza des del driver de Jugar que comprova que funcioni PartidaCtrl així com IAHexFacilCtrl i
  * totes les classes que aquest utilitza.
+ *
+ * @author Marc Junyent Martín (Grup 7.3, Hex)
  */
 public final class VisualitzadorPartida extends JPanel
 {
