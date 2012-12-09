@@ -5,7 +5,9 @@ import prop.hex.domini.models.Casella;
 import prop.hex.domini.models.PartidaHex;
 
 /**
- * Interface per poder cridar als moviments de la intel·ligència artificial de manera genèrica.
+ * Interfície per poder cridar als moviments de la intel·ligència artificial de manera genèrica.
+ *
+ * @author Isaac Sánchez Barrera (Grup 7.3, Hex)
  */
 public interface MouFitxaIA
 {

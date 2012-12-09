@@ -6,18 +6,27 @@ import java.io.InputStreamReader;
 
 /**
  * Classe d'utilitats varies usades desde els drivers. Classe completament estàtica.
- * <p/>
- * Date: 06/11/12
+ *
+ * @author Isaac Sánchez Barrera (Grup 7.3, Hex)
  */
 public final class UtilsDrvr
 {
 
-	// Eliminem la possibilitat d'instanciacio ja que es tracta d'una classe d'utilitats/metodes estatics
+	/**
+	 * Constructor per defecte. Amb visibilitat privada ja que es tracta d'una classe d'utilitats/metodes estàtics.
+	 */
 	private UtilsDrvr()
 	{
 		throw new AssertionError();
 	}
 
+	/**
+	 * Llegeix un enter de la línia de comandes.
+	 * <p/>
+	 * Si hi ha problemes de lectura, mostra l'error per pantalla.
+	 *
+	 * @return L'enter que s'ha llegit. Si hi ha hagut errors, retorna un 0.
+	 */
 	public static int llegeixEnter()
 	{
 		BufferedReader entrada = new BufferedReader( new InputStreamReader( System.in ) );
@@ -38,12 +47,24 @@ public final class UtilsDrvr
 		}
 	}
 
+	/**
+	 * Llegeix un enter de la línia de comandes.
+	 *
+	 * @param capcalera Frase descriptiva sobre l'enter que es vol llegir.
+	 * @return L'enter que s'ha llegit. Si hi ha hagut errors, retorna un 0.
+	 * @see #llegeixEnter()
+	 */
 	public static int llegeixEnter( String capcalera )
 	{
 		System.out.println( capcalera );
 		return llegeixEnter();
 	}
 
+	/**
+	 * Llegeix una paraula de la línia de comandes.
+	 *
+	 * @return La paraula que s'ha llegit. Si hi ha hagut errors, retorna una cadena buida ("").
+	 */
 	public static String llegeixParaula()
 	{
 		BufferedReader entrada = new BufferedReader( new InputStreamReader( System.in ) );
@@ -59,6 +80,13 @@ public final class UtilsDrvr
 		}
 	}
 
+	/**
+	 * Llegeix una paraula de la línia de comandes.
+	 *
+	 * @param capcalera Frase descriptiva sobre la paraula que es vol llegir.
+	 * @return La paraula que s'ha llegit. Si hi ha hagut errors, retorna una cadena buida ("").
+	 * @see #llegeixParaula()
+	 */
 	public static String llegeixParaula( String capcalera )
 	{
 		System.out.println( capcalera );

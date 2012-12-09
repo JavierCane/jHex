@@ -9,8 +9,10 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * Classe per la gestió de la persistència de PartidaHex en disc, com s'estén de BaseGstr,
+ * Classe per la gestió de la persistència de PartidaHex en disc. Com que s'estén de BaseGstr,
  * únicament fa falta especificar la subcarpeta on guardar les dades de les partides.
+ *
+ * @author Isaac Sánchez Barrera (Grup 7.3, Hex)
  */
 public final class PartidaHexGstr extends BaseGstr<PartidaHex>
 {
@@ -24,12 +26,13 @@ public final class PartidaHexGstr extends BaseGstr<PartidaHex>
 	}
 
 	/**
-	 * Guarda el fitxer de la partida
+	 * Guarda el fitxer de la partida. El nom del fitxer és l'identificador únic de la partida.
 	 *
-	 * @return boolean true si s'ha pogut guardar correctament i el fitxer resultant es contempla com correcte,
-	 *         false altrament
-	 * @throws java.io.FileNotFoundException Si el fitxer no s'ha generat i no s'hi poden escriure les dades.
-	 * @throws java.io.IOException           Si ha ocorregut un error d'entrada/sortida inesperat.
+	 * @return Cert si s'ha pogut guardar correctament i el fitxer resultant es contempla com correcte. Fals altrament.
+	 * @throws FileNotFoundException Si el fitxer no s'ha generat i no s'hi poden escriure les dades.
+	 * @throws IOException           Si ha ocorregut un error d'entrada/sortida inesperat.
+	 * @see BaseGstr#guardaElement(Object, String)
+	 * @see PartidaHex#getIdentificadorUnic()
 	 */
 	public boolean guardaElement( PartidaHex partida_hex ) throws FileNotFoundException, IOException
 	{
@@ -37,10 +40,10 @@ public final class PartidaHexGstr extends BaseGstr<PartidaHex>
 	}
 
 	/**
-	 * Llista els identificadors de les partides jugades per l'usuari amb identificador únic id_usuari.
+	 * Llista els identificadors de les partides jugades per un usuari.
 	 *
-	 * @return El conjunt d'identificadors de partides jugades per l'usuari amb identificador únic id_usuari
-	 *         ordenades per data de creació.
+	 * @return El conjunt d'identificadors de partides jugades per l'usuari amb identificador únic id_usuari,
+	 *         ordenades per data de creació. Si no n'hi ha, retorna el conjunt buit.
 	 */
 	public Set<String> llistaPartidesUsuari( String id_usuari )
 	{
