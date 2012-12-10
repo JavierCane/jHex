@@ -113,11 +113,9 @@ public final class RanquingDrvr
 	 */
 	public static void testGuardaRanquing()
 	{
-		RanquingGstr gestor_ranquing = new RanquingGstr();
-
 		try
 		{
-			if ( gestor_ranquing.guardaElement() )
+			if ( RanquingGstr.getInstancia().guardaElement() )
 			{
 				System.out.println( "[OK]\tS'ha guardat correctament el fitxer del rànquing." );
 			}
@@ -138,11 +136,9 @@ public final class RanquingDrvr
 	 */
 	public static void testCarregaRanquing()
 	{
-		RanquingGstr gestor_ranquing = new RanquingGstr();
-
 		try
 		{
-			Ranquing ranquing = gestor_ranquing.carregaElement();
+			Ranquing ranquing = RanquingGstr.getInstancia().carregaElement();
 
 			System.out.println( "[OK]\tS'ha carregat correctament el fitxer del rànquing." );
 

@@ -113,16 +113,14 @@ public final class PartidaCtrl
 	public static void comprovaConsistenciaFitxersIDades() throws IOException, ClassNotFoundException
 	{
 		// Comprovo la consistència del rànquing (si no existeix a disc el creo, si ja existeix el carrego a memòria)
-		RanquingGstr ranquing_gestor = new RanquingGstr();
-
 		// Si no existeix el fitxer del rànquing, el creo
-		if ( !ranquing_gestor.existeixElement() )
+		if ( !RanquingGstr.getInstancia().existeixElement() )
 		{
-			ranquing_gestor.guardaElement();
+			RanquingGstr.getInstancia().guardaElement();
 		}
 		else // Si el fitxer de rànquing ja existeix, el carrego a memòria
 		{
-			ranquing_gestor.carregaElement();
+			RanquingGstr.getInstancia().carregaElement();
 		}
 
 		// Comprovo consistència de jugadors màquina (han de figurar tots els usuaris de tipus màquina a disc)
@@ -533,7 +531,7 @@ public final class PartidaCtrl
 		// Guardo el rànquing a disc.
 		try
 		{
-			new RanquingGstr().guardaElement();
+			RanquingGstr.getInstancia().guardaElement();
 		}
 		catch ( IOException excepcio )
 		{

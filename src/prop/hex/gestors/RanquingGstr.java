@@ -12,14 +12,36 @@ import java.io.IOException;
 public final class RanquingGstr extends BaseGstr<Ranquing>
 {
 
+	/**
+	 * Atribut per mantenir l'instancia Singleton de la classe
+	 */
+	private static RanquingGstr instancia = null;
+
 	private static String nom_ranquing = "ranquing";
 
 	/**
 	 * Constructora, simplement especifica la subcarpeta a on guardar els elements de tipus Ranquing
 	 */
-	public RanquingGstr()
+	private RanquingGstr()
 	{
 		subcarpeta_dades = "ranquing";
+	}
+
+	/**
+	 * Consultora de l'instancia actual del gestor de fitxers
+	 * Si encara no s'ha inicialitzat l'objecte, crida a la constructora, si ja s'ha instanciat previament,
+	 * simplement retorna l'instancia ja creada.
+	 *
+	 * @return L'instància de la classe Singleton.
+	 */
+	public static RanquingGstr getInstancia()
+	{
+		if ( null == instancia )
+		{
+			instancia = new RanquingGstr();
+		}
+
+		return instancia;
 	}
 
 	/**
