@@ -32,16 +32,10 @@ public final class UsuariCtrl
 	private UsuariHex usuari_principal;
 
 	/**
-	 * Instància del gestor d'usuaris en disc.
-	 */
-	private static UsuariHexGstr gestor_usuari = new UsuariHexGstr();
-
-	/**
 	 * Constructor per defecte. Declarat privat perquè és una classe singleton
 	 */
 	private UsuariCtrl()
 	{
-		gestor_usuari = new UsuariHexGstr();
 	}
 
 	/**
@@ -113,13 +107,13 @@ public final class UsuariCtrl
 			}
 
 			UsuariHex usuari_hex = new UsuariHex( nom, contrasenya, TipusJugadors.JUGADOR );
-			if ( gestor_usuari.existeixElement( usuari_hex.getIdentificadorUnic() ) )
+			if ( UsuariHexGstr.getInstancia().existeixElement( usuari_hex.getIdentificadorUnic() ) )
 			{
 				throw new IllegalArgumentException( "El nom d'usuari ja existeix." );
 			}
 			else
 			{
-				if ( !gestor_usuari.guardaElement( usuari_hex ) )
+				if ( !UsuariHexGstr.getInstancia().guardaElement( usuari_hex ) )
 				{
 					throw new IOException( "No s'ha pogut guardar el jugador." );
 				}
@@ -129,7 +123,7 @@ public final class UsuariCtrl
 		else
 		{
 			UsuariHex usuari_ia = new UsuariHex( tipus_jugador.getNomUsuari(), "", tipus_jugador );
-			if ( !gestor_usuari.guardaElement( usuari_ia ) )
+			if ( !UsuariHexGstr.getInstancia().guardaElement( usuari_ia ) )
 			{
 				throw new IOException( "No s'ha pogut guardar el jugador." );
 			}
@@ -157,7 +151,7 @@ public final class UsuariCtrl
 	public void eliminaUsuariJugadorPrincipal()
 	{
 		// Elimina l'usuari de disc
-		gestor_usuari.eliminaElement( usuari_principal.getIdentificadorUnic() );
+		UsuariHexGstr.getInstancia().eliminaElement( usuari_principal.getIdentificadorUnic() );
 
 		// Elimina l'usuari del rànquing
 		Ranquing.getInstancia().eliminaRanquingUsuari( usuari_principal );
@@ -208,13 +202,13 @@ public final class UsuariCtrl
 			throws IllegalArgumentException, FileNotFoundException, IOException, ClassNotFoundException,
 			       NullPointerException
 	{
-		if ( !gestor_usuari.existeixElement( getIdentificadorUnic( nom ) ) )
+		if ( !UsuariHexGstr.getInstancia().existeixElement( getIdentificadorUnic( nom ) ) )
 		{
 			throw new IllegalArgumentException( "L'usuari no existeix." );
 		}
 		else
 		{
-			UsuariHex usuari = gestor_usuari.carregaElement( getIdentificadorUnic( nom ) );
+			UsuariHex usuari = UsuariHexGstr.getInstancia().carregaElement( getIdentificadorUnic( nom ) );
 
 			if ( tipus_jugador == TipusJugadors.JUGADOR )
 			{
@@ -242,7 +236,7 @@ public final class UsuariCtrl
 	public boolean guardaUsuari() throws IOException, FileNotFoundException
 	{
 
-		return gestor_usuari.guardaElement( usuari_principal );
+		return UsuariHexGstr.getInstancia().guardaElement( usuari_principal );
 	}
 
 	/**
@@ -327,7 +321,7 @@ public final class UsuariCtrl
 
 		if ( usuari.getTipusJugador() != TipusJugadors.CONVIDAT )
 		{
-			gestor_usuari.guardaElement( usuari );
+			UsuariHexGstr.getInstancia().guardaElement( usuari );
 		}
 	}
 
@@ -352,6 +346,6 @@ public final class UsuariCtrl
 	 */
 	public boolean existeixUsuari( String nom )
 	{
-		return gestor_usuari.existeixElement( getIdentificadorUnic( nom ) );
+		return UsuariHexGstr.getInstancia().existeixElement( getIdentificadorUnic( nom ) );
 	}
 }

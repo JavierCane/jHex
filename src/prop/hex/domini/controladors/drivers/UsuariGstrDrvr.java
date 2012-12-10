@@ -48,13 +48,11 @@ public final class UsuariGstrDrvr
 	 */
 	public static void testGuardaUsuariHex()
 	{
-		UsuariHexGstr gestor_usuari = new UsuariHexGstr();
-
 		UsuariHex usuari_hex = testInstanciaUsuariHex();
 
 		try
 		{
-			if ( gestor_usuari.guardaElement( usuari_hex ) )
+			if ( UsuariHexGstr.getInstancia().guardaElement( usuari_hex ) )
 			{
 				System.out.println( "[OK]\tS'ha guardat correctament el fitxer de l'usuari amb identificador: " +
 				                    usuari_hex.getIdentificadorUnic() );
@@ -80,13 +78,11 @@ public final class UsuariGstrDrvr
 	 */
 	public static void testCarregaUsuariHex()
 	{
-		UsuariHexGstr model_usuari = new UsuariHexGstr();
-
 		String nom_usuari = llegeixParaula( "Escriu el nom de l'usuari a carregar de disc:" );
 
 		try
 		{
-			UsuariHex main_user = model_usuari.carregaElement( nom_usuari );
+			UsuariHex main_user = UsuariHexGstr.getInstancia().carregaElement( nom_usuari );
 
 			System.out.println( "[OK]\tS'ha carregat correctament el fitxer de l'usuari " + nom_usuari + ", " +
 			                    "les seves dades son: \n\t\t" + main_user.toString() );
@@ -113,11 +109,9 @@ public final class UsuariGstrDrvr
 	 */
 	public static void testEliminaUsuariHex()
 	{
-		UsuariHexGstr model_usuari = new UsuariHexGstr();
-
 		String nom_usuari = llegeixParaula( "Escriu el nom de l'usuari a eliminar de disc:" );
 
-		if ( model_usuari.eliminaElement( nom_usuari ) )
+		if ( UsuariHexGstr.getInstancia().eliminaElement( nom_usuari ) )
 		{
 			System.out.println( "[OK]\tS'ha eliminat correctament el fitxer de l'usuari " + nom_usuari + "." );
 		}

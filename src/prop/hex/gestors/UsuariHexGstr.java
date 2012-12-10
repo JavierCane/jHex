@@ -13,11 +13,33 @@ public final class UsuariHexGstr extends BaseGstr<UsuariHex>
 {
 
 	/**
+	 * Atribut per mantenir l'instancia Singleton de la classe
+	 */
+	private static UsuariHexGstr instancia = null;
+
+	/**
 	 * Constructora, simplement especifica la subcarpeta a on guardar els elements de tipus Usuari
 	 */
-	public UsuariHexGstr()
+	private UsuariHexGstr()
 	{
 		subcarpeta_dades = "usuaris";
+	}
+
+	/**
+	 * Consultora de l'instancia actual del gestor de fitxers
+	 * Si encara no s'ha inicialitzat l'objecte, crida a la constructora, si ja s'ha instanciat previament,
+	 * simplement retorna l'instancia ja creada.
+	 *
+	 * @return L'instància de la classe Singleton.
+	 */
+	public static UsuariHexGstr getInstancia()
+	{
+		if ( null == instancia )
+		{
+			instancia = new UsuariHexGstr();
+		}
+
+		return instancia;
 	}
 
 	/**
