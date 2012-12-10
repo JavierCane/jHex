@@ -18,11 +18,33 @@ public final class PartidaHexGstr extends BaseGstr<PartidaHex>
 {
 
 	/**
+	 * Atribut per mantenir l'instancia Singleton de la classe
+	 */
+	private static PartidaHexGstr instancia = null;
+
+	/**
 	 * Constructora, simplement especifica la subcarpeta a on guardar els elements de tipus PartidaHex.
 	 */
-	public PartidaHexGstr()
+	private PartidaHexGstr()
 	{
 		subcarpeta_dades = "partides";
+	}
+
+	/**
+	 * Consultora de l'instancia actual del gestor de fitxers
+	 * Si encara no s'ha inicialitzat l'objecte, crida a la constructora, si ja s'ha instanciat previament,
+	 * simplement retorna l'instancia ja creada.
+	 *
+	 * @return L'instància de la classe Singleton.
+	 */
+	public static PartidaHexGstr getInstancia()
+	{
+		if ( null == instancia )
+		{
+			instancia = new PartidaHexGstr();
+		}
+
+		return instancia;
 	}
 
 	/**

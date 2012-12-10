@@ -40,11 +40,6 @@ public final class PartidaCtrl
 	private PartidaHex partida_actual;
 
 	/**
-	 * Instància del gestor de partides en disc.
-	 */
-	private PartidaHexGstr gestor_partida;
-
-	/**
 	 * Estat de la darrera partida. Es fa servir quan es finalitza la partida, per no tenir problemes d'accés a
 	 * punters nuls.
 	 *
@@ -79,7 +74,6 @@ public final class PartidaCtrl
 	public final void netejaParametresPartidaActual()
 	{
 		partida_actual = null;
-		gestor_partida = new PartidaHexGstr();
 		usuaris_preinicialitzats_partida = new UsuariHex[2];
 		ia_jugadors = new InteligenciaArtificialHex[2];
 	}
@@ -207,7 +201,7 @@ public final class PartidaCtrl
 	 *                                artificials.
 	 * @throws InstantiationError     Si hi ha problemes amb la instanciació de les intel·ligències artificials.
 	 * @see #ia_jugadors
-	 * @see MouFitxaIA
+	 * @see InteligenciaArtificialHex#obteMoviment(EstatCasella)
 	 * @see TipusJugadors
 	 */
 	private void inicialitzaIAJugadors() throws ClassNotFoundException, IllegalAccessException, InstantiationException
@@ -259,7 +253,7 @@ public final class PartidaCtrl
 					UsuariCtrl.getInstancia().getUsuariPrincipal().getModeInici(),
 					UsuariCtrl.getInstancia().obteCombinacioColors(), situacio_inicial );
 
-			if ( gestor_partida.existeixElement( partida_actual.getIdentificadorUnic() ) )
+			if ( PartidaHexGstr.getInstancia().existeixElement( partida_actual.getIdentificadorUnic() ) )
 			{
 				throw new IllegalArgumentException(
 						"Ja existeix una partida amb aquest nom i per aquests usuaris a la mateixa data." );
@@ -287,7 +281,7 @@ public final class PartidaCtrl
 	public void carregaPartida( String id_partida, String contrasenya_contrincant )
 			throws ClassNotFoundException, IOException, InstantiationException, IllegalAccessException
 	{
-		partida_actual = gestor_partida.carregaElement( id_partida );
+		partida_actual = PartidaHexGstr.getInstancia().carregaElement( id_partida );
 		String nom_usuari_contrincant;
 		TipusJugadors tipus_jugador_contrincant;
 		if ( !partida_actual.getJugadorA().equals( UsuariCtrl.getInstancia().getUsuariPrincipal() ) )
@@ -311,7 +305,7 @@ public final class PartidaCtrl
 
 		inicialitzaIAJugadors();
 
-		gestor_partida.eliminaElement( id_partida );
+		PartidaHexGstr.getInstancia().eliminaElement( id_partida );
 
 		partida_actual.setInstantDarrerMoviment( new Date().getTime() );
 	}
@@ -333,7 +327,7 @@ public final class PartidaCtrl
 	{
 		String nom_usuari = null;
 
-		PartidaHex partida_futura = gestor_partida.carregaElement( id_partida );
+		PartidaHex partida_futura = PartidaHexGstr.getInstancia().carregaElement( id_partida );
 		if ( !partida_futura.getJugadorA().equals( UsuariCtrl.getInstancia().getUsuariPrincipal() ) &&
 		     partida_futura.getJugadorA().getTipusJugador() == TipusJugadors.JUGADOR )
 		{
@@ -363,7 +357,7 @@ public final class PartidaCtrl
 	public String[][] llistaPartidesUsuari()
 	{
 		String id_usuari = UsuariCtrl.getInstancia().getUsuariPrincipal().getIdentificadorUnic();
-		Set<String> id_partides = gestor_partida.llistaPartidesUsuari( id_usuari );
+		Set<String> id_partides = PartidaHexGstr.getInstancia().llistaPartidesUsuari( id_usuari );
 		String[][] llista_partides = new String[id_partides.size()][4];
 		int i = 0;
 		for ( String id_partida : id_partides )
@@ -403,11 +397,11 @@ public final class PartidaCtrl
 	 */
 	public boolean esborraPartidesUsuari( String id_usuari )
 	{
-		Set<String> id_partides = gestor_partida.llistaPartidesUsuari( id_usuari );
+		Set<String> id_partides = PartidaHexGstr.getInstancia().llistaPartidesUsuari( id_usuari );
 		boolean resultat = true;
 		for ( String id_partida : id_partides )
 		{
-			resultat = resultat && gestor_partida.eliminaElement( id_partida );
+			resultat = resultat && PartidaHexGstr.getInstancia().eliminaElement( id_partida );
 		}
 
 		return resultat;
@@ -440,7 +434,7 @@ public final class PartidaCtrl
 		}
 		else
 		{
-			return gestor_partida.guardaElement( partida_actual );
+			return PartidaHexGstr.getInstancia().guardaElement( partida_actual );
 		}
 	}
 
@@ -496,7 +490,7 @@ public final class PartidaCtrl
 		if ( estat_actual != EstatPartida.NO_FINALITZADA )
 		{
 			// En cas de que la partida estigués guardada, l'elimino
-			gestor_partida.eliminaElement( partida_actual.getIdentificadorUnic() );
+			PartidaHexGstr.getInstancia().eliminaElement( partida_actual.getIdentificadorUnic() );
 
 			// Si no ha començat definint situació inicial, actualitzo estadístiques d'usuari
 			if ( !partida_actual.teSituacioInicial() )
@@ -741,7 +735,7 @@ public final class PartidaCtrl
 	 * fa servir la intel·ligència artificial de les pistes.
 	 *
 	 * @return El moviment que faria la intel·ligència artificial corresponent.
-	 * @see MouFitxaIA#mouFitxa(EstatCasella)
+	 * @see InteligenciaArtificialHex#obteMoviment(EstatCasella)
 	 */
 	private Casella getMovimentIATornActual()
 	{
