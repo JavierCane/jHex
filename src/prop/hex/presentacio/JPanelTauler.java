@@ -75,6 +75,21 @@ public final class JPanelTauler extends JPanel
 	 * Botó de demana pista.
 	 */
 	private JButton demana_pista;
+    
+    /**
+	 * Botó d'abandona partida.
+	 */
+	private JButton abandona_partida;
+    
+    /**
+	 * Botó d'intercanvia fitxa.
+	 */
+	private JButton intercanvia;
+
+	/**
+	 * Botó d'inicia partida.
+	 */
+	private JButton inicia_partida;
 
 	/**
 	 * Poligon que s'utilitza per dibuixar a pantalla cada una de les caselles..
@@ -92,12 +107,12 @@ public final class JPanelTauler extends JPanel
 	private double radi;
 
 	/**
-	 * Posició inicial del taulell a la pantalla.
+	 * Posició inicial del tauler a la pantalla.
 	 */
 	private int iniciX, iniciY;
 
 	/**
-	 * Constructora, obté el taulell i els jugadors, construeix un poligon hexagonal i
+	 * Constructora, obté el tauler i els jugadors, construeix un poligon hexagonal i
 	 * afegeix el listener del ratoli pel cas del click.
 	 *
 	 * @param partida_en_curs   Indica si la partida representada al panell està o no en curs.
@@ -150,13 +165,20 @@ public final class JPanelTauler extends JPanel
 	 * Indica al panell del tauler quins són els botons de mou fitxa IA i de demana pista, que es troben en un altre
 	 * panell.
 	 *
-	 * @param mou_ia        Botó de mou fitxa IA.
-	 * @param demana_pista  Botó de demana pista.
+	 * @param mou_ia           Botó de mou fitxa IA.
+	 * @param demana_pista     Botó de demana pista.
+     * @param abandona_partida Botó d'abandona partida.
+     * @param intercanvia      Botó d'intercanvia fitxa.
+	 * @param inicia_partida   Botó d'inicia partida.
 	 */
-	public void afegeixBotons( JButton mou_ia, JButton demana_pista )
+	public void afegeixBotons( JButton mou_ia, JButton demana_pista, JButton abandona_partida, JButton intercanvia,
+	                           JButton inicia_partida )
 	{
 		this.mou_ia = mou_ia;
 		this.demana_pista = demana_pista;
+        this.abandona_partida = abandona_partida;
+        this.intercanvia = intercanvia;
+		this.inicia_partida = inicia_partida;
 	}
 
 	/**
@@ -237,9 +259,20 @@ public final class JPanelTauler extends JPanel
 			ultima_pista = presentacio_ctrl.obtePista();
 			pista_valida = true;
 		}
-
 		repaint();
 	}
+    
+    public void intercanviaFitxa()
+    {
+        presentacio_ctrl.intercanviaFitxa();
+        pista_valida = false;
+        es_primer_moviment = false;
+        paintImmediately( 0, 0, 800, 500 );
+        if ( !partida_finalitzada && partida_en_curs && !presentacio_ctrl.esTornHuma() )
+        {
+            mouIAOMostraPista();
+        }
+    }
 
 	/**
 	 * Si la partida no està finalitzada i és torn d'un humà, crida a fer moviment a la casella i, j, i si el rival és
@@ -364,6 +397,15 @@ public final class JPanelTauler extends JPanel
 			{
 				demana_pista.setEnabled( false );
 			}
+
+			if ( ( Integer ) elements_de_control_partida[2] == 1 && presentacio_ctrl.esTornHuma() )
+			{
+				intercanvia.setEnabled( true );
+			}
+			else
+			{
+				intercanvia.setEnabled( false );
+			}
 		}
 
 		// Si és torn de la IA i s'està processant un moviment, mostrem per pantalla un missatge indicant-ho.
@@ -429,48 +471,38 @@ public final class JPanelTauler extends JPanel
 			g.drawImage( ( new ImageIcon( "img/tauler_nb.png" ) ).getImage(), -iniciX, -iniciY, getWidth(), getHeight(),
 					null );
 		}
-
+        
 		//Si ha guanyat un jugador, mostrem el resultat.
-		if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_A )
+		if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_A ||
+			presentacio_ctrl.consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_B )
 		{
+			int num_jugador;
+			if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_A )
+			{
+				num_jugador = 0;
+			}
+			else
+			{
+				num_jugador = 1;
+			}
 			g.setColor( new Color( 0x66CCFF ) );
 			g.fillRoundRect( 140, 0, 320, 200, 16, 16 );
 			g.setColor( Color.black );
 			g.drawRoundRect( 140, 0, 320, 200, 16, 16 );
 			g.drawString( "Partida finalitzada.", 150, 30 );
-			g.drawString( "Guanya " + ( ( String ) elements_de_control_jugadors[3][0] ), 150, 50 );
-			g.drawString( "amb un temps de " + ( String ) elements_de_control_jugadors[2][0] + ",", 150, 70 );
-			g.drawString( "col·locant un total de " + ( ( Integer ) elements_de_control_jugadors[4][0] ) + " fitxes,",
-					150, 90 );
-			g.drawString( "i utilitzant " + ( ( Integer ) elements_de_control_jugadors[1][0] ) + " pistes.", 150, 110 );
-			g.drawString( "Per a continuar, pitja el botó Abandona partida.", 150, 150 );
+			g.drawString( "Guanya " + ( ( String ) elements_de_control_jugadors[3][num_jugador] ), 150, 50 );
+			g.drawString( "amb un temps de " + ( String ) elements_de_control_jugadors[2][num_jugador] + ",", 150, 70 );
+			g.drawString( "col·locant un total de " + ( ( Integer ) elements_de_control_jugadors[4][num_jugador] ) +
+					" fitxes,", 150, 90 );
+			g.drawString( "i utilitzant " + ( ( Integer ) elements_de_control_jugadors[1][num_jugador] ) + " pistes.",
+					150, 110 );
+			g.drawString( "Per a continuar, pitja el botó de tornada al menú principal.", 150, 150 );
 
-			partida_finalitzada = true;
-			try
+			if ( !partida_en_curs )
 			{
-				presentacio_ctrl.finalitzaPartida();
+				inicia_partida.setEnabled( false );
 			}
-			catch ( Exception excepcio )
-			{
-				VistaDialeg dialeg_error = new VistaDialeg();
-				String[] botons_error = { "Accepta" };
-				dialeg_error.setDialeg( "Error", excepcio.getMessage(), botons_error, JOptionPane.WARNING_MESSAGE );
-			}
-		}
-		else if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_B )
-		{
-			g.setColor( new Color( 0x66CCFF ) );
-			g.fillRoundRect( 140, 0, 320, 200, 16, 16 );
-			g.setColor( Color.black );
-			g.drawRoundRect( 140, 0, 320, 200, 16, 16 );
-			g.drawString( "Partida finalitzada.", 150, 30 );
-			g.drawString( "Guanya " + ( ( String ) elements_de_control_jugadors[3][1] ), 150, 50 );
-			g.drawString( "amb un temps de " + ( String ) elements_de_control_jugadors[2][1] + ",", 150, 70 );
-			g.drawString( "col·locant un total de " + ( ( Integer ) elements_de_control_jugadors[4][1] ) + " fitxes,",
-					150, 90 );
-			g.drawString( "i utilitzant " + ( ( Integer ) elements_de_control_jugadors[1][1] ) + " pistes.", 150, 110 );
-			g.drawString( "Per a continuar, pitja el botó Abandona partida.", 150, 150 );
-
+			abandona_partida.setText( "Torna al menú principal" );
 			partida_finalitzada = true;
 			try
 			{

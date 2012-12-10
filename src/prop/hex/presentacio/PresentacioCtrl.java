@@ -397,6 +397,11 @@ public final class PresentacioCtrl
 	// Mètodes PartidaVista
 	// ----------------------------------------------------------------------------------------------------------------
 
+	public void intercanviaFitxa()
+	{
+		PartidaCtrl.getInstancia().intercanviaDarreraFitxa();
+	}
+
 	public void finalitzaPartida() throws IOException
 	{
 		PartidaCtrl.getInstancia().finalitzaPartida();

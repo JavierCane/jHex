@@ -100,6 +100,7 @@ public final class CarregaPartidaVista extends BaseVista
 		panell_central.add( new JScrollPane( taula_partides ) );
 		panell_central.setOpaque( false );
 		taula_partides.setFillsViewportHeight( true );
+        taula_partides.getTableHeader().setReorderingAllowed( false );
 		taula_partides.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 	}
 

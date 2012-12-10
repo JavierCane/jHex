@@ -1,7 +1,7 @@
 package prop.hex.presentacio;
 
 import prop.cluster.domini.models.estats.EstatPartida;
-import prop.hex.domini.models.enums.TipusJugadors;
+import prop.hex.domini.models.enums.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,6 +24,7 @@ public final class PartidaVista extends BaseVista
 	private JPanel panell_botons;
 
 	// Botons
+	private JButton intercanvia;
 	private JButton mou_ia;
 	private JButton demana_pista;
 	private JButton abandona;
@@ -42,6 +43,7 @@ public final class PartidaVista extends BaseVista
 		titol = new JLabel( "jHex" );
 		panell_central = new JPanelTauler( true, presentacio_ctrl );
 		panell_botons = new JPanel();
+		intercanvia = new JButton( "Intercanvia fitxa" );
 		mou_ia = new JButton( "Mou IA" );
 		demana_pista = new JButton( "Demana pista" );
 		abandona = new JButton( "Abandona la partida" );
@@ -60,18 +62,31 @@ public final class PartidaVista extends BaseVista
 	protected void inicialitzaPanellCentral()
 	{
 		panell_central.setOpaque( false );
-		panell_central.afegeixBotons( mou_ia, demana_pista );
+		panell_central.afegeixBotons( mou_ia, demana_pista, abandona, intercanvia, null );
 	}
 
 	@Override
 	protected void inicialitzaPanellPeu()
 	{
 		JPanel botons = new JPanel();
+		Object[] elements_de_control_partida = presentacio_ctrl.getElementsDeControlPartida();
+		if ( elements_de_control_partida[4] == ModesInici.PASTIS )
+		{
+			botons.add( intercanvia );
+		}
+		if ( elements_de_control_partida[4] == ModesInici.PASTIS )
+		{
+			botons.setLayout( new GridLayout( 2, 2, 10, 10 ) );
+			botons.add( intercanvia );
+		}
+		else
+		{
+			botons.setLayout( new FlowLayout( FlowLayout.CENTER, 10, 0 ) );
+		}
 		botons.add( mou_ia );
 		botons.add( demana_pista );
 		botons.add( abandona );
 		botons.setOpaque( false );
-		botons.setLayout( new FlowLayout( FlowLayout.CENTER, 10, 0 ) );
 		panell_botons.setLayout( new FlowLayout( FlowLayout.CENTER, 100, 0 ) );
 		panell_botons.add( titol_baix );
 		panell_botons.add( botons );
@@ -92,6 +107,16 @@ public final class PartidaVista extends BaseVista
 	protected void assignaListeners()
 	{
 		super.assignaListeners();
+
+		intercanvia.addActionListener( new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed( ActionEvent event )
+			{
+				accioBotoIntercanviaFitxa( event );
+			}
+		} );
 
 		mou_ia.addActionListener( new ActionListener()
 		{
@@ -122,6 +147,17 @@ public final class PartidaVista extends BaseVista
 				accioBotoAbandona( event );
 			}
 		} );
+	}
+
+	/**
+	 * Defineix el comportament del botó d'intercanvia fitxa quan sigui pitjat.
+	 *
+	 * @param event Event que activarà el botó.
+	 */
+	public void accioBotoIntercanviaFitxa( ActionEvent event )
+	{
+		intercanvia.setEnabled( false );
+		panell_central.intercanviaFitxa();
 	}
 
 	/**
@@ -157,13 +193,13 @@ public final class PartidaVista extends BaseVista
 		if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA )
 		{
 			Object[][] elements_de_control_jugadors = presentacio_ctrl.getElementsDeControlJugadors();
-			boolean es_partida_ia = ( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) != TipusJugadors.JUGADOR &&
+			boolean es_partida_ia = ( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) != TipusJugadors
+					.JUGADOR &&
 					( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) != TipusJugadors.CONVIDAT &&
 					( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) != TipusJugadors.JUGADOR &&
 					( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) != TipusJugadors.CONVIDAT;
-			boolean es_partida_convidat =
-					( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) == TipusJugadors.CONVIDAT ||
-							( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) == TipusJugadors.CONVIDAT;
+			boolean es_partida_convidat = ( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) == TipusJugadors
+					.CONVIDAT || ( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) == TipusJugadors.CONVIDAT;
 
 			if ( es_partida_convidat || es_partida_ia )
 			{

@@ -1,5 +1,7 @@
 package prop.hex.presentacio;
 
+import prop.cluster.domini.models.estats.EstatPartida;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -54,6 +56,7 @@ public class DefineixSituacioVista extends BaseVista
 	protected void inicialitzaPanellCentral()
 	{
 		panell_central.setOpaque( false );
+		panell_central.afegeixBotons( null, null, abandona, null, inicia_partida );
 	}
 
 	@Override
@@ -106,16 +109,23 @@ public class DefineixSituacioVista extends BaseVista
 	 */
 	public void accioBotoAbandona( ActionEvent event )
 	{
-		VistaDialeg dialeg = new VistaDialeg();
+		if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA )
+		{
+			VistaDialeg dialeg = new VistaDialeg();
 
-		String[] botons = {
-				"Sí", "No"
-		};
+			String[] botons = {
+					"Sí", "No"
+			};
 
-		String valor_seleccionat = dialeg.setDialeg( "Confirmació de sortida de la partida", "Estàs segur de que " +
-				"vols sortir de la partida?", botons, JOptionPane.QUESTION_MESSAGE );
+			String valor_seleccionat = dialeg.setDialeg( "Confirmació de sortida de la partida", "Estàs segur de que " +
+					"vols sortir de la partida?", botons, JOptionPane.QUESTION_MESSAGE );
 
-		if ( "Sí" == valor_seleccionat )
+			if ( "Sí" == valor_seleccionat )
+			{
+				presentacio_ctrl.vistaDefineixSituacioAMenuPrincipal();
+			}
+		}
+		else
 		{
 			presentacio_ctrl.vistaDefineixSituacioAMenuPrincipal();
 		}
@@ -131,6 +141,4 @@ public class DefineixSituacioVista extends BaseVista
 	{
 		presentacio_ctrl.vistaDefineixSituacioAPartida();
 	}
-
-
 }

@@ -101,6 +101,7 @@ public final class RanquingVista extends BaseVista
 		// Taula de classificació
 		taula_classificacio.setFillsViewportHeight( true );
 		taula_classificacio.setEnabled( false );
+        taula_classificacio.getTableHeader().setReorderingAllowed( false );
 		// Defineixo la dimensió del panell com tot l'ample que pugui i 100 d'altura
 		taula_classificacio.setPreferredScrollableViewportSize( new Dimension( 1000, 100 ) );
 		panell_central.add( new JScrollPane( taula_classificacio, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -110,8 +111,9 @@ public final class RanquingVista extends BaseVista
 		// Taula Hall of Fame
 		taula_hall_of_fame.setFillsViewportHeight( true );
 		taula_hall_of_fame.setEnabled( false );
-		// Defineixo la dimensió del panell com tot l'ample que pugui i 7 d'altura
-		taula_hall_of_fame.setPreferredScrollableViewportSize( new Dimension( 1000, 7 ) );
+        taula_hall_of_fame.getTableHeader().setReorderingAllowed( false );
+		// Defineixo la dimensió del panell com tot l'ample que pugui i 20 d'altura
+		taula_hall_of_fame.setPreferredScrollableViewportSize( new Dimension( 1000, 20 ) );
 		panell_central.add( new JScrollPane( taula_hall_of_fame, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER ) );
 
