@@ -340,7 +340,7 @@ public final class UsuariCtrl
 	{
 		usuari_principal.reiniciaEstadistiques();
 		Ranquing.getInstancia().actualitzaRanquingUsuari( usuari_principal );
-		Ranquing.getInstancia().netejaFitesUsuari( usuari_principal.getNom() );
+		Ranquing.getInstancia().netejaRecordsUsuari( usuari_principal.getNom() );
 		return true;
 	}
 

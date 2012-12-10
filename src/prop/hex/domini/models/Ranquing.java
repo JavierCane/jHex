@@ -82,6 +82,29 @@ public final class Ranquing implements Serializable
 	}
 
 	/**
+	 * Sobreescritura del mètode readObject.
+	 * Mètode utilitzat després de fer la deserialització de l'objecte llegit de disc mitjançant defaultReadObject()
+	 * Necessari per poder establir els paràmetres de la classe de tipus Singleton (si no els deixava com els d'una
+	 * nova instància).
+	 *
+	 * @param ois
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
+	private void readObject( ObjectInputStream ois ) throws IOException, ClassNotFoundException
+	{
+		ois.defaultReadObject();
+
+		// if ( instancia != null )
+		//{
+		//	synchronized ( instancia )
+		//	{
+		instancia = this;
+		//	}
+		//}
+	}
+
+	/**
 	 * Consultora de l'instancia actual de Ranquing.
 	 * Si encara no s'ha inicialitzat l'objecte, crida a la constructora, si ja s'ha instanciat previament,
 	 * simplement retorna l'instancia ja creada.
@@ -108,12 +131,12 @@ public final class Ranquing implements Serializable
 	public String toString()
 	{
 		return "[Classificació: " + classificacio.toString() + ", " +
-				"usuari temps minim: " + usuari_temps_minim +
-				", temps minim: " + temps_minim + ", usuari fitxes minimes: " + usuari_fitxes_minimes +
-				", fitxes minimes: " + fitxes_minimes + ", usuari mes partides guanyades: " +
-				usuari_mes_partides_guanyades + ", mes partides guanyades: " + mes_partides_guanyades +
-				", usuari mes partides jugades: " + usuari_mes_partides_jugades + ", mes partides jugades: " +
-				mes_partides_jugades + "]";
+		       "usuari temps minim: " + usuari_temps_minim +
+		       ", temps minim: " + temps_minim + ", usuari fitxes minimes: " + usuari_fitxes_minimes +
+		       ", fitxes minimes: " + fitxes_minimes + ", usuari mes partides guanyades: " +
+		       usuari_mes_partides_guanyades + ", mes partides guanyades: " + mes_partides_guanyades +
+		       ", usuari mes partides jugades: " + usuari_mes_partides_jugades + ", mes partides jugades: " +
+		       mes_partides_jugades + "]";
 	}
 
 	/**
@@ -126,42 +149,42 @@ public final class Ranquing implements Serializable
 		return classificacio;
 	}
 
-	public String get_usuari_temps_minim()
+	public String getUsuariTempsMinim()
 	{
 		return usuari_temps_minim;
 	}
 
-	public Long get_temps_minim()
+	public Long getTempsMinim()
 	{
 		return temps_minim;
 	}
 
-	public String get_usuari_fitxes_minimes()
+	public String getUsuariFitxesMinimes()
 	{
 		return usuari_fitxes_minimes;
 	}
 
-	public Integer get_fitxes_minimes()
+	public Integer getFitxesMinimes()
 	{
 		return fitxes_minimes;
 	}
 
-	public String get_usuari_mes_partides_guanyades()
+	public String getUsuariMesPartidesGuanyades()
 	{
 		return usuari_mes_partides_guanyades;
 	}
 
-	public Integer get_mes_partides_guanyades()
+	public Integer getMesPartidesGuanyades()
 	{
 		return mes_partides_guanyades;
 	}
 
-	public String get_usuari_mes_partides_jugades()
+	public String getUsuariMesPartidesJugades()
 	{
 		return usuari_mes_partides_jugades;
 	}
 
-	public Integer get_mes_partides_jugades()
+	public Integer getMesPartidesJugades()
 	{
 		return mes_partides_jugades;
 	}
@@ -203,35 +226,40 @@ public final class Ranquing implements Serializable
 		classificacio.remove( usuari );
 
 		// Elimino l'usuari de les fites si és que va aconseguir alguna
-		netejaFitesUsuari( nom_usuari );
+		netejaRecordsUsuari( nom_usuari );
 	}
 
-	public void netejaFitesUsuari( String nom_usuari )
+	public void netejaRecordsUsuari( String nom_usuari )
 	{
-		if ( nom_usuari == usuari_temps_minim )
+		if ( nom_usuari.equals( usuari_temps_minim ) )
 		{
 			usuari_temps_minim = null;
 			temps_minim = Long.MAX_VALUE;
+			recalculaTempsMinim();
 		}
 
-		if ( nom_usuari == usuari_fitxes_minimes )
+		if ( nom_usuari.equals( usuari_fitxes_minimes ) )
 		{
 			usuari_fitxes_minimes = null;
 			fitxes_minimes = Integer.MAX_VALUE;
+			recalculaFitxesMinimes();
 		}
 
-		if ( nom_usuari == usuari_mes_partides_guanyades )
+		if ( nom_usuari.equals( usuari_mes_partides_guanyades ) )
 		{
 			usuari_mes_partides_guanyades = null;
 			mes_partides_guanyades = 0;
+			recalculaPartidesGuanyades();
 		}
 
-		if ( nom_usuari == usuari_mes_partides_jugades )
+		if ( nom_usuari.equals( usuari_mes_partides_jugades ) )
 		{
 			usuari_mes_partides_jugades = null;
 			mes_partides_jugades = 0;
+			recalculaPartidesJugades();
 		}
 	}
+
 	/**
 	 * Funció que neteja el rànquing actual (elimina els usuaris ja ordenats i reinicialitza els rècords)
 	 */
@@ -239,29 +267,6 @@ public final class Ranquing implements Serializable
 	{
 		classificacio.clear();
 		inicialitzaRecords();
-	}
-
-	/**
-	 * Sobreescritura del mètode readObject.
-	 * Mètode utilitzat després de fer la deserialització de l'objecte llegit de disc mitjançant defaultReadObject()
-	 * Necessari per poder establir els paràmetres de la classe de tipus Singleton (si no els deixava com els d'una
-	 * nova instància).
-	 *
-	 * @param ois
-	 * @throws IOException
-	 * @throws ClassNotFoundException
-	 */
-	private void readObject( ObjectInputStream ois ) throws IOException, ClassNotFoundException
-	{
-		ois.defaultReadObject();
-
-		// if ( instancia != null )
-		//{
-		//	synchronized ( instancia )
-		//	{
-				instancia = this;
-		//	}
-		//}
 	}
 
 	/**
@@ -292,29 +297,77 @@ public final class Ranquing implements Serializable
 	{
 		String nom_usuari = usuari.getNom();
 
-		if ( temps_minim > usuari.getTempsMinim() )
+		comprovaTempsMinim( usuari.getTempsMinim(), nom_usuari );
+		comprovaFitxesMinimes( usuari.getFitxesMinimes(), nom_usuari );
+		comprovaPartidesGuanyades( usuari.getPartidesGuanyades(), nom_usuari );
+		comprovaPartidesJugades( usuari.getPartidesJugades(), nom_usuari );
+	}
+
+	private void comprovaTempsMinim( Long possible_record, String nom_usuari )
+	{
+		if ( temps_minim > possible_record )
 		{
-			temps_minim = usuari.getTempsMinim();
+			temps_minim = possible_record;
 			usuari_temps_minim = nom_usuari;
 		}
+	}
 
-		if ( fitxes_minimes > usuari.getFitxesMinimes() )
+	private void comprovaFitxesMinimes( Integer possible_record, String nom_usuari )
+	{
+		if ( fitxes_minimes > possible_record )
 		{
-			fitxes_minimes = usuari.getFitxesMinimes();
+			fitxes_minimes = possible_record;
 			usuari_fitxes_minimes = nom_usuari;
 		}
+	}
 
-		if ( mes_partides_guanyades < usuari.getPartidesGuanyades() )
+	private void comprovaPartidesGuanyades( Integer possible_record, String nom_usuari )
+	{
+		if ( mes_partides_guanyades < possible_record )
 		{
-			mes_partides_guanyades = usuari.getPartidesGuanyades();
+			mes_partides_guanyades = possible_record;
 			usuari_mes_partides_guanyades = nom_usuari;
 		}
+	}
 
-		if ( mes_partides_jugades < usuari.getPartidesJugades() )
+	private void comprovaPartidesJugades( Integer possible_record, String nom_usuari )
+	{
+		if ( mes_partides_jugades < possible_record )
 		{
-			mes_partides_jugades = usuari.getPartidesJugades();
+			mes_partides_jugades = possible_record;
 			usuari_mes_partides_jugades = nom_usuari;
 		}
 	}
 
+	private void recalculaTempsMinim()
+	{
+		for( UsuariHex usuari_classificat : classificacio )
+		{
+			comprovaTempsMinim( usuari_classificat.getTempsMinim(), usuari_classificat.getNom() );
+		}
+	}
+
+	private void recalculaFitxesMinimes()
+	{
+		for( UsuariHex usuari_classificat : classificacio )
+		{
+			comprovaFitxesMinimes( usuari_classificat.getFitxesMinimes(), usuari_classificat.getNom() );
+		}
+	}
+
+	private void recalculaPartidesGuanyades()
+	{
+		for( UsuariHex usuari_classificat : classificacio )
+		{
+			comprovaPartidesGuanyades( usuari_classificat.getPartidesGuanyades(), usuari_classificat.getNom() );
+		}
+	}
+
+	private void recalculaPartidesJugades()
+	{
+		for( UsuariHex usuari_classificat : classificacio )
+		{
+			comprovaPartidesJugades( usuari_classificat.getPartidesJugades(), usuari_classificat.getNom() );
+		}
+	}
 }

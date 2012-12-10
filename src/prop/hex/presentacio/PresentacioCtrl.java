@@ -271,27 +271,27 @@ public final class PresentacioCtrl
 
 		hall_of_fame_formatejat[0] = getFitaHallOfFameFormatejada(
 				"Victòria amb menys fitxes",
-				ranquing.get_usuari_fitxes_minimes(),
-				ranquing.get_fitxes_minimes().toString()
+				ranquing.getUsuariFitxesMinimes(),
+				ranquing.getFitxesMinimes().toString()
 		);
 
 		hall_of_fame_formatejat[1] = getFitaHallOfFameFormatejada(
 				"Més victòries",
-				ranquing.get_usuari_mes_partides_guanyades(),
-				ranquing.get_mes_partides_guanyades().toString()
+				ranquing.getUsuariMesPartidesGuanyades(),
+				ranquing.getMesPartidesGuanyades().toString()
 		);
 
 		hall_of_fame_formatejat[2] = getFitaHallOfFameFormatejada(
 				"Més partides jugades",
-				ranquing.get_usuari_mes_partides_jugades(),
-				ranquing.get_mes_partides_jugades().toString()
+				ranquing.getUsuariMesPartidesJugades(),
+				ranquing.getMesPartidesJugades().toString()
 		);
 
 		hall_of_fame_formatejat[3] = getFitaHallOfFameFormatejada(
 				"Victòria en menys temps",
-				ranquing.get_usuari_temps_minim(),
-				String.valueOf( ranquing.get_temps_minim() / 1000L ) + "." +
-				( ranquing.get_temps_minim() % 1000L ) / 100 + " segs."
+				ranquing.getUsuariTempsMinim(),
+				String.valueOf( ranquing.getTempsMinim() / 1000L ) + "." +
+				( ranquing.getTempsMinim() % 1000L ) / 100 + " segs."
 		);
 
 		return hall_of_fame_formatejat;
