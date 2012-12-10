@@ -23,7 +23,7 @@ import java.util.TreeSet;
  * Time: 17:45
  * To change this template use File | Settings | File Templates.
  */
-public final class IAHexSexSearch extends InteligenciaArtificialHex
+public final class IAHexSexSearchCtrl extends InteligenciaArtificialHex
 {
 
 	private TaulerHex tauler;
@@ -34,7 +34,7 @@ public final class IAHexSexSearch extends InteligenciaArtificialHex
 	/**
 	 * Constructor per defecte. Genera la taula de transposició si no existeix.
 	 */
-	public IAHexSexSearch()
+	public IAHexSexSearchCtrl()
 	{
 		taula_transposicio = new HashMap<Integer, ElementTaulaTransposicions>();
 	}

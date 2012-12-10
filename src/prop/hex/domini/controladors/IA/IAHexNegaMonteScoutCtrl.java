@@ -28,7 +28,7 @@ import java.util.Random;
  *
  * @author Isaac Sánchez Barrera (Grup 7.3, Hex)
  */
-public final class IAHexNegaMonteScout extends InteligenciaArtificialHex
+public final class IAHexNegaMonteScoutCtrl extends InteligenciaArtificialHex
 {
 
 	/**
@@ -56,7 +56,7 @@ public final class IAHexNegaMonteScout extends InteligenciaArtificialHex
 	/**
 	 * Constructor per defecte. Inicialitza la taula de transposicions i el generador dels nombres pseudo-aleatoris.
 	 */
-	public IAHexNegaMonteScout()
+	public IAHexNegaMonteScoutCtrl()
 	{
 		taula_transposicions = new HashMap<Integer, ElementTaulaTransposicions>();
 		generador = new Random();

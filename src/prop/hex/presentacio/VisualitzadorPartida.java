@@ -14,7 +14,7 @@ import java.awt.event.MouseEvent;
 /**
  * Classe temporal per poder veure i jugar una partida mitjançant PartidaCtrl. Obre una finestra on dibuixa el tauler
  * i captura els clicks del ratoli fent moure a qui toqui en cada situació.
- * Aquesta classe s'utilitza des del driver de Jugar que comprova que funcioni PartidaCtrl així com IAHexFacilCtrl i
+ * Aquesta classe s'utilitza des del driver de Jugar que comprova que funcioni PartidaCtrl així com IAMiniMaxCtrl i
  * totes les classes que aquest utilitza.
  *
  * @author Marc Junyent Martín (Grup 7.3, Hex)
