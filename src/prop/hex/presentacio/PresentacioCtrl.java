@@ -337,6 +337,11 @@ public final class PresentacioCtrl
 		PartidaCtrl.getInstancia().carregaPartida( id_partida, contrasenya_contrincant );
 	}
 
+	public void eliminaPartida( String id_partida )
+	{
+		PartidaCtrl.getInstancia().eliminaPartida( id_partida );
+	}
+
 	// Metodes JPanelTauler
 	// ----------------------------------------------------------------------------------------------------------------
 

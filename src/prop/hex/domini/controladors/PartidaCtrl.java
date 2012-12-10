@@ -311,6 +311,16 @@ public final class PartidaCtrl
 	}
 
 	/**
+	 * Elimina de memòria secundària la partida identificada per id_partida.
+	 *
+	 * @param id_partida Identificador de la partida que es vol eliminar
+	 */
+	public void eliminaPartida( String id_partida )
+	{
+		PartidaHexGstr.getInstancia().eliminaElement( id_partida );
+	}
+
+	/**
 	 * Consulta quin usuari no ha iniciat sessió (si és el cas) per poder jugar a la partida actual.
 	 *
 	 * @param id_partida Identificador únic de la partida

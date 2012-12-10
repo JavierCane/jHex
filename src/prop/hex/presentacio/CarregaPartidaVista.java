@@ -23,12 +23,14 @@ public final class CarregaPartidaVista extends BaseVista
 	// Botons
 	private JButton carrega;
 	private JButton descarta;
+	private JButton elimina;
 
 	// Dades associades a la taula
 	private String[] id_partides;
 
 	// Taula de partides a carregar
 	private JTable taula_partides;
+	private ModelTaula model_taula_partides;
 
 	/**
 	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
@@ -46,6 +48,7 @@ public final class CarregaPartidaVista extends BaseVista
 		panell_botons = new JPanel();
 		carrega = new JButton( "Carrega" );
 		descarta = new JButton( "Descarta" );
+		elimina = new JButton( "Elimina" );
 		String[][] dades = presentacio_ctrl.obteLlistaPartides();
 		Object[][] dades_taula = new String[dades.length][3];
 		id_partides = new String[dades.length];
@@ -55,11 +58,13 @@ public final class CarregaPartidaVista extends BaseVista
 			System.arraycopy( dades[i], 1, dades_taula[i], 0, 3 );
 		}
 
-		taula_partides = new JTable( new ModelTaula( dades_taula, new String[] {
+		model_taula_partides = new ModelTaula( dades_taula, new String[] {
 				"Nom de la partida",
 				"Oponent",
 				"Data i hora"
-		} ) );
+		} );
+
+		taula_partides = new JTable( model_taula_partides );
 
 		inicialitzaVista();
 	}
@@ -112,6 +117,7 @@ public final class CarregaPartidaVista extends BaseVista
 	{
 		panell_botons.add( carrega );
 		panell_botons.add( descarta );
+		panell_botons.add( elimina );
 		panell_botons.setOpaque( false );
 	}
 
@@ -139,6 +145,16 @@ public final class CarregaPartidaVista extends BaseVista
 				accioBotoDescarta( event );
 			}
 		} );
+
+		elimina.addActionListener( new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed( ActionEvent event )
+			{
+				accioBotoElimina( event );
+			}
+		} );
 	}
 
 	/**
@@ -152,7 +168,7 @@ public final class CarregaPartidaVista extends BaseVista
 		{
 			VistaDialeg dialeg_error = new VistaDialeg();
 			String[] botons_error = { "Accepta" };
-			dialeg_error.setDialeg( "Error", "Has de seleccionar almenys una partida.", botons_error,
+			dialeg_error.setDialeg( "Error", "Has de seleccionar almenys una partida a carregar.", botons_error,
 					JOptionPane.WARNING_MESSAGE );
 		}
 		else
@@ -188,5 +204,38 @@ public final class CarregaPartidaVista extends BaseVista
 	public void accioBotoDescarta( ActionEvent event )
 	{
 		presentacio_ctrl.vistaCarregaPartidaAMenuPrincipal();
+	}
+
+	/**
+	 * Defineix el comportament del botó de eliminar quan sigui pitjat.
+	 *
+	 * @param event Event que activarà el botó.
+	 */
+	public void accioBotoElimina( ActionEvent event )
+	{
+		if ( taula_partides.getSelectedRowCount() == 0 )
+		{
+			VistaDialeg dialeg_error = new VistaDialeg();
+			String[] botons_error = { "Accepta" };
+			dialeg_error.setDialeg( "Error", "Has de seleccionar almenys una partida a eliminar.", botons_error,
+					JOptionPane.WARNING_MESSAGE );
+		}
+		else
+		{
+			VistaDialeg dialeg = new VistaDialeg();
+			String[] botons = {
+					"Sí", "No"
+			};
+			String valor_seleccionat = dialeg.setDialeg( "Confirma eliminació partida",
+					"Estàs segur que vols eliminar aquesta partida? Aquesta acció no es podrà desfer.", botons,
+					JOptionPane.QUESTION_MESSAGE );
+
+			if ( valor_seleccionat == "Sí" )
+			{
+				int partida_seleccionada = taula_partides.getSelectedRow();
+				presentacio_ctrl.eliminaPartida( id_partides[partida_seleccionada] );
+				model_taula_partides.removeRow( partida_seleccionada );
+			}
+		}
 	}
 }
