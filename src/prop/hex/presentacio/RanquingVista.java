@@ -1,5 +1,7 @@
 package prop.hex.presentacio;
 
+import prop.hex.presentacio.auxiliars.ModelTaula;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -46,14 +48,14 @@ public final class RanquingVista extends BaseVista
 
 		// Construeixo les taules del rànquing (classificació i Hall of Fame)
 		dades_classificacio = presentacio_ctrl.getClassificacioFormatejada();
-		taula_classificacio = new JTable( dades_classificacio, new String[] {
+		taula_classificacio = new JTable( new ModelTaula( dades_classificacio, new String[] {
 				"Nom d'usuari", "Partides jugades", "Percentatge de victòries", "Puntuació global"
-		} );
+		} ) );
 
 		dades_hall_of_fame = presentacio_ctrl.getHallOfFameFormatejat();
-		taula_hall_of_fame = new JTable( dades_hall_of_fame, new String[] {
+		taula_hall_of_fame = new JTable( new ModelTaula( dades_hall_of_fame, new String[] {
 				"Fita aconseguida", "Jugador", "Rècord"
-		} );
+		} ) );
 
 		inicialitzaVista();
 	}
@@ -100,7 +102,6 @@ public final class RanquingVista extends BaseVista
 
 		// Taula de classificació
 		taula_classificacio.setFillsViewportHeight( true );
-		taula_classificacio.setEnabled( false );
         taula_classificacio.getTableHeader().setReorderingAllowed( false );
 		// Defineixo la dimensió del panell com tot l'ample que pugui i 100 d'altura
 		taula_classificacio.setPreferredScrollableViewportSize( new Dimension( 1000, 100 ) );
@@ -110,8 +111,7 @@ public final class RanquingVista extends BaseVista
 
 		// Taula Hall of Fame
 		taula_hall_of_fame.setFillsViewportHeight( true );
-		taula_hall_of_fame.setEnabled( false );
-        taula_hall_of_fame.getTableHeader().setReorderingAllowed( false );
+		taula_hall_of_fame.getTableHeader().setReorderingAllowed( false );
 		// Defineixo la dimensió del panell com tot l'ample que pugui i 20 d'altura
 		taula_hall_of_fame.setPreferredScrollableViewportSize( new Dimension( 1000, 20 ) );
 		panell_central.add( new JScrollPane( taula_hall_of_fame, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
