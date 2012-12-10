@@ -1,5 +1,8 @@
 package prop.hex.presentacio;
 
+import prop.hex.presentacio.auxiliars.ModelTaula;
+import prop.hex.presentacio.auxiliars.VistaDialeg;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

@@ -10,6 +10,7 @@ import prop.hex.domini.models.UsuariHex;
 import prop.hex.domini.models.enums.CombinacionsColors;
 import prop.hex.domini.models.enums.ModesInici;
 import prop.hex.domini.models.enums.TipusJugadors;
+import prop.hex.presentacio.auxiliars.VistaDialeg;
 
 import javax.swing.*;
 import java.awt.*;

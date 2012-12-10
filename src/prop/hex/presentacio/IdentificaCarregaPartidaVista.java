@@ -1,19 +1,19 @@
 package prop.hex.presentacio;
 
-import prop.cluster.domini.models.estats.EstatPartida;
+import prop.hex.presentacio.auxiliars.JPanelImatge;
+import prop.hex.presentacio.auxiliars.VistaDialeg;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 /**
  * Vista d'identificar-se al carregar una partida contra un usuari registrat del joc Hex.
  *
  * @author Guillermo Girona San Miguel (Grup 7.3, Hex)
  */
-public class IdentificaCarregaPartidaVista extends BaseVista
+public final class IdentificaCarregaPartidaVista extends BaseVista
 {
 
 	private JPanel panell_dades;

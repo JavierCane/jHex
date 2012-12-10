@@ -1,4 +1,4 @@
-package prop.hex.presentacio;
+package prop.hex.presentacio.auxiliars;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -7,7 +7,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Isaac Sánchez Barrera (Grup 7.3, Hex)
  */
-public class ModelTaula extends DefaultTableModel
+public final class ModelTaula extends DefaultTableModel
 {
 
 	/**

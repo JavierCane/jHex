@@ -1,4 +1,4 @@
-package prop.hex.presentacio;
+package prop.hex.presentacio.auxiliars;
 
 import prop.cluster.domini.models.estats.EstatCasella;
 import prop.cluster.domini.models.estats.EstatPartida;
@@ -6,6 +6,8 @@ import prop.hex.domini.models.Casella;
 import prop.hex.domini.models.enums.CombinacionsColors;
 import prop.hex.domini.models.enums.ModesInici;
 import prop.hex.domini.models.enums.TipusJugadors;
+import prop.hex.presentacio.PresentacioCtrl;
+import prop.hex.presentacio.auxiliars.VistaDialeg;
 
 import javax.swing.*;
 import java.awt.*;

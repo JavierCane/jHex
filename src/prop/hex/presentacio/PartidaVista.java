@@ -2,6 +2,8 @@ package prop.hex.presentacio;
 
 import prop.cluster.domini.models.estats.EstatPartida;
 import prop.hex.domini.models.enums.*;
+import prop.hex.presentacio.auxiliars.JPanelTauler;
+import prop.hex.presentacio.auxiliars.VistaDialeg;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,5 +1,8 @@
 package prop.hex.presentacio;
 
+import prop.hex.presentacio.auxiliars.JPanelImatge;
+import prop.hex.presentacio.auxiliars.VistaDialeg;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,7 +13,7 @@ import java.awt.event.ActionListener;
  *
  * @author Guillermo Girona San Miguel (Grup 7.3, Hex)
  */
-public class CanviaContrasenyaVista extends BaseVista
+public final class CanviaContrasenyaVista extends BaseVista
 {
 
 	// Panells

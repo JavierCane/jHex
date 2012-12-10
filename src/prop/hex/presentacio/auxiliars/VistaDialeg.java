@@ -1,4 +1,4 @@
-package prop.hex.presentacio;
+package prop.hex.presentacio.auxiliars;
 
 import javax.swing.*;
 

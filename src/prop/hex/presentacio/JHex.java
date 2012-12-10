@@ -1,6 +1,6 @@
 package prop.hex.presentacio;
 
-public class JHex
+public final class JHex
 {
 
 	public static void main( String[] args )

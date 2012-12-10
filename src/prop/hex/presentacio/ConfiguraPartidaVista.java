@@ -1,6 +1,8 @@
 package prop.hex.presentacio;
 
 import prop.hex.domini.models.enums.TipusJugadors;
+import prop.hex.presentacio.auxiliars.JPanelImatge;
+import prop.hex.presentacio.auxiliars.VistaDialeg;
 
 import javax.swing.*;
 import java.awt.*;

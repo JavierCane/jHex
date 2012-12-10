@@ -2,6 +2,8 @@ package prop.hex.presentacio;
 
 import prop.hex.domini.models.enums.CombinacionsColors;
 import prop.hex.domini.models.enums.ModesInici;
+import prop.hex.presentacio.auxiliars.JPanelImatge;
+import prop.hex.presentacio.auxiliars.VistaDialeg;
 
 import javax.swing.*;
 import java.awt.*;

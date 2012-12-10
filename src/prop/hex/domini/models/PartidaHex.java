@@ -12,7 +12,7 @@ import java.util.*;
 /**
  * Representa una partida del joc Hex.
  */
-public class PartidaHex extends Partida implements Serializable
+public final class PartidaHex extends Partida implements Serializable
 {
 
 	/**
