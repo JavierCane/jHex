@@ -1,9 +1,11 @@
 package prop.hex.presentacio;
 
 import prop.hex.presentacio.auxiliars.ModelTaula;
+import prop.hex.presentacio.auxiliars.ModelTaulaPartides;
 import prop.hex.presentacio.auxiliars.VistaDialeg;
 
 import javax.swing.*;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,7 +32,7 @@ public final class CarregaPartidaVista extends BaseVista
 
 	// Taula de partides a carregar
 	private JTable taula_partides;
-	private ModelTaula model_taula_partides;
+	private ModelTaulaPartides model_taula_partides;
 
 	/**
 	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
@@ -58,13 +60,16 @@ public final class CarregaPartidaVista extends BaseVista
 			System.arraycopy( dades[i], 1, dades_taula[i], 0, 3 );
 		}
 
-		model_taula_partides = new ModelTaula( dades_taula, new String[] {
+		model_taula_partides = new ModelTaulaPartides( dades_taula, new String[] {
 				"Nom de la partida",
 				"Oponent",
 				"Data i hora"
 		} );
-
 		taula_partides = new JTable( model_taula_partides );
+
+		// Afegeixo atributs per poder ordenar la taula
+		TableRowSorter<ModelTaulaPartides> ordenacio = new TableRowSorter<ModelTaulaPartides>( model_taula_partides );
+		taula_partides.setRowSorter( ordenacio );
 
 		inicialitzaVista();
 	}

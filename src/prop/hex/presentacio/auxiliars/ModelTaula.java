@@ -1,13 +1,14 @@
 package prop.hex.presentacio.auxiliars;
 
 import javax.swing.table.DefaultTableModel;
+import java.util.Date;
 
 /**
  * Model bàsic d'una taula no editable.
  *
  * @author Isaac Sánchez Barrera (Grup 7.3, Hex)
  */
-public final class ModelTaula extends DefaultTableModel
+public class ModelTaula extends DefaultTableModel
 {
 
 	/**

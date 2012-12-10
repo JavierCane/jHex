@@ -256,6 +256,12 @@ public final class PresentacioCtrl
 			// Redondeig a dos decimals
 			percentatge_victories = ( float ) ( Math.round( percentatge_victories * 100.0 ) / 100.0 );
 
+			// Per poder ordenar :)
+			if ( percentatge_victories > 99.99 )
+			{
+				percentatge_victories = ( float ) 99.99;
+			}
+
 			classificacio_formatejada[i][2] = percentatge_victories.toString() + "%";
 			classificacio_formatejada[i][3] = usuari_classificat.getPuntuacioGlobal().toString();
 			i++;

@@ -1,8 +1,10 @@
 package prop.hex.presentacio;
 
 import prop.hex.presentacio.auxiliars.ModelTaula;
+import prop.hex.presentacio.auxiliars.ModelTaulaClassificacio;
 
 import javax.swing.*;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,6 +31,7 @@ public final class RanquingVista extends BaseVista
 	// Taules
 	private JTable taula_classificacio;
 	private JTable taula_hall_of_fame;
+	private ModelTaulaClassificacio model_taula_classificacio;
 
 	/**
 	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
@@ -46,12 +49,19 @@ public final class RanquingVista extends BaseVista
 		panell_botons = new JPanel();
 		torna = new JButton( "Torna al menú principal" );
 
-		// Construeixo les taules del rànquing (classificació i Hall of Fame)
+		// Construeixo les taules del rànquing (classificació)
 		dades_classificacio = presentacio_ctrl.getClassificacioFormatejada();
-		taula_classificacio = new JTable( new ModelTaula( dades_classificacio, new String[] {
+		model_taula_classificacio = new ModelTaulaClassificacio( dades_classificacio, new String[] {
 				"Nom d'usuari", "Partides jugades", "Percentatge de victòries", "Puntuació global"
-		} ) );
+		} );
+		taula_classificacio = new JTable( model_taula_classificacio );
 
+		// Afegeixo atributs per poder ordenar la taula
+		TableRowSorter<ModelTaulaClassificacio> ordenacio =
+				new TableRowSorter<ModelTaulaClassificacio>( model_taula_classificacio );
+		taula_classificacio.setRowSorter( ordenacio );
+
+		// Construeixo les taules del rànquing (hall of fame)
 		dades_hall_of_fame = presentacio_ctrl.getHallOfFameFormatejat();
 		taula_hall_of_fame = new JTable( new ModelTaula( dades_hall_of_fame, new String[] {
 				"Fita aconseguida", "Jugador", "Rècord"
@@ -107,6 +117,8 @@ public final class RanquingVista extends BaseVista
 		taula_classificacio.setPreferredScrollableViewportSize( new Dimension( 1000, 100 ) );
 		panell_central.add( new JScrollPane( taula_classificacio, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER ) );
+
+		// Separació de taules
 		panell_central.add( Box.createVerticalStrut( 10 ) );
 
 		// Taula Hall of Fame
