@@ -237,7 +237,7 @@ public final class TwoDistance
 		{
 			for ( int columna = 0; columna < tauler.getMida(); columna++ )
 			{
-				if ( fila != casella.getFila() && columna != casella.getColumna() && potencials[fila][columna] < minim )
+				if ( !casella.equals( new Casella( fila, columna ) ) && potencials[fila][columna] < minim )
 				{
 					minim = potencials[fila][columna];
 				}
