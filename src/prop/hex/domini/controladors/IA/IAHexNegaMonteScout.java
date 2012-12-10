@@ -7,7 +7,6 @@ import prop.hex.domini.controladors.IA.auxiliars.ElementTaulaTransposicions;
 import prop.hex.domini.controladors.IA.auxiliars.TwoDistance;
 import prop.hex.domini.controladors.IA.auxiliars.enums.FitesDePoda;
 import prop.hex.domini.controladors.InteligenciaArtificialHex;
-import prop.hex.domini.controladors.MouFitxaIA;
 import prop.hex.domini.models.Casella;
 import prop.hex.domini.models.PartidaHex;
 import prop.hex.domini.models.TaulerHex;

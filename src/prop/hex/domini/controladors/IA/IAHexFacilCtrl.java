@@ -8,7 +8,6 @@ import prop.hex.domini.controladors.IA.auxiliars.CamiMinim;
 import prop.hex.domini.controladors.IA.auxiliars.ConnexionsVirtuals;
 import prop.hex.domini.controladors.IA.auxiliars.ResistenciaTauler;
 import prop.hex.domini.controladors.InteligenciaArtificialHex;
-import prop.hex.domini.controladors.MouFitxaIA;
 import prop.hex.domini.models.Casella;
 import prop.hex.domini.models.PartidaHex;
 import prop.hex.domini.models.TaulerHex;
