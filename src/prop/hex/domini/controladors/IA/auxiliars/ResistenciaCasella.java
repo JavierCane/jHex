@@ -1,4 +1,4 @@
-package prop.hex.domini.controladors.IA;
+package prop.hex.domini.controladors.IA.auxiliars;
 
 import prop.hex.domini.models.Casella;
 

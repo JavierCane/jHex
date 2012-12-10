@@ -1,9 +1,13 @@
-package prop.hex.domini.controladors;
+package prop.hex.domini.controladors.IA;
 
+import prop.cluster.domini.models.Tauler;
 import prop.cluster.domini.models.estats.EstatCasella;
 import prop.cluster.domini.models.estats.EstatPartida;
-import prop.hex.domini.controladors.IA.ElementTaulaTransposicions;
-import prop.hex.domini.controladors.IA.enums.FitesDePoda;
+import prop.hex.domini.controladors.IA.auxiliars.ElementTaulaTransposicions;
+import prop.hex.domini.controladors.IA.auxiliars.TwoDistance;
+import prop.hex.domini.controladors.IA.auxiliars.enums.FitesDePoda;
+import prop.hex.domini.controladors.InteligenciaArtificialHex;
+import prop.hex.domini.controladors.MouFitxaIA;
 import prop.hex.domini.models.Casella;
 import prop.hex.domini.models.PartidaHex;
 import prop.hex.domini.models.TaulerHex;
@@ -25,13 +29,8 @@ import java.util.Random;
  *
  * @author Isaac Sánchez Barrera (Grup 7.3, Hex)
  */
-public final class IAHexNegaMonteScout implements MouFitxaIA
+public final class IAHexNegaMonteScout extends InteligenciaArtificialHex
 {
-
-	/**
-	 * Partida que està jugant la intel·ligència artificial.
-	 */
-	private PartidaHex partida;
 
 	/**
 	 * Tauler on s'està desenvolupant la partida.
@@ -56,17 +55,11 @@ public final class IAHexNegaMonteScout implements MouFitxaIA
 	private Random generador;
 
 	/**
-	 * Classe d'on agafem la funció d'avaluació, per reaprofitar-la.
-	 */
-	private IAHexQueenBeeCtrl ia_avaluacio;
-
-	/**
 	 * Constructor per defecte. Inicialitza la taula de transposicions i el generador dels nombres pseudo-aleatoris.
 	 */
 	public IAHexNegaMonteScout()
 	{
 		taula_transposicions = new HashMap<Integer, ElementTaulaTransposicions>();
-		ia_avaluacio = new IAHexQueenBeeCtrl();
 		generador = new Random();
 	}
 
@@ -85,26 +78,6 @@ public final class IAHexNegaMonteScout implements MouFitxaIA
 		else
 		{
 			return EstatCasella.JUGADOR_A;
-		}
-	}
-
-	/**
-	 * Configura la instància de partida per a la intel·ligència artificial.
-	 *
-	 * @param partida Partida on es vol jugar amb la intel·ligència artificial.
-	 * @return Cert si s'ha canviat de partida. Fals altrament.
-	 * @see MouFitxaIA
-	 */
-	public boolean setPartida( PartidaHex partida )
-	{
-		if ( partida != null )
-		{
-			this.partida = partida;
-			return ia_avaluacio.setPartida( partida );
-		}
-		else
-		{
-			return false;
 		}
 	}
 
@@ -133,7 +106,7 @@ public final class IAHexNegaMonteScout implements MouFitxaIA
 		int beta_2, puntuacio;
 		if ( profunditat == profunditat_maxima || estat_iteracio != EstatPartida.NO_FINALITZADA )
 		{
-			puntuacio = ia_avaluacio.funcioAvaluacio( tauler, estat_iteracio, profunditat, jugador );
+			puntuacio = funcioAvaluacio( tauler, estat_iteracio, profunditat, jugador );
 			taula_transposicions.put( tauler.hashCode(),
 					new ElementTaulaTransposicions( partida.getTornsJugats() + profunditat, FitesDePoda.VALOR_EXACTE,
 							puntuacio, jugador ) );
@@ -218,6 +191,74 @@ public final class IAHexNegaMonteScout implements MouFitxaIA
 	}
 
 	/**
+	 * Funció d'avaluació del MiniMax, si estem en un estat termianl on ja ha guanyat un jugador retornem 1000000 o
+	 * -1000000, que son valors prou grans, sinó, apliquem l'estratègia agresiva o la passiva en funció del valor de
+	 * la variable tactica_agresiva.
+	 *
+	 * @param tauler         Objecte de la classe <code>Tauler</code> sobre el qual es disputa una partida.
+	 * @param estat_moviment Descriu en quin estat ha quedat <em>tauler</em> en funció de l'últim moviment efectuat
+	 *                       sobre aquest.
+	 * @param profunditat    És la profunditat a la que s'ha arribat durant l'exploració de les diferents possibilitats de
+	 *                       moviment. Cada unitat de <em>profunditat</em> representa un torn jugat de la partida.
+	 * @param fitxa_jugador  Indica el jugador de la partida a partir del qual avaluar <em>tauler</em>.
+	 * @return La puntuació de l'evaluació
+	 */
+	public int funcioAvaluacio( Tauler tauler, EstatPartida estat_moviment, int profunditat,
+	                            EstatCasella fitxa_jugador )
+	{
+
+		int retorn;
+/*
+		if ( memoria.containsKey( ( ( TaulerHex ) tauler ).hashCode() ) )
+		{
+			retorn = memoria.get( ( ( TaulerHex ) tauler ).hashCode() ).getPuntuacio( fitxa_jugador );
+		}
+		else
+		{*/
+		if ( estat_moviment == EstatPartida.GUANYA_JUGADOR_A )
+		{
+			if ( fitxa_jugador == EstatCasella.JUGADOR_A )
+			{
+				return 1000000;
+			}
+			else
+			{
+				return -1000000;
+			}
+		}
+		else if ( estat_moviment == EstatPartida.GUANYA_JUGADOR_B )
+		{
+			if ( fitxa_jugador == EstatCasella.JUGADOR_B )
+			{
+				return 1000000;
+			}
+			else
+			{
+				return -1000000;
+			}
+		}
+
+		TwoDistance distancia_a = new TwoDistance( ( TaulerHex ) tauler, EstatCasella.JUGADOR_A );
+		TwoDistance distancia_b = new TwoDistance( ( TaulerHex ) tauler, EstatCasella.JUGADOR_B );
+		int potencial_a = distancia_a.getPotencial();
+		int potencial_b = distancia_b.getPotencial();
+
+		if ( fitxa_jugador == EstatCasella.JUGADOR_A )
+		{
+			retorn = potencial_b - potencial_a;
+		}
+		else
+		{
+			retorn = potencial_a - potencial_b;
+		}
+		//		memoria.put( ( ( TaulerHex ) tauler ).hashCode(), new ElementTaulaTransposicions( retorn,
+		//		fitxa_jugador ) );
+		//	}
+
+		return retorn;
+	}
+
+	/**
 	 * Retorna un moviment adequat al tauler actual per al jugador indicat per fitxa.
 	 * <p/>
 	 * Fa servir un algorisme negaScout amb taules de transposició i elecció d'un subconjunt de nodes aleatoris
@@ -228,7 +269,7 @@ public final class IAHexNegaMonteScout implements MouFitxaIA
 	 * @see #negaMonteScout(EstatCasella, EstatCasella, int, int, int, EstatPartida)
 	 * @see MouFitxaIA
 	 */
-	public Casella mouFitxa( EstatCasella fitxa )
+	public Casella obteMoviment( EstatCasella fitxa )
 	{
 		tauler = partida.getTauler();
 

@@ -1,11 +1,13 @@
-package prop.hex.domini.controladors;
+package prop.hex.domini.controladors.IA;
 
 import prop.cluster.domini.controladors.InteligenciaArtificial;
 import prop.cluster.domini.models.Tauler;
 import prop.cluster.domini.models.estats.EstatCasella;
 import prop.cluster.domini.models.estats.EstatPartida;
-import prop.hex.domini.controladors.IA.ElementTaulaTransposicions;
-import prop.hex.domini.controladors.IA.TwoDistance;
+import prop.hex.domini.controladors.IA.auxiliars.ElementTaulaTransposicions;
+import prop.hex.domini.controladors.IA.auxiliars.TwoDistance;
+import prop.hex.domini.controladors.InteligenciaArtificialHex;
+import prop.hex.domini.controladors.MouFitxaIA;
 import prop.hex.domini.models.Casella;
 import prop.hex.domini.models.PartidaHex;
 import prop.hex.domini.models.TaulerHex;
@@ -19,14 +21,8 @@ import java.util.HashMap;
  * Time: 16:24
  * To change this template use File | Settings | File Templates.
  */
-public final class IAHexQueenBeeCtrl extends InteligenciaArtificial implements MouFitxaIA
+public final class IAHexQueenBeeCtrl extends InteligenciaArtificialHex
 {
-
-	/**
-	 * Partida on juga la instància de la intel·ligència artificial.
-	 */
-	private PartidaHex partida;
-
 	private HashMap<Integer, ElementTaulaTransposicions> memoria;
 
 	/**
@@ -108,25 +104,6 @@ public final class IAHexQueenBeeCtrl extends InteligenciaArtificial implements M
 	}
 
 	/**
-	 * Configura la instància de partida per a la intel·ligència artificial.
-	 *
-	 * @param partida Partida on es vol jugar amb la intel·ligència artificial.
-	 * @return Cert si s'ha canviat de partida. Fals altrament.
-	 */
-	public boolean setPartida( PartidaHex partida )
-	{
-		if ( partida != null )
-		{
-			this.partida = partida;
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-	/**
 	 * Retorna un moviment adequat al tauler actual per al jugador indicat per fitxa.
 	 * En la primera jugada de cada jugador es busca la posició més central, en les altres es crida a minimax,
 	 * la funció d'evaluació pot variar. Si l'enemic es troba a un cami mínim amb cost inferior o igual a 4 es crida
@@ -135,7 +112,7 @@ public final class IAHexQueenBeeCtrl extends InteligenciaArtificial implements M
 	 * @param fitxa Fitxa que vol col·locar-se al tauler de la partida del paràmetre implícit.
 	 * @return La casella on es mouria la fitxa.
 	 */
-	public Casella mouFitxa( EstatCasella fitxa )
+	public Casella obteMoviment( EstatCasella fitxa )
 	{
 		//Cridem al minimax.
 		int[] casella = super.minimax( partida, fitxa, profunditat_maxima );

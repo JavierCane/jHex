@@ -1,11 +1,13 @@
-package prop.hex.domini.controladors;
+package prop.hex.domini.controladors.IA;
 
+import prop.cluster.domini.models.Tauler;
 import prop.cluster.domini.models.estats.EstatCasella;
 import prop.cluster.domini.models.estats.EstatPartida;
-import prop.hex.domini.controladors.IA.ElementTaulaTransposicions;
-import prop.hex.domini.controladors.IA.ResistenciaCasella;
-import prop.hex.domini.controladors.IA.TwoDistance;
-import prop.hex.domini.controladors.IA.enums.FitesDePoda;
+import prop.hex.domini.controladors.IA.auxiliars.ElementTaulaTransposicions;
+import prop.hex.domini.controladors.IA.auxiliars.ResistenciaCasella;
+import prop.hex.domini.controladors.IA.auxiliars.TwoDistance;
+import prop.hex.domini.controladors.IA.auxiliars.enums.FitesDePoda;
+import prop.hex.domini.controladors.InteligenciaArtificialHex;
 import prop.hex.domini.models.Casella;
 import prop.hex.domini.models.PartidaHex;
 import prop.hex.domini.models.TaulerHex;
@@ -21,15 +23,13 @@ import java.util.TreeSet;
  * Time: 17:45
  * To change this template use File | Settings | File Templates.
  */
-public final class IAHexSexSearch implements MouFitxaIA
+public final class IAHexSexSearch extends InteligenciaArtificialHex
 {
 
-	private PartidaHex partida;
 	private TaulerHex tauler;
 	private static int pressupost = 5;
 	private static int profunditat_max = 5;
 	private HashMap<Integer, ElementTaulaTransposicions> taula_transposicio;
-	private IAHexQueenBeeCtrl ia_avaluacio;
 
 	/**
 	 * Constructor per defecte. Genera la taula de transposició si no existeix.
@@ -37,19 +37,6 @@ public final class IAHexSexSearch implements MouFitxaIA
 	public IAHexSexSearch()
 	{
 		taula_transposicio = new HashMap<Integer, ElementTaulaTransposicions>();
-
-		ia_avaluacio = new IAHexQueenBeeCtrl();
-	}
-
-	public boolean setPartida( PartidaHex partida )
-	{
-		if ( partida != null )
-		{
-			this.partida = partida;
-			return ia_avaluacio.setPartida( partida );
-		}
-
-		return false;
 	}
 
 	/**
@@ -112,7 +99,7 @@ public final class IAHexSexSearch implements MouFitxaIA
 		int beta_2, puntuacio;
 		if ( cost >= pressupost || profunditat >= profunditat_max || estat_iteracio != EstatPartida.NO_FINALITZADA )
 		{
-			puntuacio = ia_avaluacio.funcioAvaluacio( tauler, estat_iteracio, profunditat, jugador );
+			puntuacio = funcioAvaluacio( tauler, estat_iteracio, profunditat, jugador );
 			taula_transposicio.put( tauler.hashCode(),
 					new ElementTaulaTransposicions( partida.getTornsJugats() + profunditat, FitesDePoda.VALOR_EXACTE,
 							puntuacio, jugador ) );
@@ -195,7 +182,75 @@ public final class IAHexSexSearch implements MouFitxaIA
 		return alfa;
 	}
 
-	public Casella mouFitxa( EstatCasella fitxa )
+	/**
+	 * Funció d'avaluació del MiniMax, si estem en un estat termianl on ja ha guanyat un jugador retornem 1000000 o
+	 * -1000000, que son valors prou grans, sinó, apliquem l'estratègia agresiva o la passiva en funció del valor de
+	 * la variable tactica_agresiva.
+	 *
+	 * @param tauler         Objecte de la classe <code>Tauler</code> sobre el qual es disputa una partida.
+	 * @param estat_moviment Descriu en quin estat ha quedat <em>tauler</em> en funció de l'últim moviment efectuat
+	 *                       sobre aquest.
+	 * @param profunditat    És la profunditat a la que s'ha arribat durant l'exploració de les diferents possibilitats de
+	 *                       moviment. Cada unitat de <em>profunditat</em> representa un torn jugat de la partida.
+	 * @param fitxa_jugador  Indica el jugador de la partida a partir del qual avaluar <em>tauler</em>.
+	 * @return La puntuació de l'evaluació
+	 */
+	public int funcioAvaluacio( Tauler tauler, EstatPartida estat_moviment, int profunditat,
+	                            EstatCasella fitxa_jugador )
+	{
+
+		int retorn;
+/*
+		if ( memoria.containsKey( ( ( TaulerHex ) tauler ).hashCode() ) )
+		{
+			retorn = memoria.get( ( ( TaulerHex ) tauler ).hashCode() ).getPuntuacio( fitxa_jugador );
+		}
+		else
+		{*/
+		if ( estat_moviment == EstatPartida.GUANYA_JUGADOR_A )
+		{
+			if ( fitxa_jugador == EstatCasella.JUGADOR_A )
+			{
+				return 1000000;
+			}
+			else
+			{
+				return -1000000;
+			}
+		}
+		else if ( estat_moviment == EstatPartida.GUANYA_JUGADOR_B )
+		{
+			if ( fitxa_jugador == EstatCasella.JUGADOR_B )
+			{
+				return 1000000;
+			}
+			else
+			{
+				return -1000000;
+			}
+		}
+
+		TwoDistance distancia_a = new TwoDistance( ( TaulerHex ) tauler, EstatCasella.JUGADOR_A );
+		TwoDistance distancia_b = new TwoDistance( ( TaulerHex ) tauler, EstatCasella.JUGADOR_B );
+		int potencial_a = distancia_a.getPotencial();
+		int potencial_b = distancia_b.getPotencial();
+
+		if ( fitxa_jugador == EstatCasella.JUGADOR_A )
+		{
+			retorn = potencial_b - potencial_a;
+		}
+		else
+		{
+			retorn = potencial_a - potencial_b;
+		}
+		//		memoria.put( ( ( TaulerHex ) tauler ).hashCode(), new ElementTaulaTransposicions( retorn,
+		//		fitxa_jugador ) );
+		//	}
+
+		return retorn;
+	}
+
+	public Casella obteMoviment( EstatCasella fitxa )
 	{
 		tauler = partida.getTauler();
 		int puntuacio_millor = Integer.MIN_VALUE + 1;

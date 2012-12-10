@@ -64,7 +64,7 @@ public final class PartidaCtrl
 	 *
 	 * @see #inicialitzaIAJugadors()
 	 */
-	private MouFitxaIA[] ia_jugadors;
+	private InteligenciaArtificialHex[] ia_jugadors;
 
 	/**
 	 * Constructor per defecte. Declarat privat perquè és una classe singleton.
@@ -81,7 +81,7 @@ public final class PartidaCtrl
 		partida_actual = null;
 		gestor_partida = new PartidaHexGstr();
 		usuaris_preinicialitzats_partida = new UsuariHex[2];
-		ia_jugadors = new MouFitxaIA[2];
+		ia_jugadors = new InteligenciaArtificialHex[2];
 	}
 
 	/**
@@ -212,12 +212,12 @@ public final class PartidaCtrl
 	 */
 	private void inicialitzaIAJugadors() throws ClassNotFoundException, IllegalAccessException, InstantiationException
 	{
-		ia_jugadors[0] = ( MouFitxaIA ) Class.forName( "prop.hex.domini.controladors." +
+		ia_jugadors[0] = ( InteligenciaArtificialHex ) Class.forName( "prop.hex.domini.controladors.IA." +
 		                                               ( partida_actual.getJugadorA() ).getTipusJugador()
 				                                               .getClasseCorresponent() ).newInstance();
 		ia_jugadors[0].setPartida( partida_actual );
 
-		ia_jugadors[1] = ( MouFitxaIA ) Class.forName( "prop.hex.domini.controladors." +
+		ia_jugadors[1] = ( InteligenciaArtificialHex ) Class.forName( "prop.hex.domini.controladors.IA." +
 		                                               ( partida_actual.getJugadorB() ).getTipusJugador()
 				                                               .getClasseCorresponent() ).newInstance();
 		ia_jugadors[1].setPartida( partida_actual );
@@ -745,7 +745,7 @@ public final class PartidaCtrl
 	 */
 	private Casella getMovimentIATornActual()
 	{
-		return ia_jugadors[getNumJugadorTornActual()].mouFitxa( getTipusFitxesJugadorTornActual() );
+		return ia_jugadors[getNumJugadorTornActual()].obteMoviment( getTipusFitxesJugadorTornActual() );
 	}
 
 	/**

@@ -1,12 +1,14 @@
-package prop.hex.domini.controladors;
+package prop.hex.domini.controladors.IA;
 
 import prop.cluster.domini.controladors.InteligenciaArtificial;
 import prop.cluster.domini.models.Tauler;
 import prop.cluster.domini.models.estats.EstatCasella;
 import prop.cluster.domini.models.estats.EstatPartida;
-import prop.hex.domini.controladors.IA.CamiMinim;
-import prop.hex.domini.controladors.IA.ConnexionsVirtuals;
-import prop.hex.domini.controladors.IA.ResistenciaTauler;
+import prop.hex.domini.controladors.IA.auxiliars.CamiMinim;
+import prop.hex.domini.controladors.IA.auxiliars.ConnexionsVirtuals;
+import prop.hex.domini.controladors.IA.auxiliars.ResistenciaTauler;
+import prop.hex.domini.controladors.InteligenciaArtificialHex;
+import prop.hex.domini.controladors.MouFitxaIA;
 import prop.hex.domini.models.Casella;
 import prop.hex.domini.models.PartidaHex;
 import prop.hex.domini.models.TaulerHex;
@@ -31,14 +33,8 @@ import prop.hex.domini.models.TaulerHex;
  * Estratègia agresiva: Té en compte els mateixos 3 factors, però només de l'enemic,
  * també es multiplica cada factor per un pes, similar al cas de la passiva però una mica modificats.
  */
-public final class IAHexFacilCtrl extends InteligenciaArtificial implements MouFitxaIA
+public final class IAHexFacilCtrl extends InteligenciaArtificialHex
 {
-
-	/**
-	 * Partida on juga la instància de la intel·ligència artificial.
-	 */
-	private PartidaHex partida;
-
 	/**
 	 * Profunditat màxima per al minimax.
 	 */
@@ -291,25 +287,6 @@ public final class IAHexFacilCtrl extends InteligenciaArtificial implements MouF
 	}
 
 	/**
-	 * Configura la instància de partida per a la intel·ligència artificial.
-	 *
-	 * @param partida Partida on es vol jugar amb la intel·ligència artificial.
-	 * @return Cert si s'ha canviat de partida. Fals altrament.
-	 */
-	public boolean setPartida( PartidaHex partida )
-	{
-		if ( partida != null )
-		{
-			this.partida = partida;
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-	/**
 	 * Retorna un moviment adequat al tauler actual per al jugador indicat per fitxa.
 	 * En la primera jugada de cada jugador es busca la posició més central, en les altres es crida a minimax,
 	 * la funció d'evaluació pot variar. Si l'enemic es troba a un cami mínim amb cost inferior o igual a 4 es crida
@@ -318,7 +295,7 @@ public final class IAHexFacilCtrl extends InteligenciaArtificial implements MouF
 	 * @param fitxa Fitxa que vol col·locar-se al tauler de la partida del paràmetre implícit.
 	 * @return La casella on es mouria la fitxa.
 	 */
-	public Casella mouFitxa( EstatCasella fitxa )
+	public Casella obteMoviment( EstatCasella fitxa )
 	{
 		// En la primera jugada no es fa minimax, en lloc d'això, es mira en la llista de contramoviments o,
 		// en el seu defecte, es retorna la casella més central possible.

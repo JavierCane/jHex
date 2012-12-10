@@ -1,7 +1,7 @@
-package prop.hex.domini.controladors.IA;
+package prop.hex.domini.controladors.IA.auxiliars;
 
 import prop.cluster.domini.models.estats.EstatCasella;
-import prop.hex.domini.controladors.IA.enums.FitesDePoda;
+import prop.hex.domini.controladors.IA.auxiliars.enums.FitesDePoda;
 
 /**
  * Conté les dades necessàries per a un element d'una taula de transposicions.
