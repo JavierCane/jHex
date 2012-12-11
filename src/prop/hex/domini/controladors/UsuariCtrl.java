@@ -54,7 +54,7 @@ public final class UsuariCtrl
 	 * Si encara no s'ha inicialitzat l'objecte, crida el constructor. Si ja s'ha instanciat prèviament,
 	 * simplement retorna l'instància ja creada.
 	 *
-	 * @return L'objecte singleton amb el el controlador de partida.
+	 * @return L'objecte singleton amb el el controlador d'usuari.
 	 */
 	public static synchronized UsuariCtrl getInstancia()
 	{
@@ -161,7 +161,8 @@ public final class UsuariCtrl
 	}
 
 	/**
-	 * Estableix l'usuari principal del joc com l'usuari que li passem carregant-lo de disc.
+	 * Estableix l'usuari principal del joc com l'usuari corresponent al nom i la contrasenya que passem com a
+	 * paràmetre.
 	 *
 	 * @param nom         Nom de l'usuari que es vol carregar.
 	 * @param contrasenya Contrasenya de l'usuari que es vol carregar.
@@ -303,6 +304,16 @@ public final class UsuariCtrl
 	public String obteNom()
 	{
 		return usuari_principal.getNom();
+	}
+
+	/**
+	 * Indica si l'usuari identificat al sistema és un convidat.
+	 *
+	 * @return Cert, si l'usuari identificat al sistema és un convidat. Fals, altrament.
+	 */
+	public boolean esConvidat()
+	{
+		return ( usuari_principal.getTipusJugador() == TipusJugadors.CONVIDAT );
 	}
 
 	/**

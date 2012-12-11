@@ -211,7 +211,6 @@ public final class MenuPrincipalVista extends BaseVista
 	 */
 	public void accioBotoTancaSessio( ActionEvent event )
 	{
-		PresentacioCtrl.getInstancia().tancaSessio();
 		PresentacioCtrl.getInstancia().vistaMenuPrincipalAIniciaSessio();
 	}
 }

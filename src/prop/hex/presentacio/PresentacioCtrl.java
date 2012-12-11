@@ -47,7 +47,7 @@ public final class PresentacioCtrl
 	 * Si encara no s'ha inicialitzat l'objecte, crida el constructor. Si ja s'ha instanciat prèviament,
 	 * simplement retorna l'instància ja creada.
 	 *
-	 * @return L'objecte singleton amb el el controlador de partida.
+	 * @return L'objecte singleton amb el el controlador de presentació.
 	 */
 	public static synchronized PresentacioCtrl getInstancia()
 	{
@@ -63,11 +63,6 @@ public final class PresentacioCtrl
 	 * Frame principal de la interfície del joc.
 	 */
 	private JFrame frame_principal = new JFrame( "jHex - Joc de Taula Hex" );
-
-	/**
-	 * Indica si l'usuari identificat al sistema és o no un convidat.
-	 */
-	private boolean es_convidat = false;
 
 	/**
 	 * Vista d'inici de sessió.
@@ -129,6 +124,7 @@ public final class PresentacioCtrl
 	 */
 	public void inicialitzaPresentacio()
 	{
+		// Mida fixa i sense opció a redimensionar per evitar que hi hagi errors en el posicionament dels botons.
 		frame_principal.setMinimumSize( new Dimension( 800, 600 ) );
 		frame_principal.setPreferredSize( frame_principal.getMinimumSize() );
 		frame_principal.setResizable( false );
@@ -164,6 +160,21 @@ public final class PresentacioCtrl
 		inicia_sessio_vista.fesVisible();
 	}
 
+	/**
+	 * Estableix l'usuari identificat al joc com l'usuari corresponent al nom i la contrasenya que passem com a
+	 * paràmetre.
+	 *
+	 * @param nom         Nom de l'usuari que es vol carregar.
+	 * @param contrasenya Contrasenya de l'usuari que es vol carregar.
+	 * @return Cert, si l'usuari es carrega correctament. Fals, altrament.
+	 * @throws IllegalArgumentException Si l'usuari identificat pel nom no existeix
+	 *                                  i, si es vol carregar un jugador, si la contrasenya no coincideix amb
+	 *                                  l'usuari.
+	 * @throws FileNotFoundException    Si el fitxer no s'ha generat i no s'han pogut escriure les dades.
+	 * @throws IOException              IOException Si ha succeït un error d'entrada/sortida inesperat.
+	 * @throws ClassNotFoundException   Si hi ha un problema de classes quan es carrega l'usuari.
+	 * @throws NullPointerException     Es dona si el fitxer està buit.
+	 */
 	public void setUsuariActual( String nom, String contrasenya )
 			throws IllegalArgumentException, FileNotFoundException, IOException, ClassNotFoundException,
 			       NullPointerException
@@ -171,42 +182,65 @@ public final class PresentacioCtrl
 		UsuariCtrl.getInstancia().setUsuariPrincipal( nom, contrasenya );
 	}
 
+	/**
+	 * Indica si l'usuari identificat al joc és un convidat.
+	 *
+	 * @return Cert, si l'usuari identificat al joc és un convidat. Fals, altrament.
+	 */
 	public boolean getEsConvidat()
 	{
-		return es_convidat;
+		return UsuariCtrl.getInstancia().esConvidat();
 	}
 
-	public void entraConvidat() throws IllegalArgumentException, IOException
+	/**
+	 * Identifica un usuari convidat al sistema.
+	 */
+	public void entraConvidat()
 	{
 		UsuariCtrl.getInstancia().entraConvidat();
-		es_convidat = true;
 	}
 
+	/**
+	 * Registra un usuari amb el nom d'usuari i la contrasenya donats als sistema, guardant les seves dades a memòria
+	 * principal i afegint-lo al rànquing.
+	 *
+	 * @param nom           Nom de l'usuari nou que es vol registrar al sistema.
+	 * @param contrasenya   Contrasenya de l'usuari nou que es vol registrar al sistema.
+	 * @throws IllegalArgumentException Si el nom d'usuari ja existeix al sistema,
+	 *                                  si conté caràcters il·legals o si es tracta d'un nom no permès.
+	 * @throws IOException              Si ha succeït un error d'entrada/sortida inesperat.
+	 */
 	public void registraUsuari( String nom, String contrasenya ) throws IllegalArgumentException, IOException
 	{
 		UsuariCtrl.getInstancia().creaUsuari( nom, contrasenya, TipusJugadors.JUGADOR );
 	}
 
+	/**
+	 * Guarda les dades de l'usuari identificat al sistema en memòria secundària.
+	 *
+	 * @throws IOException           Si ha succeït un error d'entrada/sortida inesperat.
+	 * @throws FileNotFoundException Si el fitxer no s'ha generat i no s'han pogut escriure les dades.
+	 */
 	public void guardaJugadorPrincipal() throws IOException, FileNotFoundException
 	{
-		if ( !es_convidat )
+		if ( !getEsConvidat() )
 		{
 			UsuariCtrl.getInstancia().guardaUsuari();
 		}
 	}
 
-	public void tancaSessio()
-	{
-		es_convidat = false;
-	}
-
-	// Mètodes ConfiguracioVista
-	// ----------------------------------------------------------------------------------------------------------------
-
+	/**
+	 * Obté el nom de l'usuari identificat al sistema.
+	 *
+	 * @return
+	 */
 	public String obteNomJugadorPrincipal()
 	{
 		return UsuariCtrl.getInstancia().obteNom();
 	}
+
+	// Mètodes ConfiguracioVista
+	// ----------------------------------------------------------------------------------------------------------------
 
 	public ModesInici obteModeIniciJugadorPrincipal()
 	{

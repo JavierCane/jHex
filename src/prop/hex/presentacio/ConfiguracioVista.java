@@ -289,7 +289,6 @@ public final class ConfiguracioVista extends BaseVista
 		if ( valor_seleccionat == "Sí" )
 		{
 			PresentacioCtrl.getInstancia().eliminaUsuariJugadorPrincipal();
-			PresentacioCtrl.getInstancia().tancaSessio();
 			PresentacioCtrl.getInstancia().vistaMenuPrincipalAIniciaSessio();
 		}
 	}
