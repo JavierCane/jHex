@@ -64,24 +64,34 @@ public final class PartidaVista extends BaseVista
 	protected void inicialitzaPanellCentral()
 	{
 		panell_central.setOpaque( false );
-		panell_central.afegeixBotons( demana_pista, intercanvia );
 	}
 
 	@Override
 	protected void inicialitzaPanellPeu()
 	{
+		Object[][] elements_de_control_jugadors = presentacio_ctrl.getElementsDeControlJugadors();
+		boolean es_partida_ia = ( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) != TipusJugadors
+				.JUGADOR &&
+				( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) != TipusJugadors.CONVIDAT &&
+				( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) != TipusJugadors.JUGADOR &&
+				( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) != TipusJugadors.CONVIDAT;
 		JPanel botons = new JPanel();
 		if (  presentacio_ctrl.getElementsDeControlPartida()[4] == ModesInici.PASTIS )
 		{
 			botons.add( intercanvia );
+			intercanvia.setEnabled( false );
 		}
 		int num_jugador = ( Integer ) presentacio_ctrl.getElementsDeControlPartida()[2] % 2;
-		if ( presentacio_ctrl.getElementsDeControlJugadors()[0][num_jugador] != TipusJugadors.CONVIDAT &&
-			presentacio_ctrl.getElementsDeControlJugadors()[0][num_jugador] != TipusJugadors.JUGADOR )
+		if ( elements_de_control_jugadors[0][num_jugador] != TipusJugadors.CONVIDAT &&
+				elements_de_control_jugadors[0][num_jugador] != TipusJugadors.JUGADOR )
 		{
 			botons.add( mou_ia );
 		}
-		botons.add( demana_pista );
+		if ( !es_partida_ia )
+		{
+			botons.add( demana_pista );
+			demana_pista.setEnabled( false );
+		}
 		botons.add( abandona );
 		botons.setOpaque( false );
 		panell_botons.setLayout( new FlowLayout( FlowLayout.CENTER, 100, 0 ) );
@@ -89,7 +99,6 @@ public final class PartidaVista extends BaseVista
 		panell_botons.add( botons );
 		panell_botons.add( panell_sortida );
 		panell_botons.setOpaque( false );
-		demana_pista.setEnabled( false );
 	}
 
 	@Override
@@ -143,6 +152,16 @@ public final class PartidaVista extends BaseVista
 				accioBotoAbandona( event );
 			}
 		} );
+	}
+
+	public void estatBotoIntercanviaFitxa( boolean estat )
+	{
+		intercanvia.setEnabled( estat );
+	}
+
+	public void estatBotoDemanaPista( boolean estat )
+	{
+		demana_pista.setEnabled( estat );
 	}
 
 	/**

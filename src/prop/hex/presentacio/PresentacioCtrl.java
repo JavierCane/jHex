@@ -366,16 +366,6 @@ public final class PresentacioCtrl
 		return PartidaCtrl.getInstancia().getEstatCasella( fila, columna );
 	}
 
-	public boolean esPartidaAmbSituacioInicial()
-	{
-		return PartidaCtrl.getInstancia().esPartidaAmbSituacioInicial();
-	}
-
-	public boolean esPartidaAmbSituacioInicialAcabadaDeDefinir()
-	{
-		return PartidaCtrl.getInstancia().esPartidaAmbSituacioInicialAcabadaDeDefinir();
-	}
-
 	public void executaMovimentIA()
 	{
 		PartidaCtrl.getInstancia().executaMovimentIA();
@@ -418,6 +408,16 @@ public final class PresentacioCtrl
 
 	// Mètodes PartidaVista
 	// ----------------------------------------------------------------------------------------------------------------
+
+	public void estatBotoIntercanviaFitxa( boolean estat )
+	{
+		partida_vista.estatBotoIntercanviaFitxa( estat );
+	}
+
+	public void estatBotoDemanaPista( boolean estat )
+	{
+		partida_vista.estatBotoDemanaPista( estat );
+	}
 
 	public void intercanviaFitxa()
 	{

@@ -57,20 +57,13 @@ public final class JPanelTauler extends JPanel
 	 */
 	private boolean partida_ia;
 
+	/**
+	 * Indica si la partida està en un estat en el qual es processa un moviment de la IA.
+	 */
 	private boolean processant_moviment;
 
 	/**
-	 * Botó de demana pista.
-	 */
-	private JButton demana_pista;
-    
-    /**
-	 * Botó d'intercanvia fitxa.
-	 */
-	private JButton intercanvia;
-
-	/**
-	 * Poligon que s'utilitza per dibuixar a pantalla cada una de les caselles..
+	 * Poligon que s'utilitza per dibuixar a pantalla cada una de les caselles.
 	 */
 	private Polygon hexagon;
 
@@ -137,7 +130,10 @@ public final class JPanelTauler extends JPanel
 			}
 		} );
 	}
-    
+
+	/**
+	 * Mostra un diàleg al visualitzador de partides quan la partida ha finalitzat.
+	 */
     private void mostraDialegVictoria()
     {
 	    elements_de_control_partida = presentacio_ctrl.getElementsDeControlPartida();
@@ -152,6 +148,7 @@ public final class JPanelTauler extends JPanel
         {
             num_jugador = 1;
         }
+	    // Inicialitzem el missatge a mostrar.
         String missatge = new String( "Guanya " + ( ( String ) elements_de_control_jugadors[3][num_jugador] ) +
         ", amb un temps de " + ( String ) elements_de_control_jugadors[2][num_jugador] + ", col·locant un total de " +
 		( ( Integer ) elements_de_control_jugadors[4][num_jugador] ) + " fitxes," + " i utilitzant " +
@@ -165,19 +162,6 @@ public final class JPanelTauler extends JPanel
             presentacio_ctrl.mostraDialegVictoriaDefineixSituacio( missatge );
         }
     }
-
-	/**
-	 * Indica al panell del tauler quins són els botons de mou fitxa IA i de demana pista, que es troben en un altre
-	 * panell.
-	 *
-	 * @param demana_pista     Botó de demana pista.
-     * @param intercanvia      Botó d'intercanvia fitxa.
-	 */
-	public void afegeixBotons( JButton demana_pista, JButton intercanvia )
-	{
-		this.demana_pista = demana_pista;
-        this.intercanvia = intercanvia;
-	}
 
 	/**
 	 * Calcula sobre quina casella es corresponen les coordenades píxel i crida a clickHexagon amb aquesta
@@ -219,8 +203,11 @@ public final class JPanelTauler extends JPanel
 	 */
 	private boolean potDemanarPista()
 	{
+		elements_de_control_partida = presentacio_ctrl.getElementsDeControlPartida();
+		elements_de_control_jugadors = presentacio_ctrl.getElementsDeControlJugadors();
+
 		int i = ( Integer ) elements_de_control_partida[2] % 2;
-		return ( partida_en_curs && !pista_valida && presentacio_ctrl.esTornHuma() &&
+		return ( !processant_moviment && partida_en_curs && !pista_valida && presentacio_ctrl.esTornHuma() &&
 				presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA &&
 				( ( Integer ) elements_de_control_partida[0] > ( Integer ) elements_de_control_jugadors[1][i] ) );
 	}
@@ -375,20 +362,20 @@ public final class JPanelTauler extends JPanel
 
 			if ( potDemanarPista() )
 			{
-				demana_pista.setEnabled( true );
+				presentacio_ctrl.estatBotoDemanaPista( true );
 			}
 			else
 			{
-				demana_pista.setEnabled( false );
+				presentacio_ctrl.estatBotoDemanaPista( false );
 			}
 
 			if ( ( Integer ) elements_de_control_partida[2] == 1 && presentacio_ctrl.esTornHuma() )
 			{
-				intercanvia.setEnabled( true );
+				presentacio_ctrl.estatBotoIntercanviaFitxa( true );
 			}
 			else
 			{
-				intercanvia.setEnabled( false );
+				presentacio_ctrl.estatBotoIntercanviaFitxa( false );
 			}
 		}
 
