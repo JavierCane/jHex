@@ -86,8 +86,8 @@ public final class JPanelTauler extends JPanel
 	 * Constructora, obté el tauler i els jugadors, construeix un poligon hexagonal i
 	 * afegeix el listener del ratoli pel cas del click.
 	 *
-	 * @param partida_en_curs   Indica si la partida representada al panell està o no en curs.
-	 * @param presentacio_ctrl  Controlador de presentació.
+	 * @param partida_en_curs  Indica si la partida representada al panell està o no en curs.
+	 * @param presentacio_ctrl Controlador de presentació.
 	 */
 	public JPanelTauler( boolean partida_en_curs, PresentacioCtrl presentacio_ctrl )
 	{
@@ -99,9 +99,9 @@ public final class JPanelTauler extends JPanel
 		pista_valida = false;
 		this.partida_en_curs = partida_en_curs;
 		partida_ia = ( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) != TipusJugadors.JUGADOR &&
-		             ( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) != TipusJugadors.CONVIDAT &&
-		             ( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) != TipusJugadors.JUGADOR &&
-		             ( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) != TipusJugadors.CONVIDAT;
+				( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) != TipusJugadors.CONVIDAT &&
+				( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) != TipusJugadors.JUGADOR &&
+				( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) != TipusJugadors.CONVIDAT;
 		processant_moviment = false;
 		radi = 40.0;
 		iniciX = 90;
@@ -134,34 +134,35 @@ public final class JPanelTauler extends JPanel
 	/**
 	 * Mostra un diàleg al visualitzador de partides quan la partida ha finalitzat.
 	 */
-    private void mostraDialegVictoria()
-    {
-	    elements_de_control_partida = presentacio_ctrl.getElementsDeControlPartida();
-	    elements_de_control_jugadors = presentacio_ctrl.getElementsDeControlJugadors();
+	private void mostraDialegVictoria()
+	{
+		elements_de_control_partida = presentacio_ctrl.getElementsDeControlPartida();
+		elements_de_control_jugadors = presentacio_ctrl.getElementsDeControlJugadors();
 
-	    int num_jugador;
-        if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_A )
-        {
-            num_jugador = 0;
-        }
-        else
-        {
-            num_jugador = 1;
-        }
-	    // Inicialitzem el missatge a mostrar.
-        String missatge = new String( "Guanya " + ( ( String ) elements_de_control_jugadors[3][num_jugador] ) +
-        ", amb un temps de " + ( String ) elements_de_control_jugadors[2][num_jugador] + ", col·locant un total de " +
-		( ( Integer ) elements_de_control_jugadors[4][num_jugador] ) + " fitxes," + " i utilitzant " +
-		( ( Integer ) elements_de_control_jugadors[1][num_jugador] ) + " pistes." );
-        if ( partida_en_curs )
-        {
-            presentacio_ctrl.mostraDialegVictoriaPartida( missatge );
-        }
-        else
-        {
-            presentacio_ctrl.mostraDialegVictoriaDefineixSituacio( missatge );
-        }
-    }
+		int num_jugador;
+		if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_A )
+		{
+			num_jugador = 0;
+		}
+		else
+		{
+			num_jugador = 1;
+		}
+		// Inicialitzem el missatge a mostrar.
+		String missatge = new String( "Guanya " + ( ( String ) elements_de_control_jugadors[3][num_jugador] ) +
+				", amb un temps de " + ( String ) elements_de_control_jugadors[2][num_jugador] + ", " +
+				"col·locant un total de " +
+				( ( Integer ) elements_de_control_jugadors[4][num_jugador] ) + " fitxes," + " i utilitzant " +
+				( ( Integer ) elements_de_control_jugadors[1][num_jugador] ) + " pistes." );
+		if ( partida_en_curs )
+		{
+			presentacio_ctrl.mostraDialegVictoriaPartida( missatge );
+		}
+		else
+		{
+			presentacio_ctrl.mostraDialegVictoriaDefineixSituacio( missatge );
+		}
+	}
 
 	/**
 	 * Calcula sobre quina casella es corresponen les coordenades píxel i crida a clickHexagon amb aquesta
@@ -208,26 +209,28 @@ public final class JPanelTauler extends JPanel
 
 		int i = ( Integer ) elements_de_control_partida[2] % 2;
 		return ( !processant_moviment && partida_en_curs && !pista_valida && presentacio_ctrl.esTornHuma() &&
-				presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA &&
-				( ( Integer ) elements_de_control_partida[0] > ( Integer ) elements_de_control_jugadors[1][i] ) );
+				         presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA &&
+				         ( ( Integer ) elements_de_control_partida[0] > ( Integer )
+						         elements_de_control_jugadors[1][i] )
+		);
 	}
 
 	/**
 	 * Si la partida no està finalitzada i és torn de una IA, crida el controlador de presentació a executar moviment
 	 * IA. Si és torn d'un humà, es calcula la casella resultat de demanar una pista.
-	 * Torna a pintar l'escena.
 	 */
 	public void mouIAOMostraPista()
 	{
-		if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA && !presentacio_ctrl.esTornHuma() )
+		if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA && !presentacio_ctrl.esTornHuma
+				() )
 		{
 			processant_moviment = true;
 			paintImmediately( 0, 0, 800, 500 );
 			presentacio_ctrl.executaMovimentIA();
 			processant_moviment = false;
 		}
-		else if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA &&
-		          presentacio_ctrl.esTornHuma() )
+		else if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA && presentacio_ctrl
+				.esTornHuma() )
 		{
 			ultima_pista = presentacio_ctrl.obtePista();
 			pista_valida = true;
@@ -235,37 +238,39 @@ public final class JPanelTauler extends JPanel
 
 		paintImmediately( 0, 0, 800, 500 );
 
-        if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_A ||
-		        presentacio_ctrl.consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_B )
-        {
-            mostraDialegVictoria();
-        }
+		if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_A || presentacio_ctrl
+				.consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_B )
+		{
+			mostraDialegVictoria();
+		}
 
 	}
-    
-    public void intercanviaFitxa()
-    {
-        presentacio_ctrl.intercanviaFitxa();
-        pista_valida = false;
-        paintImmediately( 0, 0, 800, 500 );
-        if ( partida_en_curs && !presentacio_ctrl.esTornHuma() )
-        {
-            mouIAOMostraPista();
-        }
-    }
+
+	/**
+	 * Canvia de jugador l'última fitxa col·locada al tauler.
+	 */
+	public void intercanviaFitxa()
+	{
+		presentacio_ctrl.intercanviaFitxa();
+		pista_valida = false;
+		paintImmediately( 0, 0, 800, 500 );
+		if ( partida_en_curs && !presentacio_ctrl.esTornHuma() )
+		{
+			mouIAOMostraPista();
+		}
+	}
 
 	/**
 	 * Si la partida no està finalitzada i és torn d'un humà, crida a fer moviment a la casella i, j, i si el rival és
 	 * una IA, inicia el moviment d'una fitxa per part de la IA.
-	 * Torna a pintar l'escena.
 	 *
 	 * @param i fila de la casella.
 	 * @param j columna de la casella.
 	 */
 	private void clickHexagon( int i, int j )
 	{
-		if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA &&
-		     ( presentacio_ctrl.esTornHuma() || !partida_en_curs ) )
+		if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA && ( presentacio_ctrl.esTornHuma()
+				                                                                         || !partida_en_curs ) )
 		{
 			try
 			{
@@ -273,8 +278,8 @@ public final class JPanelTauler extends JPanel
 				presentacio_ctrl.mouFitxa( i, j );
 				pista_valida = false;
 				paintImmediately( 0, 0, 800, 500 );
-				if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_A ||
-						presentacio_ctrl.consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_B )
+				if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_A || presentacio_ctrl
+						.consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_B )
 				{
 					mostraDialegVictoria();
 				}
@@ -323,26 +328,27 @@ public final class JPanelTauler extends JPanel
 
 				// Si el mode d'inici és estàndard i estem al primer torn, marquem la casella central com no vàlida.
 				if ( ( Integer ) elements_de_control_partida[2] == 0 &&
-				     elements_de_control_partida[4] == ModesInici.ESTANDARD &&
-				     presentacio_ctrl.esCasellaCentral( i, j ) )
+						elements_de_control_partida[4] == ModesInici.ESTANDARD &&
+						presentacio_ctrl.esCasellaCentral( i, j ) )
 				{
-					g.setColor(
-							( ( CombinacionsColors ) elements_de_control_partida[3] ).getColorCasellesInhabilitades() );
+					g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
+							.getColorCasellesInhabilitades() );
 				}
 				else
 				{
 					// Pintem la casella de la pista, si s'ha demanat alguna.
 					if ( pista_valida && ( ultima_pista.getFila() == i && ultima_pista.getColumna() == j ) )
 					{
-						g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] ).getColorCasellesPista() );
+						g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] ).getColorCasellesPista
+								() );
 						ultima_pista.setColumna( 0 );
 						ultima_pista.setFila( 0 );
 					}
 					// Pintem la resta de caselles.
 					else
 					{
-						g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
-								.getColorCasella( presentacio_ctrl.getEstatCasella( i, j ) ) );
+						g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] ).getColorCasella(
+																		presentacio_ctrl.getEstatCasella( i, j ) ) );
 					}
 				}
 				g.fillPolygon( hexagon );
@@ -355,7 +361,8 @@ public final class JPanelTauler extends JPanel
 			g.translate( -i * dx / 2, -i * dy );
 		}
 
-		// Activem o desactivem els botons depenent de si es pot demanar una pista i/o es pot demanar un moviment de la
+		// Activem o desactivem els botons depenent de si es pot demanar una pista i/o es pot demanar un moviment
+		// de la
 		// IA.
 		if ( partida_en_curs )
 		{
@@ -384,27 +391,27 @@ public final class JPanelTauler extends JPanel
 		{
 			if ( ( Integer ) elements_de_control_partida[2] % 2 == 0 )
 			{
-				g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
-						.getColorCasella( EstatCasella.JUGADOR_A ) );
+				g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] ).getColorCasella( EstatCasella
+						.JUGADOR_A ) );
 				g.drawString( "Processant moviment...", -50, 370 );
 			}
 			else
 			{
-				g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
-						.getColorCasella( EstatCasella.JUGADOR_B ) );
+				g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] ).getColorCasella( EstatCasella
+						.JUGADOR_B ) );
 				g.drawString( "Processant moviment...", 580, 160 );
 			}
 		}
 
 		// Mostrem el torn actual.
-		g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
-				.getColorTextInformacio( EstatCasella.BUIDA ) );
+		g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] ).getColorTextInformacio( EstatCasella
+				.BUIDA ) );
 		g.drawString( "Torn: " + elements_de_control_partida[2], -50, 210 );
 		g.drawString( "Torn: " + elements_de_control_partida[2], 580, 0 );
 
 		// Mostrem les dades del jugador A.
-		g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
-				.getColorTextInformacio( EstatCasella.JUGADOR_A ) );
+		g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] ).getColorTextInformacio( EstatCasella
+				.JUGADOR_A ) );
 		if ( ( Integer ) elements_de_control_partida[2] % 2 == 0 )
 		{
 			g.drawString( "Té el torn", -50, 270 );
@@ -414,11 +421,11 @@ public final class JPanelTauler extends JPanel
 
 		g.drawString( "Temps: " + ( String ) elements_de_control_jugadors[2][0], -50, 330 );
 		g.drawString( "Pistes disponibles: " + ( ( Integer ) elements_de_control_partida[0] -
-		                                         ( ( Integer ) elements_de_control_jugadors[1][0] ) ), -50, 350 );
+				                                    ( ( Integer )  elements_de_control_jugadors[1][0] ) ), -50, 350 );
 
 		// Mostrem les dades del jugador B.
-		g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
-				.getColorTextInformacio( EstatCasella.JUGADOR_B ) );
+		g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] ).getColorTextInformacio(
+																							EstatCasella.JUGADOR_B ) );
 		if ( ( Integer ) elements_de_control_partida[2] % 2 == 1 )
 		{
 			g.drawString( "Té el torn", 580, 60 );
@@ -428,18 +435,18 @@ public final class JPanelTauler extends JPanel
 
 		g.drawString( "Temps: " + ( String ) elements_de_control_jugadors[2][1], 580, 120 );
 		g.drawString( "Pistes disponibles: " + ( ( Integer ) elements_de_control_partida[0] -
-		                                         ( ( Integer ) elements_de_control_jugadors[1][1] ) ), 580, 140 );
+												    ( ( Integer ) elements_de_control_jugadors[1][1] ) ), 580, 140 );
 
 		// Afegim les imatges amb les vores del tauler.
 		if ( ( ( CombinacionsColors ) elements_de_control_partida[3] ) == CombinacionsColors.VERMELL_BLAU )
 		{
-			g.drawImage( ( new ImageIcon( "img/tauler_vb.png" ) ).getImage(), -iniciX, -iniciY, getWidth(), getHeight(),
-					null );
+			g.drawImage( ( new ImageIcon( "img/tauler_vb.png" ) ).getImage(), -iniciX, -iniciY, getWidth(),
+					getHeight(), null );
 		}
 		else
 		{
-			g.drawImage( ( new ImageIcon( "img/tauler_nb.png" ) ).getImage(), -iniciX, -iniciY, getWidth(), getHeight(),
-					null );
+			g.drawImage( ( new ImageIcon( "img/tauler_nb.png" ) ).getImage(), -iniciX, -iniciY, getWidth(),
+					getHeight(), null );
 		}
 	}
 }

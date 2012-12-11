@@ -442,6 +442,9 @@ public final class PresentacioCtrl
 	// Mètodes per intercanviar vistes
 	// ----------------------------------------------------------------------------------------------------------------
 
+	/**
+	 * Canvia la vista d'iniciar sessió per la de registrar-se.
+	 */
 	public void vistaIniciaSessioARegistra()
 	{
 		if ( registra_vista == null )
@@ -452,6 +455,9 @@ public final class PresentacioCtrl
 		registra_vista.fesVisible();
 	}
 
+	/**
+	 * Canvia la vista de registrar-se per la d'iniciar sessió.
+	 */
 	public void vistaRegistraAIniciaSessio()
 	{
 		if ( inicia_sessio_vista == null )
@@ -462,6 +468,9 @@ public final class PresentacioCtrl
 		inicia_sessio_vista.fesVisible();
 	}
 
+	/**
+	 * Canvia la vista de registrar-se per la del menú principal.
+	 */
 	public void vistaRegistraAMenuPrincipal()
 	{
 		if ( menu_principal_vista == null )
@@ -472,6 +481,9 @@ public final class PresentacioCtrl
 		menu_principal_vista.fesVisible();
 	}
 
+	/**
+	 * Canvia la vista d'iniciar sessió per la del menú principal.
+	 */
 	public void vistaIniciaSessioAMenuPrincipal()
 	{
 		if ( menu_principal_vista == null )
@@ -483,6 +495,9 @@ public final class PresentacioCtrl
 		menu_principal_vista.fesVisible();
 	}
 
+	/**
+	 * Canvia la vista del menú principal per la d'iniciar sessió.
+	 */
 	public void vistaMenuPrincipalAIniciaSessio()
 	{
 		if ( inicia_sessio_vista == null )
@@ -493,6 +508,9 @@ public final class PresentacioCtrl
 		inicia_sessio_vista.fesVisible();
 	}
 
+	/**
+	 * Canvia la vista del menú principal per la de modificar les preferències.
+	 */
 	public void vistaMenuPrincipalAPreferencies()
 	{
 		if ( preferencies_vista == null )
@@ -503,6 +521,9 @@ public final class PresentacioCtrl
 		preferencies_vista.fesVisible();
 	}
 
+	/**
+	 * Canvia la vista de modificar les preferències per la del menú principal.
+	 */
 	public void vistaPreferenciesAMenuPrincipal()
 	{
 		if ( menu_principal_vista == null )
@@ -513,6 +534,9 @@ public final class PresentacioCtrl
 		menu_principal_vista.fesVisible();
 	}
 
+	/**
+	 * Canvia la vista de canviar la contrasenya per la de modificar les preferències.
+	 */
 	public void vistaCanviaContrasenyaAPreferencies()
 	{
 		if ( preferencies_vista == null )
@@ -523,6 +547,9 @@ public final class PresentacioCtrl
 		preferencies_vista.fesVisible();
 	}
 
+	/**
+	 * Canvia la vista de canviar la contrasenya per la del menú principal.
+	 */
 	public void vistaCanviaContrasenyaAMenuPrincipal()
 	{
 		if ( menu_principal_vista == null )
@@ -533,6 +560,9 @@ public final class PresentacioCtrl
 		menu_principal_vista.fesVisible();
 	}
 
+	/**
+	 * Canvia la vista de modificar les preferències per la de canviar la contrasenya.
+	 */
 	public void vistaPreferenciesACanviaContrasenya()
 	{
 		if ( canvia_contrasenya_vista == null )
@@ -543,6 +573,9 @@ public final class PresentacioCtrl
 		canvia_contrasenya_vista.fesVisible();
 	}
 
+	/**
+	 * Canvia la vista del menú principal per la de configurar la partida.
+	 */
 	public void vistaMenuPrincipalAConfiguraPartida()
 	{
 		if ( configura_partida_vista == null )
@@ -553,6 +586,9 @@ public final class PresentacioCtrl
 		configura_partida_vista.fesVisible();
 	}
 
+	/**
+	 * Canvia la vista de configurar la partida per la del menú principal.
+	 */
 	public void vistaConfiguraPartidaAMenuPrincipal()
 	{
 		if ( menu_principal_vista == null )
@@ -563,6 +599,9 @@ public final class PresentacioCtrl
 		menu_principal_vista.fesVisible();
 	}
 
+	/**
+	 * Canvia la vista del menú principal per la del rànquing.
+	 */
 	public void vistaMenuPrincipalARanquing()
 	{
 		if ( ranquing_vista == null )
@@ -573,6 +612,9 @@ public final class PresentacioCtrl
 		ranquing_vista.fesVisible();
 	}
 
+	/**
+	 * Canvia la vista del rànquing per la del menú principal.
+	 */
 	public void vistaRanquingAMenuPrincipal()
 	{
 		if ( menu_principal_vista == null )
@@ -583,6 +625,9 @@ public final class PresentacioCtrl
 		menu_principal_vista.fesVisible();
 	}
 
+	/**
+	 * Canvia la vista del menú principal per la de carregar partida.
+	 */
 	public void vistaMenuPrincipalACarregaPartida()
 	{
 		if ( carrega_partida_vista == null )
@@ -593,6 +638,9 @@ public final class PresentacioCtrl
 		carrega_partida_vista.fesVisible();
 	}
 
+	/**
+	 * Canvia la vista de carregar partida per la del menú principal.
+	 */
 	public void vistaCarregaPartidaAMenuPrincipal()
 	{
 		if ( menu_principal_vista == null )
@@ -603,6 +651,9 @@ public final class PresentacioCtrl
 		menu_principal_vista.fesVisible();
 	}
 
+	/**
+	 * Canvia la vista de carregar partida per la del visualitzador de partides.
+	 */
 	public void vistaCarregaPartidaAPartida()
 	{
 		if ( partida_vista == null )
@@ -613,6 +664,12 @@ public final class PresentacioCtrl
 		partida_vista.fesVisible();
 	}
 
+	/**
+	 * Canvia la vista de carregar partida per la de identificar-se per a carregar una partida.
+	 *
+	 * @param usuari Usuari que s'ha d'identificar.
+	 * @param id_partida Identificador de la partida que es vol carregar.
+	 */
 	public void vistaCarregaPartidaAIdentificaCarregaPartida( String usuari, String id_partida )
 	{
 		if ( identifica_carrega_partida_vista == null )
@@ -624,6 +681,9 @@ public final class PresentacioCtrl
 		identifica_carrega_partida_vista.fesVisible();
 	}
 
+	/**
+	 * Canvia la vista d'identificar-se per a carregar una partida per la del visualitzador de partides.
+	 */
 	public void vistaIdentificaCarregaPartidaAPartida()
 	{
 		if ( partida_vista == null )
@@ -634,6 +694,9 @@ public final class PresentacioCtrl
 		partida_vista.fesVisible();
 	}
 
+	/**
+	 * Canvia la vista d'identificar-se per a carregar una partida per la del menú principal.
+	 */
 	public void vistaIdentificaCarregaPartidaAMenuPrincipal()
 	{
 		if ( menu_principal_vista == null )
@@ -644,6 +707,9 @@ public final class PresentacioCtrl
 		menu_principal_vista.fesVisible();
 	}
 
+	/**
+	 * Canvia la vista d'identificar-se per a carregar una partida per la de carregar una partida.
+	 */
 	public void vistaIdentificaCarregaPartidaACarregaPartida()
 	{
 		if ( carrega_partida_vista == null )
@@ -654,6 +720,9 @@ public final class PresentacioCtrl
 		carrega_partida_vista.fesVisible();
 	}
 
+	/**
+	 * Canvia la vista de configurar una partida per la del visualitzador de partides.
+	 */
 	public void vistaConfiguraPartidaAPartida()
 	{
 		if ( partida_vista == null )
@@ -664,6 +733,9 @@ public final class PresentacioCtrl
 		partida_vista.fesVisible();
 	}
 
+	/**
+	 * Canvia la vista de configurar una partida per la de definir una situació inicial.
+	 */
 	public void vistaConfiguraPartidaADefineixSituacio()
 	{
 		if ( defineix_situacio_vista == null )
@@ -674,6 +746,9 @@ public final class PresentacioCtrl
 		defineix_situacio_vista.fesVisible();
 	}
 
+	/**
+	 * Canvia la vista del visualitzador de partides per la del menú principal.
+	 */
 	public void vistaPartidaAMenuPrincipal()
 	{
 		if ( menu_principal_vista == null )
@@ -684,6 +759,9 @@ public final class PresentacioCtrl
 		menu_principal_vista.fesVisible();
 	}
 
+	/**
+	 * Canvia la vista de definir una situació inicial per la del visualitzador de partides.
+	 */
 	public void vistaDefineixSituacioAPartida()
 	{
 		if ( partida_vista == null )
@@ -696,6 +774,9 @@ public final class PresentacioCtrl
 		partida_vista.fesVisible();
 	}
 
+	/**
+	 * Canvia la vista de definir una situació inicial per la del menú principal.
+	 */
 	public void vistaDefineixSituacioAMenuPrincipal()
 	{
 		if ( menu_principal_vista == null )

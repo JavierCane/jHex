@@ -154,11 +154,21 @@ public final class PartidaVista extends BaseVista
 		} );
 	}
 
+	/**
+	 * Modifica l'estat del botó d'intercanvia fitxa.
+	 *
+	 * @param estat Cert, si es vol activar el botó. Fals, altrament.
+	 */
 	public void estatBotoIntercanviaFitxa( boolean estat )
 	{
 		intercanvia.setEnabled( estat );
 	}
 
+	/**
+	 * Modifica l'estat del botó de demana pista.
+	 *
+	 * @param estat Cert, si es vol activar el botó. Fals, altrament.
+	 */
 	public void estatBotoDemanaPista( boolean estat )
 	{
 		demana_pista.setEnabled( estat );
@@ -282,7 +292,12 @@ public final class PartidaVista extends BaseVista
 			// Si selecciona l'opció de cancel·lar la sortida, simplement no fem res :)
 		}
 	}
-    
+
+	/**
+	 * Mostra un diàleg al finalitzar la partida amb les dades de la mateixa. Realitza la finalització de la partida.
+	 *
+	 * @param missatge Missatge que es mostra en el diàleg.
+	 */
     public void mostraDialegVictoria( String missatge )
     {
         VistaDialeg dialeg = new VistaDialeg();
