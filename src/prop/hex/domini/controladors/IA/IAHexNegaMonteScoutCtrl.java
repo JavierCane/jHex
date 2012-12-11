@@ -266,7 +266,7 @@ public final class IAHexNegaMonteScoutCtrl extends InteligenciaArtificialHex
 	 * @param fitxa Fitxa que vol col·locar-se al tauler de la partida del paràmetre implícit.
 	 * @return La casella on es mouria la fitxa.
 	 * @see #negaMonteScout(EstatCasella, EstatCasella, int, int, int, EstatPartida)
-	 * @see MouFitxaIA
+	 * @see InteligenciaArtificialHex
 	 */
 	public Casella obteMoviment( EstatCasella fitxa )
 	{

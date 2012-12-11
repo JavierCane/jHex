@@ -22,6 +22,7 @@ public enum TipusJugadors
 	CONVIDAT( 0, 0, 0, "IAHexQueenBeeCtrl" ),
 	JUGADOR( 1, 5, 4, "IAHexQueenBeeCtrl" ),
 	IA_FACIL( 2, 10, 3, "IAMiniMaxCtrl", "Jose Antonio Camacho (MiniMax, nivell 0)" ),
+	IA_POTENCIAL( 2, 10, 3, "IAHexPotencialsCtrl", "Louis van Gaal (Potencials, nivell 0.5)" ),
 	IA_MONTESCOUT( 3, 15, 2, "IAHexNegaMonteScoutCtrl", "Bill Clinton (MonteScout, nivell 1)" ),
 	IA_QUEENBEE( 4, 15, 2, "IAHexQueenBeeCtrl", "Hillary Clinton (QueenBee, nivell 1.5)" ),
 	IA_SEXQUEENBEE( 5, 20, 1, "IAHexSexSearchCtrl", "Monica Lewinsky (SexQueenBee, nivell 2)" );
