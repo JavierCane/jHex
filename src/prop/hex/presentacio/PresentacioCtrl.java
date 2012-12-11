@@ -232,7 +232,7 @@ public final class PresentacioCtrl
 	/**
 	 * Obté el nom de l'usuari identificat al sistema.
 	 *
-	 * @return
+	 * @return El nom de l'usuari identificat al sistema.
 	 */
 	public String obteNomJugadorPrincipal()
 	{
@@ -242,32 +242,62 @@ public final class PresentacioCtrl
 	// Mètodes ConfiguracioVista
 	// ----------------------------------------------------------------------------------------------------------------
 
+	/**
+	 * Obté el mode d'inici de l'usuari identificat al sistema.
+	 *
+	 * @return El mode d'inici de l'usuari identificat al sistema.
+	 */
 	public ModesInici obteModeIniciJugadorPrincipal()
 	{
 		return UsuariCtrl.getInstancia().obteModeInici();
 	}
 
+	/**
+	 * Obté la combinació de colors de l'usuari identificat al sistema.
+	 *
+	 * @return La combinació de colors de l'usuari identificat al sistema.
+	 */
 	public CombinacionsColors obteCombinacioDeColorsJugadorPrincipal()
 	{
 		return UsuariCtrl.getInstancia().obteCombinacioColors();
 	}
 
+	/**
+	 * Modifica les preferències de l'usuari identificat al sistema.
+	 *
+	 * @param mode_inici Mode d'inici que es vol donar a l'usuari.
+	 * @param combinacio_colors Combinació de colors que es vol donar a l'usuari.
+	 */
 	public void modificaPreferenciesJugadorPrincipal( ModesInici mode_inici, CombinacionsColors combinacio_colors )
 	{
 		UsuariCtrl.getInstancia().modificaPreferencies( mode_inici, combinacio_colors );
 	}
 
+	/**
+	 * Reinicia les estadístiques de l'usuari identificat al sistema.
+	 */
 	public void reiniciaEstadistiquesJugadorPrincipal()
 	{
 		UsuariCtrl.getInstancia().reiniciaEstadistiques();
 	}
 
+	/**
+	 * Modifica la contrasenya de l'usuari identificat al sistema.
+	 *
+	 * @param contrasenya_actual Contrasenya actual de l'usuari identificat al sistema.
+	 * @param contrasenya_nova Contrasenya nova que es vol donar a l'usuari.
+	 * @throws IllegalArgumentException Si la contrasenya actual passada com a paràmetre no coincideix amb la
+	 *                                  contrasenya de l'usuari.
+	 */
 	public void canviaContrasenyaJugadorPrincipal( String contrasenya_actual, String contrasenya_nova )
 			throws IllegalArgumentException
 	{
 		UsuariCtrl.getInstancia().modificaContrasenya( contrasenya_actual, contrasenya_nova );
 	}
 
+	/**
+	 * Elimina l'usuari identificat al sistema de memòria secundària.
+	 */
 	public void eliminaUsuariJugadorPrincipal()
 	{
 		UsuariCtrl.getInstancia().eliminaUsuariJugadorPrincipal();
@@ -276,6 +306,22 @@ public final class PresentacioCtrl
 	// Mètodes ConfiguraPartidaVista
 	// ----------------------------------------------------------------------------------------------------------------
 
+	/**
+	 * Preinicialitza els usuaris que disputaran la partida.
+	 * <p/>
+	 * Carrega l'usuari corresponent al tipus de jugador seleccionat comprovant les credencials en cas que toqui,
+	 * carregant de disc la versió corresponent de la IA o instanciant un usuari convidat temporal si és el cas.
+	 *
+	 * @param num_jugador        Número de jugador que es vol preinicialitzar (0 si és el jugador A, 1 si és el B)
+	 * @param tipus_jugador      Tipus de jugador que es vol preinicialitzar
+	 * @param nom_usuari         Nom de l'usuari d'aquest jugador
+	 * @param contrasenya_usuari Contrasenya de l'usuari associat a aquest jugador
+	 * @throws IllegalArgumentException Si la contrasenya de l'usuari és incorrecta.
+	 * @throws FileNotFoundException    Si no es troba el fitxer amb les dades de l'usuari.
+	 * @throws IOException              Si hi ha algun problema d'entrada/sortida quan intentem carregar l'usuari de disc.
+	 * @throws ClassNotFoundException   Si no es troba la classe UsuariHex quan s'intenta carregar l'usuari de disc.
+	 * @throws NullPointerException     Si el fitxer de l'usuari és buit.
+	 */
 	public void preInicialitzaUsuariPartida( int num_jugador, TipusJugadors tipus_jugador, String nom_usuari,
 	                                         String contrasenya_usuari )
 			throws IllegalArgumentException, FileNotFoundException, IOException, ClassNotFoundException,
@@ -285,12 +331,32 @@ public final class PresentacioCtrl
 				.preInicialitzaUsuariPartida( num_jugador, tipus_jugador, nom_usuari, contrasenya_usuari );
 	}
 
+	/**
+	 * Inicialitza una partida nova. Li assigna les preferències de l'usuari identificat al sistema.
+	 *
+	 * @param mida_tauler      Mida del tauler de la partida.
+	 * @param nom_partida      Nom de la partida.
+	 * @param situacio_inicial Indica si la partida ve definida amb una situació inicial
+	 * @throws NullPointerException     Si no s'han preinicialitzat els usuaris de la partida prèviament.
+	 * @throws IllegalArgumentException Si no s'ha especificat un nom de partida o si ja existeix una partida amb
+	 *                                  aquest identificador
+	 * @throws ClassNotFoundException   Si no es pot carregar la classe de les intel·ligències artificials.
+	 * @throws InstantiationException   Si hi ha problemes amb la instanciació de les intel·ligències artificials.
+	 * @throws IllegalAccessException   Si s'intenta accedir a un lloc no permès quan es carreguen les
+	 *                                  intel·ligències artificials.
+	 */
 	public void inicialitzaPartida( int mida_tauler, String nom_partida, boolean situacio_inicial )
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException
 	{
 		PartidaCtrl.getInstancia().inicialitzaPartida( mida_tauler, nom_partida, situacio_inicial );
 	}
 
+	/**
+	 * Indica si un nom d'usuari ja està en ús.
+	 *
+	 * @param nom Nom d'usuari que es vol comprovar.
+	 * @return Cert, si el nom d'usuari ja està en ús. Fals, altrament.
+	 */
 	public boolean existeixUsuari( String nom )
 	{
 		return UsuariCtrl.getInstancia().existeixUsuari( nom );
@@ -390,22 +456,52 @@ public final class PresentacioCtrl
 	// Mètodes CarregaPartidaVista
 	// ----------------------------------------------------------------------------------------------------------------
 
+	/**
+	 * Obté la llista de les partides guardades on participa l'usuari identificat al sistema.
+	 *
+	 * @return Una array amb les dades de les partides guardades on participa l'usuari identificat al sistema.
+	 */
 	public String[][] obteLlistaPartides()
 	{
 		return PartidaCtrl.getInstancia().llistaPartidesUsuari();
 	}
 
+	/**
+	 * Consulta quin usuari no ha iniciat sessió (si és el cas) per poder jugar a la partida actual.
+	 *
+	 * @param id_partida Identificador únic de la partida
+	 * @return El nom de l'usuari que no ha iniciat sessió (si és el cas). Si no n'hi ha, retorna null.
+	 * @throws IOException            Si no es pot carregar la partida
+	 * @throws ClassNotFoundException Si no existeix la classe PartidaHex.
+	 */
 	public String usuariSenseAutenticarAPartida( String id_partida ) throws IOException, ClassNotFoundException
 	{
 		return PartidaCtrl.getInstancia().usuariSenseAutenticarAPartida( id_partida );
 	}
 
+	/**
+	 * Carrega de memòria secundària la partida identificada per identificador_partida i la estableix com la partida
+	 * en joc.
+	 *
+	 * @param id_partida              Identificador de la partida que es vol carregar
+	 * @param contrasenya_contrincant Contrasenya de l'usuari contrincant
+	 * @throws IOException            Si no es pot carregar la partida
+	 * @throws ClassNotFoundException Si no existeix la classe PartidaHex o la de la intel·ligència artificial.
+	 * @throws IllegalAccessException Si hi ha un problema d'accés al fitxer amb la partida
+	 * @throws InstantiationError     Si hi ha un problema de classes a la instanciació de la partida que es vol
+	 *                                carregar
+	 */
 	public void carregaPartida( String id_partida, String contrasenya_contrincant )
 			throws ClassNotFoundException, IOException, InstantiationException, IllegalAccessException
 	{
 		PartidaCtrl.getInstancia().carregaPartida( id_partida, contrasenya_contrincant );
 	}
 
+	/**
+	 * Elimina de memòria secundària la partida identificada per id_partida.
+	 *
+	 * @param id_partida Identificador de la partida que es vol eliminar.
+	 */
 	public void eliminaPartida( String id_partida )
 	{
 		PartidaCtrl.getInstancia().eliminaPartida( id_partida );
@@ -414,56 +510,115 @@ public final class PresentacioCtrl
 	// Metodes JPanelTauler
 	// ----------------------------------------------------------------------------------------------------------------
 
+	/**
+	 * Obté l'estat de la partida en curs.
+	 *
+	 * @return L'estat de la partida en curs.
+	 */
 	public EstatPartida consultaEstatPartida()
 	{
 		return PartidaCtrl.getInstancia().consultaEstatPartida();
 	}
 
+	/**
+	 * Col·loca una fitxa a la casella de la qual es passa la posició com a paràmetre.
+	 *
+	 * @param fila Fila de la casella en la qual es vol col·locar una fitxa.
+	 * @param columna Columna de la casella en la qual es vol col·locar una fitxa.
+	 * @throws UnsupportedOperationException Si la partida ja ha finalitzat.
+	 */
 	public void mouFitxa( int fila, int columna ) throws UnsupportedOperationException
 	{
 		PartidaCtrl.getInstancia().mouFitxa( fila, columna );
 	}
 
+	/**
+	 * Obté l'estat d'una casella determinada.
+	 *
+	 * @param fila Fila de la casella que es vol consultar.
+	 * @param columna Columna de la casella que es vol consultar.
+	 * @return L'estat de la casella demanada (buida, del jugador A, del jugador B).
+	 */
 	public EstatCasella getEstatCasella( int fila, int columna )
 	{
 		return PartidaCtrl.getInstancia().getEstatCasella( fila, columna );
 	}
 
+	/**
+	 * Demana a la intel·ligència artificial que executi el proper moviment de la partida.
+	 */
 	public void executaMovimentIA()
 	{
 		PartidaCtrl.getInstancia().executaMovimentIA();
 	}
 
+	/**
+	 * Indica si el torn actual de la partida correspon a un usuari humà.
+	 *
+	 * @return Cert, si el torn actual és d'un usuari humà. Fals, altrament.
+	 */
 	public boolean esTornHuma()
 	{
 		return PartidaCtrl.getInstancia().esTornHuma();
 	}
 
+	/**
+	 * Indica si una certa posició del tauler és o no la casella central.
+	 *
+	 * @param fila Fila de la posició que es vol comprovar.
+	 * @param columna Columna de la posició que es vol comprovar.
+	 * @return Cert, si és una casella central. Fals, altrament.
+	 */
 	public boolean esCasellaCentral( int fila, int columna )
 	{
 		return PartidaCtrl.getInstancia().esCasellaCentral( fila, columna );
 	}
 
+	/**
+	 * Obté la casella recomanada per la intel·ligència artificial per a col·locar la propera fitxa de la partida.
+	 *
+	 * @return La Casella con la intel·ligència artificial col·locaria la propera fitxa de la partida.
+	 */
 	public Casella obtePista()
 	{
 		return PartidaCtrl.getInstancia().obtePista();
 	}
 
+	/**
+	 * Obté els elements de control de la partida en curs.
+	 *
+	 * @return Un array amb els elements de control de la partida en curs.
+	 */
 	public Object[] getElementsDeControlPartida()
 	{
 		return PartidaCtrl.getInstancia().getElementsDeControlPartida();
 	}
 
+	/**
+	 * Obté els elements de control dels jugadors de la partida en curs.
+	 *
+	 * @return Un array amb els elements de control dels jugadors de la partida en curs.
+	 */
 	public Object[][] getElementsDeControlJugadors()
 	{
 		return PartidaCtrl.getInstancia().getElementsDeControlJugadors();
 	}
-    
+
+	/**
+	 * Mostra el diàleg de partida finalitzada si s'està jugant una partida.
+	 *
+	 * @param missatge Missatge que es vol mostrar al diàleg.
+	 */
     public void mostraDialegVictoriaPartida( String missatge )
     {
         partida_vista.mostraDialegVictoria( missatge );
     }
-    
+
+	/**
+	 * Mostra el diàleg de partida finalitzada si s'està definint una situació inicial.
+	 *
+	 * @param missatge Missatge que es vol mostrar al diàleg.
+	 */
     public void mostraDialegVictoriaDefineixSituacio( String missatge )
     {
         defineix_situacio_vista.mostraDialegVictoria( missatge );
@@ -472,26 +627,52 @@ public final class PresentacioCtrl
 	// Mètodes PartidaVista
 	// ----------------------------------------------------------------------------------------------------------------
 
+	/**
+	 * Activa o desactiva el botó d'intercanvia fitxa a la vista del visualitzador de partides.
+	 *
+	 * @param estat Cert, is volem activar el botó. Fals, altrament.
+	 */
 	public void estatBotoIntercanviaFitxa( boolean estat )
 	{
 		partida_vista.estatBotoIntercanviaFitxa( estat );
 	}
 
+	/**
+	 * Activa o desactiva el botó de demana pista a la vista del visualitzador de partides.
+	 *
+	 * @param estat Cert, is volem activar el botó. Fals, altrament.
+	 */
 	public void estatBotoDemanaPista( boolean estat )
 	{
 		partida_vista.estatBotoDemanaPista( estat );
 	}
 
+	/**
+	 * Canvia de jugador propietari l'última fitxa col·locada al tauler.
+	 */
 	public void intercanviaFitxa()
 	{
 		PartidaCtrl.getInstancia().intercanviaDarreraFitxa();
 	}
 
+	/**
+	 * Finalitza la partida actual, actualitzant les estadístiques dels usuaris participants, si cal.
+	 *
+	 * @throws IOException Si ha ocorregut un error d'entrada/sortida inesperat.
+	 */
 	public void finalitzaPartida() throws IOException
 	{
 		PartidaCtrl.getInstancia().finalitzaPartida();
 	}
 
+	/**
+	 * Guarda la partida actual en memòria secundària.
+	 *
+	 * @return Cert si s'ha guardat correctament. Fals altrament.
+	 * @throws IOException                   Si hi ha un error d'entrada/sortida.
+	 * @throws UnsupportedOperationException Si es vol guardar una partida ja finalitzada o cap dels usuaris és
+	 *                                       registrat.
+	 */
 	public void guardaPartida() throws IOException, UnsupportedOperationException
 	{
 		PartidaCtrl.getInstancia().guardaPartida();
