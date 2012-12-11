@@ -11,9 +11,7 @@ import prop.hex.domini.controladors.InteligenciaArtificialHex;
 import prop.hex.domini.models.Casella;
 import prop.hex.domini.models.TaulerHex;
 
-import java.util.HashMap;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -26,8 +24,10 @@ public final class IAHexSexSearchCtrl extends InteligenciaArtificialHex
 {
 
 	private TaulerHex tauler;
-	private static int pressupost = 5;
-	private static int profunditat_maxima = 3;
+	private static int pressupost_defecte = 2;
+	private int pressupost;
+	private static int profunditat_defecte = 4;
+	private int profunditat_maxima;
 	private HashMap<Integer, ElementTaulaTransposicions> taula_transposicions;
 	private TwoDistance two_distance_a;
 	private TwoDistance two_distance_b;
@@ -269,14 +269,29 @@ public final class IAHexSexSearchCtrl extends InteligenciaArtificialHex
 		tauler = partida.getTauler();
 
 		int puntuacio_millor = Integer.MIN_VALUE + 1;
-		Casella millor_moviment = null;
 
 		Set<ResistenciaCasella> moviments_ordenats = movimentsOrdenats( fitxa );
+		ArrayList<Casella> millors_moviments = new ArrayList<Casella>();
 
+		int resistencia_minima = moviments_ordenats.iterator().next().getResistencia();
 		for ( ResistenciaCasella resistencia_actual : moviments_ordenats )
 		{
 			Casella actual = resistencia_actual.getCasella();
 			tauler.mouFitxa( fitxa, actual );
+			pressupost = Math.max( pressupost_defecte, resistencia_actual.getResistencia() + 1 );
+			if  ( partida.getTornsJugats() < 3 )
+			{
+				profunditat_maxima = 2;
+			}
+			else if ( resistencia_actual.getResistencia() >= resistencia_minima + pressupost_defecte )
+			{
+				profunditat_maxima = 1;
+			}
+			else
+			{
+				profunditat_maxima = profunditat_defecte;
+			}
+
 			int puntuacio_actual =
 					sexSearch( fitxa, fitxaContraria( fitxa ), Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1, 1,
 							resistencia_actual.getResistencia(),
@@ -287,12 +302,17 @@ public final class IAHexSexSearchCtrl extends InteligenciaArtificialHex
 			if ( puntuacio_actual > puntuacio_millor )
 			{
 				puntuacio_millor = puntuacio_actual;
-				millor_moviment = actual;
+				millors_moviments = new ArrayList<Casella>();
+				millors_moviments.add( actual );
+			}
+			else if ( puntuacio_actual == puntuacio_millor )
+			{
+				millors_moviments.add( actual );
 			}
 		}
 
 		two_distance_a = two_distance_b = null;
 
-		return millor_moviment;
+		return millors_moviments.get( new Random().nextInt( millors_moviments.size() ) );
 	}
 }
