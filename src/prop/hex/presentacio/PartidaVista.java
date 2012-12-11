@@ -64,28 +64,23 @@ public final class PartidaVista extends BaseVista
 	protected void inicialitzaPanellCentral()
 	{
 		panell_central.setOpaque( false );
-		panell_central.afegeixBotons( mou_ia, demana_pista, abandona, intercanvia, null );
+		panell_central.afegeixBotons( demana_pista, intercanvia );
 	}
 
 	@Override
 	protected void inicialitzaPanellPeu()
 	{
 		JPanel botons = new JPanel();
-		Object[] elements_de_control_partida = presentacio_ctrl.getElementsDeControlPartida();
-		if ( elements_de_control_partida[4] == ModesInici.PASTIS )
+		if (  presentacio_ctrl.getElementsDeControlPartida()[4] == ModesInici.PASTIS )
 		{
 			botons.add( intercanvia );
 		}
-		if ( elements_de_control_partida[4] == ModesInici.PASTIS )
+		int num_jugador = ( Integer ) presentacio_ctrl.getElementsDeControlPartida()[2] % 2;
+		if ( presentacio_ctrl.getElementsDeControlJugadors()[0][num_jugador] != TipusJugadors.CONVIDAT &&
+			presentacio_ctrl.getElementsDeControlJugadors()[0][num_jugador] != TipusJugadors.JUGADOR )
 		{
-			botons.setLayout( new GridLayout( 2, 2, 10, 10 ) );
-			botons.add( intercanvia );
+			botons.add( mou_ia );
 		}
-		else
-		{
-			botons.setLayout( new FlowLayout( FlowLayout.CENTER, 10, 0 ) );
-		}
-		botons.add( mou_ia );
 		botons.add( demana_pista );
 		botons.add( abandona );
 		botons.setOpaque( false );
@@ -94,7 +89,6 @@ public final class PartidaVista extends BaseVista
 		panell_botons.add( botons );
 		panell_botons.add( panell_sortida );
 		panell_botons.setOpaque( false );
-		mou_ia.setEnabled( false );
 		demana_pista.setEnabled( false );
 	}
 
@@ -171,6 +165,15 @@ public final class PartidaVista extends BaseVista
 	{
 		mou_ia.setEnabled( false );
 		panell_central.mouIAOMostraPista();
+		if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA)
+		{
+			int num_jugador = ( Integer ) presentacio_ctrl.getElementsDeControlPartida()[2] % 2;
+			if ( presentacio_ctrl.getElementsDeControlJugadors()[0][num_jugador] != TipusJugadors.CONVIDAT &&
+					presentacio_ctrl.getElementsDeControlJugadors()[0][num_jugador] != TipusJugadors.JUGADOR )
+			{
+				mou_ia.setEnabled( true );
+			}
+		}
 	}
 
 	/**
@@ -192,79 +195,91 @@ public final class PartidaVista extends BaseVista
 	public void accioBotoAbandona( ActionEvent event )
 	{
 		// Primer preguntem si vol guardar la partida a disc abans de sortir
-		if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA )
+		Object[][] elements_de_control_jugadors = presentacio_ctrl.getElementsDeControlJugadors();
+		boolean es_partida_ia = ( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) != TipusJugadors
+				.JUGADOR &&
+				( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) != TipusJugadors.CONVIDAT &&
+				( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) != TipusJugadors.JUGADOR &&
+				( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) != TipusJugadors.CONVIDAT;
+		boolean es_partida_convidat = ( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) == TipusJugadors
+				.CONVIDAT || ( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) == TipusJugadors.CONVIDAT;
+
+		if ( es_partida_convidat || es_partida_ia )
 		{
-			Object[][] elements_de_control_jugadors = presentacio_ctrl.getElementsDeControlJugadors();
-			boolean es_partida_ia = ( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) != TipusJugadors
-					.JUGADOR &&
-					( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) != TipusJugadors.CONVIDAT &&
-					( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) != TipusJugadors.JUGADOR &&
-					( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) != TipusJugadors.CONVIDAT;
-			boolean es_partida_convidat = ( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) == TipusJugadors
-					.CONVIDAT || ( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) == TipusJugadors.CONVIDAT;
+			VistaDialeg dialeg = new VistaDialeg();
+			String[] botons = { "Sí", "No" };
 
-			if ( es_partida_convidat || es_partida_ia )
+			String valor_seleccionat = dialeg.setDialeg( "Confirmació de sortida de la partida",
+					"Estàs segur de que vols sortir de la partida?", botons, JOptionPane.QUESTION_MESSAGE );
+
+			if ( "Sí" == valor_seleccionat )
 			{
-				VistaDialeg dialeg = new VistaDialeg();
-				String[] botons = { "Sí", "No" };
-
-				String valor_seleccionat = dialeg.setDialeg( "Confirmació de sortida de la partida",
-						"Estàs segur de que vols sortir de la partida?", botons, JOptionPane.QUESTION_MESSAGE );
-
-				if ( "Sí" == valor_seleccionat )
-				{
-					presentacio_ctrl.vistaPartidaAMenuPrincipal();
-				}
-			}
-			else
-			{
-				VistaDialeg dialeg_guardar_partida = new VistaDialeg();
-				String[] botons_guardar_partida = { "Sí", "No", "Cancel·la" };
-
-				String valor_seleccionat = dialeg_guardar_partida.setDialeg( "Guardar abans de sortir?",
-						"Vols guardar la partida abans de sortir per poder-la carregar després?",
-						botons_guardar_partida, JOptionPane.QUESTION_MESSAGE );
-
-				// Si vol guardar la partida, la guardem a disc i sortim al menú principal
-				if ( "Sí" == valor_seleccionat )
-				{
-					try
-					{
-						presentacio_ctrl.guardaPartida();
-					}
-					catch ( IOException excepcio )
-					{
-						VistaDialeg dialeg_error_guardant = new VistaDialeg();
-						String[] botons_error_guardant = { "Accepta" };
-						dialeg_error_guardant.setDialeg( "Error", excepcio.getMessage(), botons_error_guardant,
-								JOptionPane.WARNING_MESSAGE );
-					}
-					catch ( UnsupportedOperationException excepcio )
-					{
-						VistaDialeg dialeg_error_guardant = new VistaDialeg();
-						String[] botons_error_guardant = { "Accepta" };
-						dialeg_error_guardant.setDialeg( "Error", excepcio.getMessage(), botons_error_guardant,
-								JOptionPane.WARNING_MESSAGE );
-					}
-
-					presentacio_ctrl.netejaParametresPartidaActual();
-					presentacio_ctrl.vistaPartidaAMenuPrincipal();
-
-				}
-				else if ( "No" == valor_seleccionat )
-				{
-					// Si no vol guardar la partida, retornem a menu principal reinicialitzant els paràmetres de la
-					// partida
-					// en joc a valors buits
-					presentacio_ctrl.netejaParametresPartidaActual();
-					presentacio_ctrl.vistaPartidaAMenuPrincipal();
-				}
-				// Si selecciona l'opció de cancel·lar la sortida, simplement no fem res :)
+				presentacio_ctrl.vistaPartidaAMenuPrincipal();
 			}
 		}
 		else
 		{
-			presentacio_ctrl.vistaPartidaAMenuPrincipal();
+			VistaDialeg dialeg_guardar_partida = new VistaDialeg();
+			String[] botons_guardar_partida = { "Sí", "No", "Cancel·la" };
+
+			String valor_seleccionat = dialeg_guardar_partida.setDialeg( "Guardar abans de sortir?",
+					"Vols guardar la partida abans de sortir per poder-la carregar després?",
+					botons_guardar_partida, JOptionPane.QUESTION_MESSAGE );
+
+			// Si vol guardar la partida, la guardem a disc i sortim al menú principal
+			if ( "Sí" == valor_seleccionat )
+			{
+				try
+				{
+					presentacio_ctrl.guardaPartida();
+				}
+				catch ( IOException excepcio )
+				{
+					VistaDialeg dialeg_error_guardant = new VistaDialeg();
+					String[] botons_error_guardant = { "Accepta" };
+					dialeg_error_guardant.setDialeg( "Error", excepcio.getMessage(), botons_error_guardant,
+							JOptionPane.WARNING_MESSAGE );
+				}
+				catch ( UnsupportedOperationException excepcio )
+				{
+					VistaDialeg dialeg_error_guardant = new VistaDialeg();
+					String[] botons_error_guardant = { "Accepta" };
+					dialeg_error_guardant.setDialeg( "Error", excepcio.getMessage(), botons_error_guardant,
+							JOptionPane.WARNING_MESSAGE );
+				}
+
+				presentacio_ctrl.netejaParametresPartidaActual();
+				presentacio_ctrl.vistaPartidaAMenuPrincipal();
+
+			}
+			else if ( "No" == valor_seleccionat )
+			{
+				// Si no vol guardar la partida, retornem a menu principal reinicialitzant els paràmetres de la
+				// partida
+				// en joc a valors buits
+				presentacio_ctrl.netejaParametresPartidaActual();
+				presentacio_ctrl.vistaPartidaAMenuPrincipal();
+			}
+			// Si selecciona l'opció de cancel·lar la sortida, simplement no fem res :)
 		}
 	}
+    
+    public void mostraDialegVictoria( String missatge )
+    {
+        VistaDialeg dialeg = new VistaDialeg();
+						String[] botons = { "Torna al menú principal" };
+						dialeg.setDialeg( "Partida finalitzada", missatge, botons, JOptionPane.INFORMATION_MESSAGE );
+
+	    try
+	    {
+		    presentacio_ctrl.finalitzaPartida();
+		    presentacio_ctrl.vistaPartidaAMenuPrincipal();
+	    }
+	    catch ( Exception excepcio )
+	    {
+		    VistaDialeg dialeg_error = new VistaDialeg();
+		    String[] botons_error = { "Accepta" };
+		    dialeg_error.setDialeg( "Error", excepcio.getMessage(), botons_error, JOptionPane.WARNING_MESSAGE );
+	    }
+    }
 }

@@ -405,6 +405,16 @@ public final class PresentacioCtrl
 	{
 		return PartidaCtrl.getInstancia().getElementsDeControlJugadors();
 	}
+    
+    public void mostraDialegVictoriaPartida( String missatge )
+    {
+        partida_vista.mostraDialegVictoria( missatge );
+    }
+    
+    public void mostraDialegVictoriaDefineixSituacio( String missatge )
+    {
+        defineix_situacio_vista.mostraDialegVictoria( missatge );
+    }
 
 	// Mètodes PartidaVista
 	// ----------------------------------------------------------------------------------------------------------------

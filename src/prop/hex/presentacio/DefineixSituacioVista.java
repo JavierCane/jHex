@@ -58,7 +58,6 @@ public final class DefineixSituacioVista extends BaseVista
 	protected void inicialitzaPanellCentral()
 	{
 		panell_central.setOpaque( false );
-		panell_central.afegeixBotons( null, null, abandona, null, inicia_partida );
 	}
 
 	@Override
@@ -142,5 +141,24 @@ public final class DefineixSituacioVista extends BaseVista
 	public void accioBotoIniciaPartida( ActionEvent event )
 	{
 		presentacio_ctrl.vistaDefineixSituacioAPartida();
+	}
+
+	public void mostraDialegVictoria( String missatge )
+	{
+		VistaDialeg dialeg = new VistaDialeg();
+		String[] botons = { "Torna al menú principal" };
+		dialeg.setDialeg( "Partida finalitzada", missatge, botons, JOptionPane.INFORMATION_MESSAGE );
+
+		try
+		{
+			presentacio_ctrl.finalitzaPartida();
+			presentacio_ctrl.vistaDefineixSituacioAMenuPrincipal();
+		}
+		catch ( Exception excepcio )
+		{
+			VistaDialeg dialeg_error = new VistaDialeg();
+			String[] botons_error = { "Accepta" };
+			dialeg_error.setDialeg( "Error", excepcio.getMessage(), botons_error, JOptionPane.WARNING_MESSAGE );
+		}
 	}
 }

@@ -53,25 +53,11 @@ public final class JPanelTauler extends JPanel
 	private boolean partida_en_curs;
 
 	/**
-	 * Indica si la partida ha finalitzat.
-	 */
-	private boolean partida_finalitzada;
-
-	/**
 	 * Indica si a la partida només participen jugadors de la IA.
 	 */
 	private boolean partida_ia;
 
-	/**
-	 * Indica si s'està executant el primer moviment de la partida. En el cas en que s'hagi definit una situació
-	 * inicial, es considera primer moviment el primer que es fa després de pitjar el botó d'inicia partida.
-	 */
-	private boolean es_primer_moviment;
-
-	/**
-	 * Botó de mou fitxa IA.
-	 */
-	private JButton mou_ia;
+	private boolean processant_moviment;
 
 	/**
 	 * Botó de demana pista.
@@ -79,19 +65,9 @@ public final class JPanelTauler extends JPanel
 	private JButton demana_pista;
     
     /**
-	 * Botó d'abandona partida.
-	 */
-	private JButton abandona_partida;
-    
-    /**
 	 * Botó d'intercanvia fitxa.
 	 */
 	private JButton intercanvia;
-
-	/**
-	 * Botó d'inicia partida.
-	 */
-	private JButton inicia_partida;
 
 	/**
 	 * Poligon que s'utilitza per dibuixar a pantalla cada una de les caselles..
@@ -129,12 +105,11 @@ public final class JPanelTauler extends JPanel
 		ultima_pista = new Casella( 0, 0 );
 		pista_valida = false;
 		this.partida_en_curs = partida_en_curs;
-		partida_finalitzada = false;
 		partida_ia = ( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) != TipusJugadors.JUGADOR &&
 		             ( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) != TipusJugadors.CONVIDAT &&
 		             ( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) != TipusJugadors.JUGADOR &&
 		             ( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) != TipusJugadors.CONVIDAT;
-		es_primer_moviment = true;
+		processant_moviment = false;
 		radi = 40.0;
 		iniciX = 90;
 		iniciY = 80;
@@ -162,25 +137,46 @@ public final class JPanelTauler extends JPanel
 			}
 		} );
 	}
+    
+    private void mostraDialegVictoria()
+    {
+	    elements_de_control_partida = presentacio_ctrl.getElementsDeControlPartida();
+	    elements_de_control_jugadors = presentacio_ctrl.getElementsDeControlJugadors();
+
+	    int num_jugador;
+        if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_A )
+        {
+            num_jugador = 0;
+        }
+        else
+        {
+            num_jugador = 1;
+        }
+        String missatge = new String( "Guanya " + ( ( String ) elements_de_control_jugadors[3][num_jugador] ) +
+        ", amb un temps de " + ( String ) elements_de_control_jugadors[2][num_jugador] + ", col·locant un total de " +
+		( ( Integer ) elements_de_control_jugadors[4][num_jugador] ) + " fitxes," + " i utilitzant " +
+		( ( Integer ) elements_de_control_jugadors[1][num_jugador] ) + " pistes." );
+        if ( partida_en_curs )
+        {
+            presentacio_ctrl.mostraDialegVictoriaPartida( missatge );
+        }
+        else
+        {
+            presentacio_ctrl.mostraDialegVictoriaDefineixSituacio( missatge );
+        }
+    }
 
 	/**
 	 * Indica al panell del tauler quins són els botons de mou fitxa IA i de demana pista, que es troben en un altre
 	 * panell.
 	 *
-	 * @param mou_ia           Botó de mou fitxa IA.
 	 * @param demana_pista     Botó de demana pista.
-     * @param abandona_partida Botó d'abandona partida.
      * @param intercanvia      Botó d'intercanvia fitxa.
-	 * @param inicia_partida   Botó d'inicia partida.
 	 */
-	public void afegeixBotons( JButton mou_ia, JButton demana_pista, JButton abandona_partida, JButton intercanvia,
-	                           JButton inicia_partida )
+	public void afegeixBotons( JButton demana_pista, JButton intercanvia )
 	{
-		this.mou_ia = mou_ia;
 		this.demana_pista = demana_pista;
-        this.abandona_partida = abandona_partida;
         this.intercanvia = intercanvia;
-		this.inicia_partida = inicia_partida;
 	}
 
 	/**
@@ -192,30 +188,27 @@ public final class JPanelTauler extends JPanel
 	 */
 	private void comprovaClick( int x, int y )
 	{
-		if ( !partida_finalitzada )
+		int rx = iniciX;
+		int ry = iniciY;
+
+		elements_de_control_partida = presentacio_ctrl.getElementsDeControlPartida();
+		elements_de_control_jugadors = presentacio_ctrl.getElementsDeControlJugadors();
+
+		for ( int i = 0; i < ( Integer ) elements_de_control_partida[1]; i++ )
 		{
-			int rx = iniciX;
-			int ry = iniciY;
-
-			elements_de_control_partida = presentacio_ctrl.getElementsDeControlPartida();
-			elements_de_control_jugadors = presentacio_ctrl.getElementsDeControlJugadors();
-
-			for ( int i = 0; i < ( Integer ) elements_de_control_partida[1]; i++ )
+			rx += i * dx / 2;
+			ry += i * dy;
+			for ( int j = 0; j < ( Integer ) elements_de_control_partida[1]; j++ )
 			{
-				rx += i * dx / 2;
-				ry += i * dy;
-				for ( int j = 0; j < ( Integer ) elements_de_control_partida[1]; j++ )
+				rx += j * dx;
+				if ( hexagon.contains( x - rx, y - ry ) )
 				{
-					rx += j * dx;
-					if ( hexagon.contains( x - rx, y - ry ) )
-					{
-						clickHexagon( i, j );
-					}
-					rx -= j * dx;
+					clickHexagon( i, j );
 				}
-				rx -= i * dx / 2;
-				ry -= i * dy;
+				rx -= j * dx;
 			}
+			rx -= i * dx / 2;
+			ry -= i * dy;
 		}
 	}
 
@@ -233,17 +226,6 @@ public final class JPanelTauler extends JPanel
 	}
 
 	/**
-	 * Calcula si en un cert moment de la partida s'ha de mostrar el botó de mou fitxa IA.
-	 *
-	 * @return Cert, si s'ha de mostrar el botó de mou fitxa IA. Fals, altrameent.
-	 */
-	private boolean potMoureIA()
-	{
-		return ( partida_en_curs && ( partida_ia || es_primer_moviment ) && !presentacio_ctrl.esTornHuma() &&
-			presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA );
-	}
-
-	/**
 	 * Si la partida no està finalitzada i és torn de una IA, crida el controlador de presentació a executar moviment
 	 * IA. Si és torn d'un humà, es calcula la casella resultat de demanar una pista.
 	 * Torna a pintar l'escena.
@@ -252,8 +234,10 @@ public final class JPanelTauler extends JPanel
 	{
 		if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA && !presentacio_ctrl.esTornHuma() )
 		{
-			es_primer_moviment = false;
+			processant_moviment = true;
+			paintImmediately( 0, 0, 800, 500 );
 			presentacio_ctrl.executaMovimentIA();
+			processant_moviment = false;
 		}
 		else if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA &&
 		          presentacio_ctrl.esTornHuma() )
@@ -261,16 +245,23 @@ public final class JPanelTauler extends JPanel
 			ultima_pista = presentacio_ctrl.obtePista();
 			pista_valida = true;
 		}
-		repaint();
+
+		paintImmediately( 0, 0, 800, 500 );
+
+        if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_A ||
+		        presentacio_ctrl.consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_B )
+        {
+            mostraDialegVictoria();
+        }
+
 	}
     
     public void intercanviaFitxa()
     {
         presentacio_ctrl.intercanviaFitxa();
         pista_valida = false;
-        es_primer_moviment = false;
         paintImmediately( 0, 0, 800, 500 );
-        if ( !partida_finalitzada && partida_en_curs && !presentacio_ctrl.esTornHuma() )
+        if ( partida_en_curs && !presentacio_ctrl.esTornHuma() )
         {
             mouIAOMostraPista();
         }
@@ -294,9 +285,13 @@ public final class JPanelTauler extends JPanel
 				//No ens cal comprovar si el moviment es fa o no (si retorna true o false).
 				presentacio_ctrl.mouFitxa( i, j );
 				pista_valida = false;
-				es_primer_moviment = false;
 				paintImmediately( 0, 0, 800, 500 );
-				if ( !partida_finalitzada && partida_en_curs && !presentacio_ctrl.esTornHuma() )
+				if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_A ||
+						presentacio_ctrl.consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_B )
+				{
+					mostraDialegVictoria();
+				}
+				else if ( partida_en_curs && !presentacio_ctrl.esTornHuma() )
 				{
 					mouIAOMostraPista();
 				}
@@ -305,11 +300,6 @@ public final class JPanelTauler extends JPanel
 			{
 				System.out.println( "Moviment no vàlid, partida finalitzada: " + exepcio.getMessage() );
 			}
-		}
-
-		if ( !partida_finalitzada )
-		{
-			repaint();
 		}
 	}
 
@@ -382,14 +372,6 @@ public final class JPanelTauler extends JPanel
 		// IA.
 		if ( partida_en_curs )
 		{
-			if ( potMoureIA() )
-			{
-				mou_ia.setEnabled( true );
-			}
-			else
-			{
-				mou_ia.setEnabled( false );
-			}
 
 			if ( potDemanarPista() )
 			{
@@ -411,20 +393,19 @@ public final class JPanelTauler extends JPanel
 		}
 
 		// Si és torn de la IA i s'està processant un moviment, mostrem per pantalla un missatge indicant-ho.
-		if ( !es_primer_moviment && partida_en_curs && !partida_ia && !presentacio_ctrl.esTornHuma() &&
-		     presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA )
+		if ( processant_moviment )
 		{
 			if ( ( Integer ) elements_de_control_partida[2] % 2 == 0 )
 			{
 				g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
 						.getColorCasella( EstatCasella.JUGADOR_A ) );
-				g.drawString( "Pensant moviment...", -50, 370 );
+				g.drawString( "Processant moviment...", -50, 370 );
 			}
 			else
 			{
 				g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
 						.getColorCasella( EstatCasella.JUGADOR_B ) );
-				g.drawString( "Pensant moviment...", 580, 160 );
+				g.drawString( "Processant moviment...", 580, 160 );
 			}
 		}
 
@@ -472,50 +453,6 @@ public final class JPanelTauler extends JPanel
 		{
 			g.drawImage( ( new ImageIcon( "img/tauler_nb.png" ) ).getImage(), -iniciX, -iniciY, getWidth(), getHeight(),
 					null );
-		}
-        
-		//Si ha guanyat un jugador, mostrem el resultat.
-		if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_A ||
-			presentacio_ctrl.consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_B )
-		{
-			int num_jugador;
-			if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.GUANYA_JUGADOR_A )
-			{
-				num_jugador = 0;
-			}
-			else
-			{
-				num_jugador = 1;
-			}
-			g.setColor( new Color( 0x66CCFF ) );
-			g.fillRoundRect( 140, 0, 320, 200, 16, 16 );
-			g.setColor( Color.black );
-			g.drawRoundRect( 140, 0, 320, 200, 16, 16 );
-			g.drawString( "Partida finalitzada.", 150, 30 );
-			g.drawString( "Guanya " + ( ( String ) elements_de_control_jugadors[3][num_jugador] ), 150, 50 );
-			g.drawString( "amb un temps de " + ( String ) elements_de_control_jugadors[2][num_jugador] + ",", 150, 70 );
-			g.drawString( "col·locant un total de " + ( ( Integer ) elements_de_control_jugadors[4][num_jugador] ) +
-					" fitxes,", 150, 90 );
-			g.drawString( "i utilitzant " + ( ( Integer ) elements_de_control_jugadors[1][num_jugador] ) + " pistes.",
-					150, 110 );
-			g.drawString( "Per a continuar, pitja el botó de tornada al menú principal.", 150, 150 );
-
-			if ( !partida_en_curs )
-			{
-				inicia_partida.setEnabled( false );
-			}
-			abandona_partida.setText( "Torna al menú principal" );
-			partida_finalitzada = true;
-			try
-			{
-				presentacio_ctrl.finalitzaPartida();
-			}
-			catch ( Exception excepcio )
-			{
-				VistaDialeg dialeg_error = new VistaDialeg();
-				String[] botons_error = { "Accepta" };
-				dialeg_error.setDialeg( "Error", excepcio.getMessage(), botons_error, JOptionPane.WARNING_MESSAGE );
-			}
 		}
 	}
 }
