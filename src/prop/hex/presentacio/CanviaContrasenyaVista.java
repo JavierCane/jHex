@@ -37,12 +37,11 @@ public final class CanviaContrasenyaVista extends BaseVista
 	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
 	 * controlador de presentació al qual haurà de demanar certes operacions.
 	 *
-	 * @param presentacio_ctrl Controlador de presentació.
 	 * @param frame_principal  Frame principal sobre el que s'hauran d'afegir els diferents components.
 	 */
-	public CanviaContrasenyaVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
+	public CanviaContrasenyaVista( JFrame frame_principal )
 	{
-		super( presentacio_ctrl, frame_principal );
+		super( frame_principal );
 
 		titol = new JLabel( "Canvia la contrasenya" );
 		panell_dades = new JPanelImatge( "img/caixa.png" );
@@ -164,10 +163,10 @@ public final class CanviaContrasenyaVista extends BaseVista
 			}
 			else
 			{
-				presentacio_ctrl.canviaContrasenyaJugadorPrincipal( new String( contrasenya_actual.getPassword() ),
-						contrasenya_nova_introduida );
-				presentacio_ctrl.guardaJugadorPrincipal();
-				presentacio_ctrl.vistaCanviaContrasenyaAMenuPrincipal();
+				PresentacioCtrl.getInstancia().canviaContrasenyaJugadorPrincipal( new String( contrasenya_actual
+						.getPassword() ), contrasenya_nova_introduida );
+				PresentacioCtrl.getInstancia().guardaJugadorPrincipal();
+				PresentacioCtrl.getInstancia().vistaCanviaContrasenyaAMenuPrincipal();
 
 			}
 		}
@@ -194,6 +193,6 @@ public final class CanviaContrasenyaVista extends BaseVista
 	 */
 	public void accioBotoDescarta( ActionEvent event )
 	{
-		presentacio_ctrl.vistaCanviaContrasenyaAPreferencies();
+		PresentacioCtrl.getInstancia().vistaCanviaContrasenyaAPreferencies();
 	}
 }

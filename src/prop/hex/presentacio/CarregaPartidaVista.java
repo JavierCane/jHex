@@ -38,12 +38,11 @@ public final class CarregaPartidaVista extends BaseVista
 	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
 	 * controlador de presentació al qual haurà de demanar certes operacions.
 	 *
-	 * @param presentacio_ctrl Controlador de presentació.
 	 * @param frame_principal  Frame principal sobre el que s'hauran d'afegir els diferents components.
 	 */
-	public CarregaPartidaVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
+	public CarregaPartidaVista( JFrame frame_principal )
 	{
-		super( presentacio_ctrl, frame_principal );
+		super( frame_principal );
 
 		titol = new JLabel( "Carrega una partida" );
 		panell_central = new JPanel();
@@ -51,7 +50,7 @@ public final class CarregaPartidaVista extends BaseVista
 		carrega = new JButton( "Carrega" );
 		descarta = new JButton( "Descarta" );
 		elimina = new JButton( "Elimina" );
-		String[][] dades = presentacio_ctrl.obteLlistaPartides();
+		String[][] dades = PresentacioCtrl.getInstancia().obteLlistaPartides();
 		Object[][] dades_taula = new String[dades.length][3];
 		id_partides = new String[dades.length];
 		for ( int i = 0; i < dades.length; i++ )
@@ -181,15 +180,15 @@ public final class CarregaPartidaVista extends BaseVista
 			try
 			{
 				String id_partida = id_partides[taula_partides.getSelectedRow()];
-				String usuari = presentacio_ctrl.usuariSenseAutenticarAPartida( id_partida );
+				String usuari = PresentacioCtrl.getInstancia().usuariSenseAutenticarAPartida( id_partida );
 				if ( usuari == null )
 				{
-					presentacio_ctrl.carregaPartida( id_partida, "" );
-					presentacio_ctrl.vistaCarregaPartidaAPartida();
+					PresentacioCtrl.getInstancia().carregaPartida( id_partida, "" );
+					PresentacioCtrl.getInstancia().vistaCarregaPartidaAPartida();
 				}
 				else
 				{
-					presentacio_ctrl.vistaCarregaPartidaAIdentificaCarregaPartida( usuari, id_partida );
+					PresentacioCtrl.getInstancia().vistaCarregaPartidaAIdentificaCarregaPartida( usuari, id_partida );
 				}
 			}
 			catch ( Exception excepcio )
@@ -208,7 +207,7 @@ public final class CarregaPartidaVista extends BaseVista
 	 */
 	public void accioBotoDescarta( ActionEvent event )
 	{
-		presentacio_ctrl.vistaCarregaPartidaAMenuPrincipal();
+		PresentacioCtrl.getInstancia().vistaCarregaPartidaAMenuPrincipal();
 	}
 
 	/**
@@ -238,7 +237,7 @@ public final class CarregaPartidaVista extends BaseVista
 			if ( valor_seleccionat == "Sí" )
 			{
 				int partida_seleccionada = taula_partides.getSelectedRow();
-				presentacio_ctrl.eliminaPartida( id_partides[partida_seleccionada] );
+				PresentacioCtrl.getInstancia().eliminaPartida( id_partides[partida_seleccionada] );
 				model_taula_partides.removeRow( partida_seleccionada );
 			}
 		}

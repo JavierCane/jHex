@@ -31,6 +31,35 @@ public final class PresentacioCtrl
 {
 
 	/**
+	 * Instància del controlador.
+	 */
+	private static PresentacioCtrl instancia;
+
+	/**
+	 * Constructor per defecte. Declarat privat perquè és una classe singleton
+	 */
+	private PresentacioCtrl()
+	{
+	}
+
+	/**
+	 * Consultora de l'instancia actual del controlador de partida.
+	 * Si encara no s'ha inicialitzat l'objecte, crida el constructor. Si ja s'ha instanciat prèviament,
+	 * simplement retorna l'instància ja creada.
+	 *
+	 * @return L'objecte singleton amb el el controlador de partida.
+	 */
+	public static synchronized PresentacioCtrl getInstancia()
+	{
+		if ( instancia == null )
+		{
+			instancia = new PresentacioCtrl();
+		}
+
+		return instancia;
+	}
+
+	/**
 	 * Frame principal de la interfície del joc.
 	 */
 	private JFrame frame_principal = new JFrame( "jHex - Joc de Taula Hex" );
@@ -43,7 +72,7 @@ public final class PresentacioCtrl
 	/**
 	 * Vista d'inici de sessió.
 	 */
-	private IniciaSessioVista inicia_sessio_vista = new IniciaSessioVista( this, frame_principal );
+	private IniciaSessioVista inicia_sessio_vista = new IniciaSessioVista( frame_principal );
 
 	/**
 	 * Vista de registre d'un usuari.
@@ -449,7 +478,7 @@ public final class PresentacioCtrl
 	{
 		if ( registra_vista == null )
 		{
-			registra_vista = new RegistraVista( this, frame_principal );
+			registra_vista = new RegistraVista( frame_principal );
 		}
 		inicia_sessio_vista = null;
 		registra_vista.fesVisible();
@@ -462,7 +491,7 @@ public final class PresentacioCtrl
 	{
 		if ( inicia_sessio_vista == null )
 		{
-			inicia_sessio_vista = new IniciaSessioVista( this, frame_principal );
+			inicia_sessio_vista = new IniciaSessioVista( frame_principal );
 		}
 		registra_vista = null;
 		inicia_sessio_vista.fesVisible();
@@ -475,7 +504,7 @@ public final class PresentacioCtrl
 	{
 		if ( menu_principal_vista == null )
 		{
-			menu_principal_vista = new MenuPrincipalVista( this, frame_principal );
+			menu_principal_vista = new MenuPrincipalVista( frame_principal );
 		}
 		registra_vista = null;
 		menu_principal_vista.fesVisible();
@@ -488,7 +517,7 @@ public final class PresentacioCtrl
 	{
 		if ( menu_principal_vista == null )
 		{
-			menu_principal_vista = new MenuPrincipalVista( this, frame_principal );
+			menu_principal_vista = new MenuPrincipalVista( frame_principal );
 		}
 
 		inicia_sessio_vista = null;
@@ -502,7 +531,7 @@ public final class PresentacioCtrl
 	{
 		if ( inicia_sessio_vista == null )
 		{
-			inicia_sessio_vista = new IniciaSessioVista( this, frame_principal );
+			inicia_sessio_vista = new IniciaSessioVista( frame_principal );
 		}
 		menu_principal_vista = null;
 		inicia_sessio_vista.fesVisible();
@@ -515,7 +544,7 @@ public final class PresentacioCtrl
 	{
 		if ( preferencies_vista == null )
 		{
-			preferencies_vista = new ConfiguracioVista( this, frame_principal );
+			preferencies_vista = new ConfiguracioVista( frame_principal );
 		}
 		menu_principal_vista = null;
 		preferencies_vista.fesVisible();
@@ -528,7 +557,7 @@ public final class PresentacioCtrl
 	{
 		if ( menu_principal_vista == null )
 		{
-			menu_principal_vista = new MenuPrincipalVista( this, frame_principal );
+			menu_principal_vista = new MenuPrincipalVista( frame_principal );
 		}
 		preferencies_vista = null;
 		menu_principal_vista.fesVisible();
@@ -541,7 +570,7 @@ public final class PresentacioCtrl
 	{
 		if ( preferencies_vista == null )
 		{
-			preferencies_vista = new ConfiguracioVista( this, frame_principal );
+			preferencies_vista = new ConfiguracioVista( frame_principal );
 		}
 		canvia_contrasenya_vista = null;
 		preferencies_vista.fesVisible();
@@ -554,7 +583,7 @@ public final class PresentacioCtrl
 	{
 		if ( menu_principal_vista == null )
 		{
-			menu_principal_vista = new MenuPrincipalVista( this, frame_principal );
+			menu_principal_vista = new MenuPrincipalVista( frame_principal );
 		}
 		canvia_contrasenya_vista = null;
 		menu_principal_vista.fesVisible();
@@ -567,7 +596,7 @@ public final class PresentacioCtrl
 	{
 		if ( canvia_contrasenya_vista == null )
 		{
-			canvia_contrasenya_vista = new CanviaContrasenyaVista( this, frame_principal );
+			canvia_contrasenya_vista = new CanviaContrasenyaVista( frame_principal );
 		}
 		preferencies_vista = null;
 		canvia_contrasenya_vista.fesVisible();
@@ -580,7 +609,7 @@ public final class PresentacioCtrl
 	{
 		if ( configura_partida_vista == null )
 		{
-			configura_partida_vista = new ConfiguraPartidaVista( this, frame_principal );
+			configura_partida_vista = new ConfiguraPartidaVista( frame_principal );
 		}
 		menu_principal_vista = null;
 		configura_partida_vista.fesVisible();
@@ -593,7 +622,7 @@ public final class PresentacioCtrl
 	{
 		if ( menu_principal_vista == null )
 		{
-			menu_principal_vista = new MenuPrincipalVista( this, frame_principal );
+			menu_principal_vista = new MenuPrincipalVista( frame_principal );
 		}
 		configura_partida_vista = null;
 		menu_principal_vista.fesVisible();
@@ -606,7 +635,7 @@ public final class PresentacioCtrl
 	{
 		if ( ranquing_vista == null )
 		{
-			ranquing_vista = new RanquingVista( this, frame_principal );
+			ranquing_vista = new RanquingVista( frame_principal );
 		}
 		menu_principal_vista = null;
 		ranquing_vista.fesVisible();
@@ -619,7 +648,7 @@ public final class PresentacioCtrl
 	{
 		if ( menu_principal_vista == null )
 		{
-			menu_principal_vista = new MenuPrincipalVista( this, frame_principal );
+			menu_principal_vista = new MenuPrincipalVista( frame_principal );
 		}
 		ranquing_vista = null;
 		menu_principal_vista.fesVisible();
@@ -632,7 +661,7 @@ public final class PresentacioCtrl
 	{
 		if ( carrega_partida_vista == null )
 		{
-			carrega_partida_vista = new CarregaPartidaVista( this, frame_principal );
+			carrega_partida_vista = new CarregaPartidaVista( frame_principal );
 		}
 		menu_principal_vista = null;
 		carrega_partida_vista.fesVisible();
@@ -645,7 +674,7 @@ public final class PresentacioCtrl
 	{
 		if ( menu_principal_vista == null )
 		{
-			menu_principal_vista = new MenuPrincipalVista( this, frame_principal );
+			menu_principal_vista = new MenuPrincipalVista( frame_principal );
 		}
 		carrega_partida_vista = null;
 		menu_principal_vista.fesVisible();
@@ -658,7 +687,7 @@ public final class PresentacioCtrl
 	{
 		if ( partida_vista == null )
 		{
-			partida_vista = new PartidaVista( this, frame_principal );
+			partida_vista = new PartidaVista( frame_principal );
 		}
 		carrega_partida_vista = null;
 		partida_vista.fesVisible();
@@ -675,7 +704,7 @@ public final class PresentacioCtrl
 		if ( identifica_carrega_partida_vista == null )
 		{
 			identifica_carrega_partida_vista =
-					new IdentificaCarregaPartidaVista( this, frame_principal, usuari, id_partida );
+					new IdentificaCarregaPartidaVista( frame_principal, usuari, id_partida );
 		}
 		carrega_partida_vista = null;
 		identifica_carrega_partida_vista.fesVisible();
@@ -688,7 +717,7 @@ public final class PresentacioCtrl
 	{
 		if ( partida_vista == null )
 		{
-			partida_vista = new PartidaVista( this, frame_principal );
+			partida_vista = new PartidaVista( frame_principal );
 		}
 		identifica_carrega_partida_vista = null;
 		partida_vista.fesVisible();
@@ -701,7 +730,7 @@ public final class PresentacioCtrl
 	{
 		if ( menu_principal_vista == null )
 		{
-			menu_principal_vista = new MenuPrincipalVista( this, frame_principal );
+			menu_principal_vista = new MenuPrincipalVista( frame_principal );
 		}
 		identifica_carrega_partida_vista = null;
 		menu_principal_vista.fesVisible();
@@ -714,7 +743,7 @@ public final class PresentacioCtrl
 	{
 		if ( carrega_partida_vista == null )
 		{
-			carrega_partida_vista = new CarregaPartidaVista( this, frame_principal );
+			carrega_partida_vista = new CarregaPartidaVista( frame_principal );
 		}
 		identifica_carrega_partida_vista = null;
 		carrega_partida_vista.fesVisible();
@@ -727,7 +756,7 @@ public final class PresentacioCtrl
 	{
 		if ( partida_vista == null )
 		{
-			partida_vista = new PartidaVista( this, frame_principal );
+			partida_vista = new PartidaVista( frame_principal );
 		}
 		configura_partida_vista = null;
 		partida_vista.fesVisible();
@@ -740,7 +769,7 @@ public final class PresentacioCtrl
 	{
 		if ( defineix_situacio_vista == null )
 		{
-			defineix_situacio_vista = new DefineixSituacioVista( this, frame_principal );
+			defineix_situacio_vista = new DefineixSituacioVista( frame_principal );
 		}
 		configura_partida_vista = null;
 		defineix_situacio_vista.fesVisible();
@@ -753,7 +782,7 @@ public final class PresentacioCtrl
 	{
 		if ( menu_principal_vista == null )
 		{
-			menu_principal_vista = new MenuPrincipalVista( this, frame_principal );
+			menu_principal_vista = new MenuPrincipalVista( frame_principal );
 		}
 		partida_vista = null;
 		menu_principal_vista.fesVisible();
@@ -766,7 +795,7 @@ public final class PresentacioCtrl
 	{
 		if ( partida_vista == null )
 		{
-			partida_vista = new PartidaVista( this, frame_principal );
+			partida_vista = new PartidaVista( frame_principal );
 		}
 		defineix_situacio_vista = null;
 
@@ -781,7 +810,7 @@ public final class PresentacioCtrl
 	{
 		if ( menu_principal_vista == null )
 		{
-			menu_principal_vista = new MenuPrincipalVista( this, frame_principal );
+			menu_principal_vista = new MenuPrincipalVista( frame_principal );
 		}
 		defineix_situacio_vista = null;
 		menu_principal_vista.fesVisible();

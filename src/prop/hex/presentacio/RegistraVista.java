@@ -37,12 +37,11 @@ public final class RegistraVista extends BaseVista
 	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
 	 * controlador de presentació al qual haurà de demanar certes operacions.
 	 *
-	 * @param presentacio_ctrl Controlador de presentació.
 	 * @param frame_principal  Frame principal sobre el que s'hauran d'afegir els diferents components.
 	 */
-	public RegistraVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
+	public RegistraVista( JFrame frame_principal )
 	{
-		super( presentacio_ctrl, frame_principal );
+		super( frame_principal );
 
 		titol = new JLabel( "Registra't" );
 		panell_dades = new JPanelImatge( "img/caixa.png" );
@@ -164,9 +163,9 @@ public final class RegistraVista extends BaseVista
 			}
 			else
 			{
-				presentacio_ctrl.registraUsuari( usuari.getText(), contrasenya_introduida );
-				presentacio_ctrl.setUsuariActual( usuari.getText(), contrasenya_introduida );
-				presentacio_ctrl.vistaRegistraAMenuPrincipal();
+				PresentacioCtrl.getInstancia().registraUsuari( usuari.getText(), contrasenya_introduida );
+				PresentacioCtrl.getInstancia().setUsuariActual( usuari.getText(), contrasenya_introduida );
+				PresentacioCtrl.getInstancia().vistaRegistraAMenuPrincipal();
 			}
 		}
 		catch ( IllegalArgumentException excepcio )
@@ -192,6 +191,6 @@ public final class RegistraVista extends BaseVista
 	 */
 	public void accioBotoDescarta( ActionEvent event )
 	{
-		presentacio_ctrl.vistaRegistraAIniciaSessio();
+		PresentacioCtrl.getInstancia().vistaRegistraAIniciaSessio();
 	}
 }

@@ -31,12 +31,11 @@ public final class MenuPrincipalVista extends BaseVista
 	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
 	 * controlador de presentació al qual haurà de demanar certes operacions.
 	 *
-	 * @param presentacio_ctrl Controlador de presentació.
 	 * @param frame_principal  Frame principal sobre el que s'hauran d'afegir els diferents components.
 	 */
-	public MenuPrincipalVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
+	public MenuPrincipalVista( JFrame frame_principal )
 	{
-		super( presentacio_ctrl, frame_principal );
+		super( frame_principal );
 
 		titol = new JLabel( "Menú principal" );
 		panell_botons = new JPanel();
@@ -89,7 +88,7 @@ public final class MenuPrincipalVista extends BaseVista
 	{
 		panell_botons.setLayout( new GridLayout( 4, 1, 20, 20 ) );
 		panell_botons.add( juga );
-		if ( presentacio_ctrl.getEsConvidat() )
+		if ( PresentacioCtrl.getInstancia().getEsConvidat() )
 		{
 			carrega.setEnabled( false );
 		}
@@ -102,8 +101,8 @@ public final class MenuPrincipalVista extends BaseVista
 	@Override
 	protected void inicialitzaPanellPeu()
 	{
-		nom_jugador_principal = new JLabel( "Has iniciat sessió com a " + presentacio_ctrl.obteNomJugadorPrincipal
-				() );
+		nom_jugador_principal = new JLabel( "Has iniciat sessió com a " + PresentacioCtrl.getInstancia().obteNomJugadorPrincipal() );
+
 		panell_tanca_sessio.add( nom_jugador_principal );
 		panell_tanca_sessio.add( tanca_sessio );
 		panell_tanca_sessio.setOpaque( false );
@@ -172,7 +171,7 @@ public final class MenuPrincipalVista extends BaseVista
 	 */
 	public void accioBotoJuga( ActionEvent event )
 	{
-		presentacio_ctrl.vistaMenuPrincipalAConfiguraPartida();
+		PresentacioCtrl.getInstancia().vistaMenuPrincipalAConfiguraPartida();
 	}
 
 	/**
@@ -182,7 +181,7 @@ public final class MenuPrincipalVista extends BaseVista
 	 */
 	public void accioBotoCarrega( ActionEvent event )
 	{
-		presentacio_ctrl.vistaMenuPrincipalACarregaPartida();
+		PresentacioCtrl.getInstancia().vistaMenuPrincipalACarregaPartida();
 	}
 
 	/**
@@ -192,7 +191,7 @@ public final class MenuPrincipalVista extends BaseVista
 	 */
 	public void accioBotoPreferencies( ActionEvent event )
 	{
-		presentacio_ctrl.vistaMenuPrincipalAPreferencies();
+		PresentacioCtrl.getInstancia().vistaMenuPrincipalAPreferencies();
 	}
 
 	/**
@@ -202,7 +201,7 @@ public final class MenuPrincipalVista extends BaseVista
 	 */
 	public void accioBotoRanquing( ActionEvent event )
 	{
-		presentacio_ctrl.vistaMenuPrincipalARanquing();
+		PresentacioCtrl.getInstancia().vistaMenuPrincipalARanquing();
 	}
 
 	/**
@@ -212,7 +211,7 @@ public final class MenuPrincipalVista extends BaseVista
 	 */
 	public void accioBotoTancaSessio( ActionEvent event )
 	{
-		presentacio_ctrl.tancaSessio();
-		presentacio_ctrl.vistaMenuPrincipalAIniciaSessio();
+		PresentacioCtrl.getInstancia().tancaSessio();
+		PresentacioCtrl.getInstancia().vistaMenuPrincipalAIniciaSessio();
 	}
 }

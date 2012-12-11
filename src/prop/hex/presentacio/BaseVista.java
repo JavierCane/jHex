@@ -21,11 +21,6 @@ public abstract class BaseVista
 {
 
 	/**
-	 * Controlador de presentació.
-	 */
-	protected static PresentacioCtrl presentacio_ctrl;
-
-	/**
 	 * Frame principal de la vista.
 	 */
 	protected JFrame frame_vista;
@@ -69,12 +64,10 @@ public abstract class BaseVista
 	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
 	 * controlador de presentació al qual haurà de demanar certes operacions.
 	 *
-	 * @param presentacio_ctrl Controlador de presentació.
 	 * @param frame_vista      Frame principal sobre el que s'hauran d'afegir els diferents components.
 	 */
-	public BaseVista( PresentacioCtrl presentacio_ctrl, JFrame frame_vista )
+	public BaseVista( JFrame frame_vista )
 	{
-		this.presentacio_ctrl = presentacio_ctrl;
 		this.frame_vista = frame_vista;
 		panell_principal = new JPanelImatge( "img/fons.png" );
 		panell_titol = new JPanel();

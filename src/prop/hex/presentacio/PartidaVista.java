@@ -35,15 +35,14 @@ public final class PartidaVista extends BaseVista
 	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
 	 * controlador de presentació al qual haurà de demanar certes operacions.
 	 *
-	 * @param presentacio_ctrl Controlador de presentació.
 	 * @param frame_principal  Frame principal sobre el que s'hauran d'afegir els diferents components.
 	 */
-	public PartidaVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
+	public PartidaVista( JFrame frame_principal )
 	{
-		super( presentacio_ctrl, frame_principal );
+		super( frame_principal );
 
 		titol = new JLabel( "jHex" );
-		panell_central = new JPanelTauler( true, presentacio_ctrl );
+		panell_central = new JPanelTauler( true );
 		panell_botons = new JPanel();
 		intercanvia = new JButton( "Intercanvia fitxa" );
 		mou_ia = new JButton( "Mou IA" );
@@ -69,19 +68,19 @@ public final class PartidaVista extends BaseVista
 	@Override
 	protected void inicialitzaPanellPeu()
 	{
-		Object[][] elements_de_control_jugadors = presentacio_ctrl.getElementsDeControlJugadors();
+		Object[][] elements_de_control_jugadors = PresentacioCtrl.getInstancia().getElementsDeControlJugadors();
 		boolean es_partida_ia = ( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) != TipusJugadors
 				.JUGADOR &&
 				( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) != TipusJugadors.CONVIDAT &&
 				( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) != TipusJugadors.JUGADOR &&
 				( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) != TipusJugadors.CONVIDAT;
 		JPanel botons = new JPanel();
-		if (  presentacio_ctrl.getElementsDeControlPartida()[4] == ModesInici.PASTIS )
+		if (  PresentacioCtrl.getInstancia().getElementsDeControlPartida()[4] == ModesInici.PASTIS )
 		{
 			botons.add( intercanvia );
 			intercanvia.setEnabled( false );
 		}
-		int num_jugador = ( Integer ) presentacio_ctrl.getElementsDeControlPartida()[2] % 2;
+		int num_jugador = ( Integer ) PresentacioCtrl.getInstancia().getElementsDeControlPartida()[2] % 2;
 		if ( elements_de_control_jugadors[0][num_jugador] != TipusJugadors.CONVIDAT &&
 				elements_de_control_jugadors[0][num_jugador] != TipusJugadors.JUGADOR )
 		{
@@ -194,11 +193,11 @@ public final class PartidaVista extends BaseVista
 	{
 		mou_ia.setEnabled( false );
 		panell_central.mouIAOMostraPista();
-		if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA)
+		if ( PresentacioCtrl.getInstancia().consultaEstatPartida() == EstatPartida.NO_FINALITZADA)
 		{
-			int num_jugador = ( Integer ) presentacio_ctrl.getElementsDeControlPartida()[2] % 2;
-			if ( presentacio_ctrl.getElementsDeControlJugadors()[0][num_jugador] != TipusJugadors.CONVIDAT &&
-					presentacio_ctrl.getElementsDeControlJugadors()[0][num_jugador] != TipusJugadors.JUGADOR )
+			int num_jugador = ( Integer ) PresentacioCtrl.getInstancia().getElementsDeControlPartida()[2] % 2;
+			if ( PresentacioCtrl.getInstancia().getElementsDeControlJugadors()[0][num_jugador] != TipusJugadors.CONVIDAT &&
+					PresentacioCtrl.getInstancia().getElementsDeControlJugadors()[0][num_jugador] != TipusJugadors.JUGADOR )
 			{
 				mou_ia.setEnabled( true );
 			}
@@ -224,7 +223,7 @@ public final class PartidaVista extends BaseVista
 	public void accioBotoAbandona( ActionEvent event )
 	{
 		// Primer preguntem si vol guardar la partida a disc abans de sortir
-		Object[][] elements_de_control_jugadors = presentacio_ctrl.getElementsDeControlJugadors();
+		Object[][] elements_de_control_jugadors = PresentacioCtrl.getInstancia().getElementsDeControlJugadors();
 		boolean es_partida_ia = ( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) != TipusJugadors
 				.JUGADOR &&
 				( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) != TipusJugadors.CONVIDAT &&
@@ -243,7 +242,7 @@ public final class PartidaVista extends BaseVista
 
 			if ( "Sí" == valor_seleccionat )
 			{
-				presentacio_ctrl.vistaPartidaAMenuPrincipal();
+				PresentacioCtrl.getInstancia().vistaPartidaAMenuPrincipal();
 			}
 		}
 		else
@@ -260,7 +259,7 @@ public final class PartidaVista extends BaseVista
 			{
 				try
 				{
-					presentacio_ctrl.guardaPartida();
+					PresentacioCtrl.getInstancia().guardaPartida();
 				}
 				catch ( IOException excepcio )
 				{
@@ -277,8 +276,8 @@ public final class PartidaVista extends BaseVista
 							JOptionPane.WARNING_MESSAGE );
 				}
 
-				presentacio_ctrl.netejaParametresPartidaActual();
-				presentacio_ctrl.vistaPartidaAMenuPrincipal();
+				PresentacioCtrl.getInstancia().netejaParametresPartidaActual();
+				PresentacioCtrl.getInstancia().vistaPartidaAMenuPrincipal();
 
 			}
 			else if ( "No" == valor_seleccionat )
@@ -286,8 +285,8 @@ public final class PartidaVista extends BaseVista
 				// Si no vol guardar la partida, retornem a menu principal reinicialitzant els paràmetres de la
 				// partida
 				// en joc a valors buits
-				presentacio_ctrl.netejaParametresPartidaActual();
-				presentacio_ctrl.vistaPartidaAMenuPrincipal();
+				PresentacioCtrl.getInstancia().netejaParametresPartidaActual();
+				PresentacioCtrl.getInstancia().vistaPartidaAMenuPrincipal();
 			}
 			// Si selecciona l'opció de cancel·lar la sortida, simplement no fem res :)
 		}
@@ -306,8 +305,8 @@ public final class PartidaVista extends BaseVista
 
 	    try
 	    {
-		    presentacio_ctrl.finalitzaPartida();
-		    presentacio_ctrl.vistaPartidaAMenuPrincipal();
+		    PresentacioCtrl.getInstancia().finalitzaPartida();
+		    PresentacioCtrl.getInstancia().vistaPartidaAMenuPrincipal();
 	    }
 	    catch ( Exception excepcio )
 	    {

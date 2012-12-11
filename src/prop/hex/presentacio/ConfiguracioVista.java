@@ -45,12 +45,11 @@ public final class ConfiguracioVista extends BaseVista
 	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
 	 * controlador de presentació al qual haurà de demanar certes operacions.
 	 *
-	 * @param presentacio_ctrl Controlador de presentació.
 	 * @param frame_principal  Frame principal sobre el que s'hauran d'afegir els diferents components.
 	 */
-	public ConfiguracioVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
+	public ConfiguracioVista( JFrame frame_principal )
 	{
-		super( presentacio_ctrl, frame_principal );
+		super( frame_principal );
 
 		titol = new JLabel( "Configuració" );
 		panell_central = new JPanel();
@@ -118,7 +117,7 @@ public final class ConfiguracioVista extends BaseVista
 		colors_vermell_blau.setOpaque( false );
 		colors_negre_blanc.setOpaque( false );
 
-		if ( presentacio_ctrl.obteCombinacioDeColorsJugadorPrincipal() == CombinacionsColors.VERMELL_BLAU )
+		if ( PresentacioCtrl.getInstancia().obteCombinacioDeColorsJugadorPrincipal() == CombinacionsColors.VERMELL_BLAU )
 		{
 			colors_vermell_blau.setSelected( true );
 		}
@@ -138,7 +137,7 @@ public final class ConfiguracioVista extends BaseVista
 		mode_inici_estandard.setOpaque( false );
 		mode_inici_pastis.setOpaque( false );
 
-		if ( presentacio_ctrl.obteModeIniciJugadorPrincipal() == ModesInici.ESTANDARD )
+		if ( PresentacioCtrl.getInstancia().obteModeIniciJugadorPrincipal() == ModesInici.ESTANDARD )
 		{
 			mode_inici_estandard.setSelected( true );
 		}
@@ -153,7 +152,7 @@ public final class ConfiguracioVista extends BaseVista
 		panell_central.add( panell_colors );
 		panell_central.add( panell_modes_inici );
 		JPanel panell_botons_opcions = new JPanel();
-		if ( presentacio_ctrl.getEsConvidat() )
+		if ( PresentacioCtrl.getInstancia().getEsConvidat() )
 		{
 			reinicia_estadistiques.setEnabled( false );
 			canvia_contrasenya.setEnabled( false );
@@ -248,7 +247,7 @@ public final class ConfiguracioVista extends BaseVista
 				JOptionPane.QUESTION_MESSAGE );
 		if ( valor_seleccionat == "Sí" )
 		{
-			presentacio_ctrl.reiniciaEstadistiquesJugadorPrincipal();
+			PresentacioCtrl.getInstancia().reiniciaEstadistiquesJugadorPrincipal();
 		}
 	}
 
@@ -259,7 +258,7 @@ public final class ConfiguracioVista extends BaseVista
 	 */
 	public void accioBotoCanviaContrasenya( ActionEvent event )
 	{
-		if ( presentacio_ctrl.getEsConvidat() )
+		if ( PresentacioCtrl.getInstancia().getEsConvidat() )
 		{
 			VistaDialeg dialeg = new VistaDialeg();
 			String[] botons = { "Accepta" };
@@ -268,7 +267,7 @@ public final class ConfiguracioVista extends BaseVista
 		}
 		else
 		{
-			presentacio_ctrl.vistaPreferenciesACanviaContrasenya();
+			PresentacioCtrl.getInstancia().vistaPreferenciesACanviaContrasenya();
 		}
 	}
 
@@ -289,9 +288,9 @@ public final class ConfiguracioVista extends BaseVista
 
 		if ( valor_seleccionat == "Sí" )
 		{
-			presentacio_ctrl.eliminaUsuariJugadorPrincipal();
-			presentacio_ctrl.tancaSessio();
-			presentacio_ctrl.vistaMenuPrincipalAIniciaSessio();
+			PresentacioCtrl.getInstancia().eliminaUsuariJugadorPrincipal();
+			PresentacioCtrl.getInstancia().tancaSessio();
+			PresentacioCtrl.getInstancia().vistaMenuPrincipalAIniciaSessio();
 		}
 	}
 
@@ -317,9 +316,9 @@ public final class ConfiguracioVista extends BaseVista
 				combinacio_colors = CombinacionsColors.NEGRE_BLANC;
 			}
 
-			presentacio_ctrl.modificaPreferenciesJugadorPrincipal( mode_inici, combinacio_colors );
-			presentacio_ctrl.guardaJugadorPrincipal();
-			presentacio_ctrl.vistaPreferenciesAMenuPrincipal();
+			PresentacioCtrl.getInstancia().modificaPreferenciesJugadorPrincipal( mode_inici, combinacio_colors );
+			PresentacioCtrl.getInstancia().guardaJugadorPrincipal();
+			PresentacioCtrl.getInstancia().vistaPreferenciesAMenuPrincipal();
 		}
 		catch ( Exception e )
 		{
@@ -337,6 +336,6 @@ public final class ConfiguracioVista extends BaseVista
 	 */
 	public void accioBotoDescarta( ActionEvent event )
 	{
-		presentacio_ctrl.vistaPreferenciesAMenuPrincipal();
+		PresentacioCtrl.getInstancia().vistaPreferenciesAMenuPrincipal();
 	}
 }

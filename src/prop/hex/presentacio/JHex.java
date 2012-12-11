@@ -30,8 +30,7 @@ public final class JHex
 			@Override
 			public void run()
 			{
-				PresentacioCtrl presentacio_ctrl = new PresentacioCtrl();
-				presentacio_ctrl.inicialitzaPresentacio();
+				PresentacioCtrl.getInstancia().inicialitzaPresentacio();
 			}
 		} );
 	}

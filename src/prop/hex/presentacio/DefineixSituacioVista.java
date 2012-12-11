@@ -31,15 +31,14 @@ public final class DefineixSituacioVista extends BaseVista
 	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
 	 * controlador de presentació al qual haurà de demanar certes operacions.
 	 *
-	 * @param presentacio_ctrl Controlador de presentació.
 	 * @param frame_principal  Frame principal sobre el que s'hauran d'afegir els diferents components.
 	 */
-	public DefineixSituacioVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
+	public DefineixSituacioVista( JFrame frame_principal )
 	{
-		super( presentacio_ctrl, frame_principal );
+		super( frame_principal );
 
 		titol = new JLabel( "jHex" );
-		panell_central = new JPanelTauler( false, presentacio_ctrl );
+		panell_central = new JPanelTauler( false );
 		panell_botons = new JPanel();
 		inicia_partida = new JButton( "Inicia la partida" );
 		abandona = new JButton( "Abandona la partida" );
@@ -110,7 +109,7 @@ public final class DefineixSituacioVista extends BaseVista
 	 */
 	public void accioBotoAbandona( ActionEvent event )
 	{
-		if ( presentacio_ctrl.consultaEstatPartida() == EstatPartida.NO_FINALITZADA )
+		if ( PresentacioCtrl.getInstancia().consultaEstatPartida() == EstatPartida.NO_FINALITZADA )
 		{
 			VistaDialeg dialeg = new VistaDialeg();
 
@@ -123,12 +122,12 @@ public final class DefineixSituacioVista extends BaseVista
 
 			if ( "Sí" == valor_seleccionat )
 			{
-				presentacio_ctrl.vistaDefineixSituacioAMenuPrincipal();
+				PresentacioCtrl.getInstancia().vistaDefineixSituacioAMenuPrincipal();
 			}
 		}
 		else
 		{
-			presentacio_ctrl.vistaDefineixSituacioAMenuPrincipal();
+			PresentacioCtrl.getInstancia().vistaDefineixSituacioAMenuPrincipal();
 		}
 
 	}
@@ -140,9 +139,14 @@ public final class DefineixSituacioVista extends BaseVista
 	 */
 	public void accioBotoIniciaPartida( ActionEvent event )
 	{
-		presentacio_ctrl.vistaDefineixSituacioAPartida();
+		PresentacioCtrl.getInstancia().vistaDefineixSituacioAPartida();
 	}
 
+	/**
+	 * Mostra un diàleg al finalitzar la partida amb les dades de la mateixa. Realitza la finalització de la partida.
+	 *
+	 * @param missatge Missatge que es mostra en el diàleg.
+	 */
 	public void mostraDialegVictoria( String missatge )
 	{
 		VistaDialeg dialeg = new VistaDialeg();
@@ -151,8 +155,8 @@ public final class DefineixSituacioVista extends BaseVista
 
 		try
 		{
-			presentacio_ctrl.finalitzaPartida();
-			presentacio_ctrl.vistaDefineixSituacioAMenuPrincipal();
+			PresentacioCtrl.getInstancia().finalitzaPartida();
+			PresentacioCtrl.getInstancia().vistaDefineixSituacioAMenuPrincipal();
 		}
 		catch ( Exception excepcio )
 		{

@@ -57,12 +57,11 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
 	 * controlador de presentació al qual haurà de demanar certes operacions.
 	 *
-	 * @param presentacio_ctrl Controlador de presentació.
 	 * @param frame_principal  Frame principal sobre el que s'hauran d'afegir els diferents components.
 	 */
-	public ConfiguraPartidaVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
+	public ConfiguraPartidaVista( JFrame frame_principal )
 	{
-		super( presentacio_ctrl, frame_principal );
+		super( frame_principal );
 
 		titol = new JLabel( "Juga una partida" );
 
@@ -101,7 +100,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 		text_jugador_b = new JLabel( "Jugador 2:" );
 
 		// Si l'usuari ha iniciat sessió com a convidat, únicament mostro l'opció de jugar com convidat o màquina
-		if ( presentacio_ctrl.getEsConvidat() )
+		if ( PresentacioCtrl.getInstancia().getEsConvidat() )
 		{
 			combo_tipus_jugador_a = new JComboBox( new String[] {
 					"Convidat", "Màquina"
@@ -110,7 +109,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 		else // Si ha iniciat sessió como a usuari registrat, mostro les 3 opcions
 		{
 			combo_tipus_jugador_a = new JComboBox( new String[] {
-					presentacio_ctrl.obteNomJugadorPrincipal(), "Convidat", "Màquina"
+					PresentacioCtrl.getInstancia().obteNomJugadorPrincipal(), "Convidat", "Màquina"
 			} );
 		}
 
@@ -192,11 +191,11 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 		seleccio_jugador_a.setOpaque( false );
 
 		// Si l'usuari no ha iniciat sessió com a convidat, mostro l'opció de jugar com a registrat
-		if ( !presentacio_ctrl.getEsConvidat() )
+		if ( !PresentacioCtrl.getInstancia().getEsConvidat() )
 		{
 			JPanel text_usuari_registrat = new JPanel();
 			text_usuari_registrat.setOpaque( false );
-			seleccio_jugador_a.add( text_usuari_registrat, presentacio_ctrl.obteNomJugadorPrincipal() );
+			seleccio_jugador_a.add( text_usuari_registrat, PresentacioCtrl.getInstancia().obteNomJugadorPrincipal() );
 		}
 
 		// Formulari nom convidat jugador 1 per quan a seleccionat jugar com convidat
@@ -315,7 +314,8 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 
 			try
 			{
-				presentacio_ctrl.preInicialitzaUsuariPartida( num_jugador, tipus_jugador_a_inicialitzar, "", "" );
+				PresentacioCtrl.getInstancia().preInicialitzaUsuariPartida( num_jugador,
+						tipus_jugador_a_inicialitzar, "", "" );
 			}
 			catch ( IOException e )
 			{
@@ -331,7 +331,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 		// Si ha seleccionat convidat, creo una instància temporal d'usuari amb el nom escollit
 		else if ( combo_tipus_jugador.getSelectedItem() == "Convidat" )
 		{
-			if ( presentacio_ctrl.existeixUsuari( camp_nom_convidat.getText() ) )
+			if ( PresentacioCtrl.getInstancia().existeixUsuari( camp_nom_convidat.getText() ) )
 			{
 				throw new IllegalArgumentException( "El nom d'usuari ja està en ús." );
 			}
@@ -344,8 +344,8 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 			{
 				try
 				{
-					presentacio_ctrl.preInicialitzaUsuariPartida( num_jugador, TipusJugadors.CONVIDAT,
-							camp_nom_convidat.getText(), "" );
+					PresentacioCtrl.getInstancia().preInicialitzaUsuariPartida( num_jugador, TipusJugadors
+							.CONVIDAT, camp_nom_convidat.getText(), "" );
 				}
 				catch ( IOException e ) // Aquest error no s'hauria de donar mai ja que si l'usuari es de tipus
 				// convidat, no el guardem a disc
@@ -363,8 +363,8 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 		}
 		else // Si ha seleccionat l'altra opció, es que vol jugar amb un usuari registrat
 		{
-			if ( num_jugador == 1 && combo_tipus_jugador_a.getSelectedItem() == presentacio_ctrl
-					.obteNomJugadorPrincipal() && nom_usuari.equals( presentacio_ctrl.obteNomJugadorPrincipal() ) )
+			if ( num_jugador == 1 && combo_tipus_jugador_a.getSelectedItem() == PresentacioCtrl.getInstancia()
+					.obteNomJugadorPrincipal() && nom_usuari.equals( PresentacioCtrl.getInstancia().obteNomJugadorPrincipal() ) )
 			{
 				throw new IllegalArgumentException( "No pots jugar contra tu mateix." );
 			}
@@ -377,8 +377,8 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 			{
 				try
 				{
-					presentacio_ctrl.preInicialitzaUsuariPartida( num_jugador, TipusJugadors.JUGADOR, nom_usuari,
-							contrasenya_usuari );
+					PresentacioCtrl.getInstancia().preInicialitzaUsuariPartida( num_jugador, TipusJugadors.JUGADOR,
+							nom_usuari, contrasenya_usuari );
 				}
 				catch ( IllegalArgumentException e )
 				{
@@ -527,8 +527,8 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 			{
 				try
 				{
-					presentacio_ctrl.inicialitzaPartida( 7, camp_nom_partida.getText(), false );
-					presentacio_ctrl.vistaConfiguraPartidaAPartida();
+					PresentacioCtrl.getInstancia().inicialitzaPartida( 7, camp_nom_partida.getText(), false );
+					PresentacioCtrl.getInstancia().vistaConfiguraPartidaAPartida();
 				}
 				catch ( ClassNotFoundException excepcio )
 				{
@@ -579,8 +579,8 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 						"", "" );
 				preInicialitzaUsuariPartida( 1, combo_tipus_jugador_b, camp_nom_convidat_b, combo_tipus_maquina_b,
 						camp_nom_usuari_b.getText(), new String( camp_contrasenya_usuari_b.getPassword() ) );
-				presentacio_ctrl.inicialitzaPartida( 7, camp_nom_partida.getText(), true );
-				presentacio_ctrl.vistaConfiguraPartidaADefineixSituacio();
+				PresentacioCtrl.getInstancia().inicialitzaPartida( 7, camp_nom_partida.getText(), true );
+				PresentacioCtrl.getInstancia().vistaConfiguraPartidaADefineixSituacio();
 			}
 			catch ( Exception excepcio )
 			{
@@ -599,7 +599,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 	 */
 	public void accioBotoDescarta( ActionEvent event )
 	{
-		presentacio_ctrl.vistaConfiguraPartidaAMenuPrincipal();
+		PresentacioCtrl.getInstancia().vistaConfiguraPartidaAMenuPrincipal();
 	}
 
 	/**

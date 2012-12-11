@@ -37,12 +37,11 @@ public final class RanquingVista extends BaseVista
 	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
 	 * controlador de presentació al qual haurà de demanar certes operacions.
 	 *
-	 * @param presentacio_ctrl Controlador de presentació.
 	 * @param frame_principal  Frame principal sobre el que s'hauran d'afegir els diferents components.
 	 */
-	public RanquingVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal )
+	public RanquingVista( JFrame frame_principal )
 	{
-		super( presentacio_ctrl, frame_principal );
+		super( frame_principal );
 
 		titol = new JLabel( "Rànquing" );
 		panell_central = new JPanel();
@@ -50,7 +49,7 @@ public final class RanquingVista extends BaseVista
 		torna = new JButton( "Torna al menú principal" );
 
 		// Construeixo les taules del rànquing (classificació)
-		dades_classificacio = presentacio_ctrl.getClassificacioFormatejada();
+		dades_classificacio = PresentacioCtrl.getInstancia().getClassificacioFormatejada();
 		model_taula_classificacio = new ModelTaulaClassificacio( dades_classificacio, new String[] {
 				"Nom d'usuari", "Partides jugades", "Percentatge de victòries", "Puntuació global"
 		} );
@@ -62,7 +61,7 @@ public final class RanquingVista extends BaseVista
 		taula_classificacio.setRowSorter( ordenacio );
 
 		// Construeixo les taules del rànquing (hall of fame)
-		dades_hall_of_fame = presentacio_ctrl.getHallOfFameFormatejat();
+		dades_hall_of_fame = PresentacioCtrl.getInstancia().getHallOfFameFormatejat();
 		taula_hall_of_fame = new JTable( new ModelTaula( dades_hall_of_fame, new String[] {
 				"Fita aconseguida", "Jugador", "Rècord"
 		} ) );
@@ -162,6 +161,6 @@ public final class RanquingVista extends BaseVista
 	 */
 	public void accioBotoTorna( ActionEvent event )
 	{
-		presentacio_ctrl.vistaRanquingAMenuPrincipal();
+		PresentacioCtrl.getInstancia().vistaRanquingAMenuPrincipal();
 	}
 }

@@ -32,15 +32,14 @@ public final class IdentificaCarregaPartidaVista extends BaseVista
 	 * controlador de presentació al qual haurà de demanar certes operacions, el nom de l'usuari que es vol
 	 * identificar i l'identificador de la partida que es vol carregar.
 	 *
-	 * @param presentacio_ctrl Controlador de presentació.
 	 * @param frame_principal  Frame principal sobre el que s'hauran d'afegir els diferents components.
 	 * @param usuari           Nom de l'usuari que es vol identificar.
 	 * @param id_partida       Identificador de la partida que es vol carregar.
 	 */
-	public IdentificaCarregaPartidaVista( PresentacioCtrl presentacio_ctrl, JFrame frame_principal, String usuari,
+	public IdentificaCarregaPartidaVista( JFrame frame_principal, String usuari,
 	                                      String id_partida )
 	{
-		super( presentacio_ctrl, frame_principal );
+		super( frame_principal );
 
 		titol = new JLabel( "Carrega partida - Identificar-se" );
 		panell_dades = new JPanelImatge( "img/caixa.png" );
@@ -168,8 +167,8 @@ public final class IdentificaCarregaPartidaVista extends BaseVista
 	{
 		try
 		{
-			presentacio_ctrl.carregaPartida( id_partida, new String( contrasenya.getPassword() ) );
-			presentacio_ctrl.vistaIdentificaCarregaPartidaAPartida();
+			PresentacioCtrl.getInstancia().carregaPartida( id_partida, new String( contrasenya.getPassword() ) );
+			PresentacioCtrl.getInstancia().vistaIdentificaCarregaPartidaAPartida();
 		}
 		catch ( Exception excepcio )
 		{
@@ -186,7 +185,7 @@ public final class IdentificaCarregaPartidaVista extends BaseVista
 	 */
 	public void accioBotoLlistaPartides( ActionEvent event )
 	{
-		presentacio_ctrl.vistaIdentificaCarregaPartidaACarregaPartida();
+		PresentacioCtrl.getInstancia().vistaIdentificaCarregaPartidaACarregaPartida();
 	}
 
 	/**
@@ -196,6 +195,6 @@ public final class IdentificaCarregaPartidaVista extends BaseVista
 	 */
 	public void accioBotoMenuPrincipal( ActionEvent event )
 	{
-		presentacio_ctrl.vistaIdentificaCarregaPartidaAMenuPrincipal();
+		PresentacioCtrl.getInstancia().vistaIdentificaCarregaPartidaAMenuPrincipal();
 	}
 }
