@@ -83,6 +83,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 				"Convidat",
 				"Usuari registrat"
 		} );
+
 		combo_tipus_maquina_b = new JComboBox( TipusJugadors.obteLlistatMaquines() );
 
 		// Camps de tipus text/contrasenya

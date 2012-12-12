@@ -1,6 +1,9 @@
 package prop.hex.domini.models.enums;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+import java.util.Vector;
 
 /**
  * Enum amb les distintes dificultats del joc.
@@ -23,23 +26,17 @@ public enum TipusJugadors
 {
 	CONVIDAT( 0, 0, 0, "IAHexQueenBeeCtrl" ),
 	JUGADOR( 1, 5, 4, "IAHexQueenBeeCtrl" ),
-	IA_FACIL( 2, 10, 3, "IAMiniMaxCtrl", "Jose Antonio Camacho (MiniMax, nivell 0)" ),
-	IA_POTENCIAL( 2, 10, 3, "IAHexPotencialsCtrl", "Louis van Gaal (Potencials, nivell 0.5)" ),
-	IA_MONTESCOUT( 3, 15, 2, "IAHexNegaMonteScoutCtrl", "Bill Clinton (MonteScout, nivell 1)" ),
-	IA_QUEENBEE( 4, 15, 2, "IAHexQueenBeeCtrl", "Hillary Clinton (QueenBee, nivell 1.5)" ),
-	IA_SEXQUEENBEE( 5, 20, 1, "IAHexSexSearchCtrl", "Monica Lewinsky (SexQueenBee, nivell 2)" );
+	IA_ALEATORIA( 2, "Mr. X (Algorisme aleatori, nivell X)" ),
+	IA_FACIL( 3, 10, 3, "IAMiniMaxCtrl", "Jose Antonio Camacho (MiniMax, nivell 0)" ),
+	IA_POTENCIAL( 4, 10, 3, "IAHexPotencialsCtrl", "Louis van Gaal (Potencials, nivell 0.5)" ),
+	IA_MONTESCOUT( 5, 15, 2, "IAHexNegaMonteScoutCtrl", "Bill Clinton (MonteScout, nivell 1)" ),
+	IA_QUEENBEE( 6, 15, 2, "IAHexQueenBeeCtrl", "Hillary Clinton (QueenBee, nivell 1.5)" ),
+	IA_SEXQUEENBEE( 7, 20, 1, "IAHexSexSearchCtrl", "Monica Lewinsky (SexQueenBee, nivell 2)" );
 
 	/**
 	 * Nombre total de dificultats del joc.
 	 */
 	private static final int num_dificultats = values().length;
-
-	/**
-	 * Llista no modificable dels possibles valors de l'enum
-	 */
-	private static final List<TipusJugadors> tipus_jugadors = Collections.unmodifiableList( Arrays.asList( values() ) );
-
-	private static final Vector<TipusJugadors> jugadors_maquina = new Vector<TipusJugadors>();
 
 	/**
 	 * Posició de la dificultat a l'array de nombres de victories/derrotes d'un Usuari.
@@ -69,7 +66,7 @@ public enum TipusJugadors
 
 	/**
 	 * Constructora de l'enum, simplement estableix el valor de cada un dels atributs privats per després poder-los
-	 * obtenir en base al valor de l'enum seleccionat
+	 * obtenir en base al valor de l'enum seleccionat. Utilitzada per inicialitzar els tipus de jugadors usuaris no IA.
 	 *
 	 * @param posicio_dificultat
 	 * @param punts_per_guanyar
@@ -86,7 +83,7 @@ public enum TipusJugadors
 
 	/**
 	 * Constructora de l'enum, simplement estableix el valor de cada un dels atributs privats per després poder-los
-	 * obtenir en base al valor de l'enum seleccionat
+	 * obtenir en base al valor de l'enum seleccionat. Utilitzada per inicialitzar les distintes IAs conegudes.
 	 *
 	 * @param posicio_dificultat
 	 * @param punts_per_guanyar
@@ -102,6 +99,20 @@ public enum TipusJugadors
 		this.punts_per_perdre = punts_per_perdre;
 		this.classe_corresponent = classe_corresponent;
 		this.nom_usuari = nom_usuari;
+	}
+
+	/**
+	 * Constructora de l'enum, simplement estableix el valor de cada un dels atributs privats per després poder-los
+	 * obtenir en base al valor de l'enum seleccionat. Utilitzada per inicialitzar la IA aleatòria.
+	 *
+	 * @param posicio_dificultat
+	 * @param nom_usuari
+	 */
+	TipusJugadors( int posicio_dificultat, String nom_usuari )
+	{
+		this.posicio_dificultat = posicio_dificultat;
+		this.nom_usuari = nom_usuari;
+		// Els altres paràmetres s'inicialitzaràn mitjançant la funció inicialitzaMaquinaAleatoria (explicació allà).
 	}
 
 	/**
@@ -187,11 +198,23 @@ public enum TipusJugadors
 	 *
 	 * @return TipusJugadors Jugador de tipus màquina aleatori
 	 */
-	public static TipusJugadors getMaquinaAleatoria()
+	private static TipusJugadors inicialitzaMaquinaAleatoria()
 	{
+		// Primer obtinc un tipus d'usuari de la llista de forma aleatòria sense tenir en compte els 3 primers
+		List<TipusJugadors> llista_tipus_jugadors = Arrays.asList( values() );
 		Random num_aleatori = new Random();
+		TipusJugadors jugador_base = llista_tipus_jugadors.get( num_aleatori.nextInt( num_dificultats - 3 ) + 3 );
 
-		return tipus_jugadors.get( num_aleatori.nextInt( num_dificultats - 2 ) + 2 );
+		// Un cop tinc la IA que faré servir debase, defineixo els mateixos paràmetres per la IA aleatòria.
+		// Podría retornar directament la IA obtinguda de forma aleatòria sense crear una nova posició de l'enum,
+		// però llavors estaria utilitzant el mateix objecte, i això implica que si modifiqués el nom pero
+		// l'aleatori, també el modificaria per la IA que faci de base.
+
+		IA_ALEATORIA.punts_per_guanyar = jugador_base.punts_per_guanyar;
+		IA_ALEATORIA.punts_per_perdre = jugador_base.punts_per_perdre;
+		IA_ALEATORIA.classe_corresponent = jugador_base.classe_corresponent;
+
+		return IA_ALEATORIA;
 	}
 
 	/**
@@ -203,17 +226,18 @@ public enum TipusJugadors
 	 */
 	public static Vector<TipusJugadors> obteLlistatMaquines()
 	{
-		if ( jugadors_maquina.isEmpty() )
+		final Vector<TipusJugadors> jugadors_maquina = new Vector<TipusJugadors>();
+
+		// Afegeixo tots els tipus de jugadors que siguin màquines no aleatories
+		for ( TipusJugadors tipus_jugador : values() )
 		{
-			// Afegeixo tots els tipus de jugadors que siguin màquines (tingin nom de màquina)
-			for ( TipusJugadors tipus_jugador : values() )
+			if ( tipus_jugador.posicio_dificultat > 2 )
 			{
-				if ( tipus_jugador.posicio_dificultat != 0 && tipus_jugador.posicio_dificultat != 1 )
-				{
-					jugadors_maquina.add( tipus_jugador );
-				}
+				jugadors_maquina.add( tipus_jugador );
 			}
 		}
+
+		jugadors_maquina.add( inicialitzaMaquinaAleatoria() );
 
 		return jugadors_maquina;
 	}
