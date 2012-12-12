@@ -16,6 +16,7 @@ import java.io.File;
  *
  * @author Guillermo Girona San Miguel (Grup 7.3, Hex)
  */
+
 public abstract class BaseVista
 {
 
@@ -174,7 +175,7 @@ public abstract class BaseVista
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
-				accioBotoSurt( event );
+				accioBotoSurt();
 			}
 		} );
 
@@ -184,17 +185,15 @@ public abstract class BaseVista
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
-				accioBotoAjuda( event );
+				accioBotoAjuda();
 			}
 		} );
 	}
 
 	/**
 	 * Defineix el comportament del botó de sortida quan sigui pitjat.
-	 *
-	 * @param event Event que activarà el botó.
 	 */
-	public void accioBotoSurt( ActionEvent event )
+	public void accioBotoSurt()
 	{
 		VistaDialeg dialeg = new VistaDialeg();
 
@@ -213,7 +212,7 @@ public abstract class BaseVista
 		}
 	}
 
-	public void accioBotoAjuda( ActionEvent event )
+	public void accioBotoAjuda()
 	{
 		try
 		{

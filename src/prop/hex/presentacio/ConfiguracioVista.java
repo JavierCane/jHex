@@ -39,7 +39,7 @@ public final class ConfiguracioVista extends BaseVista
 	private JButton canvia_contrasenya;
 	private JButton elimina_usuari;
 	private JButton accepta;
-	private JButton descarta;
+	private JButton torna;
 
 	/**
 	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
@@ -66,7 +66,7 @@ public final class ConfiguracioVista extends BaseVista
 		canvia_contrasenya = new JButton( "Canvia la contrasenya" );
 		elimina_usuari = new JButton( "Elimina el teu usuari" );
 		accepta = new JButton( "Accepta" );
-		descarta = new JButton( "Descarta" );
+		torna = new JButton( "Torna al menú principal" );
 
 		inicialitzaVista();
 	}
@@ -172,7 +172,7 @@ public final class ConfiguracioVista extends BaseVista
 		panell_botons.setLayout( new FlowLayout() );
 
 		panell_botons.add( accepta );
-		panell_botons.add( descarta );
+		panell_botons.add( torna );
 		panell_botons.setOpaque( false );
 	}
 
@@ -187,7 +187,7 @@ public final class ConfiguracioVista extends BaseVista
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
-				accioBotoReiniciaEstadistiques( event );
+				accioBotoReiniciaEstadistiques();
 			}
 		} );
 
@@ -197,7 +197,7 @@ public final class ConfiguracioVista extends BaseVista
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
-				accioBotoCanviaContrasenya( event );
+				accioBotoCanviaContrasenya();
 			}
 		} );
 
@@ -207,7 +207,7 @@ public final class ConfiguracioVista extends BaseVista
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
-				accioBotoEliminaUsuari( event );
+				accioBotoEliminaUsuari();
 			}
 		} );
 
@@ -217,27 +217,25 @@ public final class ConfiguracioVista extends BaseVista
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
-				accioBotoAccepta( event );
+				accioBotoAccepta();
 			}
 		} );
 
-		descarta.addActionListener( new ActionListener()
+		torna.addActionListener( new ActionListener()
 		{
 
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
-				accioBotoDescarta( event );
+				accioBotoTorna();
 			}
 		} );
 	}
 
 	/**
 	 * Defineix el comportament del botó de definir situació inicial quan sigui pitjat.
-	 *
-	 * @param event Event que activarà el botó.
 	 */
-	public void accioBotoReiniciaEstadistiques( ActionEvent event )
+	public void accioBotoReiniciaEstadistiques()
 	{
 		VistaDialeg dialeg = new VistaDialeg();
 		String[] botons = {
@@ -256,10 +254,8 @@ public final class ConfiguracioVista extends BaseVista
 
 	/**
 	 * Defineix el comportament del botó de definir situació inicial quan sigui pitjat.
-	 *
-	 * @param event Event que activarà el botó.
 	 */
-	public void accioBotoCanviaContrasenya( ActionEvent event )
+	public void accioBotoCanviaContrasenya()
 	{
 		if ( PresentacioCtrl.getInstancia().getEsConvidat() )
 		{
@@ -276,10 +272,8 @@ public final class ConfiguracioVista extends BaseVista
 
 	/**
 	 * Defineix el comportament del botó de definir situació inicial quan sigui pitjat.
-	 *
-	 * @param event Event que activarà el botó.
 	 */
-	public void accioBotoEliminaUsuari( ActionEvent event )
+	public void accioBotoEliminaUsuari()
 	{
 		VistaDialeg dialeg = new VistaDialeg();
 		String[] botons = {
@@ -299,10 +293,8 @@ public final class ConfiguracioVista extends BaseVista
 
 	/**
 	 * Defineix el comportament del botó d'acceptar quan sigui pitjat.
-	 *
-	 * @param event Event que activarà el botó.
 	 */
-	public void accioBotoAccepta( ActionEvent event )
+	public void accioBotoAccepta()
 	{
 		try
 		{
@@ -333,11 +325,9 @@ public final class ConfiguracioVista extends BaseVista
 	}
 
 	/**
-	 * Defineix el comportament del botó de descartar quan sigui pitjat.
-	 *
-	 * @param event Event que activarà el botó.
+	 * Defineix el comportament del botó de tornar quan sigui pitjat.
 	 */
-	public void accioBotoDescarta( ActionEvent event )
+	public void accioBotoTorna()
 	{
 		PresentacioCtrl.getInstancia().vistaPreferenciesAMenuPrincipal();
 	}

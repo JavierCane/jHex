@@ -26,7 +26,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 	// Botons
 	private JButton inicia_partida;
 	private JButton situacio_inicial;
-	private JButton descarta;
+	private JButton torna;
 
 	// Camps de tipus combos
 	private JComboBox combo_tipus_jugador_a;
@@ -71,7 +71,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 		// Botons
 		inicia_partida = new JButton( "Inicia la partida" );
 		situacio_inicial = new JButton( "Defineix la situació inicial" );
-		descarta = new JButton( "Descarta" );
+		torna = new JButton( "Torna al menú principal" );
 
 		// Camps de tipus combos
 		combo_tipus_maquina_a = new JComboBox( TipusJugadors.obteLlistatMaquines() );
@@ -289,7 +289,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 		panell_situacio_inicial_descarta.setBorder( BorderFactory.createEmptyBorder( 0, 100, 0, 100 ) );
 		panell_situacio_inicial_descarta.setOpaque( false );
 		panell_situacio_inicial_descarta.add( situacio_inicial );
-		panell_situacio_inicial_descarta.add( descarta );
+		panell_situacio_inicial_descarta.add( torna );
 		panell_botons.add( panell_situacio_inicial_descarta );
 	}
 
@@ -418,7 +418,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
-				accioBotoIniciaPartida( event );
+				accioBotoIniciaPartida();
 			}
 		} );
 
@@ -428,17 +428,17 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
-				accioBotoSituacioInicial( event );
+				accioBotoSituacioInicial();
 			}
 		} );
 
-		descarta.addActionListener( new ActionListener()
+		torna.addActionListener( new ActionListener()
 		{
 
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
-				accioBotoDescarta( event );
+				accioBotoTorna();
 			}
 		} );
 
@@ -478,10 +478,8 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 
 	/**
 	 * Defineix el comportament del botó d'iniciar partida quan sigui pitjat.
-	 *
-	 * @param event Event que activarà el botó.
 	 */
-	public void accioBotoIniciaPartida( ActionEvent event )
+	public void accioBotoIniciaPartida()
 	{
 		// Inicialitzo els dos jugadors de la partida en base a les dades dels seus formularis
 		if ( camp_nom_partida.getText().isEmpty() )
@@ -597,10 +595,8 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 
 	/**
 	 * Defineix el comportament del botó de definir situació inicial quan sigui pitjat.
-	 *
-	 * @param event Event que activarà el botó.
 	 */
-	public void accioBotoSituacioInicial( ActionEvent event )
+	public void accioBotoSituacioInicial()
 	{
 		// Inicialitzo els dos jugadors de la partida en base a les dades dels seus formularis
 		if ( camp_nom_partida.getText().isEmpty() )
@@ -633,11 +629,9 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 	}
 
 	/**
-	 * Defineix el comportament del botó de descartar quan sigui pitjat.
-	 *
-	 * @param event Event que activarà el botó.
+	 * Defineix el comportament del botó de tornar quan sigui pitjat.
 	 */
-	public void accioBotoDescarta( ActionEvent event )
+	public void accioBotoTorna()
 	{
 		PresentacioCtrl.getInstancia().vistaConfiguraPartidaAMenuPrincipal();
 	}

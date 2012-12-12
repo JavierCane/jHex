@@ -134,7 +134,7 @@ public final class IniciaSessioVista extends BaseVista
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
-				accioBotoAccepta( event );
+				accioBotoAccepta();
 			}
 		} );
 
@@ -144,7 +144,7 @@ public final class IniciaSessioVista extends BaseVista
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
-				accioBotoConvidat( event );
+				accioBotoConvidat();
 			}
 		} );
 
@@ -154,17 +154,15 @@ public final class IniciaSessioVista extends BaseVista
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
-				accioBotoRegistra( event );
+				accioBotoRegistra();
 			}
 		} );
 	}
 
 	/**
 	 * Defineix el comportament del botó d'acceptar quan sigui pitjat.
-	 *
-	 * @param event Event que activarà el botó.
 	 */
-	public void accioBotoAccepta( ActionEvent event )
+	public void accioBotoAccepta()
 	{
 		try
 		{
@@ -189,10 +187,8 @@ public final class IniciaSessioVista extends BaseVista
 
 	/**
 	 * Defineix el comportament del botó d'entrar com a convidat quan sigui pitjat.
-	 *
-	 * @param event Event que activarà el botó.
 	 */
-	public void accioBotoConvidat( ActionEvent event )
+	public void accioBotoConvidat()
 	{
 		try
 		{
@@ -217,10 +213,8 @@ public final class IniciaSessioVista extends BaseVista
 
 	/**
 	 * Defineix el comportament del botó de registrar-se quan sigui pitjat.
-	 *
-	 * @param event Event que activarà el botó.
 	 */
-	public void accioBotoRegistra( ActionEvent event )
+	public void accioBotoRegistra()
 	{
 		PresentacioCtrl.getInstancia().vistaIniciaSessioARegistra();
 	}

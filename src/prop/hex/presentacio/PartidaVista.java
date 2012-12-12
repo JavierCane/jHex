@@ -122,7 +122,7 @@ public final class PartidaVista extends BaseVista
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
-				accioBotoIntercanviaFitxa( event );
+				accioBotoIntercanviaFitxa();
 			}
 		} );
 
@@ -132,7 +132,7 @@ public final class PartidaVista extends BaseVista
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
-				accioBotoMouIA( event );
+				accioBotoMouIA();
 			}
 		} );
 
@@ -142,7 +142,7 @@ public final class PartidaVista extends BaseVista
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
-				accioBotoDemanaPista( event );
+				accioBotoDemanaPista();
 			}
 		} );
 
@@ -179,10 +179,8 @@ public final class PartidaVista extends BaseVista
 
 	/**
 	 * Defineix el comportament del botó d'intercanvia fitxa quan sigui pitjat.
-	 *
-	 * @param event Event que activarà el botó.
 	 */
-	public void accioBotoIntercanviaFitxa( ActionEvent event )
+	public void accioBotoIntercanviaFitxa()
 	{
 		intercanvia.setEnabled( false );
 		panell_central.intercanviaFitxa();
@@ -190,10 +188,8 @@ public final class PartidaVista extends BaseVista
 
 	/**
 	 * Defineix el comportament del botó de mou IA quan sigui pitjat.
-	 *
-	 * @param event Event que activarà el botó.
 	 */
-	public void accioBotoMouIA( ActionEvent event )
+	public void accioBotoMouIA()
 	{
 		mou_ia.setEnabled( false );
 		panell_central.mouIAOMostraPista();
@@ -212,10 +208,8 @@ public final class PartidaVista extends BaseVista
 
 	/**
 	 * Defineix el comportament del botó de demanar pista quan sigui pitjat.
-	 *
-	 * @param event Event que activarà el botó.
 	 */
-	public void accioBotoDemanaPista( ActionEvent event )
+	public void accioBotoDemanaPista()
 	{
 		demana_pista.setEnabled( false );
 		panell_central.mouIAOMostraPista();
@@ -356,11 +350,9 @@ public final class PartidaVista extends BaseVista
 
 	/**
 	 * Defineix el comportament del botó de sortida quan sigui pitjat.
-	 *
-	 * @param event Event que activarà el botó.
 	 */
 	@Override
-	public void accioBotoSurt( ActionEvent event )
+	public void accioBotoSurt()
 	{
 		accioBotoAbandona( true );
 	}

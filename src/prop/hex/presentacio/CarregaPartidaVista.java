@@ -23,7 +23,7 @@ public final class CarregaPartidaVista extends BaseVista
 
 	// Botons
 	private JButton carrega;
-	private JButton descarta;
+	private JButton torna;
 	private JButton elimina;
 
 	// Dades associades a la taula
@@ -47,7 +47,7 @@ public final class CarregaPartidaVista extends BaseVista
 		panell_central = new JPanel();
 		panell_botons = new JPanel();
 		carrega = new JButton( "Carrega" );
-		descarta = new JButton( "Descarta" );
+		torna = new JButton( "Torna al menú principal" );
 		elimina = new JButton( "Elimina" );
 		String[][] dades = PresentacioCtrl.getInstancia().obteLlistaPartides();
 		Object[][] dades_taula = new String[dades.length][3];
@@ -119,7 +119,7 @@ public final class CarregaPartidaVista extends BaseVista
 	protected void inicialitzaPanellPeu()
 	{
 		panell_botons.add( carrega );
-		panell_botons.add( descarta );
+		panell_botons.add( torna );
 		panell_botons.add( elimina );
 		panell_botons.setOpaque( false );
 	}
@@ -135,17 +135,17 @@ public final class CarregaPartidaVista extends BaseVista
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
-				accioBotoCarrega( event );
+				accioBotoCarrega();
 			}
 		} );
 
-		descarta.addActionListener( new ActionListener()
+		torna.addActionListener( new ActionListener()
 		{
 
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
-				accioBotoDescarta( event );
+				accioBotoTorna();
 			}
 		} );
 
@@ -155,17 +155,15 @@ public final class CarregaPartidaVista extends BaseVista
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
-				accioBotoElimina( event );
+				accioBotoElimina();
 			}
 		} );
 	}
 
 	/**
 	 * Defineix el comportament del botó de carregar quan sigui pitjat.
-	 *
-	 * @param event Event que activarà el botó.
 	 */
-	public void accioBotoCarrega( ActionEvent event )
+	public void accioBotoCarrega()
 	{
 		if ( taula_partides.getSelectedRowCount() == 0 )
 		{
@@ -200,21 +198,17 @@ public final class CarregaPartidaVista extends BaseVista
 	}
 
 	/**
-	 * Defineix el comportament del botó de descartar quan sigui pitjat.
-	 *
-	 * @param event Event que activarà el botó.
+	 * Defineix el comportament del botó de tornar quan sigui pitjat.
 	 */
-	public void accioBotoDescarta( ActionEvent event )
+	public void accioBotoTorna()
 	{
 		PresentacioCtrl.getInstancia().vistaCarregaPartidaAMenuPrincipal();
 	}
 
 	/**
 	 * Defineix el comportament del botó de eliminar quan sigui pitjat.
-	 *
-	 * @param event Event que activarà el botó.
 	 */
-	public void accioBotoElimina( ActionEvent event )
+	public void accioBotoElimina()
 	{
 		if ( taula_partides.getSelectedRowCount() == 0 )
 		{

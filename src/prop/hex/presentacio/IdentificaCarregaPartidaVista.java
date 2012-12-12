@@ -132,7 +132,7 @@ public final class IdentificaCarregaPartidaVista extends BaseVista
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
-				accioBotoAccepta( event );
+				accioBotoAccepta();
 			}
 		} );
 
@@ -142,7 +142,7 @@ public final class IdentificaCarregaPartidaVista extends BaseVista
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
-				accioBotoLlistaPartides( event );
+				accioBotoLlistaPartides();
 			}
 		} );
 
@@ -152,17 +152,15 @@ public final class IdentificaCarregaPartidaVista extends BaseVista
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
-				accioBotoMenuPrincipal( event );
+				accioBotoMenuPrincipal();
 			}
 		} );
 	}
 
 	/**
 	 * Defineix el comportament del botó d'acceptar quan sigui pitjat.
-	 *
-	 * @param event Event que activarà el botó.
 	 */
-	public void accioBotoAccepta( ActionEvent event )
+	public void accioBotoAccepta()
 	{
 		try
 		{
@@ -179,20 +177,16 @@ public final class IdentificaCarregaPartidaVista extends BaseVista
 
 	/**
 	 * Defineix el comportament del botó de tornar a la llista de partides quan sigui pitjat.
-	 *
-	 * @param event Event que activarà el botó.
 	 */
-	public void accioBotoLlistaPartides( ActionEvent event )
+	public void accioBotoLlistaPartides()
 	{
 		PresentacioCtrl.getInstancia().vistaIdentificaCarregaPartidaACarregaPartida();
 	}
 
 	/**
 	 * Defineix el comportament del botó de tornar al menú principal quan sigui pitjat.
-	 *
-	 * @param event Event que activarà el botó.
 	 */
-	public void accioBotoMenuPrincipal( ActionEvent event )
+	public void accioBotoMenuPrincipal()
 	{
 		PresentacioCtrl.getInstancia().vistaIdentificaCarregaPartidaAMenuPrincipal();
 	}

@@ -253,8 +253,8 @@ public final class UsuariCtrl
 	{
 		if ( !usuari_principal.getContrasenya().equals( contrasenya_antiga ) )
 		{
-			throw new IllegalArgumentException( "[KO]\tLa contrasenya actual introduïda no correspon a l'actual de " +
-			                                    "" + "l'usuari." );
+			throw new IllegalArgumentException(
+					"La contrasenya actual introduïda no correspon a l'actual de " + "l'usuari." );
 		}
 		else
 		{

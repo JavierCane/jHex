@@ -89,7 +89,7 @@ public final class DefineixSituacioVista extends BaseVista
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
-				accioBotoIniciaPartida( event );
+				accioBotoIniciaPartida();
 			}
 		} );
 
@@ -99,17 +99,15 @@ public final class DefineixSituacioVista extends BaseVista
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
-				accioBotoAbandona( event );
+				accioBotoAbandona();
 			}
 		} );
 	}
 
 	/**
 	 * Defineix el comportament del botó d'abandonar partida quan sigui pitjat.
-	 *
-	 * @param event Event que activarà el botó.
 	 */
-	public void accioBotoAbandona( ActionEvent event )
+	public void accioBotoAbandona()
 	{
 		if ( PresentacioCtrl.getInstancia().consultaEstatPartida() == EstatPartida.NO_FINALITZADA )
 		{
@@ -136,18 +134,14 @@ public final class DefineixSituacioVista extends BaseVista
 
 	/**
 	 * Defineix el comportament del botó d'iniciar partida quan sigui pitjat.
-	 *
-	 * @param event Event que activarà el botó.
 	 */
-	public void accioBotoIniciaPartida( ActionEvent event )
+	public void accioBotoIniciaPartida()
 	{
 		PresentacioCtrl.getInstancia().vistaDefineixSituacioAPartida();
 	}
 
 	/**
 	 * Mostra un diàleg al finalitzar la partida amb les dades de la mateixa. Realitza la finalització de la partida.
-	 *
-	 * @param missatge Missatge que es mostra en el diàleg.
 	 */
 	public void mostraDialegVictoria( String missatge )
 	{

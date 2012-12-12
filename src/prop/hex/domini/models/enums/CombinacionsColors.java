@@ -9,7 +9,7 @@ import java.awt.*;
  * La gràcia d'aquest enum es que es dinàmic i els codis de colors numés figuren aquí,
  * fent així que el fet de modificar aquestos (afegint o cambiant la tonalitat) numés impliqui editar aquest fitxer.
  * <p/>
- * L'ordre dels valors de l'array de colors de cada uns dels valors de l'enum es important y ha de ser el seguent:
+ * L'ordre dels valors de l'array de colors de cada uns dels valors de l'enum es important i ha de ser el seguent:
  * Color de les caselles del jugador_a,
  * Color de les caselles del jugador_b,
  * Color de les caselles buides,
@@ -18,12 +18,8 @@ import java.awt.*;
  * Color de les caselles pista,
  * Color de les caselles inhabilitades,
  * Color del text de la informació del jugador_a,
- * Color del text de Mou Fitxa IA del jugador_a,
  * Color del text de la informació del jugador_b,
- * Color del text de Mou Fitxa IA del jugador_b,
  * Color de la resta de textos
- *
- * @author Javier Ferrer Gonzalez (Grup 7.3, Hex)
  */
 public enum CombinacionsColors
 {
@@ -37,9 +33,7 @@ public enum CombinacionsColors
 			new Color( 0x666666 ),
 			new Color( 0x333333 ),
 			new Color( 0xAA0000 ),
-			new Color( 0xFFFFFF ),
 			new Color( 0x0000AA ),
-			new Color( 0xFFFFFF ),
 			new Color( 0x000000 )
 	} ),
 
@@ -52,9 +46,7 @@ public enum CombinacionsColors
 			new Color( 0x005E5E ),
 			new Color( 0x002E2E ),
 			new Color( 0x000000 ),
-			new Color( 0xFFFFFF ),
-			new Color( 0xFFFFFF ),
-			new Color( 0x000000 ),
+			new Color( 0x666666 ),
 			new Color( 0x000000 )
 	} );
 
@@ -104,22 +96,10 @@ public enum CombinacionsColors
 	private Color color_text_informacio_jugador_a;
 
 	/**
-	 * Atribut que, un cop inicialitzada la constructora de l'enum, contindrà el color del text Mou Fitxa IA per al
-	 * jugador A
-	 */
-	private Color color_text_mou_ia_jugador_a;
-
-	/**
 	 * Atribut que, un cop inicialitzada la constructora de l'enum, contindrà el color del text amb la informació
 	 * del jugador B
 	 */
 	private Color color_text_informacio_jugador_b;
-
-	/**
-	 * Atribut que, un cop inicialitzada la constructora de l'enum, contindrà el color del text Mou Fitxa IA per al
-	 * jugador B
-	 */
-	private Color color_text_mou_ia_jugador_b;
 
 	/**
 	 * Atribut que, un cop inicialitzada la constructora de l'enum, contindrà el color dels textos genèrics del
@@ -143,10 +123,8 @@ public enum CombinacionsColors
 		color_caselles_pista = colors[5];
 		color_caselles_inhabilitades = colors[6];
 		color_text_informacio_jugador_a = colors[7];
-		color_text_mou_ia_jugador_a = colors[8];
-		color_text_informacio_jugador_b = colors[9];
-		color_text_mou_ia_jugador_b = colors[10];
-		color_text_generic = colors[11];
+		color_text_informacio_jugador_b = colors[8];
+		color_text_generic = colors[9];
 	}
 
 	/**
@@ -231,34 +209,6 @@ public enum CombinacionsColors
 		else if ( EstatCasella.JUGADOR_B == estat_casella )
 		{
 			return color_text_informacio_jugador_b;
-		}
-		else if ( EstatCasella.BUIDA == estat_casella )
-		{
-			return color_text_generic;
-		}
-		else
-		{
-			return null;
-		}
-	}
-
-	/**
-	 * Mètode públic per poder obtenir el color del text de Mou Fitxa IA d'un jugador de l'enum de possibles estats
-	 * de les
-	 * caselles (que coincideixen amb els possibles jugadors)
-	 *
-	 * @param estat_casella Jugador del qual es vol saber el color del text de Mou Fitxa IA.
-	 * @return El color relacionat amb l'estat.
-	 */
-	public Color getColorTextMouFitxaIA( EstatCasella estat_casella )
-	{
-		if ( EstatCasella.JUGADOR_A == estat_casella )
-		{
-			return color_text_mou_ia_jugador_a;
-		}
-		else if ( EstatCasella.JUGADOR_B == estat_casella )
-		{
-			return color_text_mou_ia_jugador_b;
 		}
 		else if ( EstatCasella.BUIDA == estat_casella )
 		{

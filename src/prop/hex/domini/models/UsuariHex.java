@@ -70,6 +70,9 @@ public final class UsuariHex extends Usuari implements Serializable, Comparable<
 	 */
 	private static final Set<String> noms_reservats =
 			Collections.unmodifiableSet( new HashSet<String>( Arrays.asList( new String[] {
+					"Convidat",
+					"Convidat 1",
+					"Convidat 2",
 					"Jose Antonio Camacho (MiniMax, nivell 0)",
 					"Bill Clinton (MonteScout, nivell 1)",
 					"Hillary Clinton (QueenBee, nivell 1.5)",

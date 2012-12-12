@@ -21,7 +21,7 @@ public final class RegistraVista extends BaseVista
 
 	// Botons
 	private JButton accepta;
-	private JButton descarta;
+	private JButton torna;
 
 	// Camps de tipus text/contrasenya
 	private JTextField usuari;
@@ -46,7 +46,7 @@ public final class RegistraVista extends BaseVista
 		titol = new JLabel( "Registra't" );
 		panell_dades = new JPanelImatge( "img/caixa.png" );
 		accepta = new JButton( "Accepta" );
-		descarta = new JButton( "Descarta" );
+		torna = new JButton( "Torna al menú principal" );
 		usuari = new JTextField();
 		contrasenya = new JPasswordField();
 		confirma_contrasenya = new JPasswordField();
@@ -106,7 +106,7 @@ public final class RegistraVista extends BaseVista
 		JPanel panell_botons = new JPanel();
 		panell_botons.setLayout( new FlowLayout() );
 		panell_botons.add( accepta );
-		panell_botons.add( descarta );
+		panell_botons.add( torna );
 		panell_botons.setBorder( BorderFactory.createEmptyBorder( 10, 10, 10, 10 ) );
 		panell_botons.setOpaque( false );
 		panell_dades.add( panell_camps );
@@ -129,27 +129,25 @@ public final class RegistraVista extends BaseVista
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
-				accioBotoAccepta( event );
+				accioBotoAccepta();
 			}
 		} );
 
-		descarta.addActionListener( new ActionListener()
+		torna.addActionListener( new ActionListener()
 		{
 
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
-				accioBotoDescarta( event );
+				accioBotoTorna();
 			}
 		} );
 	}
 
 	/**
 	 * Defineix el comportament del botó d'acceptar quan sigui pitjat.
-	 *
-	 * @param event Event que activarà el botó.
 	 */
-	public void accioBotoAccepta( ActionEvent event )
+	public void accioBotoAccepta()
 	{
 		try
 		{
@@ -159,6 +157,13 @@ public final class RegistraVista extends BaseVista
 				VistaDialeg dialeg = new VistaDialeg();
 				String[] botons = { "Accepta" };
 				String valor_seleccionat = dialeg.setDialeg( "Error", "Les dues contrasenyes no coincideixen.", botons,
+						JOptionPane.WARNING_MESSAGE );
+			}
+			else if ( contrasenya_introduida.equals( new String( "" ) ) )
+			{
+				VistaDialeg dialeg = new VistaDialeg();
+				String[] botons = { "Accepta" };
+				String valor_seleccionat = dialeg.setDialeg( "Error", "Has d'introduir una contrasenya.", botons,
 						JOptionPane.WARNING_MESSAGE );
 			}
 			else
@@ -185,11 +190,9 @@ public final class RegistraVista extends BaseVista
 	}
 
 	/**
-	 * Defineix el comportament del botó de descartar quan sigui pitjat.
-	 *
-	 * @param event Event que activarà el botó.
+	 * Defineix el comportament del botó de tornar quan sigui pitjat.
 	 */
-	public void accioBotoDescarta( ActionEvent event )
+	public void accioBotoTorna()
 	{
 		PresentacioCtrl.getInstancia().vistaRegistraAIniciaSessio();
 	}

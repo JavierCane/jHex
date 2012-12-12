@@ -155,17 +155,15 @@ public final class RanquingVista extends BaseVista
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
-				accioBotoTorna( event );
+				accioBotoTorna();
 			}
 		} );
 	}
 
 	/**
 	 * Defineix el comportament del botó de tornar al menú principal quan sigui pitjat.
-	 *
-	 * @param event Event que activarà el botó.
 	 */
-	public void accioBotoTorna( ActionEvent event )
+	public void accioBotoTorna()
 	{
 		PresentacioCtrl.getInstancia().vistaRanquingAMenuPrincipal();
 	}

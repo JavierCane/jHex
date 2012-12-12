@@ -120,7 +120,7 @@ public final class MenuPrincipalVista extends BaseVista
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
-				accioBotoJuga( event );
+				accioBotoJuga();
 			}
 		} );
 
@@ -130,7 +130,7 @@ public final class MenuPrincipalVista extends BaseVista
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
-				accioBotoCarrega( event );
+				accioBotoCarrega();
 			}
 		} );
 
@@ -140,7 +140,7 @@ public final class MenuPrincipalVista extends BaseVista
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
-				accioBotoPreferencies( event );
+				accioBotoPreferencies();
 			}
 		} );
 
@@ -150,7 +150,7 @@ public final class MenuPrincipalVista extends BaseVista
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
-				accioBotoRanquing( event );
+				accioBotoRanquing();
 			}
 		} );
 
@@ -160,57 +160,47 @@ public final class MenuPrincipalVista extends BaseVista
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
-				accioBotoTancaSessio( event );
+				accioBotoTancaSessio();
 			}
 		} );
 	}
 
 	/**
 	 * Defineix el comportament del botó de jugar una partida quan sigui pitjat.
-	 *
-	 * @param event Event que activarà el botó.
 	 */
-	public void accioBotoJuga( ActionEvent event )
+	public void accioBotoJuga()
 	{
 		PresentacioCtrl.getInstancia().vistaMenuPrincipalAConfiguraPartida();
 	}
 
 	/**
 	 * Defineix el comportament del botó de carregar una partida quan sigui pitjat.
-	 *
-	 * @param event Event que activarà el botó.
 	 */
-	public void accioBotoCarrega( ActionEvent event )
+	public void accioBotoCarrega()
 	{
 		PresentacioCtrl.getInstancia().vistaMenuPrincipalACarregaPartida();
 	}
 
 	/**
 	 * Defineix el comportament del botó de preferències quan sigui pitjat.
-	 *
-	 * @param event Event que activarà el botó.
 	 */
-	public void accioBotoPreferencies( ActionEvent event )
+	public void accioBotoPreferencies()
 	{
 		PresentacioCtrl.getInstancia().vistaMenuPrincipalAPreferencies();
 	}
 
 	/**
 	 * Defineix el comportament del botó de rànquing quan sigui pitjat.
-	 *
-	 * @param event Event que activarà el botó.
 	 */
-	public void accioBotoRanquing( ActionEvent event )
+	public void accioBotoRanquing()
 	{
 		PresentacioCtrl.getInstancia().vistaMenuPrincipalARanquing();
 	}
 
 	/**
 	 * Defineix el comportament del botó de tancar sessió quan sigui pitjat.
-	 *
-	 * @param event Event que activarà el botó.
 	 */
-	public void accioBotoTancaSessio( ActionEvent event )
+	public void accioBotoTancaSessio()
 	{
 		PresentacioCtrl.getInstancia().vistaMenuPrincipalAIniciaSessio();
 	}
