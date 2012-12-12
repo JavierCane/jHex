@@ -1,5 +1,7 @@
 package prop.hex.domini.models;
 
+import prop.hex.domini.models.enums.TipusJugadors;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
@@ -212,7 +214,11 @@ public final class Ranquing implements Serializable
 		}
 
 		Collections.sort( classificacio ); // Actualitzo l'ordre del rànquing
-		comprovaRecords( usuari ); // Comprovo si els rècords son millors que els de l'usuari que estic actualitzant
+
+		if ( usuari.getTipusJugador() == TipusJugadors.JUGADOR )
+		{
+			comprovaRecords( usuari ); // Comprovo si els rècords son millors que els de l'usuari que estic actualitzant
+		}
 	}
 
 	/**
@@ -345,7 +351,10 @@ public final class Ranquing implements Serializable
 	{
 		for ( UsuariHex usuari_classificat : classificacio )
 		{
-			comprovaTempsMinim( usuari_classificat.getTempsMinim(), usuari_classificat.getNom() );
+			if ( usuari_classificat.getTipusJugador() == TipusJugadors.JUGADOR )
+			{
+				comprovaTempsMinim( usuari_classificat.getTempsMinim(), usuari_classificat.getNom() );
+			}
 		}
 	}
 
@@ -353,7 +362,10 @@ public final class Ranquing implements Serializable
 	{
 		for ( UsuariHex usuari_classificat : classificacio )
 		{
-			comprovaFitxesMinimes( usuari_classificat.getFitxesMinimes(), usuari_classificat.getNom() );
+			if ( usuari_classificat.getTipusJugador() == TipusJugadors.JUGADOR )
+			{
+				comprovaFitxesMinimes( usuari_classificat.getFitxesMinimes(), usuari_classificat.getNom() );
+			}
 		}
 	}
 
@@ -361,7 +373,10 @@ public final class Ranquing implements Serializable
 	{
 		for ( UsuariHex usuari_classificat : classificacio )
 		{
-			comprovaPartidesGuanyades( usuari_classificat.getPartidesGuanyades(), usuari_classificat.getNom() );
+			if ( usuari_classificat.getTipusJugador() == TipusJugadors.JUGADOR )
+			{
+				comprovaPartidesGuanyades( usuari_classificat.getPartidesGuanyades(), usuari_classificat.getNom() );
+			}
 		}
 	}
 
@@ -369,7 +384,10 @@ public final class Ranquing implements Serializable
 	{
 		for ( UsuariHex usuari_classificat : classificacio )
 		{
-			comprovaPartidesJugades( usuari_classificat.getPartidesJugades(), usuari_classificat.getNom() );
+			if ( usuari_classificat.getTipusJugador() == TipusJugadors.JUGADOR )
+			{
+				comprovaPartidesJugades( usuari_classificat.getPartidesJugades(), usuari_classificat.getNom() );
+			}
 		}
 	}
 }
