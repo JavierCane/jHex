@@ -447,26 +447,6 @@ public final class PartidaCtrl
 	}
 
 	/**
-	 * Comprova si la partida actual té situació inicial.
-	 *
-	 * @return Cert si la partida actual té situació inicial. Fals altrament.
-	 */
-	public boolean esPartidaAmbSituacioInicial()
-	{
-		return partida_actual.teSituacioInicial();
-	}
-
-	/**
-	 * Comprova si la partida actual té situació inicial i està acabada de definir
-	 *
-	 * @return Cert si la partida actual té situació inicial i està acabada de definr. Fals altrament.
-	 */
-	public boolean esPartidaAmbSituacioInicialAcabadaDeDefinir()
-	{
-		return partida_actual.teSituacioInicialAcabadaDeDefinir();
-	}
-
-	/**
 	 * Per una partida que té situació inicial, estableix que aquesta ja està acabada de definir.
 	 *
 	 * @see #esPartidaAmbSituacioInicial()
