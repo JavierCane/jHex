@@ -75,12 +75,14 @@ public final class PartidaVista extends BaseVista
 				( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) != TipusJugadors.JUGADOR &&
 				( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) != TipusJugadors.CONVIDAT;
 		JPanel botons = new JPanel();
-		if (  PresentacioCtrl.getInstancia().getElementsDeControlPartida()[4] == ModesInici.PASTIS )
+		if ( PresentacioCtrl.getInstancia().getElementsDeControlPartida()[4] == ModesInici.PASTIS &&
+                ( elements_de_control_jugadors[0][1] == TipusJugadors.CONVIDAT ||
+                elements_de_control_jugadors[0][1] == TipusJugadors.JUGADOR ) )
 		{
 			botons.add( intercanvia );
 			intercanvia.setEnabled( false );
 		}
-		int num_jugador = ( Integer ) PresentacioCtrl.getInstancia().getElementsDeControlPartida()[2] % 2;
+        int num_jugador = ( Integer ) PresentacioCtrl.getInstancia().getElementsDeControlPartida()[2] % 2;
 		if ( elements_de_control_jugadors[0][num_jugador] != TipusJugadors.CONVIDAT &&
 				elements_de_control_jugadors[0][num_jugador] != TipusJugadors.JUGADOR )
 		{
@@ -103,7 +105,9 @@ public final class PartidaVista extends BaseVista
 	@Override
 	protected void inicialitzaPanellSortida()
 	{
-		panell_sortida.add( surt );
+        panell_sortida.setLayout( new FlowLayout( FlowLayout.CENTER, 10, 0 ) );
+        panell_sortida.add( ajuda );
+        panell_sortida.add( surt );
 		panell_sortida.setOpaque( false );
 	}
 

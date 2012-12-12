@@ -84,9 +84,9 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 		combo_tipus_maquina_b = new JComboBox( TipusJugadors.obteLlistatMaquines() );
 
 		// Camps de tipus text/contrasenya
-		camp_nom_partida = new JTextField();
-		camp_nom_convidat_a = new JTextField();
-		camp_nom_convidat_b = new JTextField();
+		camp_nom_partida = new JTextField( "Partida sense nom" );
+		camp_nom_convidat_a = new JTextField( "Convidat 1" );
+		camp_nom_convidat_b = new JTextField( "Convidat 2" );
 		camp_nom_usuari_b = new JTextField();
 		camp_contrasenya_usuari_b = new JPasswordField();
 
@@ -336,6 +336,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 				throw new IllegalArgumentException( "El nom d'usuari ja està en ús." );
 			}
 			else if ( num_jugador == 1 && combo_tipus_jugador_a.getSelectedItem() == "Convidat" &&
+                    !( camp_nom_convidat_a.getText() != "" ) &&
 					camp_nom_convidat_a.getText().equals( camp_nom_convidat.getText() ) )
 			{
 				throw new IllegalArgumentException( "El nom dels dos jugadors ha de ser diferent." );

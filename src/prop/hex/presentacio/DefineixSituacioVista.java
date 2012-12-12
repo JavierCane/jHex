@@ -72,7 +72,9 @@ public final class DefineixSituacioVista extends BaseVista
 
 	protected void inicialitzaPanellSortida()
 	{
-		panell_sortida.add( surt );
+        panell_sortida.setLayout( new FlowLayout( FlowLayout.CENTER, 10, 0 ) );
+        panell_sortida.add( ajuda );
+        panell_sortida.add( surt );
 		panell_sortida.setOpaque( false );
 	}
 
