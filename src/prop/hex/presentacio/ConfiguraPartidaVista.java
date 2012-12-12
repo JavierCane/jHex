@@ -6,10 +6,7 @@ import prop.hex.presentacio.auxiliars.VistaDialeg;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
 import java.io.IOException;
 
 /**
@@ -445,6 +442,37 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 			}
 		} );
 
+		camp_nom_partida.addMouseListener( new MouseAdapter()
+		{
+
+			@Override
+			public void mouseClicked( MouseEvent event )
+			{
+				System.out.println( "action perfor" );
+				netejaJTextField( camp_nom_partida );
+			}
+		} );
+
+		camp_nom_convidat_a.addMouseListener( new MouseAdapter()
+		{
+
+			@Override
+			public void mouseClicked( MouseEvent event )
+			{
+				netejaJTextField( camp_nom_convidat_a );
+			}
+		} );
+
+		camp_nom_convidat_b.addMouseListener( new MouseAdapter()
+		{
+
+			@Override
+			public void mouseClicked( MouseEvent event )
+			{
+				netejaJTextField( camp_nom_convidat_b );
+			}
+		} );
+
 		combo_tipus_jugador_a.addItemListener( this );
 		combo_tipus_jugador_b.addItemListener( this );
 	}
@@ -613,6 +641,12 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 	public void accioBotoDescarta( ActionEvent event )
 	{
 		PresentacioCtrl.getInstancia().vistaConfiguraPartidaAMenuPrincipal();
+	}
+
+	private void netejaJTextField( JTextField camp_de_text )
+	{
+		System.out.println( "nete" );
+		camp_de_text.setText( "" );
 	}
 
 	/**
