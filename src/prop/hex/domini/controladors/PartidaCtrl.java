@@ -205,13 +205,13 @@ public final class PartidaCtrl
 	private void inicialitzaIAJugadors() throws ClassNotFoundException, IllegalAccessException, InstantiationException
 	{
 		ia_jugadors[0] = ( InteligenciaArtificialHex ) Class.forName( "prop.hex.domini.controladors.IA." +
-		                                               ( partida_actual.getJugadorA() ).getTipusJugador()
-				                                               .getClasseCorresponent() ).newInstance();
+		                                                              ( partida_actual.getJugadorA() ).getTipusJugador()
+				                                                              .getClasseCorresponent() ).newInstance();
 		ia_jugadors[0].setPartida( partida_actual );
 
 		ia_jugadors[1] = ( InteligenciaArtificialHex ) Class.forName( "prop.hex.domini.controladors.IA." +
-		                                               ( partida_actual.getJugadorB() ).getTipusJugador()
-				                                               .getClasseCorresponent() ).newInstance();
+		                                                              ( partida_actual.getJugadorB() ).getTipusJugador()
+				                                                              .getClasseCorresponent() ).newInstance();
 		ia_jugadors[1].setPartida( partida_actual );
 	}
 
@@ -403,7 +403,7 @@ public final class PartidaCtrl
 	 * @return Cert si s'han esborrat. Fals altrament.
 	 * @see PartidaHexGstr#eliminaElement(String)
 	 */
-	public boolean esborraPartidesUsuari( String id_usuari )
+	public boolean eliminaPartidesUsuari( String id_usuari )
 	{
 		Set<String> id_partides = PartidaHexGstr.getInstancia().llistaPartidesUsuari( id_usuari );
 		boolean resultat = true;
@@ -448,9 +448,6 @@ public final class PartidaCtrl
 
 	/**
 	 * Per una partida que té situació inicial, estableix que aquesta ja està acabada de definir.
-	 *
-	 * @see #esPartidaAmbSituacioInicial()
-	 * @see #esPartidaAmbSituacioInicialAcabadaDeDefinir()
 	 */
 	public void acabaDeDefinirSituacioInicial()
 	{

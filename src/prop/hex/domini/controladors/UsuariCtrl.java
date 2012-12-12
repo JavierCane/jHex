@@ -157,7 +157,7 @@ public final class UsuariCtrl
 		Ranquing.getInstancia().eliminaRanquingUsuari( usuari_principal );
 
 		// Elimina les partides que estigués dispuntant a mitges
-		PartidaCtrl.getInstancia().esborraPartidesUsuari( usuari_principal.getIdentificadorUnic() );
+		PartidaCtrl.getInstancia().eliminaPartidesUsuari( usuari_principal.getIdentificadorUnic() );
 	}
 
 	/**
