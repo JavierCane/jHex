@@ -2,6 +2,7 @@ package prop.hex.domini.controladors;
 
 import prop.cluster.domini.models.estats.EstatCasella;
 import prop.cluster.domini.models.estats.EstatPartida;
+import prop.hex.domini.controladors.IA.InteligenciaArtificialHexCtrl;
 import prop.hex.domini.models.*;
 import prop.hex.domini.models.enums.CombinacionsColors;
 import prop.hex.domini.models.enums.ModesInici;
@@ -59,7 +60,7 @@ public final class PartidaCtrl
 	 *
 	 * @see #inicialitzaIAJugadors()
 	 */
-	private InteligenciaArtificialHex[] ia_jugadors;
+	private InteligenciaArtificialHexCtrl[] ia_jugadors;
 
 	/**
 	 * Constructor per defecte. Declarat privat perquè és una classe singleton.
@@ -77,7 +78,8 @@ public final class PartidaCtrl
 	public final void netejaParametresPartidaActual()
 	{
 		partida_actual = null;
-		ia_jugadors = new InteligenciaArtificialHex[2];
+		usuaris_preinicialitzats_partida = new UsuariHex[2];
+		ia_jugadors = new InteligenciaArtificialHexCtrl[2];
 	}
 
 	/**
@@ -201,17 +203,17 @@ public final class PartidaCtrl
 	 *                                artificials.
 	 * @throws InstantiationError     Si hi ha problemes amb la instanciació de les intel·ligències artificials.
 	 * @see #ia_jugadors
-	 * @see InteligenciaArtificialHex#obteMoviment(EstatCasella)
+	 * @see prop.hex.domini.controladors.IA.InteligenciaArtificialHexCtrl#obteMoviment(EstatCasella)
 	 * @see TipusJugadors
 	 */
 	private void inicialitzaIAJugadors() throws ClassNotFoundException, IllegalAccessException, InstantiationException
 	{
-		ia_jugadors[0] = ( InteligenciaArtificialHex ) Class.forName( "prop.hex.domini.controladors.IA." +
+		ia_jugadors[0] = ( InteligenciaArtificialHexCtrl ) Class.forName( "prop.hex.domini.controladors.IA." +
 		                                                              ( partida_actual.getJugadorA() ).getTipusJugador()
 				                                                              .getClasseCorresponent() ).newInstance();
 		ia_jugadors[0].setPartida( partida_actual );
 
-		ia_jugadors[1] = ( InteligenciaArtificialHex ) Class.forName( "prop.hex.domini.controladors.IA." +
+		ia_jugadors[1] = ( InteligenciaArtificialHexCtrl ) Class.forName( "prop.hex.domini.controladors.IA." +
 		                                                              ( partida_actual.getJugadorB() ).getTipusJugador()
 				                                                              .getClasseCorresponent() ).newInstance();
 		ia_jugadors[1].setPartida( partida_actual );
@@ -736,7 +738,7 @@ public final class PartidaCtrl
 	 * fa servir la intel·ligència artificial de les pistes.
 	 *
 	 * @return El moviment que faria la intel·ligència artificial corresponent.
-	 * @see InteligenciaArtificialHex#obteMoviment(EstatCasella)
+	 * @see prop.hex.domini.controladors.IA.InteligenciaArtificialHexCtrl#obteMoviment(EstatCasella)
 	 */
 	private Casella getMovimentIATornActual()
 	{

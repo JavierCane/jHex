@@ -16,6 +16,8 @@ import java.util.*;
  * Punts que resta el perdre una partida contra aquest tipus d'usuari/dificultat d'IA,
  * Nom de la classe controladora corresponent a la dificultat, utilitzada per saber quina funció de moviment ,
  * Nom de l'usuari a crear amb aquesta dificultat.
+ *
+ * @author Javier Ferrer Gonzalez (Grup 7.3, Hex)
  */
 public enum TipusJugadors
 {

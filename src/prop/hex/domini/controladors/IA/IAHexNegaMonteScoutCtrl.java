@@ -5,8 +5,7 @@ import prop.cluster.domini.models.estats.EstatCasella;
 import prop.cluster.domini.models.estats.EstatPartida;
 import prop.hex.domini.controladors.IA.auxiliars.ElementTaulaTransposicions;
 import prop.hex.domini.controladors.IA.auxiliars.TwoDistance;
-import prop.hex.domini.controladors.IA.auxiliars.enums.FitesDePoda;
-import prop.hex.domini.controladors.InteligenciaArtificialHex;
+import prop.hex.domini.controladors.IA.auxiliars.FitesDePoda;
 import prop.hex.domini.models.Casella;
 import prop.hex.domini.models.PartidaHex;
 import prop.hex.domini.models.TaulerHex;
@@ -28,7 +27,7 @@ import java.util.Random;
  *
  * @author Isaac Sánchez Barrera (Grup 7.3, Hex)
  */
-public final class IAHexNegaMonteScoutCtrl extends InteligenciaArtificialHex
+public final class IAHexNegaMonteScoutCtrl extends InteligenciaArtificialHexCtrl
 {
 
 	/**
@@ -266,7 +265,7 @@ public final class IAHexNegaMonteScoutCtrl extends InteligenciaArtificialHex
 	 * @param fitxa Fitxa que vol col·locar-se al tauler de la partida del paràmetre implícit.
 	 * @return La casella on es mouria la fitxa.
 	 * @see #negaMonteScout(EstatCasella, EstatCasella, int, int, int, EstatPartida)
-	 * @see InteligenciaArtificialHex
+	 * @see InteligenciaArtificialHexCtrl
 	 */
 	public Casella obteMoviment( EstatCasella fitxa )
 	{

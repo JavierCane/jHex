@@ -1,7 +1,6 @@
 package prop.hex.presentacio.auxiliars;
 
 import javax.swing.table.DefaultTableModel;
-import java.util.Date;
 
 /**
  * Model bàsic d'una taula no editable.

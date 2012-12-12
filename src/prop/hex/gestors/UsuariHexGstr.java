@@ -8,6 +8,8 @@ import java.io.IOException;
 /**
  * Classe per la gestió de la persistència d'UsuariHexs en disc, com s'estén de BaseGstr,
  * unicament fa falta especificar la subcarpeta on guardar les dades dels usuaris.
+ *
+ * @author Javier Ferrer Gonzalez (Grup 7.3, Hex)
  */
 public final class UsuariHexGstr extends BaseGstr<UsuariHex>
 {

@@ -12,6 +12,8 @@ import static prop.hex.domini.controladors.drivers.UtilsDrvr.llegeixParaula;
 /**
  * Proves dels mètodes de la classe UsuariHexGstr. No obstant, també s'estaria provant el correcte funcionament de les
  * classes BaseGstr, UsuariHex i Usuari de forma implícita
+ *
+ * @author Javier Ferrer Gonzalez (Grup 7.3, Hex)
  */
 public final class UsuariGstrDrvr
 {

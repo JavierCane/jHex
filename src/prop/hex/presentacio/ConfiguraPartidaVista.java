@@ -15,7 +15,7 @@ import java.io.IOException;
 /**
  * Vista de configuració d'una partida del joc Hex.
  *
- * @author Guillermo Girona San Miguel (Grup 7.3, Hex)
+ * @author Javier Ferrer Gonzalez (Grup 7.3, Hex)
  */
 public final class ConfiguraPartidaVista extends BaseVista implements ItemListener
 {
@@ -57,7 +57,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
 	 * controlador de presentació al qual haurà de demanar certes operacions.
 	 *
-	 * @param frame_principal  Frame principal sobre el que s'hauran d'afegir els diferents components.
+	 * @param frame_principal Frame principal sobre el que s'hauran d'afegir els diferents components.
 	 */
 	public ConfiguraPartidaVista( JFrame frame_principal )
 	{
@@ -79,7 +79,9 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 		// Camps de tipus combos
 		combo_tipus_maquina_a = new JComboBox( TipusJugadors.obteLlistatMaquines() );
 		combo_tipus_jugador_b = new JComboBox( new String[] {
-				"Màquina", "Convidat", "Usuari registrat"
+				"Màquina",
+				"Convidat",
+				"Usuari registrat"
 		} );
 		combo_tipus_maquina_b = new JComboBox( TipusJugadors.obteLlistatMaquines() );
 
@@ -103,13 +105,16 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 		if ( PresentacioCtrl.getInstancia().getEsConvidat() )
 		{
 			combo_tipus_jugador_a = new JComboBox( new String[] {
-					"Convidat", "Màquina"
+					"Convidat",
+					"Màquina"
 			} );
 		}
 		else // Si ha iniciat sessió como a usuari registrat, mostro les 3 opcions
 		{
 			combo_tipus_jugador_a = new JComboBox( new String[] {
-					PresentacioCtrl.getInstancia().obteNomJugadorPrincipal(), "Convidat", "Màquina"
+					PresentacioCtrl.getInstancia().obteNomJugadorPrincipal(),
+					"Convidat",
+					"Màquina"
 			} );
 		}
 
@@ -314,8 +319,8 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 
 			try
 			{
-				PresentacioCtrl.getInstancia().preInicialitzaUsuariPartida( num_jugador,
-						tipus_jugador_a_inicialitzar, "", "" );
+				PresentacioCtrl.getInstancia()
+						.preInicialitzaUsuariPartida( num_jugador, tipus_jugador_a_inicialitzar, "", "" );
 			}
 			catch ( IOException e )
 			{
@@ -325,7 +330,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 			catch ( ClassNotFoundException e )
 			{
 				throw new ClassNotFoundException( "Error carregant el fitxer d'aquesta màquina de disc, " +
-				                       "prova de nou o selecciona una altra." );
+				                                  "prova de nou o selecciona una altra." );
 			}
 		}
 		// Si ha seleccionat convidat, creo una instància temporal d'usuari amb el nom escollit
@@ -336,8 +341,8 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 				throw new IllegalArgumentException( "El nom d'usuari ja està en ús." );
 			}
 			else if ( num_jugador == 1 && combo_tipus_jugador_a.getSelectedItem() == "Convidat" &&
-                    !( camp_nom_convidat_a.getText() != "" ) &&
-					camp_nom_convidat_a.getText().equals( camp_nom_convidat.getText() ) )
+			          !( camp_nom_convidat_a.getText() != "" ) &&
+			          camp_nom_convidat_a.getText().equals( camp_nom_convidat.getText() ) )
 			{
 				throw new IllegalArgumentException( "El nom dels dos jugadors ha de ser diferent." );
 			}
@@ -345,8 +350,8 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 			{
 				try
 				{
-					PresentacioCtrl.getInstancia().preInicialitzaUsuariPartida( num_jugador, TipusJugadors
-							.CONVIDAT, camp_nom_convidat.getText(), "" );
+					PresentacioCtrl.getInstancia().preInicialitzaUsuariPartida( num_jugador, TipusJugadors.CONVIDAT,
+							camp_nom_convidat.getText(), "" );
 				}
 				catch ( IOException e ) // Aquest error no s'hauria de donar mai ja que si l'usuari es de tipus
 				// convidat, no el guardem a disc
@@ -364,28 +369,31 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 		}
 		else // Si ha seleccionat l'altra opció, es que vol jugar amb un usuari registrat
 		{
-			if ( num_jugador == 1 && combo_tipus_jugador_a.getSelectedItem() == PresentacioCtrl.getInstancia()
-					.obteNomJugadorPrincipal() && nom_usuari.equals( PresentacioCtrl.getInstancia().obteNomJugadorPrincipal() ) )
+			if ( num_jugador == 1 &&
+			     combo_tipus_jugador_a.getSelectedItem() == PresentacioCtrl.getInstancia().obteNomJugadorPrincipal() &&
+			     nom_usuari.equals( PresentacioCtrl.getInstancia().obteNomJugadorPrincipal() ) )
 			{
 				throw new IllegalArgumentException( "No pots jugar contra tu mateix." );
 			}
 			else if ( num_jugador == 1 && nom_usuari.isEmpty() )
 			{
-				throw new IllegalArgumentException( "Has d'identificar-te amb el teu nom i contrasenya per poder " +
-				                                    "jugar com a registrat  .");
+				throw new IllegalArgumentException(
+						"Has d'identificar-te amb el teu nom i contrasenya per poder " + "jugar com a registrat  ." );
 			}
 			else
 			{
 				try
 				{
-					PresentacioCtrl.getInstancia().preInicialitzaUsuariPartida( num_jugador, TipusJugadors.JUGADOR,
-							nom_usuari, contrasenya_usuari );
+					PresentacioCtrl.getInstancia()
+							.preInicialitzaUsuariPartida( num_jugador, TipusJugadors.JUGADOR, nom_usuari,
+									contrasenya_usuari );
 				}
 				catch ( IllegalArgumentException e )
 				{
 					// Error de tipus IllegalArgumentException, pot set perque ha introduït un usuari que no existeix,
 					// perque l'usuari sigui de tipus intern de sistema o perque la contrasenya no sigui la correcta.
-					throw new IllegalArgumentException( "Error intentant carregar l'usuari demanat: " + e.getMessage() );
+					throw new IllegalArgumentException(
+							"Error intentant carregar l'usuari demanat: " + e.getMessage() );
 				}
 				catch ( IOException e )
 				{
@@ -453,8 +461,8 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 			VistaDialeg dialeg = new VistaDialeg();
 			String[] botons = { "Accepta" };
 			String valor_seleccionat = dialeg.setDialeg( "Error", "Has de definir un nom de partida, " +
-					"això servirà per identificar-la quan per exemple la guardis i la vulguis tornar a carregar" +
-					".", botons, JOptionPane.ERROR_MESSAGE );
+			                                                      "això servirà per identificar-la quan per exemple la guardis i la vulguis tornar a carregar" +
+			                                                      ".", botons, JOptionPane.ERROR_MESSAGE );
 		}
 		else
 		{
@@ -463,8 +471,8 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 
 			try
 			{
-				preInicialitzaUsuariPartida( 0, combo_tipus_jugador_a, camp_nom_convidat_a, combo_tipus_maquina_a,
-						"", "" );
+				preInicialitzaUsuariPartida( 0, combo_tipus_jugador_a, camp_nom_convidat_a, combo_tipus_maquina_a, "",
+						"" );
 
 				usuaris_prinicialitzats_ok = true;
 			}
@@ -493,7 +501,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 			try
 			{
 				preInicialitzaUsuariPartida( 1, combo_tipus_jugador_b, camp_nom_convidat_b, combo_tipus_maquina_b,
-							camp_nom_usuari_b.getText(), new String( camp_contrasenya_usuari_b.getPassword() ) );
+						camp_nom_usuari_b.getText(), new String( camp_contrasenya_usuari_b.getPassword() ) );
 			}
 			catch ( IOException excepcio )
 			{
@@ -535,22 +543,25 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 				{
 					VistaDialeg dialeg = new VistaDialeg();
 					String[] botons = { "Accepta" };
-					String valor_seleccionat = dialeg.setDialeg( "Error inicialitzant la partida", excepcio.getMessage(),
-							botons, JOptionPane.ERROR_MESSAGE );
+					String valor_seleccionat =
+							dialeg.setDialeg( "Error inicialitzant la partida", excepcio.getMessage(), botons,
+									JOptionPane.ERROR_MESSAGE );
 				}
 				catch ( InstantiationException excepcio )
 				{
 					VistaDialeg dialeg = new VistaDialeg();
 					String[] botons = { "Accepta" };
-					String valor_seleccionat = dialeg.setDialeg( "Error inicialitzant la partida", excepcio.getMessage(),
-							botons, JOptionPane.ERROR_MESSAGE );
+					String valor_seleccionat =
+							dialeg.setDialeg( "Error inicialitzant la partida", excepcio.getMessage(), botons,
+									JOptionPane.ERROR_MESSAGE );
 				}
 				catch ( IllegalAccessException excepcio )
 				{
 					VistaDialeg dialeg = new VistaDialeg();
 					String[] botons = { "Accepta" };
-					String valor_seleccionat = dialeg.setDialeg( "Error inicialitzant la partida", excepcio.getMessage(),
-							botons, JOptionPane.ERROR_MESSAGE );
+					String valor_seleccionat =
+							dialeg.setDialeg( "Error inicialitzant la partida", excepcio.getMessage(), botons,
+									JOptionPane.ERROR_MESSAGE );
 				}
 			}
 		}
@@ -569,15 +580,15 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 			VistaDialeg dialeg = new VistaDialeg();
 			String[] botons = { "Accepta" };
 			String valor_seleccionat = dialeg.setDialeg( "Error", "Has de definir un nom de partida, " +
-					"això servirà per identificar-la quan per exemple la guardis i la vulguis tornar a carregar" +
-					".", botons, JOptionPane.ERROR_MESSAGE );
+			                                                      "això servirà per identificar-la quan per exemple la guardis i la vulguis tornar a carregar" +
+			                                                      ".", botons, JOptionPane.ERROR_MESSAGE );
 		}
 		else
 		{
 			try
 			{
-				preInicialitzaUsuariPartida( 0, combo_tipus_jugador_a, camp_nom_convidat_a, combo_tipus_maquina_a,
-						"", "" );
+				preInicialitzaUsuariPartida( 0, combo_tipus_jugador_a, camp_nom_convidat_a, combo_tipus_maquina_a, "",
+						"" );
 				preInicialitzaUsuariPartida( 1, combo_tipus_jugador_b, camp_nom_convidat_b, combo_tipus_maquina_b,
 						camp_nom_usuari_b.getText(), new String( camp_contrasenya_usuari_b.getPassword() ) );
 				PresentacioCtrl.getInstancia().inicialitzaPartida( 7, camp_nom_partida.getText(), true );
@@ -587,8 +598,8 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 			{
 				VistaDialeg dialeg = new VistaDialeg();
 				String[] botons = { "Accepta" };
-				String valor_seleccionat = dialeg.setDialeg( "Error", excepcio.getMessage(), botons,
-						JOptionPane.ERROR_MESSAGE );
+				String valor_seleccionat =
+						dialeg.setDialeg( "Error", excepcio.getMessage(), botons, JOptionPane.ERROR_MESSAGE );
 			}
 		}
 	}

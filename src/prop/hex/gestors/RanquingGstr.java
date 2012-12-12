@@ -8,6 +8,8 @@ import java.io.IOException;
 /**
  * Classe per la gestió de la persistència de Ranquing en disc, com s'estén de BaseGstr,
  * unicament fa falta especificar la subcarpeta on guardar les dades del rànquing.
+ *
+ * @author Javier Ferrer Gonzalez (Grup 7.3, Hex)
  */
 public final class RanquingGstr extends BaseGstr<Ranquing>
 {

@@ -63,7 +63,7 @@ public abstract class BaseVista
 	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
 	 * controlador de presentació al qual haurà de demanar certes operacions.
 	 *
-	 * @param frame_vista      Frame principal sobre el que s'hauran d'afegir els diferents components.
+	 * @param frame_vista Frame principal sobre el que s'hauran d'afegir els diferents components.
 	 */
 	public BaseVista( JFrame frame_vista )
 	{
@@ -199,18 +199,19 @@ public abstract class BaseVista
 		VistaDialeg dialeg = new VistaDialeg();
 
 		String[] botons = {
-				"Sí", "No"
+				"Sí",
+				"No"
 		};
 
 		String valor_seleccionat = dialeg.setDialeg( "Confirmació de la sortida", "Estàs segur que vols sortir del " +
-				"" + "programa?", botons, JOptionPane.QUESTION_MESSAGE );
+		                                                                          "" + "programa?", botons,
+				JOptionPane.QUESTION_MESSAGE );
 
 		if ( "Sí" == valor_seleccionat )
 		{
 			System.exit( 0 );
 		}
 	}
-
 
 	public void accioBotoAjuda( ActionEvent event )
 	{
@@ -228,8 +229,8 @@ public abstract class BaseVista
 		{
 			VistaDialeg dialeg = new VistaDialeg();
 			String[] botons = { "Accepta" };
-			String valor_seleccionat = dialeg.setDialeg( "Error", "Error al obrir el fitxer d'ajuda.", botons,
-					JOptionPane.ERROR_MESSAGE );
+			String valor_seleccionat =
+					dialeg.setDialeg( "Error", "Error al obrir el fitxer d'ajuda.", botons, JOptionPane.ERROR_MESSAGE );
 		}
 	}
 }

@@ -11,6 +11,8 @@ import java.util.*;
 
 /**
  * Representa una partida del joc Hex.
+ *
+ * @author Guillermo Girona San Miguel (Grup 7.3, Hex)
  */
 public final class PartidaHex extends Partida implements Serializable
 {

@@ -1,4 +1,4 @@
-package prop.hex.domini.controladors;
+package prop.hex.domini.controladors.IA;
 
 import prop.cluster.domini.controladors.InteligenciaArtificial;
 import prop.cluster.domini.models.Tauler;
@@ -15,7 +15,7 @@ import prop.hex.domini.models.TaulerHex;
  * Time: 19:15
  * To change this template use File | Settings | File Templates.
  */
-public abstract class InteligenciaArtificialHex extends InteligenciaArtificial
+public abstract class InteligenciaArtificialHexCtrl extends InteligenciaArtificial
 {
 
 	/**

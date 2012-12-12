@@ -26,7 +26,6 @@ import java.util.List;
  *
  * @author Guillermo Girona San Miguel (Grup 7.3, Hex)
  */
-
 public final class PresentacioCtrl
 {
 
@@ -204,8 +203,8 @@ public final class PresentacioCtrl
 	 * Registra un usuari amb el nom d'usuari i la contrasenya donats als sistema, guardant les seves dades a memòria
 	 * principal i afegint-lo al rànquing.
 	 *
-	 * @param nom           Nom de l'usuari nou que es vol registrar al sistema.
-	 * @param contrasenya   Contrasenya de l'usuari nou que es vol registrar al sistema.
+	 * @param nom         Nom de l'usuari nou que es vol registrar al sistema.
+	 * @param contrasenya Contrasenya de l'usuari nou que es vol registrar al sistema.
 	 * @throws IllegalArgumentException Si el nom d'usuari ja existeix al sistema,
 	 *                                  si conté caràcters il·legals o si es tracta d'un nom no permès.
 	 * @throws IOException              Si ha succeït un error d'entrada/sortida inesperat.
@@ -265,7 +264,7 @@ public final class PresentacioCtrl
 	/**
 	 * Modifica les preferències de l'usuari identificat al sistema.
 	 *
-	 * @param mode_inici Mode d'inici que es vol donar a l'usuari.
+	 * @param mode_inici        Mode d'inici que es vol donar a l'usuari.
 	 * @param combinacio_colors Combinació de colors que es vol donar a l'usuari.
 	 */
 	public void modificaPreferenciesJugadorPrincipal( ModesInici mode_inici, CombinacionsColors combinacio_colors )
@@ -285,7 +284,7 @@ public final class PresentacioCtrl
 	 * Modifica la contrasenya de l'usuari identificat al sistema.
 	 *
 	 * @param contrasenya_actual Contrasenya actual de l'usuari identificat al sistema.
-	 * @param contrasenya_nova Contrasenya nova que es vol donar a l'usuari.
+	 * @param contrasenya_nova   Contrasenya nova que es vol donar a l'usuari.
 	 * @throws IllegalArgumentException Si la contrasenya actual passada com a paràmetre no coincideix amb la
 	 *                                  contrasenya de l'usuari.
 	 */
@@ -380,8 +379,8 @@ public final class PresentacioCtrl
 			classificacio_formatejada[i][1] = partides_jugades.toString();
 
 			// Càlcul del percentatge de victòries
-			Float percentatge_victories = new Float( ( usuari_classificat.getPartidesGuanyades().floatValue() /
-			                                     partides_jugades.floatValue() ) * 100 );
+			Float percentatge_victories = new Float(
+					( usuari_classificat.getPartidesGuanyades().floatValue() / partides_jugades.floatValue() ) * 100 );
 			// Redondeig a dos decimals
 			percentatge_victories = ( float ) ( Math.round( percentatge_victories * 100.0 ) / 100.0 );
 
@@ -405,30 +404,22 @@ public final class PresentacioCtrl
 
 		String[][] hall_of_fame_formatejat = new String[4][3];
 
-		hall_of_fame_formatejat[0] = getFitaHallOfFameFormatejada(
-				"Victòria amb menys fitxes",
-				ranquing.getUsuariFitxesMinimes(),
-				ranquing.getFitxesMinimes().toString()
-		);
+		hall_of_fame_formatejat[0] =
+				getFitaHallOfFameFormatejada( "Victòria amb menys fitxes", ranquing.getUsuariFitxesMinimes(),
+						ranquing.getFitxesMinimes().toString() );
 
-		hall_of_fame_formatejat[1] = getFitaHallOfFameFormatejada(
-				"Més victòries",
-				ranquing.getUsuariMesPartidesGuanyades(),
-				ranquing.getMesPartidesGuanyades().toString()
-		);
+		hall_of_fame_formatejat[1] =
+				getFitaHallOfFameFormatejada( "Més victòries", ranquing.getUsuariMesPartidesGuanyades(),
+						ranquing.getMesPartidesGuanyades().toString() );
 
-		hall_of_fame_formatejat[2] = getFitaHallOfFameFormatejada(
-				"Més partides jugades",
-				ranquing.getUsuariMesPartidesJugades(),
-				ranquing.getMesPartidesJugades().toString()
-		);
+		hall_of_fame_formatejat[2] =
+				getFitaHallOfFameFormatejada( "Més partides jugades", ranquing.getUsuariMesPartidesJugades(),
+						ranquing.getMesPartidesJugades().toString() );
 
-		hall_of_fame_formatejat[3] = getFitaHallOfFameFormatejada(
-				"Victòria en menys temps",
-				ranquing.getUsuariTempsMinim(),
-				String.valueOf( ranquing.getTempsMinim() / 1000L ) + "." +
-				( ranquing.getTempsMinim() % 1000L ) / 100 + " segs."
-		);
+		hall_of_fame_formatejat[3] =
+				getFitaHallOfFameFormatejada( "Victòria en menys temps", ranquing.getUsuariTempsMinim(),
+						String.valueOf( ranquing.getTempsMinim() / 1000L ) + "." +
+						( ranquing.getTempsMinim() % 1000L ) / 100 + " segs." );
 
 		return hall_of_fame_formatejat;
 	}
@@ -523,7 +514,7 @@ public final class PresentacioCtrl
 	/**
 	 * Col·loca una fitxa a la casella de la qual es passa la posició com a paràmetre.
 	 *
-	 * @param fila Fila de la casella en la qual es vol col·locar una fitxa.
+	 * @param fila    Fila de la casella en la qual es vol col·locar una fitxa.
 	 * @param columna Columna de la casella en la qual es vol col·locar una fitxa.
 	 * @throws UnsupportedOperationException Si la partida ja ha finalitzat.
 	 */
@@ -535,7 +526,7 @@ public final class PresentacioCtrl
 	/**
 	 * Obté l'estat d'una casella determinada.
 	 *
-	 * @param fila Fila de la casella que es vol consultar.
+	 * @param fila    Fila de la casella que es vol consultar.
 	 * @param columna Columna de la casella que es vol consultar.
 	 * @return L'estat de la casella demanada (buida, del jugador A, del jugador B).
 	 */
@@ -565,7 +556,7 @@ public final class PresentacioCtrl
 	/**
 	 * Indica si una certa posició del tauler és o no la casella central.
 	 *
-	 * @param fila Fila de la posició que es vol comprovar.
+	 * @param fila    Fila de la posició que es vol comprovar.
 	 * @param columna Columna de la posició que es vol comprovar.
 	 * @return Cert, si és una casella central. Fals, altrament.
 	 */
@@ -609,20 +600,20 @@ public final class PresentacioCtrl
 	 *
 	 * @param missatge Missatge que es vol mostrar al diàleg.
 	 */
-    public void mostraDialegVictoriaPartida( String missatge )
-    {
-        partida_vista.mostraDialegVictoria( missatge );
-    }
+	public void mostraDialegVictoriaPartida( String missatge )
+	{
+		partida_vista.mostraDialegVictoria( missatge );
+	}
 
 	/**
 	 * Mostra el diàleg de partida finalitzada si s'està definint una situació inicial.
 	 *
 	 * @param missatge Missatge que es vol mostrar al diàleg.
 	 */
-    public void mostraDialegVictoriaDefineixSituacio( String missatge )
-    {
-        defineix_situacio_vista.mostraDialegVictoria( missatge );
-    }
+	public void mostraDialegVictoriaDefineixSituacio( String missatge )
+	{
+		defineix_situacio_vista.mostraDialegVictoria( missatge );
+	}
 
 	// Mètodes PartidaVista
 	// ----------------------------------------------------------------------------------------------------------------
@@ -911,15 +902,14 @@ public final class PresentacioCtrl
 	/**
 	 * Canvia la vista de carregar partida per la de identificar-se per a carregar una partida.
 	 *
-	 * @param usuari Usuari que s'ha d'identificar.
+	 * @param usuari     Usuari que s'ha d'identificar.
 	 * @param id_partida Identificador de la partida que es vol carregar.
 	 */
 	public void vistaCarregaPartidaAIdentificaCarregaPartida( String usuari, String id_partida )
 	{
 		if ( identifica_carrega_partida_vista == null )
 		{
-			identifica_carrega_partida_vista =
-					new IdentificaCarregaPartidaVista( frame_principal, usuari, id_partida );
+			identifica_carrega_partida_vista = new IdentificaCarregaPartidaVista( frame_principal, usuari, id_partida );
 		}
 		carrega_partida_vista = null;
 		identifica_carrega_partida_vista.fesVisible();

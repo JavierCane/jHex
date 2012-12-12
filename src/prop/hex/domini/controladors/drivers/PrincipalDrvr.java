@@ -26,6 +26,8 @@ import static prop.hex.domini.controladors.drivers.UtilsDrvr.llegeixEnter;
  * <p/>
  * 3.- Executar el driver principal i anar provant totes les classes amb comoditat :)
  * java prop.hex.domini.controladors.drivers.PrincipalDrvr
+ *
+ * @author Javier Ferrer Gonzalez (Grup 7.3, Hex)
  */
 public final class PrincipalDrvr
 {

@@ -1,4 +1,4 @@
-package prop.hex.domini.controladors.IA.auxiliars.enums;
+package prop.hex.domini.controladors.IA.auxiliars;
 
 /**
  * Tipus de fites per a les podes en un algorisme amb taules de transposicions.

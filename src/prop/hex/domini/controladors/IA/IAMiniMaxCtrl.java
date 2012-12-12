@@ -1,15 +1,12 @@
 package prop.hex.domini.controladors.IA;
 
-import prop.cluster.domini.controladors.InteligenciaArtificial;
 import prop.cluster.domini.models.Tauler;
 import prop.cluster.domini.models.estats.EstatCasella;
 import prop.cluster.domini.models.estats.EstatPartida;
 import prop.hex.domini.controladors.IA.auxiliars.CamiMinim;
 import prop.hex.domini.controladors.IA.auxiliars.ConnexionsVirtuals;
 import prop.hex.domini.controladors.IA.auxiliars.ResistenciaTauler;
-import prop.hex.domini.controladors.InteligenciaArtificialHex;
 import prop.hex.domini.models.Casella;
-import prop.hex.domini.models.PartidaHex;
 import prop.hex.domini.models.TaulerHex;
 
 /**
@@ -32,7 +29,7 @@ import prop.hex.domini.models.TaulerHex;
  * Estratègia agresiva: Té en compte els mateixos 3 factors, però només de l'enemic,
  * també es multiplica cada factor per un pes, similar al cas de la passiva però una mica modificats.
  */
-public final class IAMiniMaxCtrl extends InteligenciaArtificialHex
+public final class IAMiniMaxCtrl extends InteligenciaArtificialHexCtrl
 {
 	/**
 	 * Profunditat màxima per al minimax.

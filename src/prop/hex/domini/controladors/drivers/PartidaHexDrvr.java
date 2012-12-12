@@ -3,15 +3,15 @@ package prop.hex.domini.controladors.drivers;
 import prop.cluster.domini.models.estats.EstatCasella;
 import prop.cluster.domini.models.estats.EstatPartida;
 import prop.hex.domini.models.PartidaHex;
-import prop.hex.domini.models.TaulerHex;
 
 import java.util.ArrayList;
 
 import static prop.hex.domini.controladors.drivers.UtilsDrvr.llegeixEnter;
-import static prop.hex.domini.controladors.drivers.UtilsDrvr.llegeixParaula;
 
 /**
  * Proves dels mètodes de la classe PartidaHex.
+ *
+ * @author Guillermo Girona San Miguel (Grup 7.3, Hex)
  */
 public final class PartidaHexDrvr
 {
@@ -225,8 +225,7 @@ public final class PartidaHexDrvr
 			System.out.println( "La combinació de colores de la partida és " +
 			                    partides.get( actual ).getCombinacioColors().toString() + " i el mode d'inici és " +
 			                    partides.get( actual ).getModeInici().toString() + "." );
-			int jugador = llegeixEnter(
-					"Escriu el número del jugador al que vols modificar els " + "paràmetres:" );
+			int jugador = llegeixEnter( "Escriu el número del jugador al que vols modificar els paràmetres:" );
 			int pistes = llegeixEnter( "Escriu la quantitat de pistes que vols donar al jugador:" );
 			try
 			{

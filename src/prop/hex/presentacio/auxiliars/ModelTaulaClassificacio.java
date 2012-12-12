@@ -1,7 +1,14 @@
 package prop.hex.presentacio.auxiliars;
 
+/**
+ * Model de taula no editable (hereta de ModelTaula) i ordenable amb tipus de columnes corresponents a:
+ * String | Integer | String | Integer
+ *
+ * @author Javier Ferrer Gonzalez (Grup 7.3, Hex)
+ */
 public final class ModelTaulaClassificacio extends ModelTaula
 {
+
 	/**
 	 * Constructor de la taula a partir de les seves dades.
 	 *

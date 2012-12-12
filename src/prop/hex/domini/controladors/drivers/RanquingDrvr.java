@@ -10,6 +10,8 @@ import java.io.IOException;
 
 /**
  * Proves dels mètodes de la classe Ranquing.
+ *
+ * @author Javier Ferrer Gonzalez (Grup 7.3, Hex)
  */
 public final class RanquingDrvr
 {

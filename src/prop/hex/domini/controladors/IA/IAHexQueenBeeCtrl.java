@@ -1,14 +1,11 @@
 package prop.hex.domini.controladors.IA;
 
-import prop.cluster.domini.controladors.InteligenciaArtificial;
 import prop.cluster.domini.models.Tauler;
 import prop.cluster.domini.models.estats.EstatCasella;
 import prop.cluster.domini.models.estats.EstatPartida;
 import prop.hex.domini.controladors.IA.auxiliars.ElementTaulaTransposicions;
 import prop.hex.domini.controladors.IA.auxiliars.TwoDistance;
-import prop.hex.domini.controladors.InteligenciaArtificialHex;
 import prop.hex.domini.models.Casella;
-import prop.hex.domini.models.PartidaHex;
 import prop.hex.domini.models.TaulerHex;
 
 import java.util.HashMap;
@@ -20,7 +17,7 @@ import java.util.HashMap;
  * Time: 16:24
  * To change this template use File | Settings | File Templates.
  */
-public final class IAHexQueenBeeCtrl extends InteligenciaArtificialHex
+public final class IAHexQueenBeeCtrl extends InteligenciaArtificialHexCtrl
 {
 	private HashMap<Integer, ElementTaulaTransposicions> memoria;
 

@@ -14,6 +14,8 @@ import java.util.Set;
 /**
  * Classe UsuariHex. S'esté d'Usuari i simplement conté alguns mètodes per el tractament de atributs especifics d'un
  * Usuari del joc Hex.
+ *
+ * @author Javier Ferrer Gonzalez (Grup 7.3, Hex)
  */
 public final class UsuariHex extends Usuari implements Serializable, Comparable<UsuariHex>
 {

@@ -9,6 +9,8 @@ import java.io.FileFilter;
  * <p/>
  * Implementa l'operació accept de FileFilter amb tal de restringir que únicament es llistin fitxers .java i que no
  * siguin el propi PrincipalDrvr, aquest fitxer de filtrat i el d'utilitats pels drivers.
+ *
+ * @author Javier Ferrer Gonzalez (Grup 7.3, Hex)
  */
 public final class FiltratLlistatDrivers implements FileFilter
 {

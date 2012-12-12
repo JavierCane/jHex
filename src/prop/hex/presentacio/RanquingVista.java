@@ -10,9 +10,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Vista del rànquing del joc Hex.
+ * Vista del rànquing.
+ * Inclou la visualització de la calssificació i la del del Hall of Fame
  *
- * @author Guillermo Girona San Miguel (Grup 7.3, Hex)
+ * @author Javier Ferrer Gonzalez (Grup 7.3, Hex)
  */
 public final class RanquingVista extends BaseVista
 {
@@ -37,7 +38,7 @@ public final class RanquingVista extends BaseVista
 	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
 	 * controlador de presentació al qual haurà de demanar certes operacions.
 	 *
-	 * @param frame_principal  Frame principal sobre el que s'hauran d'afegir els diferents components.
+	 * @param frame_principal Frame principal sobre el que s'hauran d'afegir els diferents components.
 	 */
 	public RanquingVista( JFrame frame_principal )
 	{
@@ -51,7 +52,10 @@ public final class RanquingVista extends BaseVista
 		// Construeixo les taules del rànquing (classificació)
 		dades_classificacio = PresentacioCtrl.getInstancia().getClassificacioFormatejada();
 		model_taula_classificacio = new ModelTaulaClassificacio( dades_classificacio, new String[] {
-				"Nom d'usuari", "Partides jugades", "Percentatge de victòries", "Puntuació global"
+				"Nom d'usuari",
+				"Partides jugades",
+				"Percentatge de victòries",
+				"Puntuació global"
 		} );
 		taula_classificacio = new JTable( model_taula_classificacio );
 
@@ -63,7 +67,9 @@ public final class RanquingVista extends BaseVista
 		// Construeixo les taules del rànquing (hall of fame)
 		dades_hall_of_fame = PresentacioCtrl.getInstancia().getHallOfFameFormatejat();
 		taula_hall_of_fame = new JTable( new ModelTaula( dades_hall_of_fame, new String[] {
-				"Fita aconseguida", "Jugador", "Rècord"
+				"Fita aconseguida",
+				"Jugador",
+				"Rècord"
 		} ) );
 
 		inicialitzaVista();
@@ -111,7 +117,7 @@ public final class RanquingVista extends BaseVista
 
 		// Taula de classificació
 		taula_classificacio.setFillsViewportHeight( true );
-        taula_classificacio.getTableHeader().setReorderingAllowed( false );
+		taula_classificacio.getTableHeader().setReorderingAllowed( false );
 		// Defineixo la dimensió del panell com tot l'ample que pugui i 100 d'altura
 		taula_classificacio.setPreferredScrollableViewportSize( new Dimension( 1000, 100 ) );
 		panell_central.add( new JScrollPane( taula_classificacio, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,

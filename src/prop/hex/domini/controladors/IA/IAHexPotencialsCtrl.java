@@ -5,7 +5,6 @@ import prop.cluster.domini.models.estats.EstatCasella;
 import prop.cluster.domini.models.estats.EstatPartida;
 import prop.hex.domini.controladors.IA.auxiliars.ResistenciaCasella;
 import prop.hex.domini.controladors.IA.auxiliars.TwoDistance;
-import prop.hex.domini.controladors.InteligenciaArtificialHex;
 import prop.hex.domini.models.Casella;
 import prop.hex.domini.models.TaulerHex;
 
@@ -17,7 +16,7 @@ import java.util.TreeSet;
 /**
  * Potencials
  */
-public final class IAHexPotencialsCtrl extends InteligenciaArtificialHex
+public final class IAHexPotencialsCtrl extends InteligenciaArtificialHexCtrl
 {
 
 	private TaulerHex tauler;
@@ -82,7 +81,7 @@ public final class IAHexPotencialsCtrl extends InteligenciaArtificialHex
 	 *
 	 * @param fitxa Fitxa que vol col·locar-se al tauler de la partida del paràmetre implícit.
 	 * @return La casella on es mouria la fitxa.
-	 * @see InteligenciaArtificialHex
+	 * @see InteligenciaArtificialHexCtrl
 	 */
 	public Casella obteMoviment( EstatCasella fitxa )
 	{

@@ -6,8 +6,7 @@ import prop.cluster.domini.models.estats.EstatPartida;
 import prop.hex.domini.controladors.IA.auxiliars.ElementTaulaTransposicions;
 import prop.hex.domini.controladors.IA.auxiliars.ResistenciaCasella;
 import prop.hex.domini.controladors.IA.auxiliars.TwoDistance;
-import prop.hex.domini.controladors.IA.auxiliars.enums.FitesDePoda;
-import prop.hex.domini.controladors.InteligenciaArtificialHex;
+import prop.hex.domini.controladors.IA.auxiliars.FitesDePoda;
 import prop.hex.domini.models.Casella;
 import prop.hex.domini.models.TaulerHex;
 
@@ -20,7 +19,7 @@ import java.util.*;
  * Time: 17:45
  * To change this template use File | Settings | File Templates.
  */
-public final class IAHexSexSearchCtrl extends InteligenciaArtificialHex
+public final class IAHexSexSearchCtrl extends InteligenciaArtificialHexCtrl
 {
 
 	private TaulerHex tauler;
@@ -262,7 +261,7 @@ public final class IAHexSexSearchCtrl extends InteligenciaArtificialHex
 	 * @param fitxa Fitxa que vol col·locar-se al tauler de la partida del paràmetre implícit.
 	 * @return La casella on es mouria la fitxa.
 	 * @see #sexSearch(prop.cluster.domini.models.estats.EstatCasella, prop.cluster.domini.models.estats.EstatCasella, int, int, int, int, prop.cluster.domini.models.estats.EstatPartida)
-	 * @see InteligenciaArtificialHex
+	 * @see InteligenciaArtificialHexCtrl
 	 */
 	public Casella obteMoviment( EstatCasella fitxa )
 	{

@@ -11,6 +11,8 @@ import java.util.List;
  * Classe encarregada de gestionar el rànquing d'usuaris.
  * Com es pot veure a través de la gestió de l'atribut instancia, s'ha implementant aplicant el patró Singleton per
  * asegurar-nos de que no es creen dues instàncies distintes d'aquesta classe.
+ *
+ * @author Javier Ferrer Gonzalez (Grup 7.3, Hex)
  */
 public final class Ranquing implements Serializable
 {
@@ -341,7 +343,7 @@ public final class Ranquing implements Serializable
 
 	private void recalculaTempsMinim()
 	{
-		for( UsuariHex usuari_classificat : classificacio )
+		for ( UsuariHex usuari_classificat : classificacio )
 		{
 			comprovaTempsMinim( usuari_classificat.getTempsMinim(), usuari_classificat.getNom() );
 		}
@@ -349,7 +351,7 @@ public final class Ranquing implements Serializable
 
 	private void recalculaFitxesMinimes()
 	{
-		for( UsuariHex usuari_classificat : classificacio )
+		for ( UsuariHex usuari_classificat : classificacio )
 		{
 			comprovaFitxesMinimes( usuari_classificat.getFitxesMinimes(), usuari_classificat.getNom() );
 		}
@@ -357,7 +359,7 @@ public final class Ranquing implements Serializable
 
 	private void recalculaPartidesGuanyades()
 	{
-		for( UsuariHex usuari_classificat : classificacio )
+		for ( UsuariHex usuari_classificat : classificacio )
 		{
 			comprovaPartidesGuanyades( usuari_classificat.getPartidesGuanyades(), usuari_classificat.getNom() );
 		}
@@ -365,7 +367,7 @@ public final class Ranquing implements Serializable
 
 	private void recalculaPartidesJugades()
 	{
-		for( UsuariHex usuari_classificat : classificacio )
+		for ( UsuariHex usuari_classificat : classificacio )
 		{
 			comprovaPartidesJugades( usuari_classificat.getPartidesJugades(), usuari_classificat.getNom() );
 		}

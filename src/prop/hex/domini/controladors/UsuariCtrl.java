@@ -17,7 +17,6 @@ import java.io.IOException;
  *
  * @author Guillermo Girona San Miguel (Grup 7.3, Hex)
  */
-
 public final class UsuariCtrl
 {
 

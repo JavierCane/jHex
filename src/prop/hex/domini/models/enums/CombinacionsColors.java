@@ -22,20 +22,40 @@ import java.awt.*;
  * Color del text de la informació del jugador_b,
  * Color del text de Mou Fitxa IA del jugador_b,
  * Color de la resta de textos
+ *
+ * @author Javier Ferrer Gonzalez (Grup 7.3, Hex)
  */
 public enum CombinacionsColors
 {
 
 	VERMELL_BLAU( new Color[] {
-			new Color( 0xAA0000 ), new Color( 0x0000AA ), new Color( 0xCCCCCC ), new Color( 0xFFFFFF ),
-			new Color( 0x000000 ), new Color( 0x666666 ), new Color( 0x333333 ), new Color( 0xAA0000 ),
-			new Color( 0xFFFFFF ), new Color( 0x0000AA ), new Color( 0xFFFFFF ), new Color( 0x000000 )
+			new Color( 0xAA0000 ),
+			new Color( 0x0000AA ),
+			new Color( 0xCCCCCC ),
+			new Color( 0xFFFFFF ),
+			new Color( 0x000000 ),
+			new Color( 0x666666 ),
+			new Color( 0x333333 ),
+			new Color( 0xAA0000 ),
+			new Color( 0xFFFFFF ),
+			new Color( 0x0000AA ),
+			new Color( 0xFFFFFF ),
+			new Color( 0x000000 )
 	} ),
 
 	NEGRE_BLANC( new Color[] {
-			new Color( 0x000000 ), new Color( 0xFFFFFF ), new Color( 0x00AAAA ), new Color( 0x007777 ),
-			new Color( 0x000000 ), new Color( 0x005E5E ), new Color( 0x002E2E ), new Color( 0x000000 ),
-			new Color( 0xFFFFFF ), new Color( 0xFFFFFF ), new Color( 0x000000 ), new Color( 0x000000 )
+			new Color( 0x000000 ),
+			new Color( 0xFFFFFF ),
+			new Color( 0x00AAAA ),
+			new Color( 0x007777 ),
+			new Color( 0x000000 ),
+			new Color( 0x005E5E ),
+			new Color( 0x002E2E ),
+			new Color( 0x000000 ),
+			new Color( 0xFFFFFF ),
+			new Color( 0xFFFFFF ),
+			new Color( 0x000000 ),
+			new Color( 0x000000 )
 	} );
 
 	/**
@@ -127,7 +147,6 @@ public enum CombinacionsColors
 		color_text_informacio_jugador_b = colors[9];
 		color_text_mou_ia_jugador_b = colors[10];
 		color_text_generic = colors[11];
-
 	}
 
 	/**

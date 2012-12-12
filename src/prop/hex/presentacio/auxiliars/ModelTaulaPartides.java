@@ -1,9 +1,14 @@
 package prop.hex.presentacio.auxiliars;
 
-import java.util.Date;
-
+/**
+ * Model de taula no editable (hereta de ModelTaula) i ordenable amb tipus de columnes corresponents a:
+ * String | String | String
+ *
+ * @author Javier Ferrer Gonzalez (Grup 7.3, Hex)
+ */
 public final class ModelTaulaPartides extends ModelTaula
 {
+
 	/**
 	 * Constructor de la taula a partir de les seves dades.
 	 *

@@ -12,6 +12,8 @@ import static prop.hex.domini.controladors.drivers.UtilsDrvr.llegeixParaula;
 
 /**
  * Proves dels mètodes de la classe TaulerHex i, per tant, de Tauler.
+ *
+ * @author Isaac Sánchez Barrera (Grup 7.3, Hex)
  */
 public final class TaulerHexDrvr
 {

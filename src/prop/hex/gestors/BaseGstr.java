@@ -6,6 +6,8 @@ import java.io.*;
  * Classe abstracta i parametritzada pel tractament de fitxers.
  * Conte els metodes generics com guardar i carregar objectes del tipus insanciat desde la subcarpeta de dades
  * que especifiqui la classe que hereti d'aquí.
+ *
+ * @author Javier Ferrer Gonzalez (Grup 7.3, Hex)
  */
 public abstract class BaseGstr<T>
 {
@@ -37,8 +39,8 @@ public abstract class BaseGstr<T>
 	 * @throws FileNotFoundException Si el fitxer no s'ha generat i no s'hi poden escriure les dades.
 	 * @throws IOException           Si ha ocorregut un error d'entrada/sortida inesperat.
 	 */
-	protected final boolean guardaElement( T element_a_guardar, String nom_element ) throws FileNotFoundException,
-	                                                                                   IOException
+	protected final boolean guardaElement( T element_a_guardar, String nom_element )
+			throws FileNotFoundException, IOException
 	{
 		File carpeta_a_accedir = new File( this.carpeta_dades + '/' + this.subcarpeta_dades );
 		File arxiu_a_accedir = new File( this.carpeta_dades + '/' + this.subcarpeta_dades + '/' + nom_element + '.' +
@@ -75,8 +77,7 @@ public abstract class BaseGstr<T>
 	 * @throws ClassNotFoundException Si no es troba la classe de l'objecte materialitzat
 	 * @throws NullPointerException   Si el fitxer que es vol llegir és buit.
 	 */
-	public final T carregaElement( String nom_element ) throws IOException, ClassNotFoundException,
-	                                                           NullPointerException
+	public final T carregaElement( String nom_element ) throws IOException, ClassNotFoundException, NullPointerException
 	{
 		T element_carregat;
 
