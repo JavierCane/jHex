@@ -16,7 +16,6 @@ import java.io.File;
  *
  * @author Guillermo Girona San Miguel (Grup 7.3, Hex)
  */
-
 public abstract class BaseVista
 {
 

@@ -4,7 +4,7 @@ import prop.hex.domini.controladors.PartidaCtrl;
 import prop.hex.domini.controladors.UsuariCtrl;
 import prop.hex.domini.models.UsuariHex;
 import prop.hex.domini.models.enums.TipusJugadors;
-import prop.hex.presentacio.VisualitzadorPartida;
+import prop.hex.presentacio.drivers.VisualitzadorPartida;
 
 import javax.swing.*;
 import java.io.FileNotFoundException;

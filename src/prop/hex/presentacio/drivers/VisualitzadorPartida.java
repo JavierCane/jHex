@@ -1,4 +1,4 @@
-package prop.hex.presentacio;
+package prop.hex.presentacio.drivers;
 
 import prop.cluster.domini.models.estats.EstatCasella;
 import prop.cluster.domini.models.estats.EstatPartida;
