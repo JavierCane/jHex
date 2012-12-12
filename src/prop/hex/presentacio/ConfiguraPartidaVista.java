@@ -448,7 +448,6 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 			@Override
 			public void mouseClicked( MouseEvent event )
 			{
-				System.out.println( "action perfor" );
 				netejaJTextField( camp_nom_partida );
 			}
 		} );
@@ -645,7 +644,6 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 
 	private void netejaJTextField( JTextField camp_de_text )
 	{
-		System.out.println( "nete" );
 		camp_de_text.setText( "" );
 	}
 
