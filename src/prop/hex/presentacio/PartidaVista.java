@@ -148,7 +148,7 @@ public final class PartidaVista extends BaseVista
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
-				accioBotoAbandona( event );
+				accioBotoAbandona( false );
 			}
 		} );
 	}
@@ -217,18 +217,22 @@ public final class PartidaVista extends BaseVista
 
 	/**
 	 * Defineix el comportament del botó d'abandonar partida quan sigui pitjat.
+	 * Pot ser invocat també desde el botó de sortida del joc.
 	 *
-	 * @param event Event que activarà el botó.
+	 * @param sortir_del_programa Si es true sortirem del joc completament tancant el programa, si no,
+	 *                               anirém a la pantalla principal
 	 */
-	public void accioBotoAbandona( ActionEvent event )
+	public void accioBotoAbandona( boolean sortir_del_programa )
 	{
 		// Primer preguntem si vol guardar la partida a disc abans de sortir
 		Object[][] elements_de_control_jugadors = PresentacioCtrl.getInstancia().getElementsDeControlJugadors();
-		boolean es_partida_ia = ( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) != TipusJugadors
-				.JUGADOR &&
+
+		boolean es_partida_ia =
+				( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) != TipusJugadors.JUGADOR &&
 				( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) != TipusJugadors.CONVIDAT &&
 				( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) != TipusJugadors.JUGADOR &&
 				( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) != TipusJugadors.CONVIDAT;
+
 		boolean es_partida_convidat = ( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) == TipusJugadors
 				.CONVIDAT || ( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) == TipusJugadors.CONVIDAT;
 
@@ -242,7 +246,14 @@ public final class PartidaVista extends BaseVista
 
 			if ( "Sí" == valor_seleccionat )
 			{
-				PresentacioCtrl.getInstancia().vistaPartidaAMenuPrincipal();
+				if ( sortir_del_programa )
+				{
+					System.exit( 0 );
+				}
+				else
+				{
+					PresentacioCtrl.getInstancia().vistaPartidaAMenuPrincipal();
+				}
 			}
 		}
 		else
@@ -260,6 +271,17 @@ public final class PartidaVista extends BaseVista
 				try
 				{
 					PresentacioCtrl.getInstancia().guardaPartida();
+
+					PresentacioCtrl.getInstancia().netejaParametresPartidaActual();
+
+					if ( sortir_del_programa )
+					{
+						System.exit( 0 );
+					}
+					else
+					{
+						PresentacioCtrl.getInstancia().vistaPartidaAMenuPrincipal();
+					}
 				}
 				catch ( IOException excepcio )
 				{
@@ -275,18 +297,21 @@ public final class PartidaVista extends BaseVista
 					dialeg_error_guardant.setDialeg( "Error", excepcio.getMessage(), botons_error_guardant,
 							JOptionPane.WARNING_MESSAGE );
 				}
-
-				PresentacioCtrl.getInstancia().netejaParametresPartidaActual();
-				PresentacioCtrl.getInstancia().vistaPartidaAMenuPrincipal();
-
 			}
 			else if ( "No" == valor_seleccionat )
 			{
 				// Si no vol guardar la partida, retornem a menu principal reinicialitzant els paràmetres de la
-				// partida
-				// en joc a valors buits
+				// partida en joc a valors buits
 				PresentacioCtrl.getInstancia().netejaParametresPartidaActual();
-				PresentacioCtrl.getInstancia().vistaPartidaAMenuPrincipal();
+
+				if ( sortir_del_programa )
+				{
+					System.exit( 0 );
+				}
+				else
+				{
+					PresentacioCtrl.getInstancia().vistaPartidaAMenuPrincipal();
+				}
 			}
 			// Si selecciona l'opció de cancel·lar la sortida, simplement no fem res :)
 		}
@@ -315,4 +340,15 @@ public final class PartidaVista extends BaseVista
 		    dialeg_error.setDialeg( "Error", excepcio.getMessage(), botons_error, JOptionPane.WARNING_MESSAGE );
 	    }
     }
+
+	/**
+	 * Defineix el comportament del botó de sortida quan sigui pitjat.
+	 *
+	 * @param event Event que activarà el botó.
+	 */
+	@Override
+	public void accioBotoSurt( ActionEvent event )
+	{
+		accioBotoAbandona( true );
+	}
 }
