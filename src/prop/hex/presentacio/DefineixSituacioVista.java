@@ -31,7 +31,7 @@ public final class DefineixSituacioVista extends BaseVista
 	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
 	 * controlador de presentació al qual haurà de demanar certes operacions.
 	 *
-	 * @param frame_principal  Frame principal sobre el que s'hauran d'afegir els diferents components.
+	 * @param frame_principal Frame principal sobre el que s'hauran d'afegir els diferents components.
 	 */
 	public DefineixSituacioVista( JFrame frame_principal )
 	{
@@ -72,9 +72,9 @@ public final class DefineixSituacioVista extends BaseVista
 
 	protected void inicialitzaPanellSortida()
 	{
-        panell_sortida.setLayout( new FlowLayout( FlowLayout.CENTER, 10, 0 ) );
-        panell_sortida.add( ajuda );
-        panell_sortida.add( surt );
+		panell_sortida.setLayout( new FlowLayout( FlowLayout.CENTER, 10, 0 ) );
+		panell_sortida.add( ajuda );
+		panell_sortida.add( surt );
 		panell_sortida.setOpaque( false );
 	}
 
@@ -116,11 +116,12 @@ public final class DefineixSituacioVista extends BaseVista
 			VistaDialeg dialeg = new VistaDialeg();
 
 			String[] botons = {
-					"Sí", "No"
+					"Sí",
+					"No"
 			};
 
-			String valor_seleccionat = dialeg.setDialeg( "Confirmació de sortida de la partida", "Estàs segur de que " +
-					"vols sortir de la partida?", botons, JOptionPane.QUESTION_MESSAGE );
+			String valor_seleccionat = dialeg.setDialeg( "Confirmació de sortida de la partida",
+					"Estàs segur de que " + "vols sortir de la partida?", botons, JOptionPane.QUESTION_MESSAGE );
 
 			if ( "Sí" == valor_seleccionat )
 			{
@@ -131,7 +132,6 @@ public final class DefineixSituacioVista extends BaseVista
 		{
 			PresentacioCtrl.getInstancia().vistaDefineixSituacioAMenuPrincipal();
 		}
-
 	}
 
 	/**

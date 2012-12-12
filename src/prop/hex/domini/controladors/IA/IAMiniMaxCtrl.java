@@ -31,6 +31,7 @@ import prop.hex.domini.models.TaulerHex;
  */
 public final class IAMiniMaxCtrl extends InteligenciaArtificialHexCtrl
 {
+
 	/**
 	 * Profunditat màxima per al minimax.
 	 */

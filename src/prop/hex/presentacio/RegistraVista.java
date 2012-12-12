@@ -37,7 +37,7 @@ public final class RegistraVista extends BaseVista
 	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
 	 * controlador de presentació al qual haurà de demanar certes operacions.
 	 *
-	 * @param frame_principal  Frame principal sobre el que s'hauran d'afegir els diferents components.
+	 * @param frame_principal Frame principal sobre el que s'hauran d'afegir els diferents components.
 	 */
 	public RegistraVista( JFrame frame_principal )
 	{

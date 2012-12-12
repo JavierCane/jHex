@@ -1,7 +1,8 @@
 package prop.hex.presentacio;
 
 import prop.cluster.domini.models.estats.EstatPartida;
-import prop.hex.domini.models.enums.*;
+import prop.hex.domini.models.enums.ModesInici;
+import prop.hex.domini.models.enums.TipusJugadors;
 import prop.hex.presentacio.auxiliars.JPanelTauler;
 import prop.hex.presentacio.auxiliars.VistaDialeg;
 
@@ -35,7 +36,7 @@ public final class PartidaVista extends BaseVista
 	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
 	 * controlador de presentació al qual haurà de demanar certes operacions.
 	 *
-	 * @param frame_principal  Frame principal sobre el que s'hauran d'afegir els diferents components.
+	 * @param frame_principal Frame principal sobre el que s'hauran d'afegir els diferents components.
 	 */
 	public PartidaVista( JFrame frame_principal )
 	{
@@ -69,22 +70,21 @@ public final class PartidaVista extends BaseVista
 	protected void inicialitzaPanellPeu()
 	{
 		Object[][] elements_de_control_jugadors = PresentacioCtrl.getInstancia().getElementsDeControlJugadors();
-		boolean es_partida_ia = ( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) != TipusJugadors
-				.JUGADOR &&
-				( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) != TipusJugadors.CONVIDAT &&
-				( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) != TipusJugadors.JUGADOR &&
-				( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) != TipusJugadors.CONVIDAT;
+		boolean es_partida_ia = ( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) != TipusJugadors.JUGADOR &&
+		                        ( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) != TipusJugadors.CONVIDAT &&
+		                        ( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) != TipusJugadors.JUGADOR &&
+		                        ( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) != TipusJugadors.CONVIDAT;
 		JPanel botons = new JPanel();
 		if ( PresentacioCtrl.getInstancia().getElementsDeControlPartida()[4] == ModesInici.PASTIS &&
-                ( elements_de_control_jugadors[0][1] == TipusJugadors.CONVIDAT ||
-                elements_de_control_jugadors[0][1] == TipusJugadors.JUGADOR ) )
+		     ( elements_de_control_jugadors[0][1] == TipusJugadors.CONVIDAT ||
+		       elements_de_control_jugadors[0][1] == TipusJugadors.JUGADOR ) )
 		{
 			botons.add( intercanvia );
 			intercanvia.setEnabled( false );
 		}
-        int num_jugador = ( Integer ) PresentacioCtrl.getInstancia().getElementsDeControlPartida()[2] % 2;
+		int num_jugador = ( Integer ) PresentacioCtrl.getInstancia().getElementsDeControlPartida()[2] % 2;
 		if ( elements_de_control_jugadors[0][num_jugador] != TipusJugadors.CONVIDAT &&
-				elements_de_control_jugadors[0][num_jugador] != TipusJugadors.JUGADOR )
+		     elements_de_control_jugadors[0][num_jugador] != TipusJugadors.JUGADOR )
 		{
 			botons.add( mou_ia );
 		}
@@ -105,9 +105,9 @@ public final class PartidaVista extends BaseVista
 	@Override
 	protected void inicialitzaPanellSortida()
 	{
-        panell_sortida.setLayout( new FlowLayout( FlowLayout.CENTER, 10, 0 ) );
-        panell_sortida.add( ajuda );
-        panell_sortida.add( surt );
+		panell_sortida.setLayout( new FlowLayout( FlowLayout.CENTER, 10, 0 ) );
+		panell_sortida.add( ajuda );
+		panell_sortida.add( surt );
 		panell_sortida.setOpaque( false );
 	}
 
@@ -197,11 +197,13 @@ public final class PartidaVista extends BaseVista
 	{
 		mou_ia.setEnabled( false );
 		panell_central.mouIAOMostraPista();
-		if ( PresentacioCtrl.getInstancia().consultaEstatPartida() == EstatPartida.NO_FINALITZADA)
+		if ( PresentacioCtrl.getInstancia().consultaEstatPartida() == EstatPartida.NO_FINALITZADA )
 		{
 			int num_jugador = ( Integer ) PresentacioCtrl.getInstancia().getElementsDeControlPartida()[2] % 2;
-			if ( PresentacioCtrl.getInstancia().getElementsDeControlJugadors()[0][num_jugador] != TipusJugadors.CONVIDAT &&
-					PresentacioCtrl.getInstancia().getElementsDeControlJugadors()[0][num_jugador] != TipusJugadors.JUGADOR )
+			if ( PresentacioCtrl.getInstancia().getElementsDeControlJugadors()[0][num_jugador] !=
+			     TipusJugadors.CONVIDAT &&
+			     PresentacioCtrl.getInstancia().getElementsDeControlJugadors()[0][num_jugador] !=
+			     TipusJugadors.JUGADOR )
 			{
 				mou_ia.setEnabled( true );
 			}
@@ -224,26 +226,29 @@ public final class PartidaVista extends BaseVista
 	 * Pot ser invocat també desde el botó de sortida del joc.
 	 *
 	 * @param sortir_del_programa Si es true sortirem del joc completament tancant el programa, si no,
-	 *                               anirém a la pantalla principal
+	 *                            anirém a la pantalla principal
 	 */
 	public void accioBotoAbandona( boolean sortir_del_programa )
 	{
 		// Primer preguntem si vol guardar la partida a disc abans de sortir
 		Object[][] elements_de_control_jugadors = PresentacioCtrl.getInstancia().getElementsDeControlJugadors();
 
-		boolean es_partida_ia =
-				( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) != TipusJugadors.JUGADOR &&
-				( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) != TipusJugadors.CONVIDAT &&
-				( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) != TipusJugadors.JUGADOR &&
-				( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) != TipusJugadors.CONVIDAT;
+		boolean es_partida_ia = ( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) != TipusJugadors.JUGADOR &&
+		                        ( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) != TipusJugadors.CONVIDAT &&
+		                        ( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) != TipusJugadors.JUGADOR &&
+		                        ( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) != TipusJugadors.CONVIDAT;
 
-		boolean es_partida_convidat = ( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) == TipusJugadors
-				.CONVIDAT || ( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) == TipusJugadors.CONVIDAT;
+		boolean es_partida_convidat =
+				( ( TipusJugadors ) elements_de_control_jugadors[0][0] ) == TipusJugadors.CONVIDAT ||
+				( ( TipusJugadors ) elements_de_control_jugadors[0][1] ) == TipusJugadors.CONVIDAT;
 
 		if ( es_partida_convidat || es_partida_ia )
 		{
 			VistaDialeg dialeg = new VistaDialeg();
-			String[] botons = { "Sí", "No" };
+			String[] botons = {
+					"Sí",
+					"No"
+			};
 
 			String valor_seleccionat = dialeg.setDialeg( "Confirmació de sortida de la partida",
 					"Estàs segur de que vols sortir de la partida?", botons, JOptionPane.QUESTION_MESSAGE );
@@ -263,11 +268,15 @@ public final class PartidaVista extends BaseVista
 		else
 		{
 			VistaDialeg dialeg_guardar_partida = new VistaDialeg();
-			String[] botons_guardar_partida = { "Sí", "No", "Cancel·la" };
+			String[] botons_guardar_partida = {
+					"Sí",
+					"No",
+					"Cancel·la"
+			};
 
 			String valor_seleccionat = dialeg_guardar_partida.setDialeg( "Guardar abans de sortir?",
-					"Vols guardar la partida abans de sortir per poder-la carregar després?",
-					botons_guardar_partida, JOptionPane.QUESTION_MESSAGE );
+					"Vols guardar la partida abans de sortir per poder-la carregar després?", botons_guardar_partida,
+					JOptionPane.QUESTION_MESSAGE );
 
 			// Si vol guardar la partida, la guardem a disc i sortim al menú principal
 			if ( "Sí" == valor_seleccionat )
@@ -326,24 +335,24 @@ public final class PartidaVista extends BaseVista
 	 *
 	 * @param missatge Missatge que es mostra en el diàleg.
 	 */
-    public void mostraDialegVictoria( String missatge )
-    {
-        VistaDialeg dialeg = new VistaDialeg();
-						String[] botons = { "Torna al menú principal" };
-						dialeg.setDialeg( "Partida finalitzada", missatge, botons, JOptionPane.INFORMATION_MESSAGE );
+	public void mostraDialegVictoria( String missatge )
+	{
+		VistaDialeg dialeg = new VistaDialeg();
+		String[] botons = { "Torna al menú principal" };
+		dialeg.setDialeg( "Partida finalitzada", missatge, botons, JOptionPane.INFORMATION_MESSAGE );
 
-	    try
-	    {
-		    PresentacioCtrl.getInstancia().finalitzaPartida();
-		    PresentacioCtrl.getInstancia().vistaPartidaAMenuPrincipal();
-	    }
-	    catch ( Exception excepcio )
-	    {
-		    VistaDialeg dialeg_error = new VistaDialeg();
-		    String[] botons_error = { "Accepta" };
-		    dialeg_error.setDialeg( "Error", excepcio.getMessage(), botons_error, JOptionPane.WARNING_MESSAGE );
-	    }
-    }
+		try
+		{
+			PresentacioCtrl.getInstancia().finalitzaPartida();
+			PresentacioCtrl.getInstancia().vistaPartidaAMenuPrincipal();
+		}
+		catch ( Exception excepcio )
+		{
+			VistaDialeg dialeg_error = new VistaDialeg();
+			String[] botons_error = { "Accepta" };
+			dialeg_error.setDialeg( "Error", excepcio.getMessage(), botons_error, JOptionPane.WARNING_MESSAGE );
+		}
+	}
 
 	/**
 	 * Defineix el comportament del botó de sortida quan sigui pitjat.

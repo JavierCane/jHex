@@ -19,6 +19,7 @@ import java.util.HashMap;
  */
 public final class IAHexQueenBeeCtrl extends InteligenciaArtificialHexCtrl
 {
+
 	private HashMap<Integer, ElementTaulaTransposicions> memoria;
 
 	/**

@@ -32,12 +32,11 @@ public final class IdentificaCarregaPartidaVista extends BaseVista
 	 * controlador de presentació al qual haurà de demanar certes operacions, el nom de l'usuari que es vol
 	 * identificar i l'identificador de la partida que es vol carregar.
 	 *
-	 * @param frame_principal  Frame principal sobre el que s'hauran d'afegir els diferents components.
-	 * @param usuari           Nom de l'usuari que es vol identificar.
-	 * @param id_partida       Identificador de la partida que es vol carregar.
+	 * @param frame_principal Frame principal sobre el que s'hauran d'afegir els diferents components.
+	 * @param usuari          Nom de l'usuari que es vol identificar.
+	 * @param id_partida      Identificador de la partida que es vol carregar.
 	 */
-	public IdentificaCarregaPartidaVista( JFrame frame_principal, String usuari,
-	                                      String id_partida )
+	public IdentificaCarregaPartidaVista( JFrame frame_principal, String usuari, String id_partida )
 	{
 		super( frame_principal );
 

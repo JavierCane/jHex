@@ -209,13 +209,17 @@ public final class PartidaCtrl
 	private void inicialitzaIAJugadors() throws ClassNotFoundException, IllegalAccessException, InstantiationException
 	{
 		ia_jugadors[0] = ( InteligenciaArtificialHexCtrl ) Class.forName( "prop.hex.domini.controladors.IA." +
-		                                                              ( partida_actual.getJugadorA() ).getTipusJugador()
-				                                                              .getClasseCorresponent() ).newInstance();
+		                                                                  ( partida_actual.getJugadorA() )
+				                                                                  .getTipusJugador()
+				                                                                  .getClasseCorresponent() )
+				.newInstance();
 		ia_jugadors[0].setPartida( partida_actual );
 
 		ia_jugadors[1] = ( InteligenciaArtificialHexCtrl ) Class.forName( "prop.hex.domini.controladors.IA." +
-		                                                              ( partida_actual.getJugadorB() ).getTipusJugador()
-				                                                              .getClasseCorresponent() ).newInstance();
+		                                                                  ( partida_actual.getJugadorB() )
+				                                                                  .getTipusJugador()
+				                                                                  .getClasseCorresponent() )
+				.newInstance();
 		ia_jugadors[1].setPartida( partida_actual );
 	}
 
@@ -524,6 +528,7 @@ public final class PartidaCtrl
 
 	/**
 	 * Genera una partida nova revenja de la darrera jugada.
+	 *
 	 * @throws NullPointerException
 	 * @throws IllegalArgumentException
 	 * @throws ClassNotFoundException

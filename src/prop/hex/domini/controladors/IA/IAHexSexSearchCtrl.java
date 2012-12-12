@@ -4,9 +4,9 @@ import prop.cluster.domini.models.Tauler;
 import prop.cluster.domini.models.estats.EstatCasella;
 import prop.cluster.domini.models.estats.EstatPartida;
 import prop.hex.domini.controladors.IA.auxiliars.ElementTaulaTransposicions;
+import prop.hex.domini.controladors.IA.auxiliars.FitesDePoda;
 import prop.hex.domini.controladors.IA.auxiliars.ResistenciaCasella;
 import prop.hex.domini.controladors.IA.auxiliars.TwoDistance;
-import prop.hex.domini.controladors.IA.auxiliars.FitesDePoda;
 import prop.hex.domini.models.Casella;
 import prop.hex.domini.models.TaulerHex;
 
@@ -278,7 +278,7 @@ public final class IAHexSexSearchCtrl extends InteligenciaArtificialHexCtrl
 			Casella actual = resistencia_actual.getCasella();
 			tauler.mouFitxa( fitxa, actual );
 			pressupost = Math.max( pressupost_defecte, resistencia_actual.getResistencia() + 1 );
-			if  ( partida.getTornsJugats() < 3 )
+			if ( partida.getTornsJugats() < 3 )
 			{
 				profunditat_maxima = 2;
 			}

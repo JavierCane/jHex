@@ -31,7 +31,7 @@ public final class MenuPrincipalVista extends BaseVista
 	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
 	 * controlador de presentació al qual haurà de demanar certes operacions.
 	 *
-	 * @param frame_principal  Frame principal sobre el que s'hauran d'afegir els diferents components.
+	 * @param frame_principal Frame principal sobre el que s'hauran d'afegir els diferents components.
 	 */
 	public MenuPrincipalVista( JFrame frame_principal )
 	{
@@ -101,7 +101,8 @@ public final class MenuPrincipalVista extends BaseVista
 	@Override
 	protected void inicialitzaPanellPeu()
 	{
-		nom_jugador_principal = new JLabel( "Has iniciat sessió com a " + PresentacioCtrl.getInstancia().obteNomJugadorPrincipal() );
+		nom_jugador_principal =
+				new JLabel( "Has iniciat sessió com a " + PresentacioCtrl.getInstancia().obteNomJugadorPrincipal() );
 
 		panell_tanca_sessio.add( nom_jugador_principal );
 		panell_tanca_sessio.add( tanca_sessio );

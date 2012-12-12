@@ -45,7 +45,7 @@ public final class ConfiguracioVista extends BaseVista
 	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
 	 * controlador de presentació al qual haurà de demanar certes operacions.
 	 *
-	 * @param frame_principal  Frame principal sobre el que s'hauran d'afegir els diferents components.
+	 * @param frame_principal Frame principal sobre el que s'hauran d'afegir els diferents components.
 	 */
 	public ConfiguracioVista( JFrame frame_principal )
 	{
@@ -117,7 +117,8 @@ public final class ConfiguracioVista extends BaseVista
 		colors_vermell_blau.setOpaque( false );
 		colors_negre_blanc.setOpaque( false );
 
-		if ( PresentacioCtrl.getInstancia().obteCombinacioDeColorsJugadorPrincipal() == CombinacionsColors.VERMELL_BLAU )
+		if ( PresentacioCtrl.getInstancia().obteCombinacioDeColorsJugadorPrincipal() ==
+		     CombinacionsColors.VERMELL_BLAU )
 		{
 			colors_vermell_blau.setSelected( true );
 		}
@@ -240,11 +241,13 @@ public final class ConfiguracioVista extends BaseVista
 	{
 		VistaDialeg dialeg = new VistaDialeg();
 		String[] botons = {
-				"Sí", "No"
+				"Sí",
+				"No"
 		};
 		String valor_seleccionat = dialeg.setDialeg( "Reinicia les estadístiques", "Estàs segur que vols reiniciar " +
-				"" + "les teves estadístiques? Aquesta acció no es podrà desfer.", botons,
-				JOptionPane.QUESTION_MESSAGE );
+		                                                                           "" +
+		                                                                           "les teves estadístiques? Aquesta acció no es podrà desfer.",
+				botons, JOptionPane.QUESTION_MESSAGE );
 		if ( valor_seleccionat == "Sí" )
 		{
 			PresentacioCtrl.getInstancia().reiniciaEstadistiquesJugadorPrincipal();
@@ -262,8 +265,8 @@ public final class ConfiguracioVista extends BaseVista
 		{
 			VistaDialeg dialeg = new VistaDialeg();
 			String[] botons = { "Accepta" };
-			String valor_seleccionat = dialeg.setDialeg( "Error", "Els usuaris convidats no tenen contrasenya.",
-					botons, JOptionPane.ERROR_MESSAGE );
+			String valor_seleccionat = dialeg.setDialeg( "Error", "Els usuaris convidats no tenen contrasenya.", botons,
+					JOptionPane.ERROR_MESSAGE );
 		}
 		else
 		{
@@ -280,7 +283,8 @@ public final class ConfiguracioVista extends BaseVista
 	{
 		VistaDialeg dialeg = new VistaDialeg();
 		String[] botons = {
-				"Sí", "No"
+				"Sí",
+				"No"
 		};
 		String valor_seleccionat = dialeg.setDialeg( "Confirma eliminació usuari",
 				"Estàs segur que vols eliminar el teu usuari? Aquesta acció no es podrà desfer.", botons,

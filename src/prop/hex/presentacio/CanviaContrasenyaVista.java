@@ -174,8 +174,8 @@ public final class CanviaContrasenyaVista extends BaseVista
 		{
 			VistaDialeg dialeg = new VistaDialeg();
 			String[] botons = { "Accepta" };
-			String valor_seleccionat = dialeg.setDialeg( "Error", "La contrasenya actual de l'usuari no coincideix " +
-			                                                      "amb la introduïda.", botons,
+			String valor_seleccionat = dialeg.setDialeg( "Error",
+					"La contrasenya actual de l'usuari no coincideix amb la introduïda.", botons,
 					JOptionPane.WARNING_MESSAGE );
 		}
 		catch ( Exception e )

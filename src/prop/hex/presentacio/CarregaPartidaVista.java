@@ -1,6 +1,5 @@
 package prop.hex.presentacio;
 
-import prop.hex.presentacio.auxiliars.ModelTaula;
 import prop.hex.presentacio.auxiliars.ModelTaulaPartides;
 import prop.hex.presentacio.auxiliars.VistaDialeg;
 
@@ -38,7 +37,7 @@ public final class CarregaPartidaVista extends BaseVista
 	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
 	 * controlador de presentació al qual haurà de demanar certes operacions.
 	 *
-	 * @param frame_principal  Frame principal sobre el que s'hauran d'afegir els diferents components.
+	 * @param frame_principal Frame principal sobre el que s'hauran d'afegir els diferents components.
 	 */
 	public CarregaPartidaVista( JFrame frame_principal )
 	{
@@ -112,7 +111,7 @@ public final class CarregaPartidaVista extends BaseVista
 		panell_central.add( new JScrollPane( taula_partides ) );
 		panell_central.setOpaque( false );
 		taula_partides.setFillsViewportHeight( true );
-        taula_partides.getTableHeader().setReorderingAllowed( false );
+		taula_partides.getTableHeader().setReorderingAllowed( false );
 		taula_partides.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 	}
 
@@ -228,7 +227,8 @@ public final class CarregaPartidaVista extends BaseVista
 		{
 			VistaDialeg dialeg = new VistaDialeg();
 			String[] botons = {
-					"Sí", "No"
+					"Sí",
+					"No"
 			};
 			String valor_seleccionat = dialeg.setDialeg( "Confirma eliminació partida",
 					"Estàs segur que vols eliminar aquesta partida? Aquesta acció no es podrà desfer.", botons,

@@ -37,7 +37,7 @@ public final class IniciaSessioVista extends BaseVista
 	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
 	 * controlador de presentació al qual haurà de demanar certes operacions.
 	 *
-	 * @param frame_principal  Frame principal sobre el que s'hauran d'afegir els diferents components.
+	 * @param frame_principal Frame principal sobre el que s'hauran d'afegir els diferents components.
 	 */
 	public IniciaSessioVista( JFrame frame_principal )
 	{
@@ -175,15 +175,15 @@ public final class IniciaSessioVista extends BaseVista
 		{
 			VistaDialeg dialeg = new VistaDialeg();
 			String[] botons = { "Accepta" };
-			String valor_seleccionat = dialeg.setDialeg( "Error", "Nom d'usuari o contrasenya incorrectes.",
-					botons, JOptionPane.WARNING_MESSAGE );
+			String valor_seleccionat = dialeg.setDialeg( "Error", "Nom d'usuari o contrasenya incorrectes.", botons,
+					JOptionPane.WARNING_MESSAGE );
 		}
 		catch ( Exception excepcio )
 		{
 			VistaDialeg dialeg = new VistaDialeg();
 			String[] botons = { "Accepta" };
-			String valor_seleccionat = dialeg.setDialeg( "Error", "Error inesperat.", botons,
-					JOptionPane.ERROR_MESSAGE );
+			String valor_seleccionat =
+					dialeg.setDialeg( "Error", "Error inesperat.", botons, JOptionPane.ERROR_MESSAGE );
 		}
 	}
 
@@ -203,15 +203,15 @@ public final class IniciaSessioVista extends BaseVista
 		{
 			VistaDialeg dialeg = new VistaDialeg();
 			String[] botons = { "Accepta" };
-			String valor_seleccionat = dialeg.setDialeg( "Error", "Nom d'usuari o contrasenya incorrectes.",
-					botons, JOptionPane.WARNING_MESSAGE );
+			String valor_seleccionat = dialeg.setDialeg( "Error", "Nom d'usuari o contrasenya incorrectes.", botons,
+					JOptionPane.WARNING_MESSAGE );
 		}
 		catch ( Exception excepcio )
 		{
 			VistaDialeg dialeg = new VistaDialeg();
 			String[] botons = { "Accepta" };
-			String valor_seleccionat = dialeg.setDialeg( "Error", "Error inesperat.", botons,
-					JOptionPane.ERROR_MESSAGE );
+			String valor_seleccionat =
+					dialeg.setDialeg( "Error", "Error inesperat.", botons, JOptionPane.ERROR_MESSAGE );
 		}
 	}
 
