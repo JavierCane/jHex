@@ -41,14 +41,6 @@ public final class PartidaCtrl
 	private PartidaHex partida_actual;
 
 	/**
-	 * Estat de la darrera partida. Es fa servir quan es finalitza la partida, per no tenir problemes d'accés a
-	 * punters nuls.
-	 *
-	 * @see #consultaEstatPartida()
-	 */
-	private EstatPartida estat_darrera_partida = null;
-
-	/**
 	 * Conté els usuaris pre inicialitzats de la partida actual, únicament son útils abans d'inicialitzar una partida.
 	 *
 	 * @see #preInicialitzaUsuariPartida(int, TipusJugadors, String, String)
@@ -73,7 +65,9 @@ public final class PartidaCtrl
 	}
 
 	/**
-	 *
+	 * Neteja els paràmetres de la partida actual.
+	 * <p/>
+	 * S'encarrega d'esborrar tots els paràmetres de control sobre la partida que s'està jugant.
 	 */
 	public final void netejaParametresPartidaActual()
 	{
@@ -513,8 +507,6 @@ public final class PartidaCtrl
 			}
 		}
 
-		netejaParametresPartidaActual();
-
 		// Guardem el rànquing al disc
 		try
 		{
@@ -527,19 +519,30 @@ public final class PartidaCtrl
 	}
 
 	/**
-	 * Genera una partida nova revenja de la darrera jugada.
+	 * Tanca la partida actual i crea una de revenja si és el cas. Si es fa una revenja, intercanvia l'usuari que ha
+	 * jugat al primer torn pel segon.
 	 *
-	 * @throws NullPointerException
-	 * @throws IllegalArgumentException
-	 * @throws ClassNotFoundException
-	 * @throws InstantiationException
-	 * @throws IllegalAccessException
+	 * @param revenja Indica si es vol crear una partida de revenja.
+	 * @throws ClassNotFoundException Si no es pot carregar la classe de les intel·ligències artificials.
+	 * @throws InstantiationException Si hi ha problemes amb la instanciació de les intel·ligències artificials.
+	 * @throws IllegalAccessException Si s'intenta accedir a un lloc no permès quan es carreguen les intel·ligències
+	 *                                artificials.
 	 */
-	public void demanaRevenja()
-			throws NullPointerException, IllegalArgumentException, ClassNotFoundException, InstantiationException,
-			       IllegalAccessException
+	public void tancaPartida( boolean revenja )
+			throws ClassNotFoundException, InstantiationException, IllegalAccessException
 	{
-		inicialitzaPartida( partida_actual.getTauler().getMida(), partida_actual.getNom(), false );
+		if ( revenja )
+		{
+			UsuariHex auxiliar = usuaris_preinicialitzats_partida[0];
+			usuaris_preinicialitzats_partida[0] = usuaris_preinicialitzats_partida[1];
+			usuaris_preinicialitzats_partida[1] = auxiliar;
+
+			inicialitzaPartida( partida_actual.getTauler().getMida(), partida_actual.getNom(), false );
+		}
+		else
+		{
+			netejaParametresPartidaActual();
+		}
 	}
 
 	/**
@@ -650,13 +653,7 @@ public final class PartidaCtrl
 	 */
 	public EstatPartida consultaEstatPartida()
 	{
-		if ( partida_actual != null )
-		{
-			estat_darrera_partida = partida_actual.comprovaEstatPartida();
-			partida_actual.setFinalitzada( estat_darrera_partida != EstatPartida.NO_FINALITZADA );
-		}
-
-		return estat_darrera_partida;
+		return partida_actual.comprovaEstatPartida();
 	}
 
 	/**

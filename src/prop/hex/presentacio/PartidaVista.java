@@ -331,20 +331,42 @@ public final class PartidaVista extends BaseVista
 	 */
 	public void mostraDialegVictoria( String missatge )
 	{
-		VistaDialeg dialeg = new VistaDialeg();
-		String[] botons = { "Torna al menú principal" };
-		dialeg.setDialeg( "Partida finalitzada", missatge, botons, JOptionPane.INFORMATION_MESSAGE );
-
 		try
 		{
 			PresentacioCtrl.getInstancia().finalitzaPartida();
-			PresentacioCtrl.getInstancia().vistaPartidaAMenuPrincipal();
 		}
 		catch ( Exception excepcio )
 		{
 			VistaDialeg dialeg_error = new VistaDialeg();
 			String[] botons_error = { "Accepta" };
 			dialeg_error.setDialeg( "Error", excepcio.getMessage(), botons_error, JOptionPane.WARNING_MESSAGE );
+		}
+
+		VistaDialeg dialeg = new VistaDialeg();
+		String[] botons = {
+				"Torna al menú principal",
+				"Partida de revenja"
+		};
+		String opcio = dialeg.setDialeg( "Partida finalitzada", missatge, botons, JOptionPane.INFORMATION_MESSAGE );
+
+		try
+		{
+			PresentacioCtrl.getInstancia().tancaPartida( opcio.equals( "Partida de revenja" ) );
+		}
+		catch ( Exception excepcio )
+		{
+			VistaDialeg dialeg_error = new VistaDialeg();
+			String[] botons_error = { "Accepta" };
+			dialeg_error.setDialeg( "Error", excepcio.getMessage(), botons_error, JOptionPane.ERROR_MESSAGE );
+		}
+
+		if ( opcio.equals( "Partida de revenja" ) )
+		{
+			PresentacioCtrl.getInstancia().vistaConfiguraPartidaAPartida();
+		}
+		else
+		{
+			PresentacioCtrl.getInstancia().vistaPartidaAMenuPrincipal();
 		}
 	}
 

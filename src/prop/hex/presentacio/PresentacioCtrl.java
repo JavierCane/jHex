@@ -657,6 +657,22 @@ public final class PresentacioCtrl
 	}
 
 	/**
+	 * Tanca la partida actual i crea una de revenja si és el cas. Si es fa una revenja, intercanvia l'usuari que ha
+	 * jugat al primer torn pel segon.
+	 *
+	 * @param revenja Indica si es vol crear una partida de revenja.
+	 * @throws ClassNotFoundException Si no es pot carregar la classe de les intel·ligències artificials.
+	 * @throws InstantiationException Si hi ha problemes amb la instanciació de les intel·ligències artificials.
+	 * @throws IllegalAccessException Si s'intenta accedir a un lloc no permès quan es carreguen les intel·ligències
+	 *                                artificials.
+	 */
+	public void tancaPartida( boolean revenja )
+			throws ClassNotFoundException, InstantiationException, IllegalAccessException
+	{
+		PartidaCtrl.getInstancia().tancaPartida( revenja );
+	}
+
+	/**
 	 * Guarda la partida actual en memòria secundària.
 	 *
 	 * @return Cert si s'ha guardat correctament. Fals altrament.
