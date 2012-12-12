@@ -71,10 +71,12 @@ public final class PartidaCtrl
 		netejaParametresPartidaActual();
 	}
 
+	/**
+	 *
+	 */
 	public final void netejaParametresPartidaActual()
 	{
 		partida_actual = null;
-		usuaris_preinicialitzats_partida = new UsuariHex[2];
 		ia_jugadors = new InteligenciaArtificialHex[2];
 	}
 
@@ -471,13 +473,13 @@ public final class PartidaCtrl
 		EstatPartida estat_actual = consultaEstatPartida();
 
 		// Si la partida ha finalitzat i no ha començat definint una situació inicial,
-		// actualitzo estadístiques d'usuari
+		// actualitzem les estadístiques d'usuari
 		if ( estat_actual != EstatPartida.NO_FINALITZADA )
 		{
-			// En cas de que la partida estigués guardada, l'elimino
+			// Si la partida està guardada, l'eliminem
 			PartidaHexGstr.getInstancia().eliminaElement( partida_actual.getIdentificadorUnic() );
 
-			// Si no ha començat definint situació inicial, actualitzo estadístiques d'usuari
+			// Si no ha començat definint situació inicial, actualitzem estadístiques d'usuari
 			if ( !partida_actual.teSituacioInicial() )
 			{
 				UsuariHex usuari_a = partida_actual.getJugadorA();
@@ -505,7 +507,9 @@ public final class PartidaCtrl
 			}
 		}
 
-		// Guardo el rànquing a disc.
+		netejaParametresPartidaActual();
+
+		// Guardem el rànquing al disc
 		try
 		{
 			RanquingGstr.getInstancia().guardaElement();
@@ -514,9 +518,21 @@ public final class PartidaCtrl
 		{
 			throw new IOException( "No s'ha pogut desar el ranquing" );
 		}
+	}
 
-		// Reinicialitzo els paràmetres del controlador de partides pero netejar valors anteriors.
-		netejaParametresPartidaActual();
+	/**
+	 * Genera una partida nova revenja de la darrera jugada.
+	 * @throws NullPointerException
+	 * @throws IllegalArgumentException
+	 * @throws ClassNotFoundException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 */
+	public void demanaRevenja()
+			throws NullPointerException, IllegalArgumentException, ClassNotFoundException, InstantiationException,
+			       IllegalAccessException
+	{
+		inicialitzaPartida( partida_actual.getTauler().getMida(), partida_actual.getNom(), false );
 	}
 
 	/**
