@@ -362,7 +362,7 @@ public final class PartidaVista extends BaseVista
 
 		if ( opcio.equals( "Partida de revenja" ) )
 		{
-			PresentacioCtrl.getInstancia().vistaConfiguraPartidaAPartida();
+			PresentacioCtrl.getInstancia().regeneraPartidaVista();
 		}
 		else
 		{

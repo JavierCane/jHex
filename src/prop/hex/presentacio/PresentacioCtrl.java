@@ -685,6 +685,9 @@ public final class PresentacioCtrl
 		PartidaCtrl.getInstancia().guardaPartida();
 	}
 
+	/**
+	 * S'encarrega d'esborrar tots els paràmetres de control sobre la partida que s'està jugant.
+	 */
 	public void netejaParametresPartidaActual()
 	{
 		PartidaCtrl.getInstancia().netejaParametresPartidaActual();
@@ -692,6 +695,15 @@ public final class PresentacioCtrl
 
 	// Mètodes per intercanviar vistes
 	// ----------------------------------------------------------------------------------------------------------------
+
+	/**
+	 * Genera una nova vista de partida, creant de nou tots els seus components.
+	 */
+	public void regeneraPartidaVista()
+	{
+		partida_vista = new PartidaVista( frame_principal );
+		partida_vista.fesVisible();
+	}
 
 	/**
 	 * Canvia la vista d'iniciar sessió per la de registrar-se.
