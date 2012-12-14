@@ -50,11 +50,6 @@ public abstract class BaseVista
 	protected JButton surt;
 
 	/**
-	 * Títol inferior amb el nom i versió del joc.
-	 */
-	protected JLabel titol_baix;
-
-	/**
 	 * Títol de la vista.
 	 */
 	protected static JLabel titol;
@@ -73,7 +68,6 @@ public abstract class BaseVista
 		panell_sortida = new JPanel();
 		ajuda = new JButton( "", new ImageIcon( "img/ajuda.png" ) );
 		surt = new JButton( "", new ImageIcon( "img/surt.png" ) );
-		titol_baix = new JLabel( "jHex v1.0" );
 	}
 
 	/**

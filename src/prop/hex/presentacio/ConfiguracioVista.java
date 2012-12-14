@@ -101,7 +101,7 @@ public final class ConfiguracioVista extends BaseVista
 		propietats_panel.gridy = 2;
 		propietats_panel.weightx = 0.25;
 		propietats_panel.anchor = GridBagConstraints.SOUTHWEST;
-		panell_principal.add( titol_baix, propietats_panel );
+		panell_principal.add( Box.createHorizontalStrut( 65 ), propietats_panel );
 	}
 
 	@Override

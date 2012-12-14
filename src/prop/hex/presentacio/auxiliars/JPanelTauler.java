@@ -81,7 +81,6 @@ public final class JPanelTauler extends JPanel
 	 * afegeix el listener del ratoli pel cas del click.
 	 *
 	 * @param partida_en_curs  Indica si la partida representada al panell està o no en curs.
-	 * @param presentacio_ctrl Controlador de presentació.
 	 */
 	public JPanelTauler( boolean partida_en_curs )
 	{
@@ -384,49 +383,49 @@ public final class JPanelTauler extends JPanel
 			{
 				g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
 						.getColorCasella( EstatCasella.JUGADOR_A ) );
-				g.drawString( "Processant moviment...", -50, 370 );
+				g.drawString( "Processant moviment...", -70, 350 );
 			}
 			else
 			{
 				g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
 						.getColorCasella( EstatCasella.JUGADOR_B ) );
-				g.drawString( "Processant moviment...", 580, 160 );
+				g.drawString( "Processant moviment...", 550, 120 );
 			}
 		}
 
 		// Mostrem el torn actual.
 		g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
 				.getColorTextInformacio( EstatCasella.BUIDA ) );
-		g.drawString( "Torn: " + elements_de_control_partida[2], -50, 210 );
-		g.drawString( "Torn: " + elements_de_control_partida[2], 580, 0 );
+		g.drawString( "Torn: " + elements_de_control_partida[2], -70, 210 );
+		g.drawString( "Torn: " + elements_de_control_partida[2], 550, -20 );
 
 		// Mostrem les dades del jugador A.
 		g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
 				.getColorTextInformacio( EstatCasella.JUGADOR_A ) );
 		if ( ( Integer ) elements_de_control_partida[2] % 2 == 0 )
 		{
-			g.drawString( "Té el torn", -50, 270 );
+			g.drawString( "Té el torn", -70, 250 );
 		}
-		g.drawString( ( ( String ) elements_de_control_jugadors[3][0] ), -50, 290 );
-		g.drawString( "D'esquerra a dreta", -50, 310 );
+		g.drawString( ( ( String ) elements_de_control_jugadors[3][0] ), -70, 270 );
+		g.drawString( "D'esquerra a dreta", -70, 290 );
 
-		g.drawString( "Temps: " + ( String ) elements_de_control_jugadors[2][0], -50, 330 );
+		g.drawString( "Temps: " + ( String ) elements_de_control_jugadors[2][0], -70, 310 );
 		g.drawString( "Pistes disponibles: " + ( ( Integer ) elements_de_control_partida[0] -
-		                                         ( ( Integer ) elements_de_control_jugadors[1][0] ) ), -50, 350 );
+		                                         ( ( Integer ) elements_de_control_jugadors[1][0] ) ), -70, 330 );
 
 		// Mostrem les dades del jugador B.
 		g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
 				.getColorTextInformacio( EstatCasella.JUGADOR_B ) );
 		if ( ( Integer ) elements_de_control_partida[2] % 2 == 1 )
 		{
-			g.drawString( "Té el torn", 580, 60 );
+			g.drawString( "Té el torn", 550, 20 );
 		}
-		g.drawString( ( ( String ) elements_de_control_jugadors[3][1] ), 580, 80 );
-		g.drawString( "De dalt a baix", 580, 100 );
+		g.drawString( ( ( String ) elements_de_control_jugadors[3][1] ), 550, 40 );
+		g.drawString( "De dalt a baix", 550, 60 );
 
-		g.drawString( "Temps: " + ( String ) elements_de_control_jugadors[2][1], 580, 120 );
+		g.drawString( "Temps: " + ( String ) elements_de_control_jugadors[2][1], 550, 80 );
 		g.drawString( "Pistes disponibles: " + ( ( Integer ) elements_de_control_partida[0] -
-		                                         ( ( Integer ) elements_de_control_jugadors[1][1] ) ), 580, 140 );
+		                                         ( ( Integer ) elements_de_control_jugadors[1][1] ) ), 550, 100 );
 
 		// Afegim les imatges amb les vores del tauler.
 		if ( ( ( CombinacionsColors ) elements_de_control_partida[3] ) == CombinacionsColors.VERMELL_BLAU )

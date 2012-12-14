@@ -3,6 +3,7 @@ package prop.hex.presentacio;
 import prop.cluster.domini.models.estats.EstatPartida;
 import prop.hex.domini.models.enums.ModesInici;
 import prop.hex.domini.models.enums.TipusJugadors;
+import prop.hex.presentacio.auxiliars.JPanelImatge;
 import prop.hex.presentacio.auxiliars.JPanelTauler;
 import prop.hex.presentacio.auxiliars.VistaDialeg;
 
@@ -43,6 +44,7 @@ public final class PartidaVista extends BaseVista
 		super( frame_principal );
 
 		titol = new JLabel( "jHex" );
+		panell_principal = new JPanelImatge( "img/fons_partida.png" );
 		panell_central = new JPanelTauler( true );
 		panell_botons = new JPanel();
 		intercanvia = new JButton( "Intercanvia fitxa" );
@@ -95,8 +97,7 @@ public final class PartidaVista extends BaseVista
 		}
 		botons.add( abandona );
 		botons.setOpaque( false );
-		panell_botons.setLayout( new FlowLayout( FlowLayout.CENTER, 100, 0 ) );
-		panell_botons.add( titol_baix );
+		panell_botons.setLayout( new FlowLayout( FlowLayout.CENTER, 50, 0 ) );
 		panell_botons.add( botons );
 		panell_botons.add( panell_sortida );
 		panell_botons.setOpaque( false );

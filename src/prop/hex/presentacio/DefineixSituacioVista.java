@@ -1,6 +1,7 @@
 package prop.hex.presentacio;
 
 import prop.cluster.domini.models.estats.EstatPartida;
+import prop.hex.presentacio.auxiliars.JPanelImatge;
 import prop.hex.presentacio.auxiliars.JPanelTauler;
 import prop.hex.presentacio.auxiliars.VistaDialeg;
 
@@ -38,6 +39,7 @@ public final class DefineixSituacioVista extends BaseVista
 		super( frame_principal );
 
 		titol = new JLabel( "jHex" );
+		panell_principal = new JPanelImatge( "img/fons_partida.png" );
 		panell_central = new JPanelTauler( false );
 		panell_botons = new JPanel();
 		inicia_partida = new JButton( "Inicia la partida" );
@@ -62,10 +64,12 @@ public final class DefineixSituacioVista extends BaseVista
 	@Override
 	protected void inicialitzaPanellPeu()
 	{
-		panell_botons.setLayout( new FlowLayout( FlowLayout.CENTER, 120, 0 ) );
-		panell_botons.add( titol_baix );
-		panell_botons.add( inicia_partida );
-		panell_botons.add( abandona );
+		panell_botons.setLayout( new FlowLayout( FlowLayout.CENTER, 50, 0 ) );
+		JPanel botons = new JPanel();
+		botons.add( inicia_partida );
+		botons.add( abandona );
+		botons.setOpaque( false );
+		panell_botons.add( botons );
 		panell_botons.add( panell_sortida );
 		panell_botons.setOpaque( false );
 	}
