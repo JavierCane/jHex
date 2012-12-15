@@ -14,11 +14,6 @@ public class Usuari implements Serializable
 {
 
 	/**
-	 * ID de serialització
-	 */
-	protected static final long serialVersionUID = -6648226504410176256L;
-
-	/**
 	 * Nom (Identificador) de l'usuari.
 	 */
 	protected String nom;
