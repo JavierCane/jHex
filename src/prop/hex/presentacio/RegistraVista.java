@@ -82,7 +82,7 @@ public final class RegistraVista extends BaseVista
 		titol = new JLabel( "Registra't" );
 		panell_dades = new JPanelImatge( getClass().getResource("/prop/img/caixa.png") );
 		accepta = new JButton( "Accepta" );
-		torna = new JButton( "Torna al menú principal" );
+		torna = new JButton( "Torna al menú d'iniciar sessió" );
 		usuari = new JTextField();
 		contrasenya = new JPasswordField();
 		confirma_contrasenya = new JPasswordField();
