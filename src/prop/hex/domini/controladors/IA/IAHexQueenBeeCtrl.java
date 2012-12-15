@@ -111,6 +111,11 @@ public final class IAHexQueenBeeCtrl extends InteligenciaArtificialHexCtrl
 	 */
 	public Casella obteMoviment( EstatCasella fitxa )
 	{
+		if ( partida.getTornsJugats() == 1 )
+		{
+			return obertura();
+		}
+
 		//Cridem al minimax.
 		int[] casella = super.minimax( partida, fitxa, profunditat_maxima );
 

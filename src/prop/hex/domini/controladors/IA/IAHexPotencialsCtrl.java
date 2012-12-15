@@ -85,6 +85,11 @@ public final class IAHexPotencialsCtrl extends InteligenciaArtificialHexCtrl
 	 */
 	public Casella obteMoviment( EstatCasella fitxa )
 	{
+		if ( partida.getTornsJugats() == 1 )
+		{
+			return obertura();
+		}
+
 		tauler = partida.getTauler();
 
 		return movimentFactible( fitxa );

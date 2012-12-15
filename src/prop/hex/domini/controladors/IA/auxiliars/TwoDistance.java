@@ -251,4 +251,19 @@ public final class TwoDistance
 	{
 		return potencial;
 	}
+
+	public int getPotencialsMinims()
+	{
+		int contador = 0;
+		for ( int i = 0; i < tauler.getMida(); i++ )
+		{
+			for ( int j = 0; j < tauler.getMida(); j++ )
+			{
+				if( potencials[i][j] == potencial) {
+					contador++;
+				}
+			}
+		}
+		return contador;
+	}
 }

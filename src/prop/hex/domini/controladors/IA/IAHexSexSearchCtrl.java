@@ -23,7 +23,7 @@ public final class IAHexSexSearchCtrl extends InteligenciaArtificialHexCtrl
 {
 
 	private TaulerHex tauler;
-	private static int pressupost_defecte = 2;
+	private static int pressupost_defecte = 3;
 	private int pressupost;
 	private static int profunditat_defecte = 4;
 	private int profunditat_maxima;
@@ -64,7 +64,8 @@ public final class IAHexSexSearchCtrl extends InteligenciaArtificialHexCtrl
 
 				if ( tauler.esMovimentValid( fitxa_jugador, casella ) )
 				{
-					int potencial_moviment = potencials[fila][columna] - two_distance.getPotencialMinim( casella );
+					int potencial_moviment = potencials[fila][columna];
+					if (potencial_moviment == 0) potencial_moviment -= two_distance.getPotencialMinim( casella );
 					moviments_ordenats.add( new ResistenciaCasella( casella, potencial_moviment ) );
 				}
 			}
@@ -239,14 +240,16 @@ public final class IAHexSexSearchCtrl extends InteligenciaArtificialHexCtrl
 		two_distance_b = new TwoDistance( ( TaulerHex ) tauler, EstatCasella.JUGADOR_B );
 		int potencial_a = two_distance_a.getPotencial();
 		int potencial_b = two_distance_b.getPotencial();
+		int desempat_a = two_distance_a.getPotencialsMinims();
+		int desempat_b = two_distance_b.getPotencialsMinims();
 
 		if ( fitxa_jugador == EstatCasella.JUGADOR_A )
 		{
-			retorn = potencial_b - potencial_a;
+			retorn = 100*(potencial_b - potencial_a) + desempat_b - desempat_a;
 		}
 		else
 		{
-			retorn = potencial_a - potencial_b;
+			retorn = 100*(potencial_a - potencial_b) + desempat_a - desempat_b;
 		}
 
 		return retorn;
@@ -265,6 +268,11 @@ public final class IAHexSexSearchCtrl extends InteligenciaArtificialHexCtrl
 	 */
 	public Casella obteMoviment( EstatCasella fitxa )
 	{
+		if ( partida.getTornsJugats() == 1 )
+		{
+			return obertura();
+		}
+
 		tauler = partida.getTauler();
 
 		int puntuacio_millor = Integer.MIN_VALUE + 1;
@@ -284,7 +292,7 @@ public final class IAHexSexSearchCtrl extends InteligenciaArtificialHexCtrl
 			}
 			else if ( resistencia_actual.getResistencia() >= resistencia_minima + pressupost_defecte )
 			{
-				profunditat_maxima = 1;
+				profunditat_maxima = 2;
 			}
 			else
 			{
@@ -313,5 +321,6 @@ public final class IAHexSexSearchCtrl extends InteligenciaArtificialHexCtrl
 		two_distance_a = two_distance_b = null;
 
 		return millors_moviments.get( new Random().nextInt( millors_moviments.size() ) );
+		//return millors_moviments.get( 0 );
 	}
 }

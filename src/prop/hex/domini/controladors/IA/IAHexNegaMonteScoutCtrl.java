@@ -38,7 +38,7 @@ public final class IAHexNegaMonteScoutCtrl extends InteligenciaArtificialHexCtrl
 	/**
 	 * Profunditat màxima de l'arbre de cerca.
 	 */
-	private static int profunditat_maxima = 3;
+	private static int profunditat_maxima = 5;
 
 	/**
 	 * Taula de transposicions. No té en compte possibles col·lisions.
@@ -136,7 +136,7 @@ public final class IAHexNegaMonteScoutCtrl extends InteligenciaArtificialHexCtrl
 		}
 
 		int caselles_restants = tauler.getMida() * tauler.getMida() - tauler.getTotalFitxes();
-		int max_moviments = Math.max( caselles_restants / ( int ) ( Math.sqrt( tauler.getMida() ) * 0.85 ), 7 );
+		int max_moviments = Math.max( caselles_restants / ( int ) ( Math.sqrt( tauler.getMida() ) * 0.9 ), 7 );
 
 		beta_2 = beta;
 		boolean primer_fill = true;
@@ -269,6 +269,11 @@ public final class IAHexNegaMonteScoutCtrl extends InteligenciaArtificialHexCtrl
 	 */
 	public Casella obteMoviment( EstatCasella fitxa )
 	{
+		if ( partida.getTornsJugats() == 1 )
+		{
+			return obertura();
+		}
+
 		tauler = partida.getTauler();
 
 		int puntuacio_millor = Integer.MIN_VALUE + 1;
@@ -279,7 +284,7 @@ public final class IAHexNegaMonteScoutCtrl extends InteligenciaArtificialHexCtrl
 		{
 			caselles_restants--;
 		}
-		int max_moviments = Math.max( caselles_restants / ( int ) ( Math.sqrt( tauler.getMida() ) * 0.6 ), 7 );
+		int max_moviments = Math.max( caselles_restants / ( int ) ( Math.sqrt( tauler.getMida() ) * 0.75 ), 7 );
 		boolean[][] explorades = new boolean[tauler.getMida()][tauler.getMida()];
 		int num_explorades = 0;
 		while ( num_explorades < max_moviments && num_explorades < caselles_restants )
