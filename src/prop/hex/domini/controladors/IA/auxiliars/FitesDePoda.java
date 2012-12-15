@@ -7,5 +7,18 @@ package prop.hex.domini.controladors.IA.auxiliars;
  */
 public enum FitesDePoda
 {
-	FITA_SUPERIOR, FITA_INFERIOR, VALOR_EXACTE;
+	/**
+	 * La puntuació és un valor màxim
+	 */
+	FITA_SUPERIOR,
+
+	/**
+	 * La puntuació és un valor mínim
+	 */
+	FITA_INFERIOR,
+
+	/**
+	 * La puntuació s'ha calculat de manera exacta
+	 */
+	VALOR_EXACTE;
 }

@@ -10,9 +10,24 @@ import prop.cluster.domini.models.estats.EstatCasella;
 public final class ElementTaulaTransposicions
 {
 
+	/**
+	 * Profunditat per a la qual s'ha calculat la puntuació
+	 */
 	private int profunditat;
+
+	/**
+	 * Fita de la puntuació
+	 */
 	private FitesDePoda fita;
+
+	/**
+	 * Puntuació de l'avaluació
+	 */
 	private int puntuacio;
+
+	/**
+	 * Jugador per qui s'ha avaluat la puntuació
+	 */
 	private EstatCasella jugador_avaluacio;
 
 	/**
@@ -31,22 +46,6 @@ public final class ElementTaulaTransposicions
 	{
 		this.profunditat = profunditat;
 		this.fita = fita;
-		this.puntuacio = puntuacio;
-		this.jugador_avaluacio = jugador_avaluacio;
-	}
-
-	/**
-	 * Constructor sense profunditats ni fites.
-	 * <p/>
-	 * Crea una instància d'un element de la taula útil per a emmagatzemar càlculs estàtics de puntuacions de taulers.
-	 *
-	 * @param puntuacio         Puntuació avaluada
-	 * @param jugador_avaluacio Jugador per qui s'ha calculat la puntuació
-	 */
-	public ElementTaulaTransposicions( int puntuacio, EstatCasella jugador_avaluacio )
-	{
-		this.profunditat = 0;
-		this.fita = FitesDePoda.VALOR_EXACTE;
 		this.puntuacio = puntuacio;
 		this.jugador_avaluacio = jugador_avaluacio;
 	}

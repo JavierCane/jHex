@@ -19,8 +19,21 @@ import java.util.TreeSet;
 public final class IAHexPotencialsCtrl extends InteligenciaArtificialHexCtrl
 {
 
+	/**
+	 * Tauler on es desenvolupa la partida
+	 */
 	private TaulerHex tauler;
 
+	/**
+	 * Retorna una casella on hi ha un moviment factible. Un moviment factible és una casella amb potencial mínim
+	 * segons QueenBee.
+	 * <p/>
+	 * De totes les caselles que compleixen aquest mínim, n'agafa aleatòriament una d'un subconjunt de mida
+	 * \(1 + \min\left\{\frac{Mida_{tauler}^2 - Total_{fitxes}}{Mida_{tauler}}, 7 \right\}\)
+	 *
+	 * @param fitxa_jugador Fitxa del jugador per qui es vol calcular el moviment
+	 * @return Una casella amb potencial mínim
+	 */
 	private Casella movimentFactible( EstatCasella fitxa_jugador )
 	{
 		TreeSet<ResistenciaCasella> moviments_ordenats = new TreeSet<ResistenciaCasella>();
@@ -66,6 +79,15 @@ public final class IAHexPotencialsCtrl extends InteligenciaArtificialHexCtrl
 		return caselles.get( new Random().nextInt( caselles.size() ) );
 	}
 
+	/**
+	 * Definida perquè cal per herència, no es fa servir.
+	 *
+	 * @param tauler         Tauler on es juga la partida
+	 * @param estat_moviment En quin estat ha quedat la partida al darrer moviment
+	 * @param profunditat    Profunditat on s'avalua
+	 * @param fitxa_jugador  Fitxa del jugador per qui s'avalua
+	 * @return Un zero (0).
+	 */
 	@Override
 	public int funcioAvaluacio( Tauler tauler, EstatPartida estat_moviment, int profunditat,
 	                            EstatCasella fitxa_jugador )
@@ -76,8 +98,7 @@ public final class IAHexPotencialsCtrl extends InteligenciaArtificialHexCtrl
 	/**
 	 * Retorna un moviment adequat al tauler actual per al jugador indicat per fitxa.
 	 * <p/>
-	 * Fa servir un algorisme negaScout amb taules de transposició i elecció d'un subconjunt de nodes aleatoris
-	 * (Monte Carlo amb elecció equiprobable).
+	 * Simplement utilitza el càlcul de potencial mínim
 	 *
 	 * @param fitxa Fitxa que vol col·locar-se al tauler de la partida del paràmetre implícit.
 	 * @return La casella on es mouria la fitxa.
