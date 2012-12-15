@@ -382,13 +382,13 @@ public final class JPanelTauler extends JPanel
 			if ( ( Integer ) elements_de_control_partida[2] % 2 == 0 )
 			{
 				g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
-						.getColorCasella( EstatCasella.JUGADOR_A ) );
+						.getColorTextInformacio( EstatCasella.JUGADOR_A ) );
 				g.drawString( "Processant moviment...", -70, 350 );
 			}
 			else
 			{
 				g.setColor( ( ( CombinacionsColors ) elements_de_control_partida[3] )
-						.getColorCasella( EstatCasella.JUGADOR_B ) );
+						.getColorTextInformacio( EstatCasella.JUGADOR_B ) );
 				g.drawString( "Processant moviment...", 550, 120 );
 			}
 		}

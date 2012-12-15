@@ -19,19 +19,51 @@ public final class RanquingVista extends BaseVista
 {
 
 	// Panells
+
+    /**
+     * Panell central de la vista.
+     */
 	private JPanel panell_central;
+
+    /**
+     * Panell amb els botons de la vista.
+     */
 	private JPanel panell_botons;
 
 	// Botons
+
+    /**
+     * Botó de torna al menú principal.
+     */
 	private JButton torna;
 
 	// Dades de les taules
+
+    /**
+     * Dades de la taula de la classificació.
+     */
 	private String[][] dades_classificacio;
+
+    /**
+     * Dades del Hall of Fame.
+     */
 	private String[][] dades_hall_of_fame;
 
 	// Taules
+
+    /**
+     * Taula que conté la classificació.
+     */
 	private JTable taula_classificacio;
+
+    /**
+     * Taula que conté el Hall of Fame.
+     */
 	private JTable taula_hall_of_fame;
+
+    /**
+     * Model de la taula de classificació, que afegeix característiques específiques d'aquesta taula.
+     */
 	private ModelTaulaClassificacio model_taula_classificacio;
 
 	/**

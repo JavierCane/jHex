@@ -618,6 +618,14 @@ public final class PresentacioCtrl
 	// Mètodes PartidaVista
 	// ----------------------------------------------------------------------------------------------------------------
 
+    /**
+     * Indica si la partida en execució prové o no d'una situació inicial.
+     */
+    public boolean esPartidaAmbSituacioInicial()
+    {
+        return PartidaCtrl.getInstancia().esPartidaAmbSituacioInicial();
+    }
+
 	/**
 	 * Activa o desactiva el botó d'intercanvia fitxa a la vista del visualitzador de partides.
 	 *

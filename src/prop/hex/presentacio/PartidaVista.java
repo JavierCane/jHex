@@ -22,15 +22,39 @@ public final class PartidaVista extends BaseVista
 {
 
 	// Panell del tauler
+
+    /**
+     * Panell central de la vista que conté el tauler.
+     */
 	private JPanelTauler panell_central;
 
 	// Panells
+
+    /**
+     * Panell que conté els botons de la vista.
+     */
 	private JPanel panell_botons;
 
 	// Botons
+
+    /**
+     * Botó d'intercanvia fitxa.
+     */
 	private JButton intercanvia;
+
+    /**
+     * Botó de mou IA.
+     */
 	private JButton mou_ia;
+
+    /**
+     * Botó de demana pista.
+     */
 	private JButton demana_pista;
+
+    /**
+     * Botó d'abandona partida.
+     */
 	private JButton abandona;
 
 	/**
@@ -332,7 +356,8 @@ public final class PartidaVista extends BaseVista
 	 */
 	public void mostraDialegVictoria( String missatge )
 	{
-		try
+		boolean te_situacio_inicial = PresentacioCtrl.getInstancia().esPartidaAmbSituacioInicial();
+        try
 		{
 			PresentacioCtrl.getInstancia().finalitzaPartida();
 		}
@@ -344,10 +369,20 @@ public final class PartidaVista extends BaseVista
 		}
 
 		VistaDialeg dialeg = new VistaDialeg();
-		String[] botons = {
-				"Torna al menú principal",
-				"Partida de revenja"
-		};
+		String[] botons;
+        if ( te_situacio_inicial )
+        {
+            botons = new String[] {
+                    "Torna al menú principal",
+            };
+        }
+        else
+        {
+            botons = new String[] {
+                    "Torna al menú principal",
+                    "Partida de revenja"
+            };
+        }
 		String opcio = dialeg.setDialeg( "Partida finalitzada", missatge, botons, JOptionPane.INFORMATION_MESSAGE );
 
 		try

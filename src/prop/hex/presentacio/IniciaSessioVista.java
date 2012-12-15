@@ -17,20 +17,56 @@ public final class IniciaSessioVista extends BaseVista
 {
 
 	// Panells
+
+    /**
+     * Panell central de la vista. Conté les dades de l'usuari.
+     */
 	private JPanel panell_dades;
+
+    /**
+     * Panell que conté els botons de la vista.
+     */
 	private JPanel panell_botons;
 
 	// Botons
+
+    /**
+     * Botó d'accepta.
+     */
 	private JButton accepta;
+
+    /**
+     * Botó de registra't.
+     */
 	private JButton registra;
+
+    /**
+     * Botó d'entra com a convidat.
+     */
 	private JButton convidat;
 
 	// Camps de tipus text/contrasenya
+
+    /**
+     * Camp de text del nom d'usuari.
+     */
 	private JTextField usuari;
-	private JPasswordField contrasenya;
+
+    /**
+     * Camp de la contrasenya.
+     */
+    private JPasswordField contrasenya;
 
 	// Etiquetes de text
+
+    /**
+     * Etiqueta de nom d'usuari.
+     */
 	private JLabel text_usuari;
+
+    /**
+     * Etiqueta de contrasenya.
+     */
 	private JLabel text_contrasenya;
 
 	/**

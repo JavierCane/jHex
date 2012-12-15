@@ -17,20 +17,56 @@ public final class RegistraVista extends BaseVista
 {
 
 	// Panells
+
+    /**
+     * Panell central de la vista, que conté les dades de registre de l'usuari.
+     */
 	private JPanel panell_dades;
 
 	// Botons
+
+    /**
+     * Botó d'accepta.
+     */
 	private JButton accepta;
+
+    /**
+     * Botó de torna al menú principal.
+     */
 	private JButton torna;
 
 	// Camps de tipus text/contrasenya
+
+    /**
+     * Camp de text del nom d'usuari.
+     */
 	private JTextField usuari;
+
+    /**
+     * Camp de la contrasenya.
+     */
 	private JPasswordField contrasenya;
+
+    /**
+     * Camp de la confirmació de la contrasenya.
+     */
 	private JPasswordField confirma_contrasenya;
 
 	// Etiquetes de text
+
+    /**
+     * Etiqueta de nom d'usuari.
+     */
 	private JLabel text_usuari;
+
+    /**
+     * Etiqueta de contrasenya.
+     */
 	private JLabel text_contrasenya;
+
+    /**
+     * Etiqueta de confirma contrasenya.
+     */
 	private JLabel text_confirma_contrasenya;
 
 	/**

@@ -458,6 +458,14 @@ public final class PartidaCtrl
 	}
 
 	/**
+	 * Indica si la en la partida actual s'ha definit la situació inicial.
+	 */
+	public boolean esPartidaAmbSituacioInicial()
+	{
+		return partida_actual.teSituacioInicial();
+	}
+
+	/**
 	 * Finalitza la partida actual.
 	 * <p/>
 	 * Actualitza les estadístiques dels usuaris si la partida ja ha finalitzat i no ha començat

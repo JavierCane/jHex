@@ -18,14 +18,28 @@ import java.awt.event.ActionListener;
 public final class DefineixSituacioVista extends BaseVista
 {
 
-	// Panell del tauler
+	// Panells
+
+    /**
+     * Panell central de la vista que conté el tauler.
+     */
 	private JPanelTauler panell_central;
 
-	// Panells
+    /**
+     * Panell dels botons de la vista.
+     */
 	private JPanel panell_botons;
 
 	// Botons
+
+    /**
+     * Botó d'inicia partida.
+     */
 	private JButton inicia_partida;
+
+    /**
+     * Botó d'abandona partida.
+     */
 	private JButton abandona;
 
 	/**

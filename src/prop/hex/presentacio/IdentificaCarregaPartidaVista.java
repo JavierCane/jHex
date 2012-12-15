@@ -16,15 +16,63 @@ import java.awt.event.ActionListener;
 public final class IdentificaCarregaPartidaVista extends BaseVista
 {
 
+    // Panells
+
+    /**
+     * Panell de les dades de l'usuari.
+     */
 	private JPanel panell_dades;
+
+    /**
+     * Panell dels botons de la vista.
+     */
 	private JPanel panell_botons;
+
+    // Botons
+
+    /**
+     * Botó d'accepta.
+     */
 	private JButton accepta;
+
+    /**
+     * Botó de tornar a la llista de partides.
+     */
 	private JButton llista_partides;
+
+    /**
+     * Botó de tornar al menú principal.
+     */
 	private JButton menu_principal;
+
+    // Camp de tipus contrasenya
+
+    /**
+     * Camp de la contrasenya de l'usuari.
+     */
 	private JPasswordField contrasenya;
+
+    // Etiquetes de text
+
+    /**
+     * Etiqueta amb el nom de l'usuari.
+     */
 	private JLabel usuari;
+
+    /**
+     * Etiqueta de nom d'usuari.
+     */
 	private JLabel text_usuari;
+
+    /**
+     * Etiqueta de contrasenya.
+     */
 	private JLabel text_contrasenya;
+
+
+    /**
+     * Identificador de la partida que es vol carregar.
+     */
 	private String id_partida;
 
 	/**

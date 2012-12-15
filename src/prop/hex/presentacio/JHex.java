@@ -1,5 +1,11 @@
 package prop.hex.presentacio;
 
+/**
+ * Classe principal del joc Hex. Executa el programa cridant al controlador de presentació, establint prèviament que
+ * l'estil de la interfície serà el per defecte del sistema.
+ *
+ * @author Guillermo Girona San Miguel (Grup 7.3, Hex)
+ */
 public final class JHex
 {
 

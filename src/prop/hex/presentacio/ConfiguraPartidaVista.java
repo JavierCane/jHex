@@ -18,36 +18,128 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 {
 
 	// Panells
+
+    /**
+     * Panell central de la vista.
+     */
 	private JPanel panell_central;
+
+    /**
+     * Panell dels botons de la vista.
+     */
 	private JPanel panell_botons;
+
+    /**
+     * Panell de selecció del jugador A.
+     */
 	private JPanel seleccio_jugador_a; // Panell de tipus CardLayout (intercanviable)
-	private JPanel seleccio_jugador_b; // Panell de tipus CardLayout (intercanviable)
+
+    /**
+     * Panell de selecció del jugador B.
+     */
+    private JPanel seleccio_jugador_b; // Panell de tipus CardLayout (intercanviable)
 
 	// Botons
+
+    /**
+     * Botó d'inicia partida.
+     */
 	private JButton inicia_partida;
+
+    /**
+     * Botó de defineix situació inicial.
+     */
 	private JButton situacio_inicial;
+
+    /**
+     * Botó de tornar al menú principal.
+     */
 	private JButton torna;
 
 	// Camps de tipus combos
+
+    /**
+     * Camp de selecció del tipus del jugador A.
+     */
 	private JComboBox combo_tipus_jugador_a;
+
+    /**
+     * Camp de selecció del nivell de la IA del jugador A.
+     */
 	private JComboBox combo_tipus_maquina_a;
+
+    /**
+     * Camp de selecció del tipus del jugador B.
+     */
 	private JComboBox combo_tipus_jugador_b;
+
+    /**
+     * Camp de selecció del nivell de la IA del jugador B.
+     */
 	private JComboBox combo_tipus_maquina_b;
 
 	// Camps de tipus text/contrasenya
+
+    /**
+     * Camp del nom de la partida.
+     */
 	private JTextField camp_nom_partida;
+
+    /**
+     * Camp del nom del convidat del jugador A.
+     */
 	private JTextField camp_nom_convidat_a;
+
+    /**
+     * Camp del nom del convidat del jugador B.
+     */
 	private JTextField camp_nom_convidat_b;
+
+    /**
+     * Camp del nom de l'usuari del jugador B.
+     */
 	private JTextField camp_nom_usuari_b;
+
+    /**
+     * Camp de la contrasenya de l'usuari del jugador B.
+     */
 	private JPasswordField camp_contrasenya_usuari_b;
 
 	// Etiquetes de text
+
+    /**
+     * Etiqueta de nom de la partida.
+     */
 	private JLabel text_nom_partida;
+
+    /**
+     * Etiqueta de nom del convidat 1.
+     */
 	private JLabel text_convidat_a;
+
+    /**
+     * Etiqueta de nom del convidat 2.
+     */
 	private JLabel text_convidat_b;
+
+    /**
+     * Etiqueta de nom d'usuari.
+     */
 	private JLabel text_usuari;
+
+    /**
+     * Etiqueta de contrasenya.
+     */
 	private JLabel text_contrasenya;
+
+    /**
+     * Etiqueta de jugador A.
+     */
 	private JLabel text_jugador_a;
+
+    /**
+     * Etiqueta de jugador B.
+     */
 	private JLabel text_jugador_b;
 
 	/**
@@ -376,7 +468,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 			else if ( num_jugador == 1 && nom_usuari.isEmpty() )
 			{
 				throw new IllegalArgumentException(
-						"Has d'identificar-te amb el teu nom i contrasenya per poder " + "jugar com a registrat  ." );
+						"Has d'identificar-te amb el teu nom i contrasenya per poder jugar com a registrat." );
 			}
 			else
 			{
@@ -396,12 +488,12 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 				catch ( IOException e )
 				{
 					throw new IOException( "Error carregant el fitxer d'aquest usuari de disc, " +
-					                       "prova de nou o selecciona un altra." );
+					                       "prova de nou o selecciona un altre." );
 				}
 				catch ( ClassNotFoundException e )
 				{
 					throw new ClassNotFoundException( "Error carregant el fitxer d'aquest usuari de disc, " +
-					                                  "prova de nou o selecciona un altra." );
+					                                  "prova de nou o selecciona un altre." );
 				}
 			}
 		}
@@ -487,8 +579,9 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 			VistaDialeg dialeg = new VistaDialeg();
 			String[] botons = { "Accepta" };
 			String valor_seleccionat = dialeg.setDialeg( "Error", "Has de definir un nom de partida, " +
-			                                                      "això servirà per identificar-la quan per exemple la guardis i la vulguis tornar a carregar" +
-			                                                      ".", botons, JOptionPane.ERROR_MESSAGE );
+			                                                      "això servirà per identificar-la quan per exemple la" +
+                                                                  "guardis i la vulguis tornar a carregar.",
+			                                                      botons, JOptionPane.ERROR_MESSAGE );
 		}
 		else
 		{
@@ -604,8 +697,9 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 			VistaDialeg dialeg = new VistaDialeg();
 			String[] botons = { "Accepta" };
 			String valor_seleccionat = dialeg.setDialeg( "Error", "Has de definir un nom de partida, " +
-			                                                      "això servirà per identificar-la quan per exemple la guardis i la vulguis tornar a carregar" +
-			                                                      ".", botons, JOptionPane.ERROR_MESSAGE );
+			                                                      "això servirà per identificar-la quan per exemple la" +
+                                                                  "guardis i la vulguis tornar a carregar.",
+			                                                      botons, JOptionPane.ERROR_MESSAGE );
 		}
 		else
 		{
