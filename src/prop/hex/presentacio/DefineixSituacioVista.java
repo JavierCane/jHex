@@ -123,7 +123,7 @@ public final class DefineixSituacioVista extends BaseVista
 			};
 
 			String valor_seleccionat = dialeg.setDialeg( "Confirmació de sortida de la partida",
-					"Estàs segur de que " + "vols sortir de la partida?", botons, JOptionPane.QUESTION_MESSAGE );
+					"Estàs segur que vols sortir de la partida?", botons, JOptionPane.QUESTION_MESSAGE );
 
 			if ( "Sí" == valor_seleccionat )
 			{
