@@ -112,11 +112,7 @@ public final class PartidaCtrl
 	{
 		// Comprovo la consistència del rànquing (si no existeix a disc el creo, si ja existeix el carrego a memòria)
 		// Si no existeix el fitxer del rànquing, el creo
-		if ( !RanquingGstr.getInstancia().existeixElement() )
-		{
-			RanquingGstr.getInstancia().guardaElement();
-		}
-		else // Si el fitxer de rànquing ja existeix, el carrego a memòria
+		if ( RanquingGstr.getInstancia().existeixElement() )
 		{
 			RanquingGstr.getInstancia().carregaElement();
 		}
@@ -129,6 +125,8 @@ public final class PartidaCtrl
 				UsuariCtrl.getInstancia().creaUsuari( tipus_jugador_maquina.getNomUsuari(), "", tipus_jugador_maquina );
 			}
 		}
+
+		RanquingGstr.getInstancia().guardaElement();
 	}
 
 	/**
@@ -289,19 +287,22 @@ public final class PartidaCtrl
 			nom_usuari_contrincant = partida_actual.getJugadorA().getNom();
 			tipus_jugador_contrincant = partida_actual.getJugadorA().getTipusJugador();
 
-			partida_actual.setJugadorB( UsuariCtrl.getInstancia().getUsuariPrincipal() );
-			partida_actual.setJugadorA( UsuariCtrl.getInstancia()
-					.carregaUsuari( nom_usuari_contrincant, contrasenya_contrincant, tipus_jugador_contrincant ) );
+			usuaris_preinicialitzats_partida[0] = UsuariCtrl.getInstancia()
+					.carregaUsuari( nom_usuari_contrincant, contrasenya_contrincant, tipus_jugador_contrincant );
+			usuaris_preinicialitzats_partida[1] = UsuariCtrl.getInstancia().getUsuariPrincipal();
 		}
 		else
 		{
 			nom_usuari_contrincant = partida_actual.getJugadorB().getNom();
 			tipus_jugador_contrincant = partida_actual.getJugadorB().getTipusJugador();
 
-			partida_actual.setJugadorA( UsuariCtrl.getInstancia().getUsuariPrincipal() );
-			partida_actual.setJugadorB( UsuariCtrl.getInstancia()
-					.carregaUsuari( nom_usuari_contrincant, contrasenya_contrincant, tipus_jugador_contrincant ) );
+			usuaris_preinicialitzats_partida[0] = UsuariCtrl.getInstancia().getUsuariPrincipal();
+			usuaris_preinicialitzats_partida[1] = UsuariCtrl.getInstancia()
+					.carregaUsuari( nom_usuari_contrincant, contrasenya_contrincant, tipus_jugador_contrincant );
 		}
+
+		partida_actual.setJugadorA( usuaris_preinicialitzats_partida[0] );
+		partida_actual.setJugadorB( usuaris_preinicialitzats_partida[1] );
 
 		inicialitzaIAJugadors();
 

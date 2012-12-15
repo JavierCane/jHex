@@ -63,11 +63,11 @@ public abstract class BaseVista
 	public BaseVista( JFrame frame_vista )
 	{
 		this.frame_vista = frame_vista;
-		panell_principal = new JPanelImatge( "img/fons.png" );
+		panell_principal = new JPanelImatge( getClass().getResource("/prop/img/fons.png") );
 		panell_titol = new JPanel();
 		panell_sortida = new JPanel();
-		ajuda = new JButton( "", new ImageIcon( "img/ajuda.png" ) );
-		surt = new JButton( "", new ImageIcon( "img/surt.png" ) );
+		ajuda = new JButton( "", new ImageIcon( getClass().getResource("/prop/img/ajuda.png") ) );
+		surt = new JButton( "", new ImageIcon( getClass().getResource("/prop/img/surt.png") ) );
 	}
 
 	/**

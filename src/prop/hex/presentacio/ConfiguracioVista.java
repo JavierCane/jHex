@@ -109,7 +109,7 @@ public final class ConfiguracioVista extends BaseVista
 	{
 		panell_central.setLayout( new GridLayout( 3, 1, 10, 10 ) );
 		panell_central.setOpaque( false );
-		JPanel panell_colors = new JPanelImatge( "img/caixa.png" );
+		JPanel panell_colors = new JPanelImatge( getClass().getResource("/prop/img/caixa.png") );
 		panell_colors.setBorder( BorderFactory.createRaisedBevelBorder() );
 		panell_colors.setLayout( new GridLayout( 3, 1, 10, 10 ) );
 		grup_colors.add( colors_vermell_blau );
@@ -130,7 +130,7 @@ public final class ConfiguracioVista extends BaseVista
 		panell_colors.add( colors );
 		panell_colors.add( colors_vermell_blau );
 		panell_colors.add( colors_negre_blanc );
-		JPanel panell_modes_inici = new JPanelImatge( "img/caixa.png" );
+		JPanel panell_modes_inici = new JPanelImatge( getClass().getResource("/prop/img/caixa.png") );
 		panell_modes_inici.setBorder( BorderFactory.createRaisedBevelBorder() );
 		panell_modes_inici.setLayout( new GridLayout( 3, 1, 10, 10 ) );
 		grup_modes_inici.add( mode_inici_estandard );

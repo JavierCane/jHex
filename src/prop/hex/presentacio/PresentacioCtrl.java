@@ -129,13 +129,13 @@ public final class PresentacioCtrl
 		frame_principal.setResizable( false );
 		frame_principal.setLocationRelativeTo( null );
 		frame_principal.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-		frame_principal.setIconImage( new ImageIcon( "img/logo-36_36.png" ).getImage() ); // Icona finestra windows
+		frame_principal.setIconImage( new ImageIcon( getClass().getResource("/prop/img/logo-36_36.png") ).getImage() ); // Icona finestra windows
 		try // Icona dock Mac
 		{
 			Method metode = Class.forName( "com.apple.eawt.Application" ).getMethod( "getApplication" );
 			Object aplicacio = metode.invoke( null );
 			aplicacio.getClass().getMethod( "setDockIconImage", Image.class )
-					.invoke( aplicacio, new ImageIcon( "img/logo-120_120.png" ).getImage() );
+					.invoke( aplicacio, new ImageIcon( getClass().getResource("/prop/img/logo-120_120.png") ).getImage() );
 		}
 		catch ( Exception excepcio )
 		{

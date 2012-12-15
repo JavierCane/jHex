@@ -430,12 +430,12 @@ public final class JPanelTauler extends JPanel
 		// Afegim les imatges amb les vores del tauler.
 		if ( ( ( CombinacionsColors ) elements_de_control_partida[3] ) == CombinacionsColors.VERMELL_BLAU )
 		{
-			g.drawImage( ( new ImageIcon( "img/tauler_vb.png" ) ).getImage(), -iniciX, -iniciY, getWidth(), getHeight(),
+			g.drawImage( ( new ImageIcon( getClass().getResource("/prop/img/tauler_vb.png") ) ).getImage(), -iniciX, -iniciY, getWidth(), getHeight(),
 					null );
 		}
 		else
 		{
-			g.drawImage( ( new ImageIcon( "img/tauler_nb.png" ) ).getImage(), -iniciX, -iniciY, getWidth(), getHeight(),
+			g.drawImage( ( new ImageIcon( getClass().getResource("/prop/img/tauler_nb.png") ) ).getImage(), -iniciX, -iniciY, getWidth(), getHeight(),
 					null );
 		}
 	}

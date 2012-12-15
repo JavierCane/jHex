@@ -44,7 +44,7 @@ public final class CanviaContrasenyaVista extends BaseVista
 		super( frame_principal );
 
 		titol = new JLabel( "Canvia la contrasenya" );
-		panell_dades = new JPanelImatge( "img/caixa.png" );
+		panell_dades = new JPanelImatge( getClass().getResource("/prop/img/caixa.png") );
 		accepta = new JButton( "Accepta" );
 		torna = new JButton( "Torna al menú de configuració" );
 		contrasenya_actual = new JPasswordField();

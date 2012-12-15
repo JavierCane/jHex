@@ -2,6 +2,7 @@ package prop.hex.presentacio.auxiliars;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.URL;
 
 /**
  * Classe d'un panell amb imatge de fons.
@@ -21,7 +22,7 @@ public final class JPanelImatge extends JPanel
 	 *
 	 * @param img Ruta de la imatge de fons.
 	 */
-	public JPanelImatge( String img )
+	public JPanelImatge( URL img )
 	{
 		fons = ( new ImageIcon( img ) ).getImage();
 	}

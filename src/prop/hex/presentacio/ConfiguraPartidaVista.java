@@ -163,7 +163,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 		// Panell nom partida
 		// -----------------------------------------------------------------------------------------
 
-		JPanel panell_nom_partida = new JPanelImatge( "img/caixa.png" );
+		JPanel panell_nom_partida = new JPanelImatge( getClass().getResource("/prop/img/caixa.png") );
 		panell_nom_partida.setBorder( BorderFactory.createRaisedBevelBorder() );
 		panell_nom_partida.setLayout( new BoxLayout( panell_nom_partida, BoxLayout.PAGE_AXIS ) );
 		JPanel camps_nom_partida = new JPanel();
@@ -177,7 +177,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 
 		// Panell jugador 1
 		// -------------------------------------------------------------------------------------------
-		JPanel panell_jugador_a = new JPanelImatge( "img/caixa.png" ); // Caixa i text "Jugador 1:"
+		JPanel panell_jugador_a = new JPanelImatge( getClass().getResource("/prop/img/caixa.png") ); // Caixa i text "Jugador 1:"
 		panell_jugador_a.setOpaque( false );
 		panell_jugador_a.setBorder( BorderFactory.createRaisedBevelBorder() );
 		panell_jugador_a.setLayout( new BoxLayout( panell_jugador_a, BoxLayout.PAGE_AXIS ) );
@@ -225,7 +225,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 
 		// Panell jugador 2
 		// -------------------------------------------------------------------------------------------
-		JPanel panell_jugador_b = new JPanelImatge( "img/caixa.png" ); // Caixa i text "Jugador 2:"
+		JPanel panell_jugador_b = new JPanelImatge( getClass().getResource("/prop/img/caixa.png") ); // Caixa i text "Jugador 2:"
 		panell_jugador_b.setBorder( BorderFactory.createRaisedBevelBorder() );
 		panell_jugador_b.setLayout( new BoxLayout( panell_jugador_b, BoxLayout.PAGE_AXIS ) );
 		panell_jugador_b.setOpaque( false );

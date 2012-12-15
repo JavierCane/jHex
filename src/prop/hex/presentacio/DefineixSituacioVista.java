@@ -39,7 +39,7 @@ public final class DefineixSituacioVista extends BaseVista
 		super( frame_principal );
 
 		titol = new JLabel( "jHex" );
-		panell_principal = new JPanelImatge( "img/fons_partida.png" );
+		panell_principal = new JPanelImatge( getClass().getResource("/prop/img/fons_partida.png") );
 		panell_central = new JPanelTauler( false );
 		panell_botons = new JPanel();
 		inicia_partida = new JButton( "Inicia la partida" );

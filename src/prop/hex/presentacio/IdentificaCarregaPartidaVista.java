@@ -41,7 +41,7 @@ public final class IdentificaCarregaPartidaVista extends BaseVista
 		super( frame_principal );
 
 		titol = new JLabel( "Carrega partida - Identificar-se" );
-		panell_dades = new JPanelImatge( "img/caixa.png" );
+		panell_dades = new JPanelImatge( getClass().getResource("/prop/img/caixa.png") );
 		panell_botons = new JPanel();
 		accepta = new JButton( "Accepta" );
 		llista_partides = new JButton( "Torna a la llista de partides" );

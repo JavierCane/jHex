@@ -44,7 +44,7 @@ public final class IniciaSessioVista extends BaseVista
 		super( frame_principal );
 
 		titol = new JLabel( "Inicia sessió" );
-		panell_dades = new JPanelImatge( "img/caixa.png" );
+		panell_dades = new JPanelImatge( getClass().getResource("/prop/img/caixa.png") );
 		panell_botons = new JPanel();
 		accepta = new JButton( "Accepta" );
 		registra = new JButton( "Registra't" );
