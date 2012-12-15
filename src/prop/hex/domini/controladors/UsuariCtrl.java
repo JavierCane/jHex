@@ -95,8 +95,8 @@ public final class UsuariCtrl
 		{
 			if ( !nom.matches( UsuariHex.getCaractersPermesos() ) )
 			{
-				throw new IllegalArgumentException( "El nom d'usuari conté caràcters il·legals. Només " +
-				                                    "s'accepten caràcters alfanumèrics (sense accents), espais i guions baixos." );
+				throw new IllegalArgumentException( "El nom d'usuari conté caràcters il·legals. Només s'accepten " +
+				                                    "caràcters alfanumèrics (sense accents), espais i guions baixos." );
 			}
 
 			if ( UsuariHex.getNomsNoPermesos().contains( nom ) )
@@ -254,7 +254,7 @@ public final class UsuariCtrl
 		if ( !usuari_principal.getContrasenya().equals( contrasenya_antiga ) )
 		{
 			throw new IllegalArgumentException(
-					"La contrasenya actual introduïda no correspon a l'actual de " + "l'usuari." );
+					"La contrasenya actual introduïda no correspon a l'actual de l'usuari." );
 		}
 		else
 		{
