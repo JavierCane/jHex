@@ -16,11 +16,9 @@ import java.util.*;
  * Intel·ligència artificial per a Hex basat en negaScout amb ordenació de moviments segons la funció de cost de
  * QueenBee.
  * <p/>
- * La funció de cost s'utilitza com a heurística per a ordenar els moviments en l'arbre de cerca del negaScout
- * <p/>
- * La funció que ordena els moviments prové de
- * <a href="http://javhar.net/AreBeesBetterThanFruitfliesThesis.pdf">QueenBee</a>,
- * de <a href="http://javhar.net/">Jack van Rijswijck</a>.
+ * La funció de cost s'utilitza com a heurística per a ordenar els moviments en l'arbre de cerca del negaScout i prové
+ * de <a href="http://javhar.net/AreBeesBetterThanFruitfliesThesis.pdf">QueenBee</a>,
+ * per <a href="http://javhar.net/">Jack van Rijswijck</a>.
  *
  * @author Isaac Sánchez Barrera (Grup 7.3, Hex)
  */
@@ -275,7 +273,6 @@ public final class IAHexSexSearchCtrl extends InteligenciaArtificialHexCtrl
 	public int funcioAvaluacio( Tauler tauler, EstatPartida estat_moviment, int profunditat,
 	                            EstatCasella fitxa_jugador )
 	{
-
 		int retorn;
 
 		if ( estat_moviment == EstatPartida.GUANYA_JUGADOR_A )

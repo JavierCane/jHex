@@ -111,7 +111,8 @@ public final class TaulerHex extends Tauler implements Serializable
 	}
 
 	/**
-	 * Genera el codi hash per a un tauler sense fitxes i calcula els codis hash de cada moviment.
+	 * Genera el codi hash per a un tauler sense fitxes i calcula els codis hash de cada moviment. Es fa servir el
+	 * càlcul amb claus de Zobrist de 32 bits.
 	 */
 	public void generaCodiHashTaulerBuit()
 	{

@@ -204,15 +204,8 @@ public final class IAHexNegaMonteScoutCtrl extends InteligenciaArtificialHexCtrl
 	public int funcioAvaluacio( Tauler tauler, EstatPartida estat_moviment, int profunditat,
 	                            EstatCasella fitxa_jugador )
 	{
-
 		int retorn;
-/*
-		if ( memoria.containsKey( ( ( TaulerHex ) tauler ).hashCode() ) )
-		{
-			retorn = memoria.get( ( ( TaulerHex ) tauler ).hashCode() ).getPuntuacio( fitxa_jugador );
-		}
-		else
-		{*/
+
 		if ( estat_moviment == EstatPartida.GUANYA_JUGADOR_A )
 		{
 			if ( fitxa_jugador == EstatCasella.JUGADOR_A )
