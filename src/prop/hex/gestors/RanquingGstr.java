@@ -19,6 +19,9 @@ public final class RanquingGstr extends BaseGstr<Ranquing>
 	 */
 	private static RanquingGstr instancia = null;
 
+	/**
+	 * Atribut amb el nom del fitxer de rànquing, com es únic, el definim aquí i així el podem reutilitzar
+	 */
 	private static String nom_ranquing = "ranquing";
 
 	/**

@@ -45,7 +45,9 @@ public final class UsuariHexGstr extends BaseGstr<UsuariHex>
 	}
 
 	/**
-	 * Guarda el fitxer de la partida
+	 * Guarda el fitxer de l'usuari.
+	 * Pels usuaris utilitzem aquest mètode que realment implementa guardaElement de BaseGstr però semre passant-li
+	 * l'identificador únic de l'usuari
 	 *
 	 * @return boolean true si s'ha pogut guardar correctament i el fitxer resultant es contempla com correcte,
 	 *         false altrament

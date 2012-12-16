@@ -20,6 +20,13 @@ public final class ModelTaulaPartides extends ModelTaula
 		super( dades, noms_columnes );
 	}
 
+	/**
+	 * Especifica el tipus de dades que contè cada columna per poder-les ordenar
+	 *
+	 * @param columna nombre de columna
+	 * @return el la classe del tipus de dades que correspon al número de columna donat
+	 */
+	@Override
 	public Class<?> getColumnClass( int columna )
 	{
 		switch ( columna )

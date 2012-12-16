@@ -113,6 +113,7 @@ public final class RanquingVista extends BaseVista
 		panell_principal.setLayout( new GridBagLayout() );
 		panell_principal.setBorder( BorderFactory.createEmptyBorder( 10, 10, 10, 10 ) );
 		GridBagConstraints propietats_panel = new GridBagConstraints();
+
 		propietats_panel.fill = GridBagConstraints.HORIZONTAL;
 		propietats_panel.anchor = GridBagConstraints.CENTER;
 		propietats_panel.gridx = 1;
@@ -120,21 +121,25 @@ public final class RanquingVista extends BaseVista
 		propietats_panel.weightx = 0.8;
 		propietats_panel.weighty = 0.2;
 		panell_principal.add( panell_titol, propietats_panel );
+
 		propietats_panel.fill = GridBagConstraints.BOTH;
 		propietats_panel.gridx = 1;
 		propietats_panel.gridy = 1;
 		propietats_panel.weighty = 0.6;
 		panell_principal.add( panell_central, propietats_panel );
+
 		propietats_panel.fill = GridBagConstraints.HORIZONTAL;
 		propietats_panel.gridy = 2;
 		propietats_panel.weighty = 0.2;
 		panell_principal.add( panell_botons, propietats_panel );
+
 		propietats_panel.fill = GridBagConstraints.NONE;
 		propietats_panel.gridx = 2;
 		propietats_panel.gridy = 2;
 		propietats_panel.weightx = 0.10;
 		propietats_panel.anchor = GridBagConstraints.SOUTHEAST;
 		panell_principal.add( panell_sortida, propietats_panel );
+
 		propietats_panel.gridx = 0;
 		propietats_panel.gridy = 2;
 		propietats_panel.weightx = 0.10;

@@ -217,6 +217,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 		panell_principal.setLayout( new GridBagLayout() );
 		panell_principal.setBorder( BorderFactory.createEmptyBorder( 10, 10, 10, 10 ) );
 		GridBagConstraints propietats_panel = new GridBagConstraints();
+
 		propietats_panel.fill = GridBagConstraints.HORIZONTAL;
 		propietats_panel.anchor = GridBagConstraints.CENTER;
 		propietats_panel.gridx = 1;
@@ -224,19 +225,23 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 		propietats_panel.weightx = 0.5;
 		propietats_panel.weighty = 0.2;
 		panell_principal.add( panell_titol, propietats_panel );
+
 		propietats_panel.gridx = 1;
 		propietats_panel.gridy = 1;
 		propietats_panel.weighty = 0.6;
 		panell_principal.add( panell_central, propietats_panel );
+
 		propietats_panel.gridy = 2;
 		propietats_panel.weighty = 0.2;
 		panell_principal.add( panell_botons, propietats_panel );
+
 		propietats_panel.fill = GridBagConstraints.NONE;
 		propietats_panel.gridx = 2;
 		propietats_panel.gridy = 2;
 		propietats_panel.weightx = 0.25;
 		propietats_panel.anchor = GridBagConstraints.SOUTHEAST;
 		panell_principal.add( panell_sortida, propietats_panel );
+
 		propietats_panel.gridx = 0;
 		propietats_panel.gridy = 2;
 		propietats_panel.weightx = 0.25;
@@ -390,12 +395,12 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 	 * aquesta cridi a preInicialitzaUsuariPartida de PartidaCtrl en base a el tipus d'usuari seleccionat i les seves
 	 * dades corresponents.
 	 *
-	 * @param num_jugador
-	 * @param combo_tipus_jugador
-	 * @param camp_nom_convidat
-	 * @param combo_tipus_maquina
-	 * @param nom_usuari
-	 * @param contrasenya_usuari
+	 * @param num_jugador 0 o 1 depenent de si es el jugador A o B
+	 * @param combo_tipus_jugador Seleccionable de tipus de jugador
+	 * @param camp_nom_convidat Camp de text del nom del tipus d'usuari convidat
+	 * @param combo_tipus_maquina Seleccionable de tipus de jugador màquina
+	 * @param nom_usuari Camp de text del nom de l'usuari registrat
+	 * @param contrasenya_usuari Camp de text de la contrasenya de l'usuari registrat
 	 */
 	private void preInicialitzaUsuariPartida( int num_jugador, JComboBox combo_tipus_jugador,
 	                                          JTextField camp_nom_convidat, JComboBox combo_tipus_maquina,
@@ -534,6 +539,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 			}
 		} );
 
+		// Listener per netejar el text per defecte del camp de nom de partida
 		camp_nom_partida.addMouseListener( new MouseAdapter()
 		{
 
@@ -544,6 +550,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 			}
 		} );
 
+		// Listener per netejar el text per defecte del camp de nom del convidat A
 		camp_nom_convidat_a.addMouseListener( new MouseAdapter()
 		{
 
@@ -554,6 +561,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 			}
 		} );
 
+		// Listener per netejar el text per defecte del camp de nom del convidat B
 		camp_nom_convidat_b.addMouseListener( new MouseAdapter()
 		{
 
@@ -570,6 +578,8 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 
 	/**
 	 * Defineix el comportament del botó d'iniciar partida quan sigui pitjat.
+	 * Bàsicament comprova els tipus d'usuaris seleccionat i que les dades corresponents siguin vàlides.
+	 * Primerament preinicialitzem els jugadors i si no hi ha cap problema, inicialitzem la partida.
 	 */
 	public void accioBotoIniciaPartida()
 	{
@@ -730,6 +740,11 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 		PresentacioCtrl.getInstancia().vistaConfiguraPartidaAMenuPrincipal();
 	}
 
+	/**
+	 * Neteja el contingut d'un camp de text
+	 *
+	 * @param camp_de_text Camp a netejar
+	 */
 	private void netejaJTextField( JTextField camp_de_text )
 	{
 		camp_de_text.setText( "" );
@@ -746,13 +761,13 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 	{
 		if ( event.getItemSelectable() == combo_tipus_jugador_a )
 		{
-			CardLayout c = ( CardLayout ) ( seleccio_jugador_a.getLayout() );
-			c.show( seleccio_jugador_a, ( String ) event.getItem() );
+			CardLayout card_layout = ( CardLayout ) ( seleccio_jugador_a.getLayout() );
+			card_layout.show( seleccio_jugador_a, ( String ) event.getItem() );
 		}
 		else
 		{
-			CardLayout c = ( CardLayout ) ( seleccio_jugador_b.getLayout() );
-			c.show( seleccio_jugador_b, ( String ) event.getItem() );
+			CardLayout card_layout = ( CardLayout ) ( seleccio_jugador_b.getLayout() );
+			card_layout.show( seleccio_jugador_b, ( String ) event.getItem() );
 		}
 	}
 }

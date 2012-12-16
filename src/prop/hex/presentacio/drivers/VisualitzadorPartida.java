@@ -26,26 +26,32 @@ public final class VisualitzadorPartida extends JPanel
 	 * Tauler d'Hex a dibuixar.
 	 */
 	private TaulerHex tauler;
+
 	/**
 	 * Jugador A
 	 */
 	private UsuariHex jugador_a;
+
 	/**
 	 * Jugador B
 	 */
 	private UsuariHex jugador_b;
+
 	/**
 	 * Poligon que s'utilitza per dibuixar a pantalla.
 	 */
 	private Polygon hexagon;
+
 	/**
 	 * dx i dy són els increments horitzontals i verticals entre caselles.
 	 */
 	private int dx, dy;
+
 	/**
 	 * Radi de les caselles.
 	 */
 	private double radi = 40.0;
+
 	/**
 	 * Posició inicial del taulell a la pantalla.
 	 */
