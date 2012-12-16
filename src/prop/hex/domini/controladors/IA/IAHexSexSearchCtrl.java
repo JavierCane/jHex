@@ -32,13 +32,31 @@ public final class IAHexSexSearchCtrl extends InteligenciaArtificialHexCtrl
 	private TwoDistance two_distance_b;
 
 	/**
-	 * Constructor per defecte. Genera la taula de transposició si no existeix.
+	 * Constructor per defecte. Genera la taula de transposicions.
 	 */
 	public IAHexSexSearchCtrl()
 	{
 		taula_transposicions = new HashMap<Integer, ElementTaulaTransposicions>();
 	}
 
+	/**
+	 * Retorna un conjunt (ordenat) dels moviments possibles.
+	 * <p/>
+	 * Aquests moviments estan ordenats segons la fórmula de cost de QueenBee. Si \(p\) és una casella,
+	 * el seu cost o resistència és
+	 * \[
+	 * c(p) = \left\{
+	 * \begin{array}{ll}
+	 * -V^{*} & \text{si } V(p) = 0 \\
+	 * V(p)  & \text{altrament}
+	 * \end{array}\right.
+	 * \]
+	 * on \(V^{*}\) és el potencial del segon millor moviment. Si hi ha més d'un moviment amb potencial nul,
+	 * aleshores \(V^{*} = 0\).
+	 *
+	 * @param fitxa_jugador Fitxa del jugador per qui es vol calcular el moviment
+	 * @return El conjunt de caselles amb potencial mínim
+	 */
 	private Set<ResistenciaCasella> movimentsOrdenats( EstatCasella fitxa_jugador )
 	{
 		Set<ResistenciaCasella> moviments_ordenats = new TreeSet<ResistenciaCasella>();

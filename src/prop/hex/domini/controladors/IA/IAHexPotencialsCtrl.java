@@ -14,7 +14,18 @@ import java.util.Random;
 import java.util.TreeSet;
 
 /**
- * Potencials
+ * Intel·ligència artificial per a Hex que utilitza un càlcul de potencials mínims segons l'algorisme de QueenBee.
+ * <p/>
+ * L'algorisme que utilitza es basa en el càlcul de les caselles amb potencial mínim utilitzat per a l'ordenació de
+ * moviments a visitar en un algorisme de cerca basat en minimax. Com que a un nivell principiant,
+ * aquest càlcul és prou bo, es pot utilitzar directament com a funció d'avaluació negada d'un moviment (perquè volem
+ * minimitzar-ne el cost).
+ * <p/>
+ * La funció que ordena els moviments prové de
+ * <a href="http://javhar.net/AreBeesBetterThanFruitfliesThesis.pdf">QueenBee</a>,
+ * de <a href="http://javhar.net/">Jack van Rijswijck</a>.
+ *
+ * @author Isaac Sánchez Barrera (Grup 7.3, Hex)
  */
 public final class IAHexPotencialsCtrl extends InteligenciaArtificialHexCtrl
 {
@@ -25,11 +36,20 @@ public final class IAHexPotencialsCtrl extends InteligenciaArtificialHexCtrl
 	private TaulerHex tauler;
 
 	/**
-	 * Retorna una casella on hi ha un moviment factible. Un moviment factible és una casella amb potencial mínim
-	 * segons QueenBee.
+	 * Retorna una casella on hi ha un moviment factible. Un moviment factible és una casella amb cost mínim segons
+	 * QueenBee. Si \(p\) és una casella,
+	 * el seu cost o resistència és
+	 * \[
+	 * c(p) = \left\{
+	 * \begin{array}{ll}
+	 * -V^{*} & \text{si } V(p) = 0 \\
+	 * V(p)  & \text{altrament}
+	 * \end{array}\right.
+	 * \]
+	 * on \(V^{*}\) és el potencial del segon millor moviment. Si hi ha més d'un moviment amb potencial nul,
+	 * aleshores \(V^{*} = 0\).
 	 * <p/>
-	 * De totes les caselles que compleixen aquest mínim, n'agafa aleatòriament una d'un subconjunt de mida
-	 * \(1 + \min\left\{\frac{Mida_{tauler}^2 - Total_{fitxes}}{Mida_{tauler}}, 7 \right\}\)
+	 * De tots els possibles moviments amb cost mínim, aquest en retorna un qualsevol.
 	 *
 	 * @param fitxa_jugador Fitxa del jugador per qui es vol calcular el moviment
 	 * @return Una casella amb potencial mínim
@@ -50,7 +70,11 @@ public final class IAHexPotencialsCtrl extends InteligenciaArtificialHexCtrl
 
 				if ( tauler.esMovimentValid( fitxa_jugador, casella ) )
 				{
-					int potencial_moviment = potencials[fila][columna] - two_distance.getPotencialMinim( casella );
+					int potencial_moviment = potencials[fila][columna];
+					if ( potencial_moviment == 0 )
+					{
+						potencial_moviment -= two_distance.getPotencialMinim( casella );
+					}
 					moviments_ordenats.add( new ResistenciaCasella( casella, potencial_moviment ) );
 				}
 			}
@@ -63,10 +87,7 @@ public final class IAHexPotencialsCtrl extends InteligenciaArtificialHexCtrl
 		ArrayList<Casella> caselles = new ArrayList<Casella>( moviments_ordenats.size() );
 		caselles.add( actual.getCasella() );
 
-		int visitades_max =
-				1 + Math.min( ( tauler.getMida() * tauler.getMida() - tauler.getTotalFitxes() ) / tauler.getMida(), 7 );
-
-		while ( resistencies.hasNext() && resistencia_actual == resistencia_minima && caselles.size() < visitades_max )
+		while ( resistencies.hasNext() && resistencia_actual == resistencia_minima )
 		{
 			actual = resistencies.next();
 			resistencia_actual = actual.getResistencia();
@@ -98,10 +119,11 @@ public final class IAHexPotencialsCtrl extends InteligenciaArtificialHexCtrl
 	/**
 	 * Retorna un moviment adequat al tauler actual per al jugador indicat per fitxa.
 	 * <p/>
-	 * Simplement utilitza el càlcul de potencial mínim
+	 * Simplement utilitza el càlcul la casella de cost mínim.
 	 *
 	 * @param fitxa Fitxa que vol col·locar-se al tauler de la partida del paràmetre implícit.
 	 * @return La casella on es mouria la fitxa.
+	 * @see #movimentFactible(EstatCasella)
 	 * @see InteligenciaArtificialHexCtrl
 	 */
 	public Casella obteMoviment( EstatCasella fitxa )

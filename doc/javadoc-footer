@@ -1,0 +1,14 @@
+"\
+<script type=\"text/x-mathjax-config\"> \
+MathJax.Hub.Register.StartupHook(\"TeX Jax Ready\",function () { \
+  var TEX = MathJax.InputJax.TeX; \
+  var PREFILTER = TEX.prefilterMath; \
+  TEX.Augment({ \
+    prefilterMath: function (math,displaymode,script) { \
+      math = \"\\\\displaystyle{\"+math+\"}\"; \
+      return PREFILTER.call(TEX,math,displaymode,script); \
+    } \
+  }); \
+}); \
+</script> \
+<script type=\"text/javascript\" src=\"http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML\"></script>"
