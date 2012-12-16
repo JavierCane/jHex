@@ -36,15 +36,15 @@ public final class TwoDistance
 
 		if ( jugador == EstatCasella.JUGADOR_A )
 		{
-			omple_cantonades_jugador_A();
+			ompleCantonadesJugadorA();
 		}
 		else
 		{
-			omple_cantonades_jugador_B();
+			ompleCantonadesJugadorB();
 		}
 
-		followTheWhiteRabbit( distancies_a );
-		followTheWhiteRabbit( distancies_b );
+		buscaTwoDistance( distancies_a );
+		buscaTwoDistance( distancies_b );
 
 		potencial = infinit;
 
@@ -62,7 +62,7 @@ public final class TwoDistance
 		}
 	}
 
-	private void followTheWhiteRabbit( int[][] distancia )
+	private void buscaTwoDistance( int[][] distancia )
 	{
 		ArrayList<Casella> pendents = new ArrayList<Casella>();
 		int contador = 0;
@@ -129,7 +129,7 @@ public final class TwoDistance
 		}
 	}
 
-	private void omple_cantonades_jugador_A()
+	private void ompleCantonadesJugadorA()
 	{
 		for ( int fila = 0; fila < tauler.getMida(); fila++ )
 		{
@@ -167,7 +167,7 @@ public final class TwoDistance
 		}
 	}
 
-	private void omple_cantonades_jugador_B()
+	private void ompleCantonadesJugadorB()
 	{
 		for ( int columna = 0; columna < tauler.getMida(); columna++ )
 		{
@@ -214,12 +214,12 @@ public final class TwoDistance
 		return grup_veins;
 	}
 
-	public int[][] getDistancies_a()
+	public int[][] gegtDistanciesA()
 	{
 		return distancies_a;
 	}
 
-	public int[][] getDistancies_b()
+	public int[][] getDistanciesB()
 	{
 		return distancies_b;
 	}
@@ -252,7 +252,7 @@ public final class TwoDistance
 		return potencial;
 	}
 
-	public int getPotencialsMinims()
+	public int getNombrePotencialsMinims()
 	{
 		int contador = 0;
 		for ( int i = 0; i < tauler.getMida(); i++ )

@@ -241,8 +241,8 @@ public final class IAHexNegaMonteScoutCtrl extends InteligenciaArtificialHexCtrl
 
 		int potencial_a = distancia_a.getPotencial();
 		int potencial_b = distancia_b.getPotencial();
-		int desempat_a = distancia_a.getPotencialsMinims();
-		int desempat_b = distancia_b.getPotencialsMinims();
+		int desempat_a = distancia_a.getNombrePotencialsMinims();
+		int desempat_b = distancia_b.getNombrePotencialsMinims();
 
 		if ( fitxa_jugador == EstatCasella.JUGADOR_A )
 		{

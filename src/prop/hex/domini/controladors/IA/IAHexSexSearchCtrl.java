@@ -305,8 +305,8 @@ public final class IAHexSexSearchCtrl extends InteligenciaArtificialHexCtrl
 		two_distance_b = new TwoDistance( ( TaulerHex ) tauler, EstatCasella.JUGADOR_B );
 		int potencial_a = two_distance_a.getPotencial();
 		int potencial_b = two_distance_b.getPotencial();
-		int desempat_a = two_distance_a.getPotencialsMinims();
-		int desempat_b = two_distance_b.getPotencialsMinims();
+		int desempat_a = two_distance_a.getNombrePotencialsMinims();
+		int desempat_b = two_distance_b.getNombrePotencialsMinims();
 
 		if ( fitxa_jugador == EstatCasella.JUGADOR_A )
 		{
