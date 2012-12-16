@@ -13,22 +13,60 @@ import prop.hex.domini.models.TaulerHex;
 import java.util.*;
 
 /**
- * Created with IntelliJ IDEA.
- * User: isaacsanchezbarrera
- * Date: 02/12/2012
- * Time: 17:45
- * To change this template use File | Settings | File Templates.
+ * Intel·ligència artificial per a Hex basat en negaScout amb ordenació de moviments segons la funció de cost de
+ * QueenBee.
+ * <p/>
+ * La funció de cost s'utilitza com a heurística per a ordenar els moviments en l'arbre de cerca del negaScout
+ * <p/>
+ * La funció que ordena els moviments prové de
+ * <a href="http://javhar.net/AreBeesBetterThanFruitfliesThesis.pdf">QueenBee</a>,
+ * de <a href="http://javhar.net/">Jack van Rijswijck</a>.
+ *
+ * @author Isaac Sánchez Barrera (Grup 7.3, Hex)
  */
 public final class IAHexSexSearchCtrl extends InteligenciaArtificialHexCtrl
 {
 
+	/**
+	 * Tauler on es desenvolupa la partida
+	 */
 	private TaulerHex tauler;
+
+	/**
+	 * Pressupost que hi ha per defecte
+	 */
 	private static int pressupost_defecte = 70;
+
+	/**
+	 * Pressupost per a la crida al negaScout en curs
+	 */
 	private int pressupost;
+
+	/**
+	 * Profunditat per defecte. Cada \(1.3 \cdot Mida_{tauler}\) iteracions s'incrementa en una unitat.
+	 */
 	private int profunditat_defecte = 3;
+
+	/**
+	 * Profunditat màxima.
+	 */
 	private int profunditat_maxima;
+
+	/**
+	 * Taula de transposicions
+	 */
 	private HashMap<Integer, ElementTaulaTransposicions> taula_transposicions;
+
+	/**
+	 * <em>Two distance</em> per al jugador A. S'utilitza per aprofitar els càlculs entre la funció d'avaluació i
+	 * l'heurística dels moviments.
+	 */
 	private TwoDistance two_distance_a;
+
+	/**
+	 * <em>Two distance</em> per al jugador B. S'utilitza per aprofitar els càlculs entre la funció d'avaluació i
+	 * l'heurística dels moviments.
+	 */
 	private TwoDistance two_distance_b;
 
 	/**
@@ -114,23 +152,24 @@ public final class IAHexSexSearchCtrl extends InteligenciaArtificialHexCtrl
 	}
 
 	/**
-	 * Realitza un seguit d'iteracions de l'algorisme negaScout amb nodes aleatoris fent servir la funció d'avaluació
-	 * de QueensBee.
+	 * Realitza un seguit d'iteracions de l'algorisme negaScout amb nodes ordenats seguint l'heurística de cost de
+	 * QueenBee.
 	 * <p/>
-	 * La quantitat de nodes que s'avaluen depèn de la mida del tauler i les caselles buides. Les caselles que
-	 * s'acaben avaluant són escollides de manera aleatòria d'entre totes les buides. L'avaluació final s'acaba
-	 * afegint a la taula de transposicions, amb la fita corresponent.
+	 * L'algorisme deixa de fer crides recursives quan se sobrepassa la profunditat màxima o el pressupost establerts.
+	 * De tots els moviments possibles en una determinada profunditat, només visita els més propers al moviment amb
+	 * potencial més petit.
 	 *
 	 * @param jugador        Fitxa del jugador que ha efectuat el darrer moviment
 	 * @param contrincant    Fitxa del jugador contrincant
 	 * @param alfa           Valor del paràmetre alfa a maximitzar en la darrera iteració recursiva
 	 * @param beta           Valor del paràmetre alfa a minimitzar en la darrera iteració recursiva
 	 * @param profunditat    Profunditat a què s'ha arribat
-	 * @param cost
-	 * @param estat_iteracio Estat de la partida en la darrera iteració  @return El valor avaluat del moviment a la casella per al jugador que efectua el moviment
+	 * @param cost           Cost de la darrera iteració recursiva
+	 * @param estat_iteracio Estat de la partida en la darrera iteració
+	 * @return El valor avaluat del moviment a la casella per al jugador que efectua el moviment
+	 * @see #movimentsOrdenats(EstatCasella)
 	 * @see ElementTaulaTransposicions
 	 * @see FitesDePoda
-	 * @see prop.hex.domini.models.PartidaHex#comprovaEstatPartida(int, int)
 	 */
 	private int sexSearch( EstatCasella jugador, EstatCasella contrincant, int alfa, int beta, int profunditat,
 	                       int cost, EstatPartida estat_iteracio )
@@ -284,12 +323,13 @@ public final class IAHexSexSearchCtrl extends InteligenciaArtificialHexCtrl
 	/**
 	 * Retorna un moviment adequat al tauler actual per al jugador indicat per fitxa.
 	 * <p/>
-	 * Fa servir un algorisme negaScout amb taules de transposició i elecció d'un subconjunt de nodes aleatoris
-	 * (Monte Carlo amb elecció equiprobable).
+	 * Fa servir un algorisme negaScout amb taules de transposició i amb anàlisi dels moviments ordenats segons
+	 * l'heurística de la funció de cost de QueenBee.
 	 *
 	 * @param fitxa Fitxa que vol col·locar-se al tauler de la partida del paràmetre implícit.
 	 * @return La casella on es mouria la fitxa.
-	 * @see #sexSearch(prop.cluster.domini.models.estats.EstatCasella, prop.cluster.domini.models.estats.EstatCasella, int, int, int, int, prop.cluster.domini.models.estats.EstatPartida)
+	 * @see #sexSearch(EstatCasella, EstatCasella, int, int, int, int, EstatPartida)
+	 * @see #movimentsOrdenats(EstatCasella)
 	 * @see InteligenciaArtificialHexCtrl
 	 */
 	public Casella obteMoviment( EstatCasella fitxa )
