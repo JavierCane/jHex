@@ -23,9 +23,9 @@ public final class IAHexSexSearchCtrl extends InteligenciaArtificialHexCtrl
 {
 
 	private TaulerHex tauler;
-	private static int pressupost_defecte = 3;
+	private static int pressupost_defecte = 70;
 	private int pressupost;
-	private static int profunditat_defecte = 4;
+	private int profunditat_defecte = 3;
 	private int profunditat_maxima;
 	private HashMap<Integer, ElementTaulaTransposicions> taula_transposicions;
 	private TwoDistance two_distance_a;
@@ -65,7 +65,10 @@ public final class IAHexSexSearchCtrl extends InteligenciaArtificialHexCtrl
 				if ( tauler.esMovimentValid( fitxa_jugador, casella ) )
 				{
 					int potencial_moviment = potencials[fila][columna];
-					if (potencial_moviment == 0) potencial_moviment -= two_distance.getPotencialMinim( casella );
+					if ( potencial_moviment == 0 )
+					{
+						potencial_moviment -= two_distance.getPotencialMinim( casella );
+					}
 					moviments_ordenats.add( new ResistenciaCasella( casella, potencial_moviment ) );
 				}
 			}
@@ -152,8 +155,13 @@ public final class IAHexSexSearchCtrl extends InteligenciaArtificialHexCtrl
 		boolean primer_fill = true;
 		FitesDePoda fita = FitesDePoda.FITA_SUPERIOR;
 		Set<ResistenciaCasella> moviments_ordenats = movimentsOrdenats( contrincant );
+		int resistencia_minima = moviments_ordenats.iterator().next().getResistencia();
 
-		for ( ResistenciaCasella resistencia_actual : moviments_ordenats )
+		Iterator<ResistenciaCasella> moviments = moviments_ordenats.iterator();
+		ResistenciaCasella resistencia_actual;
+
+		while ( moviments.hasNext() &&
+		        ( resistencia_actual = moviments.next() ).getResistencia() <= resistencia_minima + 2 )
 		{
 			Casella actual = resistencia_actual.getCasella();
 			tauler.mouFitxa( contrincant, actual );
@@ -245,11 +253,11 @@ public final class IAHexSexSearchCtrl extends InteligenciaArtificialHexCtrl
 
 		if ( fitxa_jugador == EstatCasella.JUGADOR_A )
 		{
-			retorn = 100*(potencial_b - potencial_a) + desempat_b - desempat_a;
+			retorn = 100 * ( potencial_b - potencial_a ) + desempat_b - desempat_a;
 		}
 		else
 		{
-			retorn = 100*(potencial_a - potencial_b) + desempat_a - desempat_b;
+			retorn = 100 * ( potencial_a - potencial_b ) + desempat_a - desempat_b;
 		}
 
 		return retorn;
@@ -268,9 +276,13 @@ public final class IAHexSexSearchCtrl extends InteligenciaArtificialHexCtrl
 	 */
 	public Casella obteMoviment( EstatCasella fitxa )
 	{
-		if ( partida.getTornsJugats() == 1 )
+		if ( partida.getTornsJugats() <= 1 )
 		{
-			return obertura();
+			Casella obertura = obertura();
+			if ( obertura != null )
+			{
+				return obertura;
+			}
 		}
 
 		tauler = partida.getTauler();
@@ -280,6 +292,11 @@ public final class IAHexSexSearchCtrl extends InteligenciaArtificialHexCtrl
 		Set<ResistenciaCasella> moviments_ordenats = movimentsOrdenats( fitxa );
 		ArrayList<Casella> millors_moviments = new ArrayList<Casella>();
 
+		if ( tauler.getTotalFitxes() % ( ( int ) ( 1.3 * tauler.getMida() ) ) == 0 && partida.getTornsJugats() != 0 )
+		{
+			profunditat_maxima++;
+		}
+
 		int resistencia_minima = moviments_ordenats.iterator().next().getResistencia();
 		for ( ResistenciaCasella resistencia_actual : moviments_ordenats )
 		{
@@ -288,11 +305,11 @@ public final class IAHexSexSearchCtrl extends InteligenciaArtificialHexCtrl
 			pressupost = Math.max( pressupost_defecte, resistencia_actual.getResistencia() + 1 );
 			if ( partida.getTornsJugats() < 3 )
 			{
-				profunditat_maxima = 2;
+				profunditat_maxima = 3;
 			}
-			else if ( resistencia_actual.getResistencia() >= resistencia_minima + pressupost_defecte )
+			else if ( resistencia_actual.getResistencia() >= resistencia_minima + 3 )
 			{
-				profunditat_maxima = 2;
+				profunditat_maxima = 3;
 			}
 			else
 			{
@@ -321,6 +338,5 @@ public final class IAHexSexSearchCtrl extends InteligenciaArtificialHexCtrl
 		two_distance_a = two_distance_b = null;
 
 		return millors_moviments.get( new Random().nextInt( millors_moviments.size() ) );
-		//return millors_moviments.get( 0 );
 	}
 }

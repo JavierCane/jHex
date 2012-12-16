@@ -147,41 +147,39 @@ public abstract class InteligenciaArtificialHexCtrl extends InteligenciaArtifici
 
 	protected Casella obertura()
 	{
-		if ( partida.getTornsJugats() == 1 )
+		if ( partida.getTornsJugats() == 0 )
 		{
-			Casella moviment = null;
-			if ( partida.getTornsJugats() == 1 )
+			return new Casella( 4, 2 );
+		}
+
+		Casella fitxa_posada = null;
+
+		// Busquem quina és la fitxa que ha posat l'altre jugador
+		int fila = 0;
+		while ( fitxa_posada == null && fila < partida.getTauler().getMida() )
+		{
+			int columna = 0;
+			while ( fitxa_posada == null && columna < partida.getTauler().getMida() )
 			{
-				Casella fitxa_posada = null;
-
-				// Busquem quina és la fitxa que ha posat l'altre jugador
-				int fila = 0;
-				while ( fitxa_posada == null && fila < partida.getTauler().getMida() )
+				if ( partida.getTauler().getEstatCasella( fila, columna ) != EstatCasella.BUIDA )
 				{
-					int columna = 0;
-					while ( fitxa_posada == null && columna < partida.getTauler().getMida() )
-					{
-						if ( partida.getTauler().getEstatCasella( fila, columna ) != EstatCasella.BUIDA )
-						{
-							fitxa_posada = new Casella( fila, columna );
-						}
-
-						columna++;
-					}
-
-					fila++;
+					fitxa_posada = new Casella( fila, columna );
 				}
 
-				if ( fitxa_posada != null )
-				{
-					if ( moviments_obertura[fitxa_posada.getFila()][fitxa_posada.getColumna()] != null )
-					{
-						return moviments_obertura[fitxa_posada.getFila()][fitxa_posada.getColumna()];
-					}
-				}
+				columna++;
+			}
+
+			fila++;
+		}
+
+		if ( fitxa_posada != null )
+		{
+			if ( moviments_obertura[fitxa_posada.getFila()][fitxa_posada.getColumna()] != null )
+			{
+				return moviments_obertura[fitxa_posada.getFila()][fitxa_posada.getColumna()];
 			}
 		}
 
-		return posicioCentral();
+		return null;
 	}
 }

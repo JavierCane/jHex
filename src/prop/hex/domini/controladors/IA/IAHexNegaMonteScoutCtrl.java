@@ -38,7 +38,7 @@ public final class IAHexNegaMonteScoutCtrl extends InteligenciaArtificialHexCtrl
 	/**
 	 * Profunditat màxima de l'arbre de cerca.
 	 */
-	private static int profunditat_maxima = 5;
+	private int profunditat_maxima = 3;
 
 	/**
 	 * Taula de transposicions. No té en compte possibles col·lisions.
@@ -136,7 +136,7 @@ public final class IAHexNegaMonteScoutCtrl extends InteligenciaArtificialHexCtrl
 		}
 
 		int caselles_restants = tauler.getMida() * tauler.getMida() - tauler.getTotalFitxes();
-		int max_moviments = Math.max( caselles_restants / ( int ) ( Math.sqrt( tauler.getMida() ) * 0.9 ), 7 );
+		int max_moviments = Math.max( caselles_restants / ( int ) ( Math.sqrt( tauler.getMida() ) * 0.85 ), 7 );
 
 		beta_2 = beta;
 		boolean primer_fill = true;
@@ -238,20 +238,20 @@ public final class IAHexNegaMonteScoutCtrl extends InteligenciaArtificialHexCtrl
 
 		TwoDistance distancia_a = new TwoDistance( ( TaulerHex ) tauler, EstatCasella.JUGADOR_A );
 		TwoDistance distancia_b = new TwoDistance( ( TaulerHex ) tauler, EstatCasella.JUGADOR_B );
+
 		int potencial_a = distancia_a.getPotencial();
 		int potencial_b = distancia_b.getPotencial();
+		int desempat_a = distancia_a.getPotencialsMinims();
+		int desempat_b = distancia_b.getPotencialsMinims();
 
 		if ( fitxa_jugador == EstatCasella.JUGADOR_A )
 		{
-			retorn = potencial_b - potencial_a;
+			retorn = 100 * ( potencial_b - potencial_a ) + desempat_b - desempat_a;
 		}
 		else
 		{
-			retorn = potencial_a - potencial_b;
+			retorn = 100 * ( potencial_a - potencial_b ) + desempat_a - desempat_b;
 		}
-		//		memoria.put( ( ( TaulerHex ) tauler ).hashCode(), new ElementTaulaTransposicions( retorn,
-		//		fitxa_jugador ) );
-		//	}
 
 		return retorn;
 	}
@@ -269,9 +269,13 @@ public final class IAHexNegaMonteScoutCtrl extends InteligenciaArtificialHexCtrl
 	 */
 	public Casella obteMoviment( EstatCasella fitxa )
 	{
-		if ( partida.getTornsJugats() == 1 )
+		if ( partida.getTornsJugats() <= 1 )
 		{
-			return obertura();
+			Casella obertura = obertura();
+			if ( obertura != null )
+			{
+				return obertura;
+			}
 		}
 
 		tauler = partida.getTauler();
@@ -284,6 +288,12 @@ public final class IAHexNegaMonteScoutCtrl extends InteligenciaArtificialHexCtrl
 		{
 			caselles_restants--;
 		}
+		else if ( tauler.getTotalFitxes() % ( ( int ) ( 2.3 * tauler.getMida() ) ) == 0 &&
+		          partida.getTornsJugats() != 0 )
+		{
+			profunditat_maxima++;
+		}
+
 		int max_moviments = Math.max( caselles_restants / ( int ) ( Math.sqrt( tauler.getMida() ) * 0.75 ), 7 );
 		boolean[][] explorades = new boolean[tauler.getMida()][tauler.getMida()];
 		int num_explorades = 0;
@@ -295,6 +305,12 @@ public final class IAHexNegaMonteScoutCtrl extends InteligenciaArtificialHexCtrl
 			{
 				explorades[actual.getFila()][actual.getColumna()] = true;
 				num_explorades++;
+
+				if ( num_explorades % 5 == 0 )
+				{
+					profunditat_maxima++;
+				}
+
 				tauler.mouFitxa( fitxa, actual );
 				int puntuacio_actual =
 						negaMonteScout( fitxa, fitxaContraria( fitxa ), Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1, 1,
@@ -306,6 +322,11 @@ public final class IAHexNegaMonteScoutCtrl extends InteligenciaArtificialHexCtrl
 				{
 					puntuacio_millor = puntuacio_actual;
 					millor_moviment = actual;
+				}
+
+				if ( num_explorades % 5 == 0 )
+				{
+					profunditat_maxima--;
 				}
 			}
 		}

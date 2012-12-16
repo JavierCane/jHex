@@ -199,7 +199,15 @@ public final class IAMiniMaxCtrl extends InteligenciaArtificialHexCtrl
 		// en el seu defecte, es retorna la casella més central possible.
 		if ( partida.getTornsJugats() <= 1 )
 		{
-			return obertura();
+			Casella obertura = obertura();
+			if ( obertura != null )
+			{
+				return obertura;
+			}
+			else
+			{
+				return posicioCentral();
+			}
 		}
 
 		//Mirem la distància de l'enemic i disposem la tàctica adequada amb tactia_agresiva.
