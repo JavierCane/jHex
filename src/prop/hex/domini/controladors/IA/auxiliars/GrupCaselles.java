@@ -19,6 +19,7 @@ public final class GrupCaselles
 	 * Tauler sobre el que es busquen els grups.
 	 */
 	private TaulerHex tauler;
+
 	/**
 	 * Grup de caselles.
 	 */

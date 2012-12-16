@@ -144,50 +144,90 @@ public final class Ranquing implements Serializable
 	}
 
 	/**
-	 * Consulta la llista d'usuaris amb puntuacions globals més altes
+	 * Consulta la llista d'usuaris amb puntuacions globals més altes.
 	 *
-	 * @return La llista d'usuaris amb puntuacions globals més altes.
+	 * @return la llista d'usuaris amb puntuacions globals més altes.
 	 */
 	public List<UsuariHex> getClassificacio()
 	{
 		return classificacio;
 	}
 
+	/**
+	 * Consulta el nom de l'usuari que ha guanyat una partida en menys temps.
+	 *
+	 * @return el nom de l'usuari que ha guanyat una partida en menys temps.
+	 */
 	public String getUsuariTempsMinim()
 	{
 		return usuari_temps_minim;
 	}
 
+	/**
+	 * Consulta el rècord de temps en guanyar una partida.
+	 *
+	 * @return el rècord de temps en guanyar una partida.
+	 */
 	public Long getTempsMinim()
 	{
 		return temps_minim;
 	}
 
+	/**
+	 * Consulta el nom de l'usuari que ha guanyat una partida amb menys fitxes.
+	 *
+	 * @return el nom de l'usuari que ha guanyat una partida amb menys fitxes.
+	 */
 	public String getUsuariFitxesMinimes()
 	{
 		return usuari_fitxes_minimes;
 	}
 
+	/**
+	 * Consulta el rècord de fitxes minimes per guanyar una partida.
+	 *
+	 * @return el rècord de fitxes minimes per guanyar una partida.
+	 */
 	public Integer getFitxesMinimes()
 	{
 		return fitxes_minimes;
 	}
 
+	/**
+	 * Consulta el nom de l'usuari que ha guanyat més partides.
+	 *
+	 * @return el nom de l'usuari que ha guanyat més partides.
+	 */
 	public String getUsuariMesPartidesGuanyades()
 	{
 		return usuari_mes_partides_guanyades;
 	}
 
+	/**
+	 * Consulta el rècord de partides guanyades.
+	 *
+	 * @return el rècord de partides guanyades.
+	 */
 	public Integer getMesPartidesGuanyades()
 	{
 		return mes_partides_guanyades;
 	}
 
+	/**
+	 * Consulta el nom de l'usuari que ha jugat més partides.
+	 *
+	 * @return el nom de l'usuari que ha jugat més partides.
+	 */
 	public String getUsuariMesPartidesJugades()
 	{
 		return usuari_mes_partides_jugades;
 	}
 
+	/**
+	 * Consulta el rècord de partides jugades.
+	 *
+	 * @return el rècord de partides jugades.
+	 */
 	public Integer getMesPartidesJugades()
 	{
 		return mes_partides_jugades;
@@ -237,6 +277,13 @@ public final class Ranquing implements Serializable
 		netejaRecordsUsuari( nom_usuari );
 	}
 
+	/**
+	 * Comprova que l'usuari no tingui registrat algún rècord del Hall of Fame. En cas de que així sigui,
+	 * l'esborra i recalcula aquest rècord en base als usuaris de la classificació.
+	 * Úitl quan s'elimina o esreinicien les estadístiques d'un usuari.
+	 *
+	 * @param nom_usuari Nom de l'usuari a revisar estadístiques.
+	 */
 	public void netejaRecordsUsuari( String nom_usuari )
 	{
 		if ( nom_usuari.equals( usuari_temps_minim ) )
@@ -311,6 +358,12 @@ public final class Ranquing implements Serializable
 		comprovaPartidesJugades( usuari.getPartidesJugades(), nom_usuari );
 	}
 
+	/**
+	 * Comprova si el possible rècord de temps mínim es millor que l'actual
+	 *
+	 * @param possible_record Possible rècord
+	 * @param nom_usuari Nom de l'usuari del possible rècord
+	 */
 	private void comprovaTempsMinim( Long possible_record, String nom_usuari )
 	{
 		if ( temps_minim > possible_record )
@@ -320,6 +373,12 @@ public final class Ranquing implements Serializable
 		}
 	}
 
+	/**
+	 * Comprova si el possible rècord de temps mínim es millor que l'actual i en cas de ser així, ho estableix
+	 *
+	 * @param possible_record Possible rècord
+	 * @param nom_usuari Nom de l'usuari del possible rècord
+	 */
 	private void comprovaFitxesMinimes( Integer possible_record, String nom_usuari )
 	{
 		if ( fitxes_minimes > possible_record )
@@ -329,6 +388,12 @@ public final class Ranquing implements Serializable
 		}
 	}
 
+	/**
+	 * Comprova si el possible rècord de partides guanyades es millor que l'actual i en cas de ser així, ho estableix
+	 *
+	 * @param possible_record Possible rècord
+	 * @param nom_usuari Nom de l'usuari del possible rècord
+	 */
 	private void comprovaPartidesGuanyades( Integer possible_record, String nom_usuari )
 	{
 		if ( mes_partides_guanyades < possible_record )
@@ -338,6 +403,12 @@ public final class Ranquing implements Serializable
 		}
 	}
 
+	/**
+	 * Comprova si el possible rècord de partides jugades es millor que l'actual i en cas de ser així, ho estableix
+	 *
+	 * @param possible_record Possible rècord
+	 * @param nom_usuari Nom de l'usuari del possible rècord
+	 */
 	private void comprovaPartidesJugades( Integer possible_record, String nom_usuari )
 	{
 		if ( mes_partides_jugades < possible_record )
@@ -347,6 +418,10 @@ public final class Ranquing implements Serializable
 		}
 	}
 
+	/**
+	 * Recalcula l'usuari que té que tindre el rècord de temps mínim.
+	 * Útil quan es borra
+	 */
 	private void recalculaTempsMinim()
 	{
 		for ( UsuariHex usuari_classificat : classificacio )

@@ -13,19 +13,8 @@ import static prop.hex.domini.controladors.drivers.UtilsDrvr.llegeixEnter;
 
 /**
  * Classe principal per realitzar tots els tests dels drivers. Només s'ha d'executar aquesta classe i (mitjançant la
- * tècnica de reflexió) ja s'encarrega d'anar a buscar tots els drivers que n'hi hagin a
- * la carpeta corresponent (carpeta_drivers) i llistar els seus mètodes
- * <p/>
- * Instruccions per compilar:
- * <p/>
- * 1.- Moure'ns al directori arrel dels paquets (per exemple "cd /Users/javierferrer/Documents/Uni/PROP/jHex/src"):
- * cd /path/absolut/del/projecte/jHex/src/
- * <p/>
- * 2.- Compilar incluent tots els fitxers dels drivers:
- * javac prop/hex/domini/controladors/drivers/*.java
- * <p/>
- * 3.- Executar el driver principal i anar provant totes les classes amb comoditat :)
- * java prop.hex.domini.controladors.drivers.PrincipalDrvr
+ * tècnica de reflexió) aquesta ja s'encarrega d'anar a buscar tots els drivers que n'hi hagin a la carpeta
+ * corresponent (atribut carpeta_drivers) i llistar els seus mètodes
  *
  * @author Javier Ferrer Gonzalez (Grup 7.3, Hex)
  */

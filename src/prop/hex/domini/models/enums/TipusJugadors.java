@@ -6,15 +6,15 @@ import java.util.Random;
 import java.util.Vector;
 
 /**
- * Enum amb les distintes dificultats del joc.
- * La gràcia d'aquest enum es que es dinàmic i els paràmetres de cada una de les dificultats només figuren aquí,
- * fent així que el fet de modificar aquestes (afegint o cambiant el nombre de dificultats,
- * o modificant la cuantitat de punts que otorgar/restar) numés impliqui editar aquest fitxer.
+ * Enum amb les distintes dificultats i tipus de jugadors del joc.
+ * La gràcia d'aquest enum es que aconsegueix abstraure i encapsular en un únic lloc tot el referent a les diferents
+ * dificultats del joc, fent així que el fet de modificar aquestes (afegint o cambiant el nombre de dificultats,
+ * o modificant la cuantitat de punts que otorgar/restar quan es guanya/perd) només impliqui editar aquest fitxer.
  * No es poden modificar les primeres dues posicions (Convidat i Jugador)
  * <p/>
  * L'ordre dels valors de l'array de paràmetres de cada una de les dificultats (valors de l'enum) es important y ha de
  * ser el seguent:
- * Posició de la dificultat a l'array de nombres de victories/derrotes d'un Usuari,
+ * Posició de la dificultat a l'array de nombres de victories/derrotes d'un Usuari, ha de ser incremental,
  * Punts que otorga el guanyar una partida contra aquest tipus d'usuari/dificultat d'IA,
  * Punts que resta el perdre una partida contra aquest tipus d'usuari/dificultat d'IA,
  * Nom de la classe controladora corresponent a la dificultat, utilitzada per saber quina funció de moviment ,

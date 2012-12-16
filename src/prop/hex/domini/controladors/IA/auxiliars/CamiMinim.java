@@ -18,10 +18,12 @@ public final class CamiMinim
 	 * Tauler sobre el que es fa la cerca.
 	 */
 	private TaulerHex tauler;
+
 	/**
 	 * Jugador per al que es fa la cerca.
 	 */
 	private EstatCasella jugador;
+
 	/**
 	 * Guardem els valors parcials del cost del cami mínim. Li diem resistencies per mantenir el concepte
 	 * on cada casella es una resistencia el valor de la qual varia segons el seu contingut.

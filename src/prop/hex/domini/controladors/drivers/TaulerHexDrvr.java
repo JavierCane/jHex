@@ -22,6 +22,7 @@ public final class TaulerHexDrvr
 	 * Llistat de taulers
 	 */
 	private static ArrayList<TaulerHex> taulers = new ArrayList<TaulerHex>();
+
 	/**
 	 * Conté l'índex del tauler actual
 	 */

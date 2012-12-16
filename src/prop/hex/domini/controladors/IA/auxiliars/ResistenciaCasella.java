@@ -13,6 +13,7 @@ public final class ResistenciaCasella implements Comparable<ResistenciaCasella>
 	 * Resistencia de la casella
 	 */
 	private int resistencia;
+
 	/**
 	 * Casella del tauler.
 	 */

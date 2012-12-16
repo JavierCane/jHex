@@ -22,6 +22,7 @@ public abstract class InteligenciaArtificialHexCtrl extends InteligenciaArtifici
 	 * Partida on juga la instància de la intel·ligència artificial.
 	 */
 	protected PartidaHex partida;
+
 	/**
 	 * Array de "contramoviments" si és el 2n torn.
 	 */

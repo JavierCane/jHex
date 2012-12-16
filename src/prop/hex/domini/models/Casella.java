@@ -13,10 +13,12 @@ public final class Casella implements Comparable<Casella>, Serializable
 	 * ID de serialització
 	 */
 	private static final long serialVersionUID = 9092406054529927888L;
+
 	/**
 	 * Fila de la casella
 	 */
 	private int fila;
+
 	/**
 	 * Columna de la casella
 	 */

@@ -32,14 +32,17 @@ public final class ResistenciaTauler
 	 * Tauler sobre el que s'evalua la resistencia.
 	 */
 	private TaulerHex tauler;
+
 	/**
 	 * Jugador per al que s'evalua la resistencia.
 	 */
 	private EstatCasella jugador;
+
 	/**
 	 * Resistencia del tauler.
 	 */
 	private double resistencia;
+
 	/**
 	 * Array de la mida del tauler on es guarden les resistencies parcials de cada casella,
 	 * necessari pel funcionament de l'algoritme.

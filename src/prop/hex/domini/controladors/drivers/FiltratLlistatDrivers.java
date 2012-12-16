@@ -15,6 +15,13 @@ import java.io.FileFilter;
 public final class FiltratLlistatDrivers implements FileFilter
 {
 
+	/**
+	 * Determina quins fitxers seran acceptats a l'hora d'implementar el filtrat.
+	 * Simplement volem llistar tots els fitxers java que no siguin els de classes "auxiliars".
+	 *
+	 * @param fitxer Fitxer a mirar si acceptem o no
+	 * @return true o false depenent de si acceptem o no el fitxer per ser llistat
+	 */
 	@Override
 	public boolean accept( File fitxer )
 	{

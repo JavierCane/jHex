@@ -18,18 +18,22 @@ public final class ConnexionsVirtuals
 	 * Tauler sobre el que es busquen les connexions.
 	 */
 	private TaulerHex tauler;
+
 	/**
 	 * Llistat de grups de caselles contigues.
 	 */
 	private ArrayList<GrupCaselles> grups;
+
 	/**
 	 * Jugador per al que es busquen les connexions.
 	 */
 	private EstatCasella jo;
+
 	/**
 	 * Nombre de connexions virtuals.
 	 */
 	private int connexions_virtuals;
+
 	/**
 	 * Nombre de connexions semivirtuals.
 	 */

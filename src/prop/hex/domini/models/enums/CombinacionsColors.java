@@ -5,13 +5,14 @@ import prop.cluster.domini.models.estats.EstatCasella;
 import java.awt.*;
 
 /**
- * Enum de possibles combinacions de colors.
- * La gràcia d'aquest enum es que es dinàmic i els codis de colors numés figuren aquí,
- * fent així que el fet de modificar aquestos (afegint o cambiant la tonalitat) numés impliqui editar aquest fitxer.
+ * Enum de possibles combinacions de colors amb els codis de colors corresponents.
+ * La gràcia d'aquest enum es que aconsegueix abstraure i encapsular en un únic lloc tot el referent als colors
+ * utilitzats a les vistes del joc, fent així que el fet de modificar aquestos (afegint o cambiant la tonalitat)
+ * només impliqui editar aquest fitxer.
  * <p/>
- * L'ordre dels valors de l'array de colors de cada uns dels valors de l'enum es important i ha de ser el seguent:
- * Color de les caselles del jugador_a,
- * Color de les caselles del jugador_b,
+ * L'ordre dels valors de l'array de colors de cada un dels valors de l'enum es determinant i ha de ser el seguent:
+ * Color de les fitxes del jugador_a,
+ * Color de les fitxes del jugador_b,
  * Color de les caselles buides,
  * Color del fons de la finestra del joc,
  * Color de la vora de les caselles,
@@ -20,6 +21,8 @@ import java.awt.*;
  * Color del text de la informació del jugador_a,
  * Color del text de la informació del jugador_b,
  * Color de la resta de textos
+ *
+ * @author Javier Ferrer Gonzalez (Grup 7.3, Hex)
  */
 public enum CombinacionsColors
 {
