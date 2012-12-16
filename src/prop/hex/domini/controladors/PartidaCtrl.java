@@ -159,7 +159,7 @@ public final class PartidaCtrl
 		// en aquest cas, simplement l'establim. Si és el jugador secundari, comprovem les seves credencials.
 		if ( TipusJugadors.JUGADOR == tipus_jugador )
 		{
-			if ( 0 == num_jugador )
+			if ( 0 == num_jugador || usuari_ctrl.getUsuariPrincipal().getNom().equals( nom_usuari ) )
 			{
 				usuaris_preinicialitzats_partida[num_jugador] = usuari_ctrl.getUsuariPrincipal();
 			}
