@@ -41,7 +41,15 @@ public final class PartidaCtrl
 	private PartidaHex partida_actual;
 
 	/**
-	 * Conté els usuaris pre inicialitzats de la partida actual, únicament son útils abans d'inicialitzar una partida.
+	 * Estat de la darrera partida. Es fa servir quan es finalitza la partida, per no tenir problemes d'accés a
+	 * punters nuls.
+	 *
+	 * @see #consultaEstatPartida()
+	 */
+	private EstatPartida estat_darrera_partida = null;
+
+	/**
+	 * Conté els usuaris preinicialitzats de la partida actual. Únicament son útils abans d'inicialitzar una partida.
 	 *
 	 * @see #preInicialitzaUsuariPartida(int, TipusJugadors, String, String)
 	 */
@@ -662,7 +670,13 @@ public final class PartidaCtrl
 	 */
 	public EstatPartida consultaEstatPartida()
 	{
-		return partida_actual.comprovaEstatPartida();
+		if ( partida_actual != null )
+		{
+			estat_darrera_partida = partida_actual.comprovaEstatPartida();
+			partida_actual.setFinalitzada( estat_darrera_partida != EstatPartida.NO_FINALITZADA );
+		}
+
+		return estat_darrera_partida;
 	}
 
 	/**
