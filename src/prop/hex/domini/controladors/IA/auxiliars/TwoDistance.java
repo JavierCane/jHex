@@ -214,7 +214,7 @@ public final class TwoDistance
 		return grup_veins;
 	}
 
-	public int[][] gegtDistanciesA()
+	public int[][] getDistanciesA()
 	{
 		return distancies_a;
 	}
