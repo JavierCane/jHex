@@ -41,28 +41,37 @@ virtual de Java.
 > 1- Moure'ns al directori arrel del projecte:
 > > ``cd /path/absolut/del/projecte/jHex/``
 >
-> 2a- Si no hem fet compilacions prèvies, crear el directori de arxius binaris:
+> 2- Si hem fet compilacions prèvies, esborrar el directori d'arxius binaris:
+> > Sistemes Unix:
+> > ``rm -rf bin``
+> > 
+> > Sistemes Windows:
+> > ``rmdir /S /Q .\bin``
+>
+> 3- Creem el directori bin:
+> > Sistemes Unix:
 > > ``mkdir bin``
+> > 
+> > Sistemes Windows:
+> > ``mkdir .\bin``
 >
-> 2b- Si hem fet compilacions prèvies, eliminar arxius binaris:
-> > ``rm -rf bin/*``
->
-> 3- Moure'ns al directori arrel del codi font:
+> 4- Moure'ns al directori arrel del codi font:
 > > ``cd src/``
 >
-> 4a- Compilar incloent tots els fitxers java (sistemes Unix):
+> 5- Compilar incloent tots els fitxers java:
+> > Sistemes Unix:
 > > ``javac -encoding UTF-8 -d ../bin $(find ./* | grep .java$)``
 >
-> 4b- Compilar incloent tots els fitxers java (sistemes Windows):
+> > Sistemes Windows:
 > > ``for /r %a in (*.java) do ( javac -encoding UTF-8 -d ../bin "%a" )``
 >
-> 5- Moure'ns al directori arrel del projecte:
+> 6- Moure'ns al directori arrel del projecte:
 > > ``cd ..``
 >
-> 6a- Si volem executar el joc al complet amb interfície gràfica:
+> 7a- Si volem executar el joc al complet amb interfície gràfica:
 > > ``java -Dfile.encoding=UTF-8 -classpath ./bin prop.hex.presentacio.JHex``
 >
-> 6b- Si volem fer testing via els drivers dels controladors mitjançant la consola:
+> 7b- Si volem fer testing via els drivers dels controladors mitjançant la consola:
 > > ``java -Dfile.encoding=UTF-8 -classpath ./bin prop.hex.domini.controladors.drivers.PrincipalDrvr``
 
 Explicació PrincipalDrvr
