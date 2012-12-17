@@ -176,7 +176,7 @@ public final class VisualitzadorPartida extends JPanel
 	/**
 	 * Retorna la mida de la pantalla.
 	 *
-	 * @return
+	 * @return La mida de la pantalla.
 	 */
 	public Dimension getPreferredSize()
 	{

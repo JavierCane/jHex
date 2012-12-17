@@ -119,7 +119,7 @@ public abstract class InteligenciaArtificialHexCtrl extends InteligenciaArtifici
 	 * @param profunditat    És la profunditat a la que s'ha arribat durant l'exploració de les diferents possibilitats de
 	 *                       moviment. Cada unitat de <em>profunditat</em> representa un torn jugat de la partida.
 	 * @param fitxa_jugador  Indica el jugador de la partida a partir del qual avaluar <em>tauler</em>.
-	 * @return
+	 * @return Un enter indicant l'avaulació de <em>tauler</em>.
 	 */
 	public abstract int funcioAvaluacio( Tauler tauler, EstatPartida estat_moviment, int profunditat,
 	                                     EstatCasella fitxa_jugador );
@@ -128,7 +128,7 @@ public abstract class InteligenciaArtificialHexCtrl extends InteligenciaArtifici
 	 * Funció abstracta que calcula el millor moviment en una partida.
 	 *
 	 * @param fitxa
-	 * @return
+	 * @return La casella on es mouria la fitxa.
 	 */
 	public abstract Casella obteMoviment( EstatCasella fitxa );
 
@@ -165,7 +165,7 @@ public abstract class InteligenciaArtificialHexCtrl extends InteligenciaArtifici
 	/**
 	 * Calcula una jugada basant-se en el llibre d'obertures.
 	 *
-	 * @return
+	 * @return La casella de resposta, si n'hi ha, o null.
 	 */
 	protected Casella obertura()
 	{

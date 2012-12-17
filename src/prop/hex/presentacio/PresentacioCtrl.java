@@ -166,7 +166,6 @@ public final class PresentacioCtrl
 	 *
 	 * @param nom         Nom de l'usuari que es vol carregar.
 	 * @param contrasenya Contrasenya de l'usuari que es vol carregar.
-	 * @return Cert, si l'usuari es carrega correctament. Fals, altrament.
 	 * @throws IllegalArgumentException Si l'usuari identificat pel nom no existeix
 	 *                                  i, si es vol carregar un jugador, si la contrasenya no coincideix amb
 	 *                                  l'usuari.
@@ -365,10 +364,6 @@ public final class PresentacioCtrl
 	// Mètodes RanquingVista
 	// ----------------------------------------------------------------------------------------------------------------
 
-	/**
-	 *
-	 * @return
-	 */
 	public String[][] getClassificacioFormatejada()
 	{
 		List<UsuariHex> classificacio = Ranquing.getInstancia().getClassificacio();
@@ -688,7 +683,6 @@ public final class PresentacioCtrl
 	/**
 	 * Guarda la partida actual en memòria secundària.
 	 *
-	 * @return Cert si s'ha guardat correctament. Fals altrament.
 	 * @throws IOException                   Si hi ha un error d'entrada/sortida.
 	 * @throws UnsupportedOperationException Si es vol guardar una partida ja finalitzada o cap dels usuaris és
 	 *                                       registrat.

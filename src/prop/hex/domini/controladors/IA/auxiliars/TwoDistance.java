@@ -276,7 +276,7 @@ public final class TwoDistance
 	/**
 	 * Obté el potencial
 	 *
-	 * @return
+	 * @return La matriu de potencials del tauler.
 	 */
 	public int[][] getPotencials()
 	{
@@ -287,7 +287,7 @@ public final class TwoDistance
 	 * Obté el potencial mínim entre les caselles que no siguin la indicada.
 	 *
 	 * @param casella Casella a no tenir en compte.
-	 * @return
+	 * @return El potencial mínim entre les caselles que no són la indicada.
 	 */
 	public int getPotencialMinim( Casella casella )
 	{
@@ -310,7 +310,7 @@ public final class TwoDistance
 	/**
 	 * Obté el potencial mínim del tauler.
 	 *
-	 * @return
+	 * @return El potencial mínim del tauler.
 	 */
 	public int getPotencial()
 	{
@@ -320,7 +320,7 @@ public final class TwoDistance
 	/**
 	 * Obté el nombre caselles amb un potencial igual al mínim.
 	 *
-	 * @return
+	 * @return El total de caselles amb un potencial igual al mínim.
 	 */
 	public int getNombrePotencialsMinims()
 	{
