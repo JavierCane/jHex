@@ -8,8 +8,11 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 /**
- * Busca el camí de cost mínim per arribar d'una punta a una altra del tauler,
- * horitzontal o verticalment depenent de quin jugador sigui (resistencia mínima del tauler).
+ * Busca el camí de cost mínim per arribar d'una punta a una altra del tauler, horitzontal o verticalment depenent de
+ * quin jugador sigui. Aplica l'algorítme de Dijkstra, el cost de cada casella depen del jugador i del contingut de
+ * la casella.
+ *
+ * @author Marc Junyent Martín (Grup 7.3, Hex)
  */
 public final class CamiMinim
 {
@@ -25,10 +28,16 @@ public final class CamiMinim
 	private EstatCasella jugador;
 
 	/**
-	 * Guardem els valors parcials del cost del cami mínim. Li diem resistencies per mantenir el concepte
-	 * on cada casella es una resistencia el valor de la qual varia segons el seu contingut.
+	 * Guardem els valors parcials del cost del cami mínim. El nom resistencies ve donat pel concepte de que cada
+	 * casella es una resistencia el valor de la qual varia segons el jugador que l'evalui i el seu contingut.
 	 */
 	private int[][] resistencies_parcials;
+
+	/**
+	 * Número més gran que qualsevol camí que es pogués generar en el tauler, però suficientment petit per no causar
+	 * overflow.
+	 */
+	private static int infinit = 1000000;
 
 	/**
 	 * @param tauler  Tauler sobre el que buscar
@@ -43,7 +52,7 @@ public final class CamiMinim
 		{
 			for ( int columna = 0; columna < tauler.getMida(); columna++ )
 			{
-				resistencies_parcials[fila][columna] = Integer.MAX_VALUE;
+				resistencies_parcials[fila][columna] = infinit;
 			}
 		}
 	}
@@ -103,7 +112,7 @@ public final class CamiMinim
 		 * Mirem la cantonada inferior o dreta (depenent del jugador) i ens quedem amb el mínim valor de totes les
 		 * caselles que hi ha, aquest serà el mínim valor per creuar el tauler.
 		 */
-		int min = 100000;
+		int min = infinit;
 
 		if ( jugador == EstatCasella.JUGADOR_A )
 		{
@@ -148,7 +157,7 @@ public final class CamiMinim
 		}
 		else
 		{
-			return 100000;
+			return infinit;
 		}
 	}
 }

@@ -9,7 +9,9 @@ import java.util.ArrayList;
 /**
  * Obté les connexions virtuals i semivirtuals de primer ordre. És a dir, els conjunts de caselles d'un usuari
  * que es poden connectar col·locant una fitxa indepentdentment del que faci l'usuari contrari (connexió virtual)
- * o que l'usuari contrari ens pot bloquejar (connexió semivirtual).
+ * o que l'usuari contrari ens pot bloquejar si mou abans que nosaltres (connexió semivirtual).
+ *
+ * @author Marc Junyent Martín (Grup 7.3, Hex)
  */
 public final class ConnexionsVirtuals
 {

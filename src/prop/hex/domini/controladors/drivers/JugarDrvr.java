@@ -12,14 +12,25 @@ import java.io.IOException;
 import java.util.Vector;
 
 /**
- * Permet jugar una partida de prova escollint els tipus d'oponent.
+ * Driver que permet jugar una partida de prova escollint els dos jugadors.
+ *
+ * @author Marc Junyent Martín (Grup 7.3, Hex)
  */
 public final class JugarDrvr
 {
 
-	static UsuariHex usuari_a;
-	static UsuariHex usuari_b;
-	static Vector<TipusJugadors> tipus_jugadors = TipusJugadors.obteLlistatMaquines();
+	/**
+	 * Guarda el primer jugador
+	 */
+	private static UsuariHex usuari_a;
+	/**
+	 * Guarda el segón jugador
+	 */
+	private static UsuariHex usuari_b;
+	/**
+	 * Vector que guarda els tipus de jugadors
+	 */
+	private static Vector<TipusJugadors> tipus_jugadors = TipusJugadors.obteLlistatMaquines();
 
 	/**
 	 * Demana un jugador d'intel·ligència artificial a l'usuari

@@ -3,8 +3,11 @@ package prop.hex.domini.controladors.IA.auxiliars;
 import prop.hex.domini.models.Casella;
 
 /**
- * Classe que vincula una casella amb la seva resistencia i un comparador que ordena per resistencia.
- * Necessaria com a auxiliar de l'algoritme de Dijkstra a la classe CamiMinim.
+ * Classe que vincula una casella amb la seva resistencia i un comparador que compara únicament el valor de la
+ * resistencia.
+ * S'utilitza com a auxiliar d'altres classes que implementen algoritmes com Dijkstra.
+ *
+ * @author Marc Junyent Martín (Grup 7.3, Hex)
  */
 public final class ResistenciaCasella implements Comparable<ResistenciaCasella>
 {

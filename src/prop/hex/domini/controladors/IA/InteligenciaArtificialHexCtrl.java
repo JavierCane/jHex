@@ -9,11 +9,10 @@ import prop.hex.domini.models.PartidaHex;
 import prop.hex.domini.models.TaulerHex;
 
 /**
- * Created with IntelliJ IDEA.
- * User: marc
- * Date: 10/12/12
- * Time: 19:15
- * To change this template use File | Settings | File Templates.
+ * Classe abstracta de la que hereden tots els jugadors de IA. Serveix com a pont per a que les clases de jugadors de
+ * IA siguin transparents per al controlador de partida.
+ *
+ * @author Marc Junyent Martín (Grup 7.3, Hex)
  */
 public abstract class InteligenciaArtificialHexCtrl extends InteligenciaArtificial
 {
@@ -111,9 +110,26 @@ public abstract class InteligenciaArtificialHexCtrl extends InteligenciaArtifici
 		}
 	}
 
+	/**
+	 * Funció abstracta d'avaluació que crida el miniMax.
+	 *
+	 * @param tauler         Objecte de la classe <code>Tauler</code> sobre el qual es disputa una partida.
+	 * @param estat_moviment Descriu en quin estat ha quedat <em>tauler</em> en funció de l'últim moviment efectuat
+	 *                       sobre aquest.
+	 * @param profunditat    És la profunditat a la que s'ha arribat durant l'exploració de les diferents possibilitats de
+	 *                       moviment. Cada unitat de <em>profunditat</em> representa un torn jugat de la partida.
+	 * @param fitxa_jugador  Indica el jugador de la partida a partir del qual avaluar <em>tauler</em>.
+	 * @return
+	 */
 	public abstract int funcioAvaluacio( Tauler tauler, EstatPartida estat_moviment, int profunditat,
 	                                     EstatCasella fitxa_jugador );
 
+	/**
+	 * Funció abstracta que calcula el millor moviment en una partida.
+	 *
+	 * @param fitxa
+	 * @return
+	 */
 	public abstract Casella obteMoviment( EstatCasella fitxa );
 
 	/**
@@ -146,6 +162,11 @@ public abstract class InteligenciaArtificialHexCtrl extends InteligenciaArtifici
 		return new Casella( 0, 0 );
 	}
 
+	/**
+	 * Calcula una jugada basant-se en el llibre d'obertures.
+	 *
+	 * @return
+	 */
 	protected Casella obertura()
 	{
 		if ( partida.getTornsJugats() == 0 )

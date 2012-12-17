@@ -5,6 +5,8 @@ import java.io.Serializable;
 /**
  * Representa una casella del tauler, guarda al fila i columna i implementa equals per a poder usar
  * algunes estructures de dades i fer cerques.
+ *
+ * @author Marc Junyent Martín (Grup 7.3, Hex)
  */
 public final class Casella implements Comparable<Casella>, Serializable
 {

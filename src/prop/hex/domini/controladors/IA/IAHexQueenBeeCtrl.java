@@ -11,11 +11,13 @@ import prop.hex.domini.models.TaulerHex;
 import java.util.HashMap;
 
 /**
- * Created with IntelliJ IDEA.
- * User: marc
- * Date: 28/11/12
- * Time: 16:24
- * To change this template use File | Settings | File Templates.
+ * Intel·ligència artificial per al joc Hex que utilitza un mètode MiniMax amb una funció d'evaluació basada en
+ * Two-Distance i similar a la utilitzada en la IA QueenBee <i>(Jack van Rijswijck, Computer Hex: Are Bees Better Than
+ * Fruitflies?, 2000)</i>.
+ * <p/>
+ * En el primer torn s'utilitza una taula d'obertures, a partir d'aquí s'utilitza el miniMax amb una profunditat de 2.
+ *
+ * @author Marc Junyent Martín (Grup 7.3, Hex)
  */
 public final class IAHexQueenBeeCtrl extends InteligenciaArtificialHexCtrl
 {

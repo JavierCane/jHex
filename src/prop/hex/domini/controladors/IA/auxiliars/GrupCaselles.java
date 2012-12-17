@@ -9,8 +9,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Busquem grups de caselles contigues, tenint en compte les cantonades.
- * El JugadorA va d'est a oest, el JugadorB de nord a sud.
+ * Busca grups de caselles contigues. Te en compte les cantonades, així dues fitxes adjacents a una cantonada del
+ * mateix jugador són del mateix grup.
+ * El JugadorA va d'est a oest (cantonades verticals), el JugadorB de nord a sud (cantonades horitzontals).
+ *
+ * @author Marc Junyent Martín (Grup 7.3, Hex)
  */
 public final class GrupCaselles
 {
@@ -25,6 +28,9 @@ public final class GrupCaselles
 	 */
 	private ArrayList<Casella> grup;
 
+	/**
+	 * Jugador per al qual s'està creant el grup de caselles.
+	 */
 	private EstatCasella jo;
 
 	/**

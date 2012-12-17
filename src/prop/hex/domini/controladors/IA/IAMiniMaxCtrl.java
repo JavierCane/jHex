@@ -28,6 +28,8 @@ import prop.hex.domini.models.TaulerHex;
  * <p/>
  * Estratègia agresiva: Té en compte els mateixos 3 factors, però només de l'enemic,
  * també es multiplica cada factor per un pes, similar al cas de la passiva però una mica modificats.
+ *
+ * @author Marc Junyent Martín (Grup 7.3, Hex)
  */
 public final class IAMiniMaxCtrl extends InteligenciaArtificialHexCtrl
 {
