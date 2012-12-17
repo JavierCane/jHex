@@ -25,7 +25,7 @@ public final class VistaDialeg
 		opcions.setOptions( botons );
 
 		JDialog dialeg = opcions.createDialog( new JFrame(), titol );
-		dialeg.setDefaultCloseOperation( JDialog.DISPOSE_ON_CLOSE );
+		dialeg.setDefaultCloseOperation( JDialog.DO_NOTHING_ON_CLOSE );
 		dialeg.pack();
 		dialeg.setVisible( true );
 
