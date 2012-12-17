@@ -18,55 +18,55 @@ public final class IniciaSessioVista extends BaseVista
 
 	// Panells
 
-    /**
-     * Panell central de la vista. Conté les dades de l'usuari.
-     */
+	/**
+	 * Panell central de la vista. Conté les dades de l'usuari.
+	 */
 	private JPanel panell_dades;
 
-    /**
-     * Panell que conté els botons de la vista.
-     */
+	/**
+	 * Panell que conté els botons de la vista.
+	 */
 	private JPanel panell_botons;
 
 	// Botons
 
-    /**
-     * Botó d'accepta.
-     */
+	/**
+	 * Botó d'accepta.
+	 */
 	private JButton accepta;
 
-    /**
-     * Botó de registra't.
-     */
+	/**
+	 * Botó de registra't.
+	 */
 	private JButton registra;
 
-    /**
-     * Botó d'entra com a convidat.
-     */
+	/**
+	 * Botó d'entra com a convidat.
+	 */
 	private JButton convidat;
 
 	// Camps de tipus text/contrasenya
 
-    /**
-     * Camp de text del nom d'usuari.
-     */
+	/**
+	 * Camp de text del nom d'usuari.
+	 */
 	private JTextField usuari;
 
-    /**
-     * Camp de la contrasenya.
-     */
-    private JPasswordField contrasenya;
+	/**
+	 * Camp de la contrasenya.
+	 */
+	private JPasswordField contrasenya;
 
 	// Etiquetes de text
 
-    /**
-     * Etiqueta de nom d'usuari.
-     */
+	/**
+	 * Etiqueta de nom d'usuari.
+	 */
 	private JLabel text_usuari;
 
-    /**
-     * Etiqueta de contrasenya.
-     */
+	/**
+	 * Etiqueta de contrasenya.
+	 */
 	private JLabel text_contrasenya;
 
 	/**
@@ -79,7 +79,7 @@ public final class IniciaSessioVista extends BaseVista
 		super( frame_principal );
 
 		titol = new JLabel( "Inicia sessió" );
-		panell_dades = new JPanelImatge( getClass().getResource("/prop/img/caixa.png") );
+		panell_dades = new JPanelImatge( getClass().getResource( "/prop/img/caixa.png" ) );
 		panell_botons = new JPanel();
 		accepta = new JButton( "Accepta" );
 		registra = new JButton( "Registra't" );

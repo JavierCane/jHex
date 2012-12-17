@@ -23,38 +23,38 @@ public final class PartidaVista extends BaseVista
 
 	// Panell del tauler
 
-    /**
-     * Panell central de la vista que conté el tauler.
-     */
+	/**
+	 * Panell central de la vista que conté el tauler.
+	 */
 	private JPanelTauler panell_central;
 
 	// Panells
 
-    /**
-     * Panell que conté els botons de la vista.
-     */
+	/**
+	 * Panell que conté els botons de la vista.
+	 */
 	private JPanel panell_botons;
 
 	// Botons
 
-    /**
-     * Botó d'intercanvia fitxa.
-     */
+	/**
+	 * Botó d'intercanvia fitxa.
+	 */
 	private JButton intercanvia;
 
-    /**
-     * Botó de mou IA.
-     */
+	/**
+	 * Botó de mou IA.
+	 */
 	private JButton mou_ia;
 
-    /**
-     * Botó de demana pista.
-     */
+	/**
+	 * Botó de demana pista.
+	 */
 	private JButton demana_pista;
 
-    /**
-     * Botó d'abandona partida.
-     */
+	/**
+	 * Botó d'abandona partida.
+	 */
 	private JButton abandona;
 
 	/**
@@ -67,7 +67,7 @@ public final class PartidaVista extends BaseVista
 		super( frame_principal );
 
 		titol = new JLabel( "jHex" );
-		panell_principal = new JPanelImatge( getClass().getResource("/prop/img/fons_partida.png") );
+		panell_principal = new JPanelImatge( getClass().getResource( "/prop/img/fons_partida.png" ) );
 		panell_central = new JPanelTauler( true );
 		panell_botons = new JPanel();
 		intercanvia = new JButton( "Intercanvia fitxa" );
@@ -356,7 +356,7 @@ public final class PartidaVista extends BaseVista
 	public void mostraDialegVictoria( String missatge )
 	{
 		boolean te_situacio_inicial = PresentacioCtrl.getInstancia().esPartidaAmbSituacioInicial();
-        try
+		try
 		{
 			PresentacioCtrl.getInstancia().finalitzaPartida();
 		}
@@ -369,19 +369,19 @@ public final class PartidaVista extends BaseVista
 
 		VistaDialeg dialeg = new VistaDialeg();
 		String[] botons;
-        if ( te_situacio_inicial )
-        {
-            botons = new String[] {
-                    "Torna al menú principal",
-            };
-        }
-        else
-        {
-            botons = new String[] {
-                    "Torna al menú principal",
-                    "Partida de revenja"
-            };
-        }
+		if ( te_situacio_inicial )
+		{
+			botons = new String[] {
+					"Torna al menú principal",
+			};
+		}
+		else
+		{
+			botons = new String[] {
+					"Torna al menú principal",
+					"Partida de revenja"
+			};
+		}
 		String opcio = dialeg.setDialeg( "Partida finalitzada", missatge, botons, JOptionPane.INFORMATION_MESSAGE );
 
 		try

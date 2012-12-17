@@ -19,127 +19,127 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 
 	// Panells
 
-    /**
-     * Panell central de la vista.
-     */
+	/**
+	 * Panell central de la vista.
+	 */
 	private JPanel panell_central;
 
-    /**
-     * Panell dels botons de la vista.
-     */
+	/**
+	 * Panell dels botons de la vista.
+	 */
 	private JPanel panell_botons;
 
-    /**
-     * Panell de selecció del jugador A.
-     */
+	/**
+	 * Panell de selecció del jugador A.
+	 */
 	private JPanel seleccio_jugador_a; // Panell de tipus CardLayout (intercanviable)
 
-    /**
-     * Panell de selecció del jugador B.
-     */
-    private JPanel seleccio_jugador_b; // Panell de tipus CardLayout (intercanviable)
+	/**
+	 * Panell de selecció del jugador B.
+	 */
+	private JPanel seleccio_jugador_b; // Panell de tipus CardLayout (intercanviable)
 
 	// Botons
 
-    /**
-     * Botó d'inicia partida.
-     */
+	/**
+	 * Botó d'inicia partida.
+	 */
 	private JButton inicia_partida;
 
-    /**
-     * Botó de defineix situació inicial.
-     */
+	/**
+	 * Botó de defineix situació inicial.
+	 */
 	private JButton situacio_inicial;
 
-    /**
-     * Botó de tornar al menú principal.
-     */
+	/**
+	 * Botó de tornar al menú principal.
+	 */
 	private JButton torna;
 
 	// Camps de tipus combos
 
-    /**
-     * Camp de selecció del tipus del jugador A.
-     */
+	/**
+	 * Camp de selecció del tipus del jugador A.
+	 */
 	private JComboBox combo_tipus_jugador_a;
 
-    /**
-     * Camp de selecció del nivell de la IA del jugador A.
-     */
+	/**
+	 * Camp de selecció del nivell de la IA del jugador A.
+	 */
 	private JComboBox combo_tipus_maquina_a;
 
-    /**
-     * Camp de selecció del tipus del jugador B.
-     */
+	/**
+	 * Camp de selecció del tipus del jugador B.
+	 */
 	private JComboBox combo_tipus_jugador_b;
 
-    /**
-     * Camp de selecció del nivell de la IA del jugador B.
-     */
+	/**
+	 * Camp de selecció del nivell de la IA del jugador B.
+	 */
 	private JComboBox combo_tipus_maquina_b;
 
 	// Camps de tipus text/contrasenya
 
-    /**
-     * Camp del nom de la partida.
-     */
+	/**
+	 * Camp del nom de la partida.
+	 */
 	private JTextField camp_nom_partida;
 
-    /**
-     * Camp del nom del convidat del jugador A.
-     */
+	/**
+	 * Camp del nom del convidat del jugador A.
+	 */
 	private JTextField camp_nom_convidat_a;
 
-    /**
-     * Camp del nom del convidat del jugador B.
-     */
+	/**
+	 * Camp del nom del convidat del jugador B.
+	 */
 	private JTextField camp_nom_convidat_b;
 
-    /**
-     * Camp del nom de l'usuari del jugador B.
-     */
+	/**
+	 * Camp del nom de l'usuari del jugador B.
+	 */
 	private JTextField camp_nom_usuari_b;
 
-    /**
-     * Camp de la contrasenya de l'usuari del jugador B.
-     */
+	/**
+	 * Camp de la contrasenya de l'usuari del jugador B.
+	 */
 	private JPasswordField camp_contrasenya_usuari_b;
 
 	// Etiquetes de text
 
-    /**
-     * Etiqueta de nom de la partida.
-     */
+	/**
+	 * Etiqueta de nom de la partida.
+	 */
 	private JLabel text_nom_partida;
 
-    /**
-     * Etiqueta de nom del convidat 1.
-     */
+	/**
+	 * Etiqueta de nom del convidat 1.
+	 */
 	private JLabel text_convidat_a;
 
-    /**
-     * Etiqueta de nom del convidat 2.
-     */
+	/**
+	 * Etiqueta de nom del convidat 2.
+	 */
 	private JLabel text_convidat_b;
 
-    /**
-     * Etiqueta de nom d'usuari.
-     */
+	/**
+	 * Etiqueta de nom d'usuari.
+	 */
 	private JLabel text_usuari;
 
-    /**
-     * Etiqueta de contrasenya.
-     */
+	/**
+	 * Etiqueta de contrasenya.
+	 */
 	private JLabel text_contrasenya;
 
-    /**
-     * Etiqueta de jugador A.
-     */
+	/**
+	 * Etiqueta de jugador A.
+	 */
 	private JLabel text_jugador_a;
 
-    /**
-     * Etiqueta de jugador B.
-     */
+	/**
+	 * Etiqueta de jugador B.
+	 */
 	private JLabel text_jugador_b;
 
 	/**
@@ -259,7 +259,7 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 		// Panell nom partida
 		// -----------------------------------------------------------------------------------------
 
-		JPanel panell_nom_partida = new JPanelImatge( getClass().getResource("/prop/img/caixa.png") );
+		JPanel panell_nom_partida = new JPanelImatge( getClass().getResource( "/prop/img/caixa.png" ) );
 		panell_nom_partida.setBorder( BorderFactory.createRaisedBevelBorder() );
 		panell_nom_partida.setLayout( new BoxLayout( panell_nom_partida, BoxLayout.PAGE_AXIS ) );
 		JPanel camps_nom_partida = new JPanel();
@@ -273,7 +273,8 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 
 		// Panell jugador 1
 		// -------------------------------------------------------------------------------------------
-		JPanel panell_jugador_a = new JPanelImatge( getClass().getResource("/prop/img/caixa.png") ); // Caixa i text "Jugador 1:"
+		JPanel panell_jugador_a =
+				new JPanelImatge( getClass().getResource( "/prop/img/caixa.png" ) ); // Caixa i text "Jugador 1:"
 		panell_jugador_a.setOpaque( false );
 		panell_jugador_a.setBorder( BorderFactory.createRaisedBevelBorder() );
 		panell_jugador_a.setLayout( new BoxLayout( panell_jugador_a, BoxLayout.PAGE_AXIS ) );
@@ -321,7 +322,8 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 
 		// Panell jugador 2
 		// -------------------------------------------------------------------------------------------
-		JPanel panell_jugador_b = new JPanelImatge( getClass().getResource("/prop/img/caixa.png") ); // Caixa i text "Jugador 2:"
+		JPanel panell_jugador_b =
+				new JPanelImatge( getClass().getResource( "/prop/img/caixa.png" ) ); // Caixa i text "Jugador 2:"
 		panell_jugador_b.setBorder( BorderFactory.createRaisedBevelBorder() );
 		panell_jugador_b.setLayout( new BoxLayout( panell_jugador_b, BoxLayout.PAGE_AXIS ) );
 		panell_jugador_b.setOpaque( false );
@@ -394,12 +396,12 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 	 * aquesta cridi a preInicialitzaUsuariPartida de PartidaCtrl en base a el tipus d'usuari seleccionat i les seves
 	 * dades corresponents.
 	 *
-	 * @param num_jugador 0 o 1 depenent de si es el jugador A o B
+	 * @param num_jugador         0 o 1 depenent de si es el jugador A o B
 	 * @param combo_tipus_jugador Seleccionable de tipus de jugador
-	 * @param camp_nom_convidat Camp de text del nom del tipus d'usuari convidat
+	 * @param camp_nom_convidat   Camp de text del nom del tipus d'usuari convidat
 	 * @param combo_tipus_maquina Seleccionable de tipus de jugador màquina
-	 * @param nom_usuari Camp de text del nom de l'usuari registrat
-	 * @param contrasenya_usuari Camp de text de la contrasenya de l'usuari registrat
+	 * @param nom_usuari          Camp de text del nom de l'usuari registrat
+	 * @param contrasenya_usuari  Camp de text de la contrasenya de l'usuari registrat
 	 */
 	private void preInicialitzaUsuariPartida( int num_jugador, JComboBox combo_tipus_jugador,
 	                                          JTextField camp_nom_convidat, JComboBox combo_tipus_maquina,
@@ -589,8 +591,8 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 			String[] botons = { "Accepta" };
 			String valor_seleccionat = dialeg.setDialeg( "Error", "Has de definir un nom de partida, " +
 			                                                      "això servirà per identificar-la quan per exemple la" +
-                                                                  "guardis i la vulguis tornar a carregar.",
-			                                                      botons, JOptionPane.ERROR_MESSAGE );
+			                                                      "guardis i la vulguis tornar a carregar.", botons,
+					JOptionPane.ERROR_MESSAGE );
 		}
 		else
 		{
@@ -707,8 +709,8 @@ public final class ConfiguraPartidaVista extends BaseVista implements ItemListen
 			String[] botons = { "Accepta" };
 			String valor_seleccionat = dialeg.setDialeg( "Error", "Has de definir un nom de partida, " +
 			                                                      "això servirà per identificar-la quan per exemple la" +
-                                                                  "guardis i la vulguis tornar a carregar.",
-			                                                      botons, JOptionPane.ERROR_MESSAGE );
+			                                                      "guardis i la vulguis tornar a carregar.", botons,
+					JOptionPane.ERROR_MESSAGE );
 		}
 		else
 		{

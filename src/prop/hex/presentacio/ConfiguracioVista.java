@@ -19,86 +19,86 @@ public final class ConfiguracioVista extends BaseVista
 {
 
 	// Panells
-	
+
 	/**
-     * Panell central de la vista.
-     */
+	 * Panell central de la vista.
+	 */
 	private JPanel panell_central;
-	
+
 	/**
-     * Panell amb els botons de la vista.
-     */
+	 * Panell amb els botons de la vista.
+	 */
 	private JPanel panell_botons;
 
 	// Botons d'opcions i grups associats que restringeixen la selecció múltiple
-	
+
 	/**
-     * Botó d'opció de colors vermell/blau.
-     */
+	 * Botó d'opció de colors vermell/blau.
+	 */
 	private JRadioButton colors_vermell_blau;
-	
+
 	/**
-     * Botó d'opció de colors negre/blanc.
-     */
+	 * Botó d'opció de colors negre/blanc.
+	 */
 	private JRadioButton colors_negre_blanc;
-	
+
 	/**
-     * Botó d'opció de mode d'inici estàndard.
-     */
+	 * Botó d'opció de mode d'inici estàndard.
+	 */
 	private JRadioButton mode_inici_estandard;
-	
+
 	/**
-     * Botó d'opció de mode d'inici regla del pastís.
-     */
+	 * Botó d'opció de mode d'inici regla del pastís.
+	 */
 	private JRadioButton mode_inici_pastis;
-	
+
 	/**
-     * Grup de botons de colors.
-     */
+	 * Grup de botons de colors.
+	 */
 	private ButtonGroup grup_colors;
-	
+
 	/**
-     * Botó de botons de modes d'inici.
-     */
+	 * Botó de botons de modes d'inici.
+	 */
 	private ButtonGroup grup_modes_inici;
 
 	// Etiquetes de text
-	
+
 	/**
-     * Etiqueta de colors.
-     */
+	 * Etiqueta de colors.
+	 */
 	private JLabel colors;
-	
+
 	/**
-     * Etiqueta de mode d'inici.
-     */
+	 * Etiqueta de mode d'inici.
+	 */
 	private JLabel modes_inici;
 
 	// Botons
-	
+
 	/**
-     * Botó de reinicia les estadístiques.
-     */
+	 * Botó de reinicia les estadístiques.
+	 */
 	private JButton reinicia_estadistiques;
-	
+
 	/**
-     * Botó de canvia la contrasenya.
-     */
+	 * Botó de canvia la contrasenya.
+	 */
 	private JButton canvia_contrasenya;
-	
+
 	/**
-     * Botó d'elimina usuari.
-     */
+	 * Botó d'elimina usuari.
+	 */
 	private JButton elimina_usuari;
-	
+
 	/**
-     * Botó d'accepta.
-     */
+	 * Botó d'accepta.
+	 */
 	private JButton accepta;
-	
+
 	/**
-     * Botó de torna al menú principal.
-     */
+	 * Botó de torna al menú principal.
+	 */
 	private JButton torna;
 
 	/**
@@ -168,7 +168,7 @@ public final class ConfiguracioVista extends BaseVista
 	{
 		panell_central.setLayout( new GridLayout( 3, 1, 10, 10 ) );
 		panell_central.setOpaque( false );
-		JPanel panell_colors = new JPanelImatge( getClass().getResource("/prop/img/caixa.png") );
+		JPanel panell_colors = new JPanelImatge( getClass().getResource( "/prop/img/caixa.png" ) );
 		panell_colors.setBorder( BorderFactory.createRaisedBevelBorder() );
 		panell_colors.setLayout( new GridLayout( 3, 1, 10, 10 ) );
 		grup_colors.add( colors_vermell_blau );
@@ -189,7 +189,7 @@ public final class ConfiguracioVista extends BaseVista
 		panell_colors.add( colors );
 		panell_colors.add( colors_vermell_blau );
 		panell_colors.add( colors_negre_blanc );
-		JPanel panell_modes_inici = new JPanelImatge( getClass().getResource("/prop/img/caixa.png") );
+		JPanel panell_modes_inici = new JPanelImatge( getClass().getResource( "/prop/img/caixa.png" ) );
 		panell_modes_inici.setBorder( BorderFactory.createRaisedBevelBorder() );
 		panell_modes_inici.setLayout( new GridLayout( 3, 1, 10, 10 ) );
 		grup_modes_inici.add( mode_inici_estandard );

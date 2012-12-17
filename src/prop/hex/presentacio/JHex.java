@@ -10,10 +10,10 @@ public final class JHex
 {
 
 	/**
-	* Funció principal del programa JHex
-	*
-	* @param args Paràmetres del programa quan s'executa en consola.
-	*/
+	 * Funció principal del programa JHex
+	 *
+	 * @param args Paràmetres del programa quan s'executa en consola.
+	 */
 	public static void main( String[] args )
 	{
 		try // Nom de l'aplicació a Mac OS X

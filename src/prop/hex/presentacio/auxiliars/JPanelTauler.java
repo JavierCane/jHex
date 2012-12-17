@@ -80,7 +80,7 @@ public final class JPanelTauler extends JPanel
 	 * Constructora, obté el tauler i els jugadors, construeix un poligon hexagonal i
 	 * afegeix el listener del ratoli pel cas del click.
 	 *
-	 * @param partida_en_curs  Indica si la partida representada al panell està o no en curs.
+	 * @param partida_en_curs Indica si la partida representada al panell està o no en curs.
 	 */
 	public JPanelTauler( boolean partida_en_curs )
 	{
@@ -430,13 +430,13 @@ public final class JPanelTauler extends JPanel
 		// Afegim les imatges amb les vores del tauler.
 		if ( ( ( CombinacionsColors ) elements_de_control_partida[3] ) == CombinacionsColors.VERMELL_BLAU )
 		{
-			g.drawImage( ( new ImageIcon( getClass().getResource("/prop/img/tauler_vb.png") ) ).getImage(), -iniciX, -iniciY, getWidth(), getHeight(),
-					null );
+			g.drawImage( ( new ImageIcon( getClass().getResource( "/prop/img/tauler_vb.png" ) ) ).getImage(), -iniciX,
+					-iniciY, getWidth(), getHeight(), null );
 		}
 		else
 		{
-			g.drawImage( ( new ImageIcon( getClass().getResource("/prop/img/tauler_nb.png") ) ).getImage(), -iniciX, -iniciY, getWidth(), getHeight(),
-					null );
+			g.drawImage( ( new ImageIcon( getClass().getResource( "/prop/img/tauler_nb.png" ) ) ).getImage(), -iniciX,
+					-iniciY, getWidth(), getHeight(), null );
 		}
 	}
 }

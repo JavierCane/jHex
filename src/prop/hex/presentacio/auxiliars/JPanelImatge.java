@@ -27,11 +27,11 @@ public final class JPanelImatge extends JPanel
 		fons = ( new ImageIcon( img ) ).getImage();
 	}
 
-    /**
-     * Pinta la imatge de fons al panell.
-     *
-     * @param g Paràmetre Graphics on es pinta.
-     */
+	/**
+	 * Pinta la imatge de fons al panell.
+	 *
+	 * @param g Paràmetre Graphics on es pinta.
+	 */
 	@Override
 	public void paintComponent( Graphics g )
 	{

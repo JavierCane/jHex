@@ -15,41 +15,41 @@ public final class MenuPrincipalVista extends BaseVista
 
 	// Panell
 
-    /**
-     * Panell que conté els botons de la vista.
-     */
+	/**
+	 * Panell que conté els botons de la vista.
+	 */
 	private JPanel panell_botons;
 
-    /**
-     * Panell que conté el botó de tancar la sessió.
-     */
+	/**
+	 * Panell que conté el botó de tancar la sessió.
+	 */
 	private JPanel panell_tanca_sessio;
 
 	// Botons
 
-    /**
-     * Botó de tanca sessió.
-     */
+	/**
+	 * Botó de tanca sessió.
+	 */
 	private JButton tanca_sessio;
 
-    /**
-     * Botó de juga una partida.
-     */
+	/**
+	 * Botó de juga una partida.
+	 */
 	private JButton juga;
 
-    /**
-     * Botó de carrega una partida.
-     */
+	/**
+	 * Botó de carrega una partida.
+	 */
 	private JButton carrega;
 
-    /**
-     * Botó de configuració.
-     */
+	/**
+	 * Botó de configuració.
+	 */
 	private JButton configuracio;
 
-    /**
-     * Botó de rànquing.
-     */
+	/**
+	 * Botó de rànquing.
+	 */
 	private JButton ranquing;
 
 	// Etiquetes de text

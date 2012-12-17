@@ -129,13 +129,14 @@ public final class PresentacioCtrl
 		frame_principal.setResizable( false );
 		frame_principal.setLocationRelativeTo( null );
 		frame_principal.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-		frame_principal.setIconImage( new ImageIcon( getClass().getResource("/prop/img/logo-36_36.png") ).getImage() ); // Icona finestra windows
+		frame_principal.setIconImage( new ImageIcon( getClass().getResource( "/prop/img/logo-36_36.png" ) )
+				.getImage() ); // Icona finestra windows
 		try // Icona dock Mac
 		{
 			Method metode = Class.forName( "com.apple.eawt.Application" ).getMethod( "getApplication" );
 			Object aplicacio = metode.invoke( null );
-			aplicacio.getClass().getMethod( "setDockIconImage", Image.class )
-					.invoke( aplicacio, new ImageIcon( getClass().getResource("/prop/img/logo-120_120.png") ).getImage() );
+			aplicacio.getClass().getMethod( "setDockIconImage", Image.class ).invoke( aplicacio,
+					new ImageIcon( getClass().getResource( "/prop/img/logo-120_120.png" ) ).getImage() );
 		}
 		catch ( Exception excepcio )
 		{
@@ -364,6 +365,10 @@ public final class PresentacioCtrl
 	// Mètodes RanquingVista
 	// ----------------------------------------------------------------------------------------------------------------
 
+	/**
+	 *
+	 * @return
+	 */
 	public String[][] getClassificacioFormatejada()
 	{
 		List<UsuariHex> classificacio = Ranquing.getInstancia().getClassificacio();
@@ -618,13 +623,13 @@ public final class PresentacioCtrl
 	// Mètodes PartidaVista
 	// ----------------------------------------------------------------------------------------------------------------
 
-    /**
-     * Indica si la partida en execució prové o no d'una situació inicial.
-     */
-    public boolean esPartidaAmbSituacioInicial()
-    {
-        return PartidaCtrl.getInstancia().esPartidaAmbSituacioInicial();
-    }
+	/**
+	 * Indica si la partida en execució prové o no d'una situació inicial.
+	 */
+	public boolean esPartidaAmbSituacioInicial()
+	{
+		return PartidaCtrl.getInstancia().esPartidaAmbSituacioInicial();
+	}
 
 	/**
 	 * Activa o desactiva el botó d'intercanvia fitxa a la vista del visualitzador de partides.

@@ -302,7 +302,7 @@ public final class IAHexNegaMonteScoutCtrl extends InteligenciaArtificialHexCtrl
 				tauler.mouFitxa( fitxa, actual );
 				int puntuacio_actual =
 						negaMonteScout( fitxa, fitxaContraria( fitxa ), Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1, 1,
-                                partida.comprovaEstatPartida( actual.getFila(), actual.getColumna() ) );
+								partida.comprovaEstatPartida( actual.getFila(), actual.getColumna() ) );
 
 				tauler.treuFitxa( actual );
 

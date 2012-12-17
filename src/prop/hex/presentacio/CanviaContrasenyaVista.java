@@ -17,56 +17,56 @@ public final class CanviaContrasenyaVista extends BaseVista
 {
 
 	// Panells
-	
+
 	/**
 	 * Panell central de la vista, conté les dades del canvi de contrasenya.
 	 */
 	private JPanel panell_dades;
 
 	// Botons
-	
+
 	/**
 	 * Botó d'accepta.
 	 */
 	private JButton accepta;
-	
+
 	/**
 	 * Botó de torna al menú de preferències.
 	 */
 	private JButton torna;
 
 	// Camps de tipus contrasenya
-	
+
 	/**
-     * Camp de la contrasenya actual.
-     */
+	 * Camp de la contrasenya actual.
+	 */
 	private JPasswordField contrasenya_actual;
-	
+
 	/**
-     * Camp de la contrasenya nova.
-     */
+	 * Camp de la contrasenya nova.
+	 */
 	private JPasswordField contrasenya_nova;
-	
+
 	/**
-     * Camp de la confirmació de la contrasenya nova.
-     */
+	 * Camp de la confirmació de la contrasenya nova.
+	 */
 	private JPasswordField confirma_contrasenya_nova;
 
 	// Etiquetes de text
-	
+
 	/**
-     * Etiqueta de contrasenya actual.
-     */
+	 * Etiqueta de contrasenya actual.
+	 */
 	private JLabel text_contrasenya_actual;
-	
+
 	/**
-     * Etiqueta de contrasenya nova.
-     */
+	 * Etiqueta de contrasenya nova.
+	 */
 	private JLabel text_contrasenya_nova;
-	
+
 	/**
-     * Etiqueta de confirmació de la contrasenya nova.
-     */
+	 * Etiqueta de confirmació de la contrasenya nova.
+	 */
 	private JLabel text_confirma_contrasenya_nova;
 
 	/**
@@ -79,7 +79,7 @@ public final class CanviaContrasenyaVista extends BaseVista
 		super( frame_principal );
 
 		titol = new JLabel( "Canvia la contrasenya" );
-		panell_dades = new JPanelImatge( getClass().getResource("/prop/img/caixa.png") );
+		panell_dades = new JPanelImatge( getClass().getResource( "/prop/img/caixa.png" ) );
 		accepta = new JButton( "Accepta" );
 		torna = new JButton( "Torna al menú de configuració" );
 		contrasenya_actual = new JPasswordField();

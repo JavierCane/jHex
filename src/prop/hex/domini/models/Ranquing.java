@@ -362,7 +362,7 @@ public final class Ranquing implements Serializable
 	 * Comprova si el possible rècord de temps mínim es millor que l'actual
 	 *
 	 * @param possible_record Possible rècord
-	 * @param nom_usuari Nom de l'usuari del possible rècord
+	 * @param nom_usuari      Nom de l'usuari del possible rècord
 	 */
 	private void comprovaTempsMinim( Long possible_record, String nom_usuari )
 	{
@@ -377,7 +377,7 @@ public final class Ranquing implements Serializable
 	 * Comprova si el possible rècord de temps mínim es millor que l'actual i en cas de ser així, ho estableix
 	 *
 	 * @param possible_record Possible rècord
-	 * @param nom_usuari Nom de l'usuari del possible rècord
+	 * @param nom_usuari      Nom de l'usuari del possible rècord
 	 */
 	private void comprovaFitxesMinimes( Integer possible_record, String nom_usuari )
 	{
@@ -392,7 +392,7 @@ public final class Ranquing implements Serializable
 	 * Comprova si el possible rècord de partides guanyades es millor que l'actual i en cas de ser així, ho estableix
 	 *
 	 * @param possible_record Possible rècord
-	 * @param nom_usuari Nom de l'usuari del possible rècord
+	 * @param nom_usuari      Nom de l'usuari del possible rècord
 	 */
 	private void comprovaPartidesGuanyades( Integer possible_record, String nom_usuari )
 	{
@@ -407,7 +407,7 @@ public final class Ranquing implements Serializable
 	 * Comprova si el possible rècord de partides jugades es millor que l'actual i en cas de ser així, ho estableix
 	 *
 	 * @param possible_record Possible rècord
-	 * @param nom_usuari Nom de l'usuari del possible rècord
+	 * @param nom_usuari      Nom de l'usuari del possible rècord
 	 */
 	private void comprovaPartidesJugades( Integer possible_record, String nom_usuari )
 	{

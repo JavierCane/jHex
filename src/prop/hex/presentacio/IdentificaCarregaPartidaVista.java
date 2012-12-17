@@ -16,67 +16,66 @@ import java.awt.event.ActionListener;
 public final class IdentificaCarregaPartidaVista extends BaseVista
 {
 
-    // Panells
+	// Panells
 
-    /**
-     * Panell de les dades de l'usuari.
-     */
+	/**
+	 * Panell de les dades de l'usuari.
+	 */
 	private JPanel panell_dades;
 
-    /**
-     * Panell dels botons de la vista.
-     */
+	/**
+	 * Panell dels botons de la vista.
+	 */
 	private JPanel panell_botons;
 
-    // Botons
+	// Botons
 
-    /**
-     * Botó d'accepta.
-     */
+	/**
+	 * Botó d'accepta.
+	 */
 	private JButton accepta;
 
-    /**
-     * Botó de tornar a la llista de partides.
-     */
+	/**
+	 * Botó de tornar a la llista de partides.
+	 */
 	private JButton llista_partides;
 
-    /**
-     * Botó de tornar al menú principal.
-     */
+	/**
+	 * Botó de tornar al menú principal.
+	 */
 	private JButton menu_principal;
 
-    // Camp de tipus contrasenya
+	// Camp de tipus contrasenya
 
-    /**
-     * Camp de la contrasenya de l'usuari.
-     */
+	/**
+	 * Camp de la contrasenya de l'usuari.
+	 */
 	private JPasswordField contrasenya;
 
-    // Etiquetes de text
+	// Etiquetes de text
 
-    /**
-     * Etiqueta amb el nom de l'usuari.
-     */
+	/**
+	 * Etiqueta amb el nom de l'usuari.
+	 */
 	private JLabel usuari;
 
-    /**
-     * Etiqueta de nom d'usuari.
-     */
+	/**
+	 * Etiqueta de nom d'usuari.
+	 */
 	private JLabel text_usuari;
 
-    /**
-     * Etiqueta de contrasenya.
-     */
+	/**
+	 * Etiqueta de contrasenya.
+	 */
 	private JLabel text_contrasenya;
 
-
-    /**
-     * Identificador de la partida que es vol carregar.
-     */
+	/**
+	 * Identificador de la partida que es vol carregar.
+	 */
 	private String id_partida;
 
 	/**
-	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar, 
+	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar,
 	 * el nom de l'usuari que es vol identificar i l'identificador de la partida que es vol carregar.
 	 *
 	 * @param frame_principal Frame principal sobre el que s'hauran d'afegir els diferents components.
@@ -88,7 +87,7 @@ public final class IdentificaCarregaPartidaVista extends BaseVista
 		super( frame_principal );
 
 		titol = new JLabel( "Carrega partida - Identificar-se" );
-		panell_dades = new JPanelImatge( getClass().getResource("/prop/img/caixa.png") );
+		panell_dades = new JPanelImatge( getClass().getResource( "/prop/img/caixa.png" ) );
 		panell_botons = new JPanel();
 		accepta = new JButton( "Accepta" );
 		llista_partides = new JButton( "Torna a la llista de partides" );

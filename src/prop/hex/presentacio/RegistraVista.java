@@ -18,55 +18,55 @@ public final class RegistraVista extends BaseVista
 
 	// Panells
 
-    /**
-     * Panell central de la vista, que conté les dades de registre de l'usuari.
-     */
+	/**
+	 * Panell central de la vista, que conté les dades de registre de l'usuari.
+	 */
 	private JPanel panell_dades;
 
 	// Botons
 
-    /**
-     * Botó d'accepta.
-     */
+	/**
+	 * Botó d'accepta.
+	 */
 	private JButton accepta;
 
-    /**
-     * Botó de torna al menú principal.
-     */
+	/**
+	 * Botó de torna al menú principal.
+	 */
 	private JButton torna;
 
 	// Camps de tipus text/contrasenya
 
-    /**
-     * Camp de text del nom d'usuari.
-     */
+	/**
+	 * Camp de text del nom d'usuari.
+	 */
 	private JTextField usuari;
 
-    /**
-     * Camp de la contrasenya.
-     */
+	/**
+	 * Camp de la contrasenya.
+	 */
 	private JPasswordField contrasenya;
 
-    /**
-     * Camp de la confirmació de la contrasenya.
-     */
+	/**
+	 * Camp de la confirmació de la contrasenya.
+	 */
 	private JPasswordField confirma_contrasenya;
 
 	// Etiquetes de text
 
-    /**
-     * Etiqueta de nom d'usuari.
-     */
+	/**
+	 * Etiqueta de nom d'usuari.
+	 */
 	private JLabel text_usuari;
 
-    /**
-     * Etiqueta de contrasenya.
-     */
+	/**
+	 * Etiqueta de contrasenya.
+	 */
 	private JLabel text_contrasenya;
 
-    /**
-     * Etiqueta de confirma contrasenya.
-     */
+	/**
+	 * Etiqueta de confirma contrasenya.
+	 */
 	private JLabel text_confirma_contrasenya;
 
 	/**
@@ -79,7 +79,7 @@ public final class RegistraVista extends BaseVista
 		super( frame_principal );
 
 		titol = new JLabel( "Registra't" );
-		panell_dades = new JPanelImatge( getClass().getResource("/prop/img/caixa.png") );
+		panell_dades = new JPanelImatge( getClass().getResource( "/prop/img/caixa.png" ) );
 		accepta = new JButton( "Accepta" );
 		torna = new JButton( "Torna al menú d'iniciar sessió" );
 		usuari = new JTextField();

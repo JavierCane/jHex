@@ -20,26 +20,26 @@ public final class DefineixSituacioVista extends BaseVista
 
 	// Panells
 
-    /**
-     * Panell central de la vista que conté el tauler.
-     */
+	/**
+	 * Panell central de la vista que conté el tauler.
+	 */
 	private JPanelTauler panell_central;
 
-    /**
-     * Panell dels botons de la vista.
-     */
+	/**
+	 * Panell dels botons de la vista.
+	 */
 	private JPanel panell_botons;
 
 	// Botons
 
-    /**
-     * Botó d'inicia partida.
-     */
+	/**
+	 * Botó d'inicia partida.
+	 */
 	private JButton inicia_partida;
 
-    /**
-     * Botó d'abandona partida.
-     */
+	/**
+	 * Botó d'abandona partida.
+	 */
 	private JButton abandona;
 
 	/**
@@ -52,7 +52,7 @@ public final class DefineixSituacioVista extends BaseVista
 		super( frame_principal );
 
 		titol = new JLabel( "jHex" );
-		panell_principal = new JPanelImatge( getClass().getResource("/prop/img/fons_partida.png") );
+		panell_principal = new JPanelImatge( getClass().getResource( "/prop/img/fons_partida.png" ) );
 		panell_central = new JPanelTauler( false );
 		panell_botons = new JPanel();
 		inicia_partida = new JButton( "Inicia la partida" );
