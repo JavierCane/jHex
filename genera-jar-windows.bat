@@ -1,12 +1,15 @@
 @echo off
 set TAB=
 	
-echo Creant directori bin (si no existeix)
+echo Esborrant el directori bin (si existeix)
+rmdir /S /Q .\bin
+
+echo Creant el directori bin
 mkdir .\bin
 
 echo Compilant fitxers font de src a bin
 cd .\src
-javac -encoding UTF-8 -d ..\bin prop\hex\presentacio\*.java prop\hex\domini\controladors\*.java prop\hex\domini\controladors\IA\*.java
+for /r %%a in (*.java) do ( javac -encoding UTF-8 -d ..\bin "%%a" )
 
 echo Copiant les imatges de la interfície
 cd ..\bin

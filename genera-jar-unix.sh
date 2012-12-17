@@ -1,6 +1,9 @@
 #!/bin/sh
 
-echo "Creant directori bin (si no existeix)"
+echo "Esborrant el directori bin (si existeix)"
+rm -fr bin
+
+echo "Creant directori bin"
 mkdir -p bin
 
 echo "Compilant fitxers font de src a bin"
