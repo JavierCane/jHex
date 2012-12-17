@@ -18,24 +18,55 @@ public final class CarregaPartidaVista extends BaseVista
 {
 
 	// Panells
+	
+	/**
+     * Panell central de la vista.
+     */
 	private JPanel panell_central;
+	
+	/**
+     * Panell amb els botons de la vista.
+     */
 	private JPanel panell_botons;
 
 	// Botons
+	
+	/**
+     * Botó de carrega partida.
+     */
 	private JButton carrega;
+	
+	/**
+     * Botó de torna al menú principal.
+     */
 	private JButton torna;
+	
+	/**
+     * Botó d'elimina partida.
+     */
 	private JButton elimina;
 
 	// Dades associades a la taula
+	
+	/**
+     * Dades de la taula de les partides per carregar.
+     */
 	private String[] id_partides;
 
 	// Taula de partides a carregar
+	
+	/**
+     * Taula que conté les partides per carregar.
+     */
 	private JTable taula_partides;
+	
+	/**
+     * Model de la taula de partides per carregar, que afegeix característiques específiques d'aquesta taula.
+     */
 	private ModelTaulaPartides model_taula_partides;
 
 	/**
-	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
-	 * controlador de presentació al qual haurà de demanar certes operacions.
+	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar.
 	 *
 	 * @param frame_principal Frame principal sobre el que s'hauran d'afegir els diferents components.
 	 */

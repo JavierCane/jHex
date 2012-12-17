@@ -17,25 +17,60 @@ public final class CanviaContrasenyaVista extends BaseVista
 {
 
 	// Panells
+	
+	/**
+	 * Panell central de la vista, conté les dades del canvi de contrasenya.
+	 */
 	private JPanel panell_dades;
 
 	// Botons
+	
+	/**
+	 * Botó d'accepta.
+	 */
 	private JButton accepta;
+	
+	/**
+	 * Botó de torna al menú de preferències.
+	 */
 	private JButton torna;
 
 	// Camps de tipus contrasenya
+	
+	/**
+     * Camp de la contrasenya actual.
+     */
 	private JPasswordField contrasenya_actual;
+	
+	/**
+     * Camp de la contrasenya nova.
+     */
 	private JPasswordField contrasenya_nova;
+	
+	/**
+     * Camp de la confirmació de la contrasenya nova.
+     */
 	private JPasswordField confirma_contrasenya_nova;
 
 	// Etiquetes de text
+	
+	/**
+     * Etiqueta de contrasenya actual.
+     */
 	private JLabel text_contrasenya_actual;
+	
+	/**
+     * Etiqueta de contrasenya nova.
+     */
 	private JLabel text_contrasenya_nova;
+	
+	/**
+     * Etiqueta de confirmació de la contrasenya nova.
+     */
 	private JLabel text_confirma_contrasenya_nova;
 
 	/**
-	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
-	 * controlador de presentació al qual haurà de demanar certes operacions.
+	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar.
 	 *
 	 * @param frame_principal Frame principal sobre el que s'hauran d'afegir els diferents components.
 	 */

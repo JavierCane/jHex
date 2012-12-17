@@ -56,8 +56,7 @@ public final class MenuPrincipalVista extends BaseVista
 	private JLabel nom_jugador_principal;
 
 	/**
-	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
-	 * controlador de presentació al qual haurà de demanar certes operacions.
+	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar.
 	 *
 	 * @param frame_principal Frame principal sobre el que s'hauran d'afegir els diferents components.
 	 */

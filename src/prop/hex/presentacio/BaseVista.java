@@ -204,7 +204,10 @@ public abstract class BaseVista
 			System.exit( 0 );
 		}
 	}
-
+	
+	/**
+	 * Defineix el comportament del botó d'ajuda quan sigui pitjat.
+	 */
 	public void accioBotoAjuda()
 	{
 		try

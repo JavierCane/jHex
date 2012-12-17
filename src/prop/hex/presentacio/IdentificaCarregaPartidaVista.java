@@ -76,9 +76,8 @@ public final class IdentificaCarregaPartidaVista extends BaseVista
 	private String id_partida;
 
 	/**
-	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar, el
-	 * controlador de presentació al qual haurà de demanar certes operacions, el nom de l'usuari que es vol
-	 * identificar i l'identificador de la partida que es vol carregar.
+	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar, 
+	 * el nom de l'usuari que es vol identificar i l'identificador de la partida que es vol carregar.
 	 *
 	 * @param frame_principal Frame principal sobre el que s'hauran d'afegir els diferents components.
 	 * @param usuari          Nom de l'usuari que es vol identificar.

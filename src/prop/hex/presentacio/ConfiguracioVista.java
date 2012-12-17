@@ -19,31 +19,90 @@ public final class ConfiguracioVista extends BaseVista
 {
 
 	// Panells
+	
+	/**
+     * Panell central de la vista.
+     */
 	private JPanel panell_central;
+	
+	/**
+     * Panell amb els botons de la vista.
+     */
 	private JPanel panell_botons;
 
 	// Botons d'opcions i grups associats que restringeixen la selecció múltiple
+	
+	/**
+     * Botó d'opció de colors vermell/blau.
+     */
 	private JRadioButton colors_vermell_blau;
+	
+	/**
+     * Botó d'opció de colors negre/blanc.
+     */
 	private JRadioButton colors_negre_blanc;
+	
+	/**
+     * Botó d'opció de mode d'inici estàndard.
+     */
 	private JRadioButton mode_inici_estandard;
+	
+	/**
+     * Botó d'opció de mode d'inici regla del pastís.
+     */
 	private JRadioButton mode_inici_pastis;
+	
+	/**
+     * Grup de botons de colors.
+     */
 	private ButtonGroup grup_colors;
+	
+	/**
+     * Botó de botons de modes d'inici.
+     */
 	private ButtonGroup grup_modes_inici;
 
 	// Etiquetes de text
+	
+	/**
+     * Etiqueta de colors.
+     */
 	private JLabel colors;
+	
+	/**
+     * Etiqueta de mode d'inici.
+     */
 	private JLabel modes_inici;
 
 	// Botons
+	
+	/**
+     * Botó de reinicia les estadístiques.
+     */
 	private JButton reinicia_estadistiques;
+	
+	/**
+     * Botó de canvia la contrasenya.
+     */
 	private JButton canvia_contrasenya;
+	
+	/**
+     * Botó d'elimina usuari.
+     */
 	private JButton elimina_usuari;
+	
+	/**
+     * Botó d'accepta.
+     */
 	private JButton accepta;
+	
+	/**
+     * Botó de torna al menú principal.
+     */
 	private JButton torna;
 
 	/**
-	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar i el
-	 * controlador de presentació al qual haurà de demanar certes operacions.
+	 * Constructor que crea una vista passant-li quin és el frame sobre el qual s'haurà de treballar.
 	 *
 	 * @param frame_principal Frame principal sobre el que s'hauran d'afegir els diferents components.
 	 */
@@ -233,7 +292,7 @@ public final class ConfiguracioVista extends BaseVista
 	}
 
 	/**
-	 * Defineix el comportament del botó de definir situació inicial quan sigui pitjat.
+	 * Defineix el comportament del botó de reiniciar estadístiques quan sigui pitjat.
 	 */
 	public void accioBotoReiniciaEstadistiques()
 	{
@@ -253,7 +312,7 @@ public final class ConfiguracioVista extends BaseVista
 	}
 
 	/**
-	 * Defineix el comportament del botó de definir situació inicial quan sigui pitjat.
+	 * Defineix el comportament del botó de canviar la contrasenya quan sigui pitjat.
 	 */
 	public void accioBotoCanviaContrasenya()
 	{
@@ -271,7 +330,7 @@ public final class ConfiguracioVista extends BaseVista
 	}
 
 	/**
-	 * Defineix el comportament del botó de definir situació inicial quan sigui pitjat.
+	 * Defineix el comportament del botó d'eliminar usuari quan sigui pitjat.
 	 */
 	public void accioBotoEliminaUsuari()
 	{
