@@ -287,7 +287,7 @@ public final class IAHexNegaMonteScoutCtrl extends InteligenciaArtificialHexCtrl
 			profunditat_maxima++;
 		}
 
-		int max_moviments = Math.max( caselles_restants / ( int ) ( Math.sqrt( tauler.getMida() ) * 0.75 ), 7 );
+		int max_moviments = Math.max( caselles_restants / ( int ) ( Math.sqrt( tauler.getMida() ) * 0.6 ), 7 );
 		boolean[][] explorades = new boolean[tauler.getMida()][tauler.getMida()];
 		int num_explorades = 0;
 		while ( num_explorades < max_moviments && num_explorades < caselles_restants )
@@ -299,15 +299,10 @@ public final class IAHexNegaMonteScoutCtrl extends InteligenciaArtificialHexCtrl
 				explorades[actual.getFila()][actual.getColumna()] = true;
 				num_explorades++;
 
-				if ( num_explorades % 5 == 0 )
-				{
-					profunditat_maxima++;
-				}
-
 				tauler.mouFitxa( fitxa, actual );
 				int puntuacio_actual =
 						negaMonteScout( fitxa, fitxaContraria( fitxa ), Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1, 1,
-								partida.comprovaEstatPartida( actual.getFila(), actual.getColumna() ) );
+                                partida.comprovaEstatPartida( actual.getFila(), actual.getColumna() ) );
 
 				tauler.treuFitxa( actual );
 
@@ -315,11 +310,6 @@ public final class IAHexNegaMonteScoutCtrl extends InteligenciaArtificialHexCtrl
 				{
 					puntuacio_millor = puntuacio_actual;
 					millor_moviment = actual;
-				}
-
-				if ( num_explorades % 5 == 0 )
-				{
-					profunditat_maxima--;
 				}
 			}
 		}
