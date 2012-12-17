@@ -52,13 +52,7 @@ public final class IAHexQueenBeeCtrl extends InteligenciaArtificialHexCtrl
 	{
 
 		int retorn;
-/*
-		if ( memoria.containsKey( ( ( TaulerHex ) tauler ).hashCode() ) )
-		{
-			retorn = memoria.get( ( ( TaulerHex ) tauler ).hashCode() ).getPuntuacio( fitxa_jugador );
-		}
-		else
-		{*/
+
 		if ( estat_moviment == EstatPartida.GUANYA_JUGADOR_A )
 		{
 			if ( fitxa_jugador == EstatCasella.JUGADOR_A )
@@ -84,20 +78,20 @@ public final class IAHexQueenBeeCtrl extends InteligenciaArtificialHexCtrl
 
 		TwoDistance distancia_a = new TwoDistance( ( TaulerHex ) tauler, EstatCasella.JUGADOR_A );
 		TwoDistance distancia_b = new TwoDistance( ( TaulerHex ) tauler, EstatCasella.JUGADOR_B );
+
 		int potencial_a = distancia_a.getPotencial();
 		int potencial_b = distancia_b.getPotencial();
+		int desempat_a = distancia_a.getNombrePotencialsMinims();
+		int desempat_b = distancia_b.getNombrePotencialsMinims();
 
 		if ( fitxa_jugador == EstatCasella.JUGADOR_A )
 		{
-			retorn = potencial_b - potencial_a;
+			retorn = 100 * ( potencial_b - potencial_a ) + desempat_b - desempat_a;
 		}
 		else
 		{
-			retorn = potencial_a - potencial_b;
+			retorn = 100 * ( potencial_a - potencial_b ) + desempat_a - desempat_b;
 		}
-		//		memoria.put( ( ( TaulerHex ) tauler ).hashCode(), new ElementTaulaTransposicions( retorn,
-		//		fitxa_jugador ) );
-		//	}
 
 		return retorn;
 	}
