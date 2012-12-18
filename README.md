@@ -21,6 +21,7 @@ Com compilar i executar
 -----------------------
 
 **Important**: Estem suposant un sistema amb JDK/JRE 1.6 i amb els programes javac, java i jar en el PATH.
+Recomanem l'execució en un entorn Windows.
 
 ### Execució mitjançant el fitxer .jar ###
 
