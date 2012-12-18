@@ -73,11 +73,12 @@ public final class UsuariHex extends Usuari implements Serializable, Comparable<
 					"Convidat",
 					"Convidat 1",
 					"Convidat 2",
-					"Mr. X (Algorisme aleatori, nivell X)",
-					"Jose Antonio Camacho (MiniMax, nivell 0)",
-					"Bill Clinton (MonteScout, nivell 1)",
-					"Hillary Clinton (QueenBee, nivell 1.5)",
-					"Monica Lewinsky (SexQueenBee, nivell 2)",
+					"Mr. X (alg. aleatori, n. X)",
+					"Jose Antonio Camacho (n. 0)",
+					"Bill Clinton (n. 0.5)",
+					"Hillary Clinton (n. 1)",
+					"Monica Lewinsky (n. 1.5)",
+					"Barney Stinson (n. 2)",
 			} ) ) );
 
 	/**

@@ -26,12 +26,12 @@ public enum TipusJugadors
 {
 	CONVIDAT( 0, 0, 0, "IAHexQueenBeeCtrl" ),
 	JUGADOR( 1, 5, 4, "IAHexQueenBeeCtrl" ),
-	IA_ALEATORIA( 2, "Mr. X (Algorisme aleatori, nivell X)" ),
-	IA_FACIL( 3, 10, 3, "IAMiniMaxCtrl", "Jose Antonio Camacho (MiniMax, nivell 0)" ),
-	IA_POTENCIAL( 4, 10, 3, "IAHexPotencialsCtrl", "Louis van Gaal (Potencials, nivell 0.5)" ),
-	IA_MONTESCOUT( 5, 15, 2, "IAHexNegaMonteScoutCtrl", "Bill Clinton (MonteScout, nivell 1)" ),
-	IA_QUEENBEE( 6, 15, 2, "IAHexQueenBeeCtrl", "Hillary Clinton (QueenBee, nivell 1.5)" ),
-	IA_SEXQUEENBEE( 7, 20, 1, "IAHexSexSearchCtrl", "Monica Lewinsky (SexQueenBee, nivell 2)" );
+	IA_ALEATORIA( 2, "Mr. X (alg. aleatori, n. X)" ),
+	IA_FACIL( 3, 10, 5, "IAMiniMaxCtrl", "Jose Antonio Camacho (n. 0)" ),
+	IA_POTENCIAL( 4, 12, 4, "IAHexPotencialsCtrl", "Bill Clinton (n. 0.5)" ),
+	IA_QUEENBEE( 5, 15, 3, "IAHexQueenBeeCtrl", "Hillary Clinton (n. 1)" ),
+	IA_SEXQUEENBEE( 6, 17, 2, "IAHexSexSearchCtrl", "Monica Lewinsky (n. 1.5)" ),
+	IA_MONTESCOUT( 7, 20, 1, "IAHexNegaMonteScoutCtrl", "Barney Stinson (n. 2)" );
 
 	/**
 	 * Nombre total de dificultats del joc.
