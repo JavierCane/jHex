@@ -128,7 +128,7 @@ public final class PresentacioCtrl
 		frame_principal.setPreferredSize( frame_principal.getMinimumSize() );
 		frame_principal.setResizable( false );
 		frame_principal.setLocationRelativeTo( null );
-		frame_principal.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		frame_principal.setDefaultCloseOperation( JFrame.DO_NOTHING_ON_CLOSE );
 		frame_principal.setIconImage( new ImageIcon( getClass().getResource( "/prop/img/logo-36_36.png" ) )
 				.getImage() ); // Icona finestra windows
 		try // Icona dock Mac
